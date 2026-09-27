@@ -79,22 +79,10 @@ export default function App() {
                     <Route path="/stores" element={<StoreDirectory />} />
                     <Route path="/shop/stores" element={<StoreDirectory />} />
 
-                    {/* ── Customer ── */}
-                    <Route path="/shop" element={
-                      <ProtectedRoute allowedType="customer" redirectTo="/login">
-                        <ProductListing />
-                      </ProtectedRoute>
-                    } />
-                    <Route path="/shop/product/:id" element={
-                      <ProtectedRoute allowedType="customer" redirectTo="/login">
-                        <ProductDetail />
-                      </ProtectedRoute>
-                    } />
-                    <Route path="/shop/compare" element={
-                      <ProtectedRoute allowedType="customer" redirectTo="/login">
-                        <ProductComparison />
-                      </ProtectedRoute>
-                    } />
+                    {/* ── Customer / Marketplace (Publicly Browseable) ── */}
+                    <Route path="/shop" element={<ProductListing />} />
+                    <Route path="/shop/product/:id" element={<ProductDetail />} />
+                    <Route path="/shop/compare" element={<ProductComparison />} />
                     <Route path="/shop/vendor/:id" element={<VendorProfile />} />
                     <Route path="/shop/cart" element={
                       <ProtectedRoute allowedType="customer" redirectTo="/login">

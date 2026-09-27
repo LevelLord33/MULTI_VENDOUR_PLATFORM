@@ -13,6 +13,7 @@ export const TRANSLATIONS = {
   en: {
     // Topbar & Nav
     platformTag: 'Vendor Hub — Multi-Vendor Marketplace',
+    home: 'Home',
     customerShop: 'Customer Shop',
     vendorPortal: 'Vendor Portal',
     adminPortal: 'Admin Portal',
@@ -154,6 +155,7 @@ export const TRANSLATIONS = {
   ta: {
     // Tamil (தமிழ்)
     platformTag: 'வெண்டர் ஹப் — பல வணிகர் சந்தை',
+    home: 'முகப்பு',
     customerShop: 'வாடிக்கையாளர் அங்காடி',
     vendorPortal: 'வணிகர் தளம்',
     adminPortal: 'நிர்வாக தளம்',
@@ -295,6 +297,7 @@ export const TRANSLATIONS = {
   ml: {
     // Malayalam (മലയാളം)
     platformTag: 'വെണ്ടർ ഹബ് — മൾട്ടി-വെണ്ടർ വിപണി',
+    home: 'ഹോം',
     customerShop: 'ഉപഭോക്തൃ ഷോപ്പ്',
     vendorPortal: 'വെണ്ടർ പോർട്ടൽ',
     adminPortal: 'അഡ്മിൻ പോർട്ടൽ',
@@ -429,6 +432,7 @@ export const TRANSLATIONS = {
   te: {
     // Telugu (తెలుగు)
     platformTag: 'వెండర్ హబ్ — మల్టీ-వెండర్ మార్కెట్‌ప్లేస్',
+    home: 'హోమ్',
     customerShop: 'కస్టమర్ షాప్',
     vendorPortal: 'వెండర్ పోర్టల్',
     adminPortal: 'అడ్మిన్ పోర్టల్',
@@ -563,6 +567,7 @@ export const TRANSLATIONS = {
   kn: {
     // Kannada (ಕನ್ನಡ)
     platformTag: 'ವೆಂಡರ್ ಹಬ್ — ಮಲ್ಟಿ-ವೆಂಡರ್ ಮಾರುಕಟ್ಟೆ',
+    home: 'ಮುಖಪುಟ',
     customerShop: 'ಗ್ರಾಹಕರ ಶಾಪ್',
     vendorPortal: 'ಮಾರಾಟಗಾರರ ಪೋರ್ಟಲ್',
     adminPortal: 'ನಿರ್ವಾಹಕರ ಪೋರ್ಟಲ್',
@@ -697,6 +702,7 @@ export const TRANSLATIONS = {
   hi: {
     // Hindi (हिन्दी)
     platformTag: 'वेंडर हब — मल्टी-वेंडर मार्केटप्लेस',
+    home: 'होम',
     customerShop: 'ग्राहक शॉप',
     vendorPortal: 'विक्रेता पोर्टल',
     adminPortal: 'एडमिन पोर्टल',

@@ -10,7 +10,7 @@ import { useChatbot } from '../../contexts/ChatbotContext';
 import {
   ShoppingBag, ShoppingCart, User, LogOut, Package,
   ChevronDown, Search, LayoutDashboard, Store, Shield, ArrowRightLeft,
-  Globe, Check, Sun, Moon, Palette, MessageSquare, Bot
+  Globe, Check, Sun, Moon, Palette, MessageSquare, Bot, Home
 } from 'lucide-react';
 import '../../styles/marketplace.css';
 
@@ -93,11 +93,8 @@ export default function Navbar({ searchQuery, onSearchChange }) {
   }, [user, displayName]);
 
   const logoTarget = useMemo(() => {
-    if (user?.type === 'customer') return '/shop';
-    if (user?.type === 'vendor') return '/vendor/dashboard';
-    if (user?.type === 'admin') return '/admin/dashboard';
     return '/';
-  }, [user?.type]);
+  }, []);
 
   return (
     <nav className="navbar">
@@ -110,9 +107,16 @@ export default function Navbar({ searchQuery, onSearchChange }) {
           <div className="portal-topstrip-right">
             <span className="portal-label">Portals:</span>
             <button
+              className="portal-chip"
+              onClick={() => navigateTo('/')}
+              title="Return to Platform Home"
+            >
+              🏠 {t('home', 'Home')}
+            </button>
+            <button
               className={`portal-chip ${user?.type === 'customer' ? 'active' : ''}`}
-              onClick={() => navigateTo(user?.type === 'customer' ? '/shop' : '/login')}
-              title="Browse & buy products as a customer"
+              onClick={() => navigateTo('/shop')}
+              title="Browse & buy products in the customer shop"
             >
               🛍️ {t('customerShop', 'Customer Shop')}
             </button>
@@ -319,6 +323,9 @@ export default function Navbar({ searchQuery, onSearchChange }) {
                   )}
 
                   <div className="divider" />
+                  <button className="nav-dropdown-item" onClick={() => navigateTo('/')}>
+                    <Home size={16} /> {t('home', 'Platform Home')}
+                  </button>
                   <div style={{ padding: '6px 16px 2px', fontSize: '0.7rem', color: 'var(--text-muted)', fontWeight: 700, textTransform: 'uppercase' }}>
                     Switch Portal
                   </div>
