@@ -848,3 +848,320 @@
   font-weight: 700;
 }
 
+/* ── Vendor-First Discovery Experience ─────────── */
+.vendor-first-hero {
+  background: linear-gradient(135deg, #1E1B4B 0%, #312E81 50%, #4F46E5 100%);
+  border-radius: 20px;
+  padding: 32px 36px;
+  margin-bottom: 28px;
+  color: white;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 10px 30px rgba(79, 70, 229, 0.2);
+}
+.vendor-first-hero::after {
+  content: '';
+  position: absolute;
+  top: -50px;
+  right: -50px;
+  width: 250px;
+  height: 250px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(252, 211, 77, 0.25) 0%, transparent 70%);
+  pointer-events: none;
+}
+.vendor-first-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  border-radius: 9999px;
+  padding: 5px 14px;
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: #FCD34D;
+  margin-bottom: 12px;
+}
+.vendor-first-title {
+  font-size: clamp(1.4rem, 2.5vw, 1.9rem);
+  font-weight: 900;
+  line-height: 1.25;
+  margin-bottom: 10px;
+  color: white;
+}
+.vendor-first-sub {
+  font-size: 0.92rem;
+  color: rgba(255, 255, 255, 0.85);
+  max-width: 650px;
+  line-height: 1.6;
+  margin: 0;
+}
+
+/* Browse Mode Switcher Tabs */
+.browse-mode-tabs {
+  display: inline-flex;
+  background: var(--surface);
+  border: 1.5px solid var(--border);
+  border-radius: 14px;
+  padding: 5px;
+  gap: 6px;
+  box-shadow: var(--shadow-sm);
+}
+.browse-mode-tab {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 9px 18px;
+  border-radius: 10px;
+  border: none;
+  background: transparent;
+  color: var(--text-secondary);
+  font-size: 0.88rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+.browse-mode-tab:hover {
+  color: var(--primary);
+  background: var(--surface-2);
+}
+.browse-mode-tab.active {
+  background: var(--primary);
+  color: white;
+  box-shadow: 0 4px 12px rgba(79, 70, 229, 0.3);
+}
+
+/* Vendor Showcase Card */
+.vendor-showcase-card {
+  background: var(--surface);
+  border: 1.5px solid var(--border);
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: var(--shadow-sm);
+  transition: all 0.25s ease;
+  margin-bottom: 32px;
+  display: flex;
+  flex-direction: column;
+}
+.vendor-showcase-card:hover {
+  border-color: var(--primary-light, #818CF8);
+  box-shadow: var(--shadow-md);
+  transform: translateY(-2px);
+}
+
+.vendor-showcase-banner {
+  height: 120px;
+  position: relative;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+.vendor-showcase-banner::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(15, 23, 42, 0.2) 0%, rgba(15, 23, 42, 0.75) 100%);
+}
+.vendor-showcase-banner-badges {
+  position: absolute;
+  top: 14px;
+  right: 16px;
+  display: flex;
+  gap: 8px;
+  z-index: 2;
+}
+
+.vendor-showcase-body {
+  padding: 0 24px 22px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.vendor-showcase-header-row {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+  margin-top: -36px;
+  position: relative;
+  z-index: 3;
+  flex-wrap: wrap;
+}
+
+.vendor-showcase-identity {
+  display: flex;
+  align-items: flex-end;
+  gap: 16px;
+}
+
+.vendor-showcase-avatar {
+  width: 72px;
+  height: 72px;
+  border-radius: 18px;
+  border: 4px solid var(--surface);
+  box-shadow: var(--shadow-md);
+  object-fit: cover;
+  background: var(--surface);
+  flex-shrink: 0;
+}
+
+.vendor-showcase-info h3 {
+  font-size: 1.3rem;
+  font-weight: 800;
+  color: var(--text-primary);
+  margin: 0 0 4px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.vendor-showcase-info p {
+  margin: 0;
+  font-size: 0.86rem;
+  color: var(--text-secondary);
+  line-height: 1.45;
+}
+
+.vendor-showcase-metrics {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+  padding: 10px 0;
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+  font-size: 0.82rem;
+  color: var(--text-secondary);
+}
+
+.vendor-showcase-metric-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-weight: 600;
+}
+
+/* Product Shelf within Vendor Card */
+.vendor-shelf-container {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.vendor-shelf-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.vendor-shelf-title {
+  font-size: 0.85rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--text-muted);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.vendor-shelf-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 14px;
+}
+
+.vendor-shelf-item {
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  transition: all 0.2s ease;
+  position: relative;
+  cursor: pointer;
+}
+.vendor-shelf-item:hover {
+  transform: translateY(-2px);
+  border-color: var(--primary);
+  box-shadow: var(--shadow-sm);
+  background: var(--surface);
+}
+
+.vendor-shelf-item-img {
+  width: 100%;
+  height: 110px;
+  object-fit: cover;
+  border-radius: 10px;
+  margin-bottom: 8px;
+}
+
+.vendor-shelf-item-title {
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  line-height: 1.35;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  margin-bottom: 6px;
+}
+
+.vendor-shelf-item-price-row {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+  margin-bottom: 8px;
+}
+.vendor-shelf-item-price {
+  font-size: 0.95rem;
+  font-weight: 800;
+  color: var(--text-primary);
+}
+.vendor-shelf-item-original {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  text-decoration: line-through;
+}
+
+.vendor-shelf-item-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 6px;
+  margin-top: auto;
+}
+
+/* Vendor Showcase Bottom Actions */
+.vendor-showcase-actions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding-top: 14px;
+  flex-wrap: wrap;
+}
+
+@media (max-width: 640px) {
+  .vendor-shelf-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+  }
+  .vendor-showcase-header-row {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .vendor-showcase-actions {
+    flex-direction: column;
+  }
+  .vendor-showcase-actions button,
+  .vendor-showcase-actions a {
+    width: 100%;
+    justify-content: center;
+  }
+}
+
+

@@ -1,5 +1,5 @@
 import { useState, useEffect, useReducer, useCallback, useMemo, useRef } from 'react';
-import { useNavigate, Link } from 'react-router-dom';
+import { useNavigate, Link, useSearchParams } from 'react-router-dom';
 import { useProducts } from '../../contexts/ProductContext';
 import { useCart } from '../../contexts/CartContext';
 import { useAuth } from '../../contexts/AuthContext';
@@ -7,10 +7,13 @@ import { useToast } from '../../contexts/ToastContext';
 import { useComparison } from '../../contexts/ComparisonContext';
 import { useLanguage } from '../../contexts/LanguageContext';
 import Navbar from '../common/Navbar';
+import ContactVendorModal from './ContactVendorModal';
+import ShareModal from '../common/ShareModal';
 import {
   ShoppingCart, SlidersHorizontal, Package, Heart,
   Zap, Check, RotateCcw, LayoutGrid, List, ArrowRightLeft,
-  X, Truck, Star, ShieldCheck, Store, ArrowRight, Flame, Sparkles
+  X, Truck, Star, ShieldCheck, Store, ArrowRight, Flame, Sparkles,
+  Share2, MessageSquare, MapPin, ExternalLink
 } from 'lucide-react';
 import { CATEGORIES, seedVendors } from '../../data/seedData';
 import { rankProductsFairly } from '../../utils/fairRanking';
@@ -66,19 +69,24 @@ export default function ProductListing() {
   // ── 2. useContext hooks ──
   const { getApprovedProducts } = useProducts();
   const { addToCart } = useCart();
-  const { getVendorById } = useAuth();
+  const { getVendorById, vendors: authVendors } = useAuth();
   const { addToast } = useToast();
   const { t } = useLanguage();
   const navigate = useNavigate();
+  const [searchParams, setSearchParams] = useSearchParams();
 
   // ── 3. useReducer for filter state ──
   const [filterState, dispatchFilter] = useReducer(filterReducer, initialFilterState);
 
-  // ── 4. useState for UI preferences & comparison ──
+  // ── 4. useState for UI preferences, vendor-first mode & modals ──
+  const initialMode = searchParams.get('mode') === 'products' ? 'products' : 'vendors';
+  const [browseMode, setBrowseMode] = useState(initialMode); // 'vendors' (DEFAULT!) | 'products'
   const [viewMode, setViewMode] = useState('grid');
   const [wishlist, setWishlist] = useState({});
   const { compareList, isInCompare, toggleCompare, clearCompare, removeFromCompare } = useComparison();
   const [showCompareModal, setShowCompareModal] = useState(false);
+  const [contactVendor, setContactVendor] = useState(null);
+  const [shareTarget, setShareTarget] = useState(null);
 
   // ── 5. useRef for DOM elements & debouncers ──
   const debounceTimerRef = useRef(null);
@@ -86,7 +94,101 @@ export default function ProductListing() {
 
   const approved = getApprovedProducts();
 
-  // ── 6. useMemo for derived collections ──
+  // All vendors combined (seedVendors + live authVendors)
+  const allVendors = useMemo(() => {
+    const map = new Map();
+    seedVendors.forEach((v) => map.set(v.id, v));
+    if (Array.isArray(authVendors)) {
+      authVendors.forEach((v) => map.set(v.id, { ...map.get(v.id), ...v }));
+    }
+    return Array.from(map.values());
+  }, [authVendors]);
+
+  // Compute enriched vendors with active products & search matches
+  const enrichedVendors = useMemo(() => {
+    return allVendors.map((vendor) => {
+      const vProds = approved.filter((p) => p.vendorId === vendor.id);
+      let matchingProds = vProds;
+      if (filterState.search) {
+        const q = filterState.search.toLowerCase().trim();
+        matchingProds = vProds.filter(
+          (p) =>
+            p.name.toLowerCase().includes(q) ||
+            p.category.toLowerCase().includes(q) ||
+            (p.brand && p.brand.toLowerCase().includes(q)) ||
+            p.description.toLowerCase().includes(q)
+        );
+      }
+      return {
+        ...vendor,
+        category: vendor.category || (vProds[0]?.category) || 'General Retail',
+        totalProductsInStock: vProds.length,
+        matchingProductsCount: matchingProds.length,
+        sampleProducts: (matchingProds.length > 0 ? matchingProds : vProds).slice(0, 5)
+      };
+    });
+  }, [allVendors, approved, filterState.search]);
+
+  // Filtered vendors for Vendor-First mode
+  const filteredVendors = useMemo(() => {
+    let list = [...enrichedVendors];
+
+    // Category filter
+    if (filterState.category !== 'All') {
+      const targetCat = filterState.category.toLowerCase();
+      list = list.filter((v) =>
+        (v.category && v.category.toLowerCase().includes(targetCat)) ||
+        targetCat.includes(v.category?.toLowerCase() || '') ||
+        v.sampleProducts.some((p) => p.category?.toLowerCase() === targetCat)
+      );
+    }
+
+    // Search query filter
+    if (filterState.search) {
+      const q = filterState.search.toLowerCase().trim();
+      list = list.filter((v) =>
+        v.businessName.toLowerCase().includes(q) ||
+        v.tagline.toLowerCase().includes(q) ||
+        v.location.toLowerCase().includes(q) ||
+        v.category.toLowerCase().includes(q) ||
+        v.matchingProductsCount > 0
+      );
+    }
+
+    // In-stock physical inventory filter
+    if (filterState.inStockOnly) {
+      list = list.filter((v) =>
+        v.sampleProducts.some((p) => (p.stock || p.quantity || 0) > 0)
+      );
+    }
+
+    // Fast courier dispatch filter
+    if (filterState.fastDeliveryOnly) {
+      list = list.filter((v) =>
+        v.onTimeDispatchRate?.includes('9') || v.announcement?.toLowerCase().includes('same-day')
+      );
+    }
+
+    return list;
+  }, [enrichedVendors, filterState]);
+
+  // Store counts per category
+  const categoryStoreCounts = useMemo(() => {
+    const counts = { All: allVendors.length };
+    CATEGORIES.forEach((cat) => {
+      if (cat !== 'All') {
+        const catClean = cat.toLowerCase();
+        counts[cat] = allVendors.filter((v) => {
+          const vProds = approved.filter((p) => p.vendorId === v.id);
+          const vCat = (v.category || vProds[0]?.category || '').toLowerCase();
+          return vCat.includes(catClean) || catClean.includes(vCat) || vProds.some((p) => p.category?.toLowerCase() === catClean);
+        }).length;
+      }
+    });
+    return counts;
+  }, [allVendors, approved]);
+
+  // ── 6. useMemo for derived product collections ──
   const categoryCounts = useMemo(() => {
     const counts = { All: approved.length };
     CATEGORIES.forEach((cat) => {
@@ -249,7 +351,8 @@ export default function ProductListing() {
       <div className="category-bar">
         <div className="category-bar-inner">
           {CATEGORIES.map((cat) => {
-            const count = categoryCounts[cat] || 0;
+            const count = browseMode === 'vendors' ? (categoryStoreCounts[cat] || 0) : (categoryCounts[cat] || 0);
+            const badgeLabel = browseMode === 'vendors' ? `${count} ${count === 1 ? 'store' : 'stores'}` : `${count}`;
             return (
               <button
                 key={cat}
@@ -258,8 +361,8 @@ export default function ProductListing() {
               >
                 <span>{CATEGORY_ICONS[cat]}</span>
                 {getCategoryLabel(cat)}
-                <span style={{ fontSize: '0.72rem', opacity: 0.7, marginLeft: 2, background: filterState.category === cat ? 'var(--primary-light)' : 'var(--surface-2)', color: filterState.category === cat ? 'white' : 'var(--text-secondary)', padding: '1px 6px', borderRadius: '10px' }}>
-                  {count}
+                <span style={{ fontSize: '0.72rem', opacity: 0.8, marginLeft: 2, background: filterState.category === cat ? 'var(--primary-light)' : 'var(--surface-2)', color: filterState.category === cat ? 'white' : 'var(--text-secondary)', padding: '1px 7px', borderRadius: '10px' }}>
+                  {badgeLabel}
                 </span>
               </button>
             );
@@ -267,50 +370,76 @@ export default function ProductListing() {
         </div>
       </div>
 
-      {/* Hero Banner */}
+      {/* Hero Banner - Vendor First Platform */}
       {filterState.category === 'All' && !filterState.search && (
-        <div style={{ background: 'linear-gradient(135deg, #4F46E5 0%, #7C3AED 100%)', padding: '32px 0', marginBottom: 0 }}>
-          <div className="container" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: 20 }}>
-            <div>
+        <div style={{ background: 'linear-gradient(135deg, #1E1B4B 0%, #312E81 50%, #4F46E5 100%)', padding: '36px 0', marginBottom: 0, color: 'white' }}>
+          <div className="container" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: 24 }}>
+            <div style={{ maxWidth: 680 }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 8 }}>
                 <Zap size={18} color="#FCD34D" fill="#FCD34D" />
-                <span style={{ color: '#FCD34D', fontWeight: 700, fontSize: '0.85rem' }}>PHYSICAL PRODUCT MARKETPLACE · REAL INVENTORY ONLY</span>
+                <span style={{ color: '#FCD34D', fontWeight: 800, fontSize: '0.82rem', letterSpacing: '0.04em' }}>
+                  VENDOR-FIRST MARKETPLACE · VERIFIED PHYSICAL STORES ONLY
+                </span>
               </div>
-              <h2 style={{ color: 'white', fontSize: '1.6rem', fontWeight: 800, marginBottom: 8 }}>
-                Shop Physical Products from Verified Vendor Stores
+              <h2 style={{ color: 'white', fontSize: '1.8rem', fontWeight: 900, marginBottom: 10, lineHeight: 1.2 }}>
+                Discover Verified Vendors First, Not Just Random Items
               </h2>
-              <p style={{ color: 'rgba(255,255,255,0.85)', fontSize: '0.95rem', margin: '0 0 14px' }}>
-                {approved.length} products with live warehouse stock tracking, fast courier dispatch & verified brand warranties
+              <p style={{ color: 'rgba(255,255,255,0.86)', fontSize: '0.94rem', margin: '0 0 18px', lineHeight: 1.6 }}>
+                Unlike typical e-shopping sites that hide sellers behind generic product grids, Vendor Hub showcases authentic verified storefronts. Explore a merchant's specialty, verify their physical warehouse credentials, and shop with confidence.
               </p>
-              <Link
-                to="/stores"
-                style={{
-                  display: 'inline-flex',
-                  alignItems: 'center',
-                  gap: 8,
-                  padding: '7px 14px',
-                  borderRadius: 8,
-                  background: 'rgba(255, 255, 255, 0.2)',
-                  backdropFilter: 'blur(8px)',
-                  color: '#fff',
-                  textDecoration: 'none',
-                  fontWeight: 700,
-                  fontSize: '0.82rem',
-                  border: '1px solid rgba(255, 255, 255, 0.3)'
-                }}
-              >
-                <span>🏬 Explore Verified Stores Directory</span>
-                <ArrowRight size={14} />
-              </Link>
-            </div>
-            <div style={{ display: 'flex', gap: 12 }}>
-              <div style={{ background: 'rgba(255,255,255,0.12)', backdropFilter: 'blur(8px)', borderRadius: 12, padding: '16px 20px', textAlign: 'center', border: '1px solid rgba(255,255,255,0.2)' }}>
-                <div style={{ fontSize: '1.6rem', fontWeight: 900, color: 'white' }}>{approved.reduce((acc, p) => acc + (p.stock || p.quantity || 0), 0)}</div>
-                <div style={{ color: 'rgba(255,255,255,0.75)', fontSize: '0.75rem' }}>Units in Stock</div>
+              <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap' }}>
+                <button
+                  type="button"
+                  onClick={() => setBrowseMode('vendors')}
+                  style={{
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    gap: 8,
+                    padding: '8px 18px',
+                    borderRadius: 10,
+                    background: browseMode === 'vendors' ? '#FCD34D' : 'rgba(255, 255, 255, 0.18)',
+                    color: browseMode === 'vendors' ? '#1E1B4B' : '#fff',
+                    border: '1px solid rgba(255, 255, 255, 0.3)',
+                    fontWeight: 700,
+                    fontSize: '0.86rem',
+                    cursor: 'pointer',
+                    transition: 'all 0.2s'
+                  }}
+                >
+                  <Store size={15} />
+                  <span>🏪 Browse by Vendors ({filteredVendors.length})</span>
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setBrowseMode('products')}
+                  style={{
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    gap: 8,
+                    padding: '8px 18px',
+                    borderRadius: 10,
+                    background: browseMode === 'products' ? '#FCD34D' : 'rgba(255, 255, 255, 0.18)',
+                    color: browseMode === 'products' ? '#1E1B4B' : '#fff',
+                    border: '1px solid rgba(255, 255, 255, 0.3)',
+                    fontWeight: 700,
+                    fontSize: '0.86rem',
+                    cursor: 'pointer',
+                    transition: 'all 0.2s'
+                  }}
+                >
+                  <Package size={15} />
+                  <span>📦 Browse All Individual Items ({filtered.length})</span>
+                </button>
               </div>
-              <div style={{ background: 'rgba(255,255,255,0.12)', backdropFilter: 'blur(8px)', borderRadius: 12, padding: '16px 20px', textAlign: 'center', border: '1px solid rgba(255,255,255,0.2)' }}>
-                <div style={{ fontSize: '1.6rem', fontWeight: 900, color: 'white' }}>24h</div>
-                <div style={{ color: 'rgba(255,255,255,0.75)', fontSize: '0.75rem' }}>Dispatch Hub</div>
+            </div>
+            <div style={{ display: 'flex', gap: 14 }}>
+              <div style={{ background: 'rgba(255,255,255,0.12)', backdropFilter: 'blur(8px)', borderRadius: 14, padding: '16px 22px', textAlign: 'center', border: '1px solid rgba(255,255,255,0.2)' }}>
+                <div style={{ fontSize: '1.8rem', fontWeight: 900, color: 'white' }}>{allVendors.length}</div>
+                <div style={{ color: 'rgba(255,255,255,0.8)', fontSize: '0.74rem', fontWeight: 600 }}>Verified Stores</div>
+              </div>
+              <div style={{ background: 'rgba(255,255,255,0.12)', backdropFilter: 'blur(8px)', borderRadius: 14, padding: '16px 22px', textAlign: 'center', border: '1px solid rgba(255,255,255,0.2)' }}>
+                <div style={{ fontSize: '1.8rem', fontWeight: 900, color: 'white' }}>{approved.length}</div>
+                <div style={{ color: 'rgba(255,255,255,0.8)', fontSize: '0.74rem', fontWeight: 600 }}>Warehouse SKUs</div>
               </div>
             </div>
           </div>
@@ -319,109 +448,42 @@ export default function ProductListing() {
 
       {/* Main Content */}
       <div className="container" style={{ padding: '28px 24px' }} ref={productsTopRef}>
-        {/* ── Explore Vendors Spotlight Strip ── */}
-        <div style={{ marginBottom: 28, background: 'var(--surface)', border: '1px solid var(--border)', borderRadius: 16, padding: '18px 20px', boxShadow: 'var(--shadow-sm)' }}>
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 14, flexWrap: 'wrap', gap: 10 }}>
-            <div>
-              <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-                <Store size={18} color="var(--primary)" />
-                <h3 style={{ margin: 0, fontSize: '1.05rem', fontWeight: 800, color: 'var(--text-primary)' }}>
-                  Explore Verified Vendors & Emerging Merchants
-                </h3>
-              </div>
-              <p style={{ margin: '2px 0 0', fontSize: '0.78rem', color: 'var(--text-muted)' }}>
-                Discover 10 physical storefronts across India with genuine warehouse stock and direct brand warranties
-              </p>
-            </div>
-            <Link
-              to="/stores"
-              style={{
-                display: 'inline-flex',
-                alignItems: 'center',
-                gap: 6,
-                fontSize: '0.82rem',
-                fontWeight: 700,
-                color: 'var(--primary)',
-                textDecoration: 'none'
+        {/* Browse Mode Switcher & Quick Filters Toolbar */}
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: 16, marginBottom: 24 }}>
+          {/* Mode Switcher */}
+          <div className="browse-mode-tabs">
+            <button
+              type="button"
+              className={`browse-mode-tab ${browseMode === 'vendors' ? 'active' : ''}`}
+              onClick={() => {
+                setBrowseMode('vendors');
+                setSearchParams({ mode: 'vendors' });
               }}
             >
-              <span>View All 10 Stores Directory</span>
-              <ArrowRight size={14} />
-            </Link>
-          </div>
-
-          <div style={{ display: 'flex', gap: 14, overflowX: 'auto', paddingBottom: 8 }}>
-            {seedVendors.map((v) => (
-              <div
-                key={v.id}
-                onClick={() => navigate(`/store/${v.storeSlug || v.id}`)}
-                style={{
-                  minWidth: 210,
-                  maxWidth: 230,
-                  flex: '0 0 auto',
-                  background: 'var(--surface-2, #F8FAFC)',
-                  border: '1px solid var(--border)',
-                  borderRadius: 12,
-                  padding: 12,
-                  cursor: 'pointer',
-                  transition: 'transform 0.15s ease, border-color 0.15s ease',
-                  display: 'flex',
-                  flexDirection: 'column',
-                  gap: 8
-                }}
-              >
-                <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-                  <img
-                    src={v.avatar}
-                    alt={v.businessName}
-                    style={{ width: 40, height: 40, borderRadius: 10, objectFit: 'cover', border: '1px solid var(--border)' }}
-                  />
-                  <div style={{ overflow: 'hidden' }}>
-                    <div style={{ fontWeight: 800, fontSize: '0.82rem', color: 'var(--text-primary)', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
-                      {v.businessName}
-                    </div>
-                    <div style={{ fontSize: '0.7rem', color: 'var(--text-muted)' }}>
-                      {v.location ? v.location.split(',')[0] : 'India'}
-                    </div>
-                  </div>
-                </div>
-                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', fontSize: '0.72rem' }}>
-                  <span style={{ color: '#D97706', fontWeight: 800, display: 'flex', alignItems: 'center', gap: 3 }}>
-                    ★ {v.storeRating || 4.8}
-                  </span>
-                  {['v5', 'v6', 'v7', 'v8', 'v9', 'v10'].includes(v.id) ? (
-                    <span style={{ background: '#FEF3C7', color: '#B45309', padding: '1px 6px', borderRadius: 4, fontWeight: 700, fontSize: '0.66rem', display: 'inline-flex', alignItems: 'center', gap: 2 }}>
-                      <Flame size={10} /> Emerging
-                    </span>
-                  ) : (
-                    <span style={{ background: '#EEF2FF', color: '#4F46E5', padding: '1px 6px', borderRadius: 4, fontWeight: 700, fontSize: '0.66rem' }}>
-                      ✓ Verified
-                    </span>
-                  )}
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-
-        {/* Toolbar */}
-        <div className="section-title" style={{ flexWrap: 'wrap', gap: 16 }}>
-          <div>
-            <h2>
-              {filterState.category === 'All' ? t('cat_all', 'All Products') : getCategoryLabel(filterState.category)}
-              <span style={{ fontSize: '0.9rem', fontWeight: 500, color: 'var(--text-muted)', marginLeft: 10 }}>
-                ({filtered.length} {t('inStock', 'available')})
+              <Store size={16} />
+              <span>Browse by Stores & Vendors</span>
+              <span style={{ fontSize: '0.72rem', background: browseMode === 'vendors' ? 'rgba(255,255,255,0.25)' : 'var(--surface-2)', padding: '2px 7px', borderRadius: 8 }}>
+                {filteredVendors.length} stores
               </span>
-            </h2>
-            {filterState.search && (
-              <p style={{ fontSize: '0.875rem', color: 'var(--text-muted)', marginTop: 4 }}>
-                Results for "<strong>{filterState.search}</strong>" · Ranked via Smart Discovery & Fair Exposure
-              </p>
-            )}
+            </button>
+            <button
+              type="button"
+              className={`browse-mode-tab ${browseMode === 'products' ? 'active' : ''}`}
+              onClick={() => {
+                setBrowseMode('products');
+                setSearchParams({ mode: 'products' });
+              }}
+            >
+              <Package size={16} />
+              <span>Browse Individual Items</span>
+              <span style={{ fontSize: '0.72rem', background: browseMode === 'products' ? 'rgba(255,255,255,0.25)' : 'var(--surface-2)', padding: '2px 7px', borderRadius: 8 }}>
+                {filtered.length} items
+              </span>
+            </button>
           </div>
 
-          <div style={{ display: 'flex', alignItems: 'center', gap: 12, flexWrap: 'wrap' }}>
-            {/* Quick in-stock toggle */}
+          {/* Quick Filters */}
+          <div style={{ display: 'flex', alignItems: 'center', gap: 10, flexWrap: 'wrap' }}>
             <button
               onClick={() => dispatchFilter({ type: FILTER_ACTIONS.TOGGLE_IN_STOCK })}
               style={{
@@ -441,7 +503,6 @@ export default function ProductListing() {
               {filterState.inStockOnly && <Check size={14} />} {t('inStockOnly', 'In Stock Only')}
             </button>
 
-            {/* Fast Courier Dispatch toggle */}
             <button
               onClick={() => dispatchFilter({ type: FILTER_ACTIONS.TOGGLE_FAST_DELIVERY })}
               style={{
@@ -461,57 +522,56 @@ export default function ProductListing() {
               <Truck size={14} /> {t('fastDeliveryOnly', 'Fast Dispatch (24h)')}
             </button>
 
-            {/* Sort selection */}
-            <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-              <SlidersHorizontal size={16} color="var(--text-muted)" />
-              <select
-                className="form-input form-select"
-                value={filterState.sortBy}
-                onChange={(e) => dispatchFilter({ type: FILTER_ACTIONS.SET_SORT, payload: e.target.value })}
-                style={{ width: 'auto', padding: '8px 36px 8px 12px', fontSize: '0.85rem' }}
-              >
-                <option value="smart_discovery">✨ Smart Discovery (Fair Exposure)</option>
-                <option value="newest">{t('sort_newest', 'Newest Stock')}</option>
-                <option value="price-asc">{t('sort_price_asc', 'Price: Low to High')}</option>
-                <option value="price-desc">{t('sort_price_desc', 'Price: High to Low')}</option>
-                <option value="stock-desc">{t('sort_rating', 'Highest Stock First')}</option>
-              </select>
-            </div>
+            {browseMode === 'products' && (
+              <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+                <SlidersHorizontal size={16} color="var(--text-muted)" />
+                <select
+                  className="form-input form-select"
+                  value={filterState.sortBy}
+                  onChange={(e) => dispatchFilter({ type: FILTER_ACTIONS.SET_SORT, payload: e.target.value })}
+                  style={{ width: 'auto', padding: '8px 36px 8px 12px', fontSize: '0.85rem' }}
+                >
+                  <option value="smart_discovery">✨ Smart Discovery</option>
+                  <option value="newest">{t('sort_newest', 'Newest Stock')}</option>
+                  <option value="price-asc">{t('sort_price_asc', 'Price: Low to High')}</option>
+                  <option value="price-desc">{t('sort_price_desc', 'Price: High to Low')}</option>
+                  <option value="stock-desc">{t('sort_rating', 'Highest Stock First')}</option>
+                </select>
 
-            {/* View Mode Toggle */}
-            <div style={{ display: 'inline-flex', background: 'var(--surface-2)', borderRadius: '8px', padding: '2px', border: '1px solid var(--border)' }}>
-              <button
-                type="button"
-                onClick={() => setViewMode('grid')}
-                title="Grid View"
-                style={{
-                  display: 'flex', alignItems: 'center', justifyContent: 'center',
-                  padding: '6px 10px', borderRadius: '6px', border: 'none', cursor: 'pointer',
-                  background: viewMode === 'grid' ? 'white' : 'transparent',
-                  color: viewMode === 'grid' ? 'var(--primary)' : 'var(--text-muted)',
-                  boxShadow: viewMode === 'grid' ? 'var(--shadow-sm)' : 'none',
-                }}
-              >
-                <LayoutGrid size={15} />
-              </button>
-              <button
-                type="button"
-                onClick={() => setViewMode('compact')}
-                title="Compact View"
-                style={{
-                  display: 'flex', alignItems: 'center', justifyContent: 'center',
-                  padding: '6px 10px', borderRadius: '6px', border: 'none', cursor: 'pointer',
-                  background: viewMode === 'compact' ? 'white' : 'transparent',
-                  color: viewMode === 'compact' ? 'var(--primary)' : 'var(--text-muted)',
-                  boxShadow: viewMode === 'compact' ? 'var(--shadow-sm)' : 'none',
-                }}
-              >
-                <List size={15} />
-              </button>
-            </div>
+                <div style={{ display: 'inline-flex', background: 'var(--surface-2)', borderRadius: '8px', padding: '2px', border: '1px solid var(--border)' }}>
+                  <button
+                    type="button"
+                    onClick={() => setViewMode('grid')}
+                    title="Grid View"
+                    style={{
+                      display: 'flex', alignItems: 'center', justifyContent: 'center',
+                      padding: '6px 10px', borderRadius: '6px', border: 'none', cursor: 'pointer',
+                      background: viewMode === 'grid' ? 'white' : 'transparent',
+                      color: viewMode === 'grid' ? 'var(--primary)' : 'var(--text-muted)',
+                      boxShadow: viewMode === 'grid' ? 'var(--shadow-sm)' : 'none',
+                    }}
+                  >
+                    <LayoutGrid size={15} />
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setViewMode('compact')}
+                    title="Compact View"
+                    style={{
+                      display: 'flex', alignItems: 'center', justifyContent: 'center',
+                      padding: '6px 10px', borderRadius: '6px', border: 'none', cursor: 'pointer',
+                      background: viewMode === 'compact' ? 'white' : 'transparent',
+                      color: viewMode === 'compact' ? 'var(--primary)' : 'var(--text-muted)',
+                      boxShadow: viewMode === 'compact' ? 'var(--shadow-sm)' : 'none',
+                    }}
+                  >
+                    <List size={15} />
+                  </button>
+                </div>
+              </div>
+            )}
 
-            {/* Reset button if filtered */}
-            {(filterState.search || filterState.category !== 'All' || filterState.inStockOnly || filterState.fastDeliveryOnly || filterState.sortBy !== 'newest') && (
+            {(filterState.search || filterState.category !== 'All' || filterState.inStockOnly || filterState.fastDeliveryOnly || filterState.sortBy !== 'smart_discovery') && (
               <button
                 className="btn btn-ghost btn-sm"
                 onClick={handleResetFilters}
@@ -523,6 +583,262 @@ export default function ProductListing() {
             )}
           </div>
         </div>
+
+        {/* ═══════════════════════════════════════════════════════════ */}
+        {/* ── 1. VENDOR-FIRST VIEW (DEFAULT EXPERIENCE) ───────────── */}
+        {/* ═══════════════════════════════════════════════════════════ */}
+        {browseMode === 'vendors' ? (
+          <div>
+            <div style={{ marginBottom: 20 }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 4 }}>
+                <Store size={20} color="var(--primary)" />
+                <h2 style={{ fontSize: '1.25rem', fontWeight: 800, color: 'var(--text-primary)', margin: 0 }}>
+                  {filterState.category === 'All' ? 'Verified Merchant Stores' : `${getCategoryLabel(filterState.category)} Merchants`}
+                  <span style={{ fontSize: '0.85rem', fontWeight: 600, color: 'var(--text-muted)', marginLeft: 10 }}>
+                    ({filteredVendors.length} stores available)
+                  </span>
+                </h2>
+              </div>
+              <p style={{ margin: 0, fontSize: '0.84rem', color: 'var(--text-secondary)' }}>
+                {filterState.search ? (
+                  <>Showing verified vendor storefronts carrying items matching "<strong>{filterState.search}</strong>"</>
+                ) : (
+                  <>Select any storefront to explore its catalog, policies, and direct brand warranties</>
+                )}
+              </p>
+            </div>
+
+            {filteredVendors.length === 0 ? (
+              <div className="empty-state">
+                <div className="empty-state-icon"><Store size={64} /></div>
+                <h3>No verified vendor stores match your selection</h3>
+                <p>Try resetting your category or search filter to explore all verified merchants.</p>
+                <button className="btn btn-primary" onClick={handleResetFilters}>
+                  Reset All Filters
+                </button>
+              </div>
+            ) : (
+              <div className="vendors-showcase-container">
+                {filteredVendors.map((vendor) => {
+                  return (
+                    <div key={vendor.id} className="vendor-showcase-card">
+                      {/* Banner */}
+                      <div
+                        className="vendor-showcase-banner"
+                        style={{ backgroundImage: `url(${vendor.banner || 'https://images.unsplash.com/photo-1550009158-9ebf69173e03?w=1200&h=300&fit=crop'})` }}
+                      >
+                        <div className="vendor-showcase-banner-badges">
+                          <span style={{ background: 'rgba(0,0,0,0.65)', backdropFilter: 'blur(8px)', color: 'white', padding: '4px 10px', borderRadius: 20, fontSize: '0.74rem', fontWeight: 700, display: 'flex', alignItems: 'center', gap: 5, border: '1px solid rgba(255,255,255,0.2)' }}>
+                            <ShieldCheck size={13} color="#10B981" /> Verified Merchant
+                          </span>
+                          <span style={{ background: 'rgba(79,70,229,0.85)', backdropFilter: 'blur(8px)', color: 'white', padding: '4px 10px', borderRadius: 20, fontSize: '0.74rem', fontWeight: 700 }}>
+                            {vendor.category}
+                          </span>
+                        </div>
+                      </div>
+
+                      <div className="vendor-showcase-body">
+                        {/* Header row */}
+                        <div className="vendor-showcase-header-row">
+                          <div className="vendor-showcase-identity">
+                            <img
+                              src={vendor.avatar || 'https://images.unsplash.com/photo-1560250097-0b93528c311a?w=120&h=120&fit=crop'}
+                              alt={vendor.businessName}
+                              className="vendor-showcase-avatar"
+                            />
+                            <div className="vendor-showcase-info">
+                              <h3>
+                                <Link to={`/store/${vendor.storeSlug || vendor.id}`} style={{ color: 'inherit', textDecoration: 'none' }}>
+                                  {vendor.businessName}
+                                </Link>
+                              </h3>
+                              <p>{vendor.tagline || 'Verified merchant storefront with live warehouse inventory'}</p>
+                            </div>
+                          </div>
+
+                          <div style={{ display: 'flex', gap: 8, alignItems: 'center', flexWrap: 'wrap' }}>
+                            <button
+                              type="button"
+                              className="btn btn-ghost btn-sm"
+                              onClick={() => setShareTarget({
+                                title: vendor.businessName,
+                                subtitle: vendor.tagline,
+                                url: `/store/${vendor.storeSlug || vendor.id}`,
+                                image: vendor.avatar,
+                                badge: 'Verified Store'
+                              })}
+                              title="Share Store"
+                              style={{ display: 'inline-flex', alignItems: 'center', gap: 6 }}
+                            >
+                              <Share2 size={14} /> Share
+                            </button>
+                            <button
+                              type="button"
+                              className="btn btn-ghost btn-sm"
+                              onClick={() => setContactVendor(vendor)}
+                              style={{ display: 'inline-flex', alignItems: 'center', gap: 6 }}
+                            >
+                              <MessageSquare size={14} /> Contact
+                            </button>
+                            <Link
+                              to={`/store/${vendor.storeSlug || vendor.id}`}
+                              className="btn btn-primary btn-sm"
+                              style={{ display: 'inline-flex', alignItems: 'center', gap: 6, textDecoration: 'none' }}
+                            >
+                              <span>Enter Storefront</span>
+                              <ArrowRight size={14} />
+                            </Link>
+                          </div>
+                        </div>
+
+                        {/* Trust & Location metrics */}
+                        <div className="vendor-showcase-metrics">
+                          <span className="vendor-showcase-metric-item" style={{ color: '#D97706' }}>
+                            <Star size={14} fill="#F59E0B" color="#F59E0B" />
+                            <span>{vendor.storeRating || 4.8} / 5.0 Rating</span>
+                          </span>
+                          <span>•</span>
+                          <span className="vendor-showcase-metric-item">
+                            <MapPin size={14} color="var(--primary)" />
+                            <span>{vendor.location || 'India'}</span>
+                          </span>
+                          <span>•</span>
+                          <span className="vendor-showcase-metric-item" style={{ color: 'var(--success)' }}>
+                            <Truck size={14} />
+                            <span>{vendor.onTimeDispatchRate || '99%'} Express Dispatch</span>
+                          </span>
+                          <span>•</span>
+                          <span className="vendor-showcase-metric-item">
+                            <Package size={14} />
+                            <span>{vendor.totalProductsInStock || 15} Products in Stock</span>
+                          </span>
+                          <span>•</span>
+                          <span className="vendor-showcase-metric-item" style={{ color: 'var(--text-muted)', fontSize: '0.78rem' }}>
+                            GSTIN: {vendor.gstin || '07AABCT1234F1Z8'}
+                          </span>
+                        </div>
+
+                        {/* Product Shelf - The User's Core Request: Showing the Products of that Vendor */}
+                        <div className="vendor-shelf-container">
+                          <div className="vendor-shelf-header">
+                            <div className="vendor-shelf-title">
+                              <Sparkles size={14} color="var(--primary)" />
+                              <span>Featured Products From This Store ({vendor.sampleProducts?.length || 0})</span>
+                            </div>
+                            <Link
+                              to={`/store/${vendor.storeSlug || vendor.id}`}
+                              style={{ fontSize: '0.8rem', fontWeight: 700, color: 'var(--primary)', textDecoration: 'none', display: 'flex', alignItems: 'center', gap: 4 }}
+                            >
+                              View all {vendor.totalProductsInStock || 15} items <ArrowRight size={13} />
+                            </Link>
+                          </div>
+
+                          <div className="vendor-shelf-grid">
+                            {vendor.sampleProducts?.map((product) => {
+                              const stock = product.stock !== undefined ? product.stock : (product.quantity || 0);
+                              const isOutOfStock = stock <= 0;
+                              const discountPct = product.originalPrice && product.originalPrice > product.price
+                                ? Math.round(((product.originalPrice - product.price) / product.originalPrice) * 100)
+                                : 0;
+
+                              return (
+                                <div
+                                  key={product.id}
+                                  className="vendor-shelf-item"
+                                  onClick={() => navigate(`/shop/product/${product.id}`)}
+                                >
+                                  <img
+                                    src={product.image || product.images?.[0] || 'https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=300&h=300&fit=crop'}
+                                    alt={product.name}
+                                    className="vendor-shelf-item-img"
+                                  />
+                                  <div className="vendor-shelf-item-title" title={product.name}>
+                                    {product.name}
+                                  </div>
+
+                                  <div className="vendor-shelf-item-price-row">
+                                    <span className="vendor-shelf-item-price">
+                                      ₹{product.price.toLocaleString('en-IN')}
+                                    </span>
+                                    {product.originalPrice && product.originalPrice > product.price && (
+                                      <span className="vendor-shelf-item-original">
+                                        ₹{product.originalPrice.toLocaleString('en-IN')}
+                                      </span>
+                                    )}
+                                    {discountPct > 0 && (
+                                      <span style={{ fontSize: '0.68rem', fontWeight: 800, color: '#16A34A', background: '#DCFCE7', padding: '1px 5px', borderRadius: 4 }}>
+                                        {discountPct}% OFF
+                                      </span>
+                                    )}
+                                  </div>
+
+                                  <div className="vendor-shelf-item-footer">
+                                    <span style={{ fontSize: '0.72rem', color: isOutOfStock ? 'var(--danger)' : 'var(--text-muted)' }}>
+                                      {isOutOfStock ? 'Sold Out' : `${stock} in stock`}
+                                    </span>
+                                    <button
+                                      type="button"
+                                      className="btn btn-primary btn-sm"
+                                      style={{ padding: '4px 8px', fontSize: '0.75rem', borderRadius: 6 }}
+                                      onClick={(e) => {
+                                        e.stopPropagation();
+                                        handleAddToCart(e, product);
+                                      }}
+                                      disabled={isOutOfStock}
+                                    >
+                                      <ShoppingCart size={12} /> Add
+                                    </button>
+                                  </div>
+                                </div>
+                              );
+                            })}
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            )}
+          </div>
+        ) : (
+          /* ═══════════════════════════════════════════════════════════ */
+          /* ── 2. INDIVIDUAL PRODUCTS GRID VIEW ────────────────────── */
+          /* ═══════════════════════════════════════════════════════════ */
+          <div>
+            {/* Vendor-First Suggestion Banner */}
+            <div style={{ background: 'var(--surface-2)', border: '1px dashed var(--primary)', borderRadius: 12, padding: '12px 18px', marginBottom: 20, display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: 10 }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+                <Store size={18} color="var(--primary)" />
+                <span style={{ fontSize: '0.86rem', color: 'var(--text-primary)', fontWeight: 600 }}>
+                  💡 Prefer to discover verified storefronts and collections first?
+                </span>
+              </div>
+              <button
+                type="button"
+                className="btn btn-primary btn-sm"
+                onClick={() => setBrowseMode('vendors')}
+                style={{ padding: '6px 14px', fontSize: '0.8rem' }}
+              >
+                Switch to Stores & Vendors View →
+              </button>
+            </div>
+
+            <div className="section-title" style={{ flexWrap: 'wrap', gap: 16 }}>
+              <div>
+                <h2>
+                  {filterState.category === 'All' ? t('cat_all', 'All Products') : getCategoryLabel(filterState.category)}
+                  <span style={{ fontSize: '0.9rem', fontWeight: 500, color: 'var(--text-muted)', marginLeft: 10 }}>
+                    ({filtered.length} {t('inStock', 'available')})
+                  </span>
+                </h2>
+                {filterState.search && (
+                  <p style={{ fontSize: '0.875rem', color: 'var(--text-muted)', marginTop: 4 }}>
+                    Results for "<strong>{filterState.search}</strong>" · Ranked via Smart Discovery & Fair Exposure
+                  </p>
+                )}
+              </div>
+            </div>
 
         {/* Product Grid */}
         {filtered.length === 0 ? (
@@ -704,6 +1020,8 @@ export default function ProductListing() {
           </div>
         )}
       </div>
+    )}
+  </div>
 
       {/* ── Floating Comparison Drawer ── */}
       {compareList.length > 0 && (
@@ -868,6 +1186,29 @@ export default function ProductListing() {
             </div>
           </div>
         </div>
+      )}
+
+      {/* Contact Vendor Modal */}
+      {contactVendor && (
+        <ContactVendorModal
+          isOpen={!!contactVendor}
+          onClose={() => setContactVendor(null)}
+          vendor={contactVendor}
+        />
+      )}
+
+      {/* Share Modal */}
+      {shareTarget && (
+        <ShareModal
+          isOpen={!!shareTarget}
+          onClose={() => setShareTarget(null)}
+          type="store"
+          title={shareTarget.title}
+          subtitle={shareTarget.subtitle}
+          url={shareTarget.url}
+          image={shareTarget.image}
+          badge={shareTarget.badge}
+        />
       )}
 
       {/* Footer */}

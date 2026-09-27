@@ -129,50 +129,18 @@ export default function CustomerAuth({ initialMode }) {
           </button>
 
           {/* Mode Switcher Tabs */}
-          <div style={{ display: 'flex', background: '#F1F5F9', borderRadius: 10, padding: 4, marginBottom: 20 }}>
+          <div className="auth-mode-tabs">
             <button
               type="button"
+              className={`auth-mode-tab ${mode === 'login' ? 'active' : ''}`}
               onClick={() => { setMode('login'); setErrors({}); }}
-              style={{
-                flex: 1,
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                gap: 6,
-                padding: '9px 16px',
-                borderRadius: 8,
-                border: 'none',
-                background: mode === 'login' ? 'white' : 'transparent',
-                color: mode === 'login' ? 'var(--primary)' : 'var(--text-muted)',
-                fontWeight: mode === 'login' ? 700 : 500,
-                fontSize: '0.88rem',
-                cursor: 'pointer',
-                boxShadow: mode === 'login' ? '0 1px 3px rgba(0,0,0,0.08)' : 'none',
-                transition: 'all 0.2s'
-              }}
             >
               <LogIn size={15} /> Sign In
             </button>
             <button
               type="button"
+              className={`auth-mode-tab ${mode === 'register' ? 'active' : ''}`}
               onClick={() => { setMode('register'); setErrors({}); }}
-              style={{
-                flex: 1,
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                gap: 6,
-                padding: '9px 16px',
-                borderRadius: 8,
-                border: 'none',
-                background: mode === 'register' ? 'white' : 'transparent',
-                color: mode === 'register' ? 'var(--primary)' : 'var(--text-muted)',
-                fontWeight: mode === 'register' ? 700 : 500,
-                fontSize: '0.88rem',
-                cursor: 'pointer',
-                boxShadow: mode === 'register' ? '0 1px 3px rgba(0,0,0,0.08)' : 'none',
-                transition: 'all 0.2s'
-              }}
             >
               <UserPlus size={15} /> Register (New)
             </button>
@@ -190,16 +158,17 @@ export default function CustomerAuth({ initialMode }) {
           {mode === 'login' ? (
             <button
               type="button"
+              className="auth-demo-btn"
               onClick={fillDemo}
-              style={{ marginBottom: 16, background: '#EEF2FF', color: '#4F46E5', border: '1px solid #C7D2FE', borderRadius: 8, padding: '9px 14px', fontSize: '0.82rem', fontWeight: 600, cursor: 'pointer', width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 6 }}
             >
               🧪 Quick Sign In with Demo Account
             </button>
           ) : (
             <button
               type="button"
+              className="auth-demo-btn"
+              style={{ borderColor: 'var(--success, #16A34A)', color: 'var(--success, #16A34A)', background: 'rgba(22, 163, 74, 0.08)' }}
               onClick={fillDemoRegister}
-              style={{ marginBottom: 16, background: '#F0FDF4', color: '#16A34A', border: '1px solid #BBF7D0', borderRadius: 8, padding: '9px 14px', fontSize: '0.82rem', fontWeight: 600, cursor: 'pointer', width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 6 }}
             >
               🧪 Auto-fill Sample Registration Data
             </button>
@@ -230,7 +199,7 @@ export default function CustomerAuth({ initialMode }) {
 
             <div className="form-group">
               <label className="form-label">Password</label>
-              <div style={{ position: 'relative' }}>
+              <div className="auth-password-wrapper">
                 <input
                   className={`form-input ${errors.password ? 'error' : ''}`}
                   type={showPass ? 'text' : 'password'}
@@ -238,12 +207,12 @@ export default function CustomerAuth({ initialMode }) {
                   placeholder="••••••••"
                   value={form.password}
                   onChange={handleChange}
-                  style={{ paddingRight: 44 }}
                 />
                 <button
                   type="button"
+                  className="auth-password-toggle"
                   onClick={() => setShowPass(!showPass)}
-                  style={{ position: 'absolute', right: 12, top: '50%', transform: 'translateY(-50%)', background: 'none', border: 'none', cursor: 'pointer', color: 'var(--text-muted)' }}
+                  aria-label={showPass ? 'Hide password' : 'Show password'}
                 >
                   {showPass ? <EyeOff size={18} /> : <Eye size={18} />}
                 </button>
@@ -266,7 +235,7 @@ export default function CustomerAuth({ initialMode }) {
               </>
             )}
 
-            <button type="submit" className="btn btn-primary btn-full btn-lg" disabled={loading}>
+            <button type="submit" className="btn btn-primary btn-full btn-lg" disabled={loading} style={{ marginTop: 6 }}>
               {loading ? 'Please wait...' : mode === 'login' ? 'Sign In' : 'Create Account'}
             </button>
           </form>
@@ -280,24 +249,22 @@ export default function CustomerAuth({ initialMode }) {
           </div>
 
           {/* Portal Switcher */}
-          <div style={{ marginTop: 28, paddingTop: 20, borderTop: '1px solid var(--border)' }}>
-            <p style={{ fontSize: '0.78rem', color: 'var(--text-muted)', textAlign: 'center', marginBottom: 12, fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.05em' }}>Other Portals</p>
-            <div style={{ display: 'flex', gap: 8 }}>
+          <div className="auth-portal-strip">
+            <p className="auth-portal-label">Other Portals</p>
+            <div className="auth-portal-grid">
               <button
+                type="button"
                 onClick={() => navigate('/vendor/login')}
-                style={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 6, padding: '9px 12px', background: '#FEF3C7', color: '#92400E', border: '1px solid #FDE68A', borderRadius: 10, fontSize: '0.8rem', fontWeight: 700, cursor: 'pointer', transition: 'var(--transition)' }}
-                onMouseOver={e => e.currentTarget.style.background='#FDE68A'}
-                onMouseOut={e => e.currentTarget.style.background='#FEF3C7'}
+                className="auth-portal-btn vendor"
               >
-                <Store size={14} /> Vendor Login
+                <Store size={15} /> Vendor Login
               </button>
               <button
+                type="button"
                 onClick={() => navigate('/admin/login')}
-                style={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 6, padding: '9px 12px', background: '#FEE2E2', color: '#991B1B', border: '1px solid #FECACA', borderRadius: 10, fontSize: '0.8rem', fontWeight: 700, cursor: 'pointer', transition: 'var(--transition)' }}
-                onMouseOver={e => e.currentTarget.style.background='#FECACA'}
-                onMouseOut={e => e.currentTarget.style.background='#FEE2E2'}
+                className="auth-portal-btn admin"
               >
-                <Shield size={14} /> Admin Login
+                <Shield size={15} /> Admin Login
               </button>
             </div>
           </div>

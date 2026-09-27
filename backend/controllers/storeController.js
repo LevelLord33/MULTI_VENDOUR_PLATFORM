@@ -23,12 +23,29 @@ const STORE_CATEGORIES = [
   { id: 'proaudio', name: 'Pro Audio & Studio Sound', icon: 'Headphones', keywords: ['audio', 'microphone', 'studio', 'shure', 'sound', 'interface', 'monitor'] }
 ];
 
+const VENDOR_CATEGORY_MAP = {
+  v1: 'Electronics',
+  v2: 'Fashion',
+  v3: 'Grocery',
+  v4: 'Home & Living',
+  v5: 'Sports',
+  v6: 'Beauty',
+  v7: 'Home & Living',
+  v8: 'Home & Living',
+  v9: 'Home & Living',
+  v10: 'Electronics'
+};
+
 /**
- * Helper: determine primary category of a store based on products and tagline
+ * Helper: determine primary category of a store based on products and explicit map
  */
 const inferStoreCategory = (vendor, vendorProducts = []) => {
-  const combinedText = `${vendor.businessName} ${vendor.tagline} ${vendor.description} ${vendorProducts.map((p) => `${p.name} ${p.category}`).join(' ')}`.toLowerCase();
-
+  if (vendor.category && vendor.category !== 'General Retail') return vendor.category;
+  if (VENDOR_CATEGORY_MAP[vendor.id]) return VENDOR_CATEGORY_MAP[vendor.id];
+  if (vendorProducts && vendorProducts.length > 0 && vendorProducts[0].category) {
+    return vendorProducts[0].category;
+  }
+  const combinedText = `${vendor.businessName} ${vendor.tagline} ${vendor.description}`.toLowerCase();
   for (const cat of STORE_CATEGORIES) {
     if (cat.id === 'all') continue;
     if (cat.keywords?.some((kw) => combinedText.includes(kw))) {

@@ -1,8 +1,10 @@
-/* ── Auth Pages ──────────────────────────────── */
+/* ── Auth Pages & Layout ──────────────────────── */
 .auth-page {
   min-height: 100vh;
   display: grid;
   grid-template-columns: 1fr 1fr;
+  background: var(--bg, #F8F9FC);
+  width: 100%;
 }
 
 .auth-panel-left {
@@ -14,6 +16,7 @@
   padding: 60px 56px;
   position: relative;
   overflow: hidden;
+  box-sizing: border-box;
 }
 
 .auth-panel-left::before {
@@ -23,6 +26,7 @@
   width: 400px; height: 400px;
   border-radius: 50%;
   background: rgba(255,255,255,0.04);
+  pointer-events: none;
 }
 .auth-panel-left::after {
   content: '';
@@ -31,13 +35,14 @@
   width: 300px; height: 300px;
   border-radius: 50%;
   background: rgba(255,255,255,0.05);
+  pointer-events: none;
 }
 
 .auth-brand {
   display: flex;
   align-items: center;
   gap: 12px;
-  margin-bottom: 48px;
+  margin-bottom: 40px;
   position: relative;
   z-index: 1;
 }
@@ -45,24 +50,24 @@
 .auth-brand-logo {
   width: 48px; height: 48px;
   background: white;
-  border-radius: var(--radius-md);
+  border-radius: var(--radius-md, 12px);
   display: flex; align-items: center; justify-content: center;
-  font-size: 1.5rem;
+  box-shadow: 0 4px 14px rgba(0,0,0,0.15);
 }
 
 .auth-brand-name {
-  font-size: 1.5rem;
+  font-size: 1.55rem;
   font-weight: 800;
   color: white;
   letter-spacing: -0.02em;
 }
 
 .auth-tagline {
-  font-size: clamp(1.5rem, 3vw, 2.1rem);
+  font-size: clamp(1.6rem, 2.8vw, 2.2rem);
   font-weight: 800;
   color: white;
   line-height: 1.25;
-  margin-bottom: 20px;
+  margin-bottom: 18px;
   position: relative;
   z-index: 1;
 }
@@ -70,19 +75,20 @@
 .auth-tagline span { color: #FCD34D; }
 
 .auth-sub {
-  color: rgba(255,255,255,0.72);
-  font-size: 1rem;
-  line-height: 1.7;
+  color: rgba(255,255,255,0.78);
+  font-size: 0.95rem;
+  line-height: 1.65;
   position: relative;
   z-index: 1;
-  max-width: 380px;
+  max-width: 400px;
+  margin-bottom: 8px;
 }
 
 .auth-features {
   display: flex;
   flex-direction: column;
   gap: 14px;
-  margin-top: 36px;
+  margin-top: 32px;
   position: relative;
   z-index: 1;
 }
@@ -91,8 +97,8 @@
   display: flex;
   align-items: center;
   gap: 12px;
-  color: rgba(255,255,255,0.85);
-  font-size: 0.9rem;
+  color: rgba(255,255,255,0.9);
+  font-size: 0.88rem;
 }
 
 .auth-feature-icon {
@@ -101,72 +107,264 @@
   border-radius: 50%;
   display: flex; align-items: center; justify-content: center;
   flex-shrink: 0;
+  color: #FCD34D;
 }
 
-/* Right panel */
+/* ── Right Panel & Form Alignment ────────────────── */
 .auth-panel-right {
   display: flex;
   flex-direction: column;
-  justify-content: center;
   align-items: center;
-  padding: 60px 48px;
-  background: var(--surface);
-  color: var(--text-primary);
+  justify-content: flex-start;
+  padding: 40px 28px;
+  background: var(--surface, #FFFFFF);
+  color: var(--text-primary, #0F172A);
   overflow-y: auto;
+  min-height: 100vh;
+  box-sizing: border-box;
 }
 
 .auth-form-container {
   width: 100%;
-  max-width: 420px;
+  max-width: 440px;
+  margin: auto 0;
+  padding: 20px 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.auth-back {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--text-secondary, #475569);
+  font-size: 0.85rem;
+  font-weight: 600;
+  margin-bottom: 20px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 6px 0;
+  align-self: flex-start;
+  transition: color 0.15s ease, transform 0.15s ease;
+}
+.auth-back:hover {
+  color: var(--primary, #4F46E5);
+  transform: translateX(-2px);
+}
+
+/* ── Mode Switcher Tabs ────────────────────────── */
+.auth-mode-tabs {
+  display: flex;
+  background: var(--surface-2, #F1F5F9);
+  border: 1px solid var(--border, #E2E8F0);
+  border-radius: 12px;
+  padding: 4px;
+  margin-bottom: 22px;
+  gap: 4px;
+}
+
+.auth-mode-tab {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 9px 14px;
+  border-radius: 8px;
+  border: none;
+  background: transparent;
+  color: var(--text-muted, #94A3B8);
+  font-weight: 600;
+  font-size: 0.86rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.auth-mode-tab.active {
+  background: var(--surface, #FFFFFF);
+  color: var(--primary, #4F46E5);
+  font-weight: 700;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.08);
 }
 
 .auth-form-title {
-  font-size: 1.75rem;
+  font-size: 1.65rem;
   font-weight: 800;
-  color: var(--text-primary);
-  margin-bottom: 8px;
+  color: var(--text-primary, #0F172A);
+  margin-bottom: 6px;
+  line-height: 1.25;
 }
 
 .auth-form-sub {
-  color: var(--text-muted);
-  margin-bottom: 32px;
-  font-size: 0.9rem;
+  color: var(--text-muted, #64748B);
+  margin-bottom: 20px;
+  font-size: 0.88rem;
+  line-height: 1.5;
 }
 
-.auth-form { display: flex; flex-direction: column; gap: 16px; }
+/* ── Quick Demo Button ──────────────────────────── */
+.auth-demo-btn {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 9px 14px;
+  font-size: 0.82rem;
+  font-weight: 600;
+  border-radius: 10px;
+  cursor: pointer;
+  margin-bottom: 20px;
+  transition: all 0.2s ease;
+  border: 1px dashed var(--primary, #4F46E5);
+  background: rgba(79, 70, 229, 0.06);
+  color: var(--primary, #4F46E5);
+}
+.auth-demo-btn:hover {
+  background: rgba(79, 70, 229, 0.12);
+}
+
+.auth-demo-btn.vendor {
+  border-color: #7C3AED;
+  background: rgba(124, 58, 237, 0.06);
+  color: #7C3AED;
+}
+.auth-demo-btn.vendor:hover {
+  background: rgba(124, 58, 237, 0.12);
+}
+
+/* ── Auth Form Fields ──────────────────────────── */
+.auth-form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.auth-form .form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.auth-form .form-label {
+  font-size: 0.84rem;
+  font-weight: 600;
+  color: var(--text-primary, #0F172A);
+}
+
+.auth-password-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+
+.auth-password-wrapper input {
+  padding-right: 44px !important;
+}
+
+.auth-password-toggle {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--text-muted, #94A3B8);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4px;
+  border-radius: 4px;
+  transition: color 0.15s ease;
+}
+.auth-password-toggle:hover {
+  color: var(--text-primary, #0F172A);
+}
 
 .auth-switch {
   text-align: center;
-  margin-top: 20px;
-  font-size: 0.875rem;
-  color: var(--text-muted);
+  margin-top: 18px;
+  font-size: 0.86rem;
+  color: var(--text-muted, #64748B);
 }
 
-.auth-switch a, .auth-switch button {
-  color: var(--primary);
-  font-weight: 600;
+.auth-switch button {
+  color: var(--primary, #4F46E5);
+  font-weight: 700;
   background: none;
   border: none;
   cursor: pointer;
-  padding: 0;
+  padding: 0 4px;
+  text-decoration: underline;
+  text-underline-offset: 3px;
 }
-.auth-switch a:hover, .auth-switch button:hover { text-decoration: underline; }
 
-.auth-back {
+/* ── Portal Switcher ────────────────────────────── */
+.auth-portal-strip {
+  margin-top: 26px;
+  padding-top: 20px;
+  border-top: 1px solid var(--border, #E2E8F0);
+  width: 100%;
+}
+
+.auth-portal-label {
+  font-size: 0.74rem;
+  color: var(--text-muted, #94A3B8);
+  text-align: center;
+  margin-bottom: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.auth-portal-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+.auth-portal-btn {
   display: flex;
   align-items: center;
-  gap: 6px;
-  color: var(--text-muted);
-  font-size: 0.85rem;
-  margin-bottom: 24px;
-  background: none;
-  border: none;
+  justify-content: center;
+  gap: 8px;
+  padding: 9px 12px;
+  border-radius: 10px;
+  font-size: 0.82rem;
+  font-weight: 700;
   cursor: pointer;
-  transition: var(--transition);
+  border: 1px solid var(--border, #E2E8F0);
+  background: var(--surface-2, #F8FAFC);
+  color: var(--text-primary, #0F172A);
+  transition: all 0.2s ease;
 }
-.auth-back:hover { color: var(--primary); }
+.auth-portal-btn:hover {
+  border-color: var(--primary, #4F46E5);
+  color: var(--primary, #4F46E5);
+  transform: translateY(-1px);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+}
 
-/* Portal selector on landing */
+.auth-portal-btn.customer {
+  background: rgba(79, 70, 229, 0.08);
+  color: #3730A3;
+  border-color: rgba(79, 70, 229, 0.2);
+}
+.auth-portal-btn.vendor {
+  background: rgba(245, 158, 11, 0.1);
+  color: #92400E;
+  border-color: rgba(245, 158, 11, 0.25);
+}
+.auth-portal-btn.admin {
+  background: rgba(220, 38, 38, 0.08);
+  color: #991B1B;
+  border-color: rgba(220, 38, 38, 0.2);
+}
+
+/* ── Landing Page Portal Cards ─────────────────── */
 .landing-portal-cards {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -176,11 +374,11 @@
 
 .portal-card {
   background: white;
-  border-radius: var(--radius-xl);
+  border-radius: var(--radius-xl, 16px);
   padding: 36px 28px;
   text-align: center;
-  border: 2px solid var(--border);
-  transition: var(--transition);
+  border: 2px solid var(--border, #E2E8F0);
+  transition: var(--transition, all 0.2s ease);
   cursor: pointer;
   position: relative;
   overflow: hidden;
@@ -191,35 +389,35 @@
   position: absolute;
   top: 0; left: 0; right: 0;
   height: 4px;
-  background: var(--primary);
+  background: var(--primary, #4F46E5);
   transform: scaleX(0);
-  transition: var(--transition);
+  transition: var(--transition, all 0.2s ease);
 }
 
 .portal-card:hover {
-  border-color: var(--primary);
+  border-color: var(--primary, #4F46E5);
   transform: translateY(-6px);
-  box-shadow: var(--shadow-lg);
+  box-shadow: 0 12px 30px rgba(0,0,0,0.12);
 }
 
 .portal-card:hover::before { transform: scaleX(1); }
 
 .portal-card-icon {
   width: 72px; height: 72px;
-  border-radius: var(--radius-lg);
+  border-radius: var(--radius-lg, 14px);
   display: flex; align-items: center; justify-content: center;
   margin: 0 auto 20px;
   font-size: 2rem;
 }
 
-.portal-card h3 { margin-bottom: 8px; }
-.portal-card p { font-size: 0.875rem; color: var(--text-muted); margin-bottom: 20px; }
+.portal-card h3 { margin-bottom: 8px; color: #0F172A; font-weight: 800; font-size: 1.25rem; }
+.portal-card p { font-size: 0.875rem; color: #64748B; margin-bottom: 20px; line-height: 1.5; }
 
 .portal-customer .portal-card-icon { background: #EEF2FF; }
 .portal-vendor .portal-card-icon   { background: #FEF3C7; }
 .portal-admin .portal-card-icon    { background: #FEE2E2; }
 
-/* Landing hero */
+/* ── Landing Hero ──────────────────────────────── */
 .landing-hero {
   min-height: 100vh;
   background: linear-gradient(135deg, #0F172A 0%, #1E1B4B 50%, #312E81 100%);
@@ -238,6 +436,7 @@
   width: 600px; height: 600px;
   border-radius: 50%;
   background: radial-gradient(circle, rgba(79,70,229,0.3) 0%, transparent 70%);
+  pointer-events: none;
 }
 
 .landing-hero::after {
@@ -247,10 +446,11 @@
   width: 500px; height: 500px;
   border-radius: 50%;
   background: radial-gradient(circle, rgba(245,158,11,0.15) 0%, transparent 70%);
+  pointer-events: none;
 }
 
 .landing-content {
-  max-width: 900px;
+  max-width: 960px;
   text-align: center;
   position: relative;
   z-index: 1;
@@ -264,7 +464,7 @@
   border: 1px solid rgba(255,255,255,0.2);
   color: white;
   padding: 6px 16px;
-  border-radius: var(--radius-full);
+  border-radius: 9999px;
   font-size: 0.85rem;
   font-weight: 600;
   margin-bottom: 24px;
@@ -272,12 +472,12 @@
 }
 
 .landing-title {
-  font-size: clamp(2.5rem, 6vw, 4.5rem);
+  font-size: clamp(2.4rem, 5.5vw, 4.2rem);
   font-weight: 900;
   color: white;
-  line-height: 1.1;
+  line-height: 1.12;
   margin-bottom: 20px;
-  letter-spacing: -0.02em;
+  letter-spacing: -0.025em;
 }
 
 .landing-title .highlight {
@@ -287,16 +487,23 @@
 }
 
 .landing-desc {
-  color: rgba(255,255,255,0.7);
-  font-size: clamp(1rem, 2vw, 1.2rem);
-  max-width: 580px;
+  color: rgba(255,255,255,0.78);
+  font-size: clamp(1rem, 2vw, 1.15rem);
+  max-width: 600px;
   margin: 0 auto 48px;
   line-height: 1.7;
 }
 
-@media (max-width: 768px) {
+/* ── Responsive Breakpoints ────────────────────── */
+@media (max-width: 960px) {
   .auth-page { grid-template-columns: 1fr; }
   .auth-panel-left { display: none; }
-  .auth-panel-right { padding: 40px 24px; }
+  .auth-panel-right { padding: 40px 20px; }
   .landing-portal-cards { grid-template-columns: 1fr; gap: 16px; }
+}
+
+@media (max-width: 480px) {
+  .auth-portal-grid { grid-template-columns: 1fr; }
+  .auth-form-title { font-size: 1.45rem; }
+  .auth-panel-right { padding: 28px 16px; }
 }

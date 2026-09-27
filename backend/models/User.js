@@ -32,6 +32,7 @@ const userSchema = new mongoose.Schema(
 
     // Vendor Specific Storefront Fields
     businessName: { type: String },
+    category: { type: String, default: '' },
     storeSlug: { type: String, sparse: true, index: true },
     tagline: { type: String, default: '' },
     ownerName: { type: String, default: '' },

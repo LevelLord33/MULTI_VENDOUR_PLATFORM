@@ -66,21 +66,21 @@ export default function AdminLogin() {
             <ArrowLeft size={16} /> Back to Home
           </button>
 
-          <div style={{ width: 60, height: 60, background: '#F3E8FF', borderRadius: 16, display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: 20 }}>
+          <div style={{ width: 56, height: 56, background: 'rgba(147, 51, 234, 0.1)', borderRadius: 16, display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: 18, border: '1px solid rgba(147, 51, 234, 0.2)' }}>
             <Shield size={28} color="#9333EA" />
           </div>
 
           <h1 className="auth-form-title">Admin Login</h1>
-          <p className="auth-form-sub">Restricted access — authorised personnel only</p>
+          <p className="auth-form-sub">Restricted platform control portal — authorized personnel only</p>
 
-          <div style={{ background: '#F5F3FF', border: '1px solid #DDD6FE', borderRadius: 10, padding: '10px 14px', marginBottom: 20, fontSize: '0.8rem', color: '#6D28D9' }}>
-            <strong>Demo Credentials:</strong><br />
-            Email: admin@vendour.com<br />
-            Password: Admin@1234
+          <div style={{ background: 'var(--surface-2, #F8FAFC)', border: '1px solid var(--border, #E2E8F0)', borderRadius: 12, padding: '12px 16px', marginBottom: 20, fontSize: '0.82rem', color: 'var(--text-secondary)' }}>
+            <div style={{ fontWeight: 700, color: '#9333EA', marginBottom: 4 }}>Demo Admin Access:</div>
+            <div><strong>Email:</strong> admin@vendour.com</div>
+            <div><strong>Password:</strong> Admin@1234</div>
           </div>
 
           {error && (
-            <div style={{ background: '#FEF2F2', border: '1px solid #FECACA', borderRadius: 8, padding: '10px 14px', marginBottom: 16, color: '#DC2626', fontSize: '0.875rem' }}>
+            <div style={{ background: '#FEF2F2', border: '1px solid #FECACA', borderRadius: 10, padding: '10px 14px', marginBottom: 16, color: '#DC2626', fontSize: '0.86rem' }}>
               {error}
             </div>
           )}
@@ -100,48 +100,53 @@ export default function AdminLogin() {
 
             <div className="form-group">
               <label className="form-label">Password</label>
-              <div style={{ position: 'relative' }}>
+              <div className="auth-password-wrapper">
                 <input
                   className="form-input"
                   type={showPass ? 'text' : 'password'}
                   placeholder="••••••••"
                   value={form.password}
                   onChange={(e) => setForm({ ...form, password: e.target.value })}
-                  style={{ paddingRight: 44 }}
                   required
                 />
-                <button type="button" onClick={() => setShowPass(!showPass)}
-                  style={{ position: 'absolute', right: 12, top: '50%', transform: 'translateY(-50%)', background: 'none', border: 'none', cursor: 'pointer', color: 'var(--text-muted)' }}>
+                <button
+                  type="button"
+                  className="auth-password-toggle"
+                  onClick={() => setShowPass(!showPass)}
+                  aria-label={showPass ? 'Hide password' : 'Show password'}
+                >
                   {showPass ? <EyeOff size={18} /> : <Eye size={18} />}
                 </button>
               </div>
             </div>
 
-            <button type="submit" className="btn btn-full btn-lg" disabled={loading}
-              style={{ background: '#9333EA', color: 'white', border: 'none', borderRadius: 12, padding: '14px', fontWeight: 700, cursor: 'pointer', fontSize: '1rem', marginTop: 8 }}>
+            <button
+              type="submit"
+              className="btn btn-full btn-lg"
+              disabled={loading}
+              style={{ background: '#9333EA', color: 'white', border: 'none', borderRadius: 12, padding: '13px', fontWeight: 700, cursor: 'pointer', fontSize: '0.96rem', marginTop: 8 }}
+            >
               {loading ? 'Authenticating...' : 'Access Admin Panel'}
             </button>
           </form>
 
           {/* Portal Switcher */}
-          <div style={{ marginTop: 28, paddingTop: 20, borderTop: '1px solid var(--border)' }}>
-            <p style={{ fontSize: '0.78rem', color: 'var(--text-muted)', textAlign: 'center', marginBottom: 12, fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.05em' }}>Other Portals</p>
-            <div style={{ display: 'flex', gap: 8 }}>
+          <div className="auth-portal-strip">
+            <p className="auth-portal-label">Other Portals</p>
+            <div className="auth-portal-grid">
               <button
+                type="button"
                 onClick={() => navigate('/login')}
-                style={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 6, padding: '9px 12px', background: '#EEF2FF', color: '#3730A3', border: '1px solid #C7D2FE', borderRadius: 10, fontSize: '0.8rem', fontWeight: 700, cursor: 'pointer' }}
-                onMouseOver={e => e.currentTarget.style.background='#C7D2FE'}
-                onMouseOut={e => e.currentTarget.style.background='#EEF2FF'}
+                className="auth-portal-btn customer"
               >
-                <ShoppingBag size={14} /> Customer Login
+                <ShoppingBag size={15} /> Customer Login
               </button>
               <button
+                type="button"
                 onClick={() => navigate('/vendor/login')}
-                style={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 6, padding: '9px 12px', background: '#FEF3C7', color: '#92400E', border: '1px solid #FDE68A', borderRadius: 10, fontSize: '0.8rem', fontWeight: 700, cursor: 'pointer' }}
-                onMouseOver={e => e.currentTarget.style.background='#FDE68A'}
-                onMouseOut={e => e.currentTarget.style.background='#FEF3C7'}
+                className="auth-portal-btn vendor"
               >
-                <Store size={14} /> Vendor Login
+                <Store size={15} /> Vendor Login
               </button>
             </div>
           </div>

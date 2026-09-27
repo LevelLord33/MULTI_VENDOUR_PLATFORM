@@ -132,50 +132,18 @@ export default function VendorAuth({ initialMode }) {
           </button>
 
           {/* Mode Switcher Tabs */}
-          <div style={{ display: 'flex', background: '#F1F5F9', borderRadius: 10, padding: 4, marginBottom: 20 }}>
+          <div className="auth-mode-tabs">
             <button
               type="button"
+              className={`auth-mode-tab ${mode === 'login' ? 'active' : ''}`}
               onClick={() => { setMode('login'); setErrors({}); }}
-              style={{
-                flex: 1,
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                gap: 6,
-                padding: '9px 16px',
-                borderRadius: 8,
-                border: 'none',
-                background: mode === 'login' ? 'white' : 'transparent',
-                color: mode === 'login' ? '#7C3AED' : 'var(--text-muted)',
-                fontWeight: mode === 'login' ? 700 : 500,
-                fontSize: '0.88rem',
-                cursor: 'pointer',
-                boxShadow: mode === 'login' ? '0 1px 3px rgba(0,0,0,0.08)' : 'none',
-                transition: 'all 0.2s'
-              }}
             >
               <LogIn size={15} /> Vendor Sign In
             </button>
             <button
               type="button"
+              className={`auth-mode-tab ${mode === 'register' ? 'active' : ''}`}
               onClick={() => { setMode('register'); setErrors({}); }}
-              style={{
-                flex: 1,
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                gap: 6,
-                padding: '9px 16px',
-                borderRadius: 8,
-                border: 'none',
-                background: mode === 'register' ? 'white' : 'transparent',
-                color: mode === 'register' ? '#7C3AED' : 'var(--text-muted)',
-                fontWeight: mode === 'register' ? 700 : 500,
-                fontSize: '0.88rem',
-                cursor: 'pointer',
-                boxShadow: mode === 'register' ? '0 1px 3px rgba(0,0,0,0.08)' : 'none',
-                transition: 'all 0.2s'
-              }}
             >
               <UserPlus size={15} /> Register Store
             </button>
@@ -185,22 +153,23 @@ export default function VendorAuth({ initialMode }) {
             {mode === 'login' ? 'Vendor Login' : 'Register Your Store'}
           </h1>
           <p className="auth-form-sub">
-            {mode === 'login' ? 'Access your merchant dashboard & orders' : 'Start selling verified products on VendorHub today'}
+            {mode === 'login' ? 'Access your merchant dashboard & live inventory' : 'Start selling verified products on VendorHub today'}
           </p>
 
           {mode === 'login' ? (
             <button
               type="button"
+              className="auth-demo-btn vendor"
               onClick={fillDemo}
-              style={{ marginBottom: 16, background: '#F5F3FF', color: '#7C3AED', border: '1px solid #DDD6FE', borderRadius: 8, padding: '9px 14px', fontSize: '0.82rem', fontWeight: 600, cursor: 'pointer', width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 6 }}
             >
               🧪 Quick Sign In with Demo Vendor Account
             </button>
           ) : (
             <button
               type="button"
+              className="auth-demo-btn"
+              style={{ borderColor: 'var(--success, #16A34A)', color: 'var(--success, #16A34A)', background: 'rgba(22, 163, 74, 0.08)' }}
               onClick={fillDemoRegister}
-              style={{ marginBottom: 16, background: '#F0FDF4', color: '#16A34A', border: '1px solid #BBF7D0', borderRadius: 8, padding: '9px 14px', fontSize: '0.82rem', fontWeight: 600, cursor: 'pointer', width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 6 }}
             >
               🧪 Auto-fill Sample Store Registration
             </button>
@@ -212,18 +181,18 @@ export default function VendorAuth({ initialMode }) {
                 <div className="form-grid">
                   <div className="form-group">
                     <label className="form-label">Business Name</label>
-                    <input className={`form-input ${errors.businessName?'error':''}`} name="businessName" placeholder="TechZone Electronics" value={form.businessName} onChange={handleChange} />
+                    <input className={`form-input ${errors.businessName ? 'error' : ''}`} name="businessName" placeholder="TechZone Electronics" value={form.businessName} onChange={handleChange} />
                     {errors.businessName && <span className="form-error">{errors.businessName}</span>}
                   </div>
                   <div className="form-group">
                     <label className="form-label">Owner Name</label>
-                    <input className={`form-input ${errors.ownerName?'error':''}`} name="ownerName" placeholder="Rajesh Kumar" value={form.ownerName} onChange={handleChange} />
+                    <input className={`form-input ${errors.ownerName ? 'error' : ''}`} name="ownerName" placeholder="Rajesh Kumar" value={form.ownerName} onChange={handleChange} />
                     {errors.ownerName && <span className="form-error">{errors.ownerName}</span>}
                   </div>
                 </div>
                 <div className="form-group">
                   <label className="form-label">Mobile Number</label>
-                  <input className={`form-input ${errors.mobile?'error':''}`} name="mobile" placeholder="9876543210" value={form.mobile} onChange={handleChange} />
+                  <input className={`form-input ${errors.mobile ? 'error' : ''}`} name="mobile" placeholder="9876543210" value={form.mobile} onChange={handleChange} />
                   {errors.mobile && <span className="form-error">{errors.mobile}</span>}
                 </div>
               </>
@@ -231,24 +200,27 @@ export default function VendorAuth({ initialMode }) {
 
             <div className="form-group">
               <label className="form-label">Email Address</label>
-              <input className={`form-input ${errors.email?'error':''}`} type="email" name="email" placeholder="you@business.com" value={form.email} onChange={handleChange} />
+              <input className={`form-input ${errors.email ? 'error' : ''}`} type="email" name="email" placeholder="you@business.com" value={form.email} onChange={handleChange} />
               {errors.email && <span className="form-error">{errors.email}</span>}
             </div>
 
             <div className="form-group">
               <label className="form-label">Password</label>
-              <div style={{ position: 'relative' }}>
+              <div className="auth-password-wrapper">
                 <input
-                  className={`form-input ${errors.password?'error':''}`}
+                  className={`form-input ${errors.password ? 'error' : ''}`}
                   type={showPass ? 'text' : 'password'}
                   name="password"
                   placeholder="••••••••"
                   value={form.password}
                   onChange={handleChange}
-                  style={{ paddingRight: 44 }}
                 />
-                <button type="button" onClick={() => setShowPass(!showPass)}
-                  style={{ position: 'absolute', right: 12, top: '50%', transform: 'translateY(-50%)', background: 'none', border: 'none', cursor: 'pointer', color: 'var(--text-muted)' }}>
+                <button
+                  type="button"
+                  className="auth-password-toggle"
+                  onClick={() => setShowPass(!showPass)}
+                  aria-label={showPass ? 'Hide password' : 'Show password'}
+                >
                   {showPass ? <EyeOff size={18} /> : <Eye size={18} />}
                 </button>
               </div>
@@ -259,19 +231,23 @@ export default function VendorAuth({ initialMode }) {
               <>
                 <div className="form-group">
                   <label className="form-label">Business Address</label>
-                  <input className={`form-input ${errors.businessAddress?'error':''}`} name="businessAddress" placeholder="Street, Area" value={form.businessAddress} onChange={handleChange} />
+                  <input className={`form-input ${errors.businessAddress ? 'error' : ''}`} name="businessAddress" placeholder="Street, Area" value={form.businessAddress} onChange={handleChange} />
                   {errors.businessAddress && <span className="form-error">{errors.businessAddress}</span>}
                 </div>
                 <div className="form-group">
                   <label className="form-label">City / Location</label>
-                  <input className={`form-input ${errors.location?'error':''}`} name="location" placeholder="New Delhi, Delhi" value={form.location} onChange={handleChange} />
+                  <input className={`form-input ${errors.location ? 'error' : ''}`} name="location" placeholder="New Delhi, Delhi" value={form.location} onChange={handleChange} />
                   {errors.location && <span className="form-error">{errors.location}</span>}
                 </div>
               </>
             )}
 
-            <button type="submit" className="btn btn-full btn-lg" disabled={loading}
-              style={{ background: '#7C3AED', color: 'white', border: 'none', borderRadius: 12, padding: '14px', fontWeight: 700, cursor: 'pointer', fontSize: '1rem' }}>
+            <button
+              type="submit"
+              className="btn btn-full btn-lg"
+              disabled={loading}
+              style={{ background: '#7C3AED', color: 'white', border: 'none', borderRadius: 12, padding: '13px', fontWeight: 700, cursor: 'pointer', fontSize: '0.96rem', marginTop: 6 }}
+            >
               {loading ? 'Please wait...' : mode === 'login' ? 'Sign In to Dashboard' : 'Create Vendor Account'}
             </button>
           </form>
@@ -285,24 +261,22 @@ export default function VendorAuth({ initialMode }) {
           </div>
 
           {/* Portal Switcher */}
-          <div style={{ marginTop: 28, paddingTop: 20, borderTop: '1px solid var(--border)' }}>
-            <p style={{ fontSize: '0.78rem', color: 'var(--text-muted)', textAlign: 'center', marginBottom: 12, fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.05em' }}>Other Portals</p>
-            <div style={{ display: 'flex', gap: 8 }}>
+          <div className="auth-portal-strip">
+            <p className="auth-portal-label">Other Portals</p>
+            <div className="auth-portal-grid">
               <button
+                type="button"
                 onClick={() => navigate('/login')}
-                style={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 6, padding: '9px 12px', background: '#EEF2FF', color: '#3730A3', border: '1px solid #C7D2FE', borderRadius: 10, fontSize: '0.8rem', fontWeight: 700, cursor: 'pointer', transition: 'var(--transition)' }}
-                onMouseOver={e => e.currentTarget.style.background='#C7D2FE'}
-                onMouseOut={e => e.currentTarget.style.background='#EEF2FF'}
+                className="auth-portal-btn customer"
               >
-                <ShoppingBag size={14} /> Customer Login
+                <ShoppingBag size={15} /> Customer Login
               </button>
               <button
+                type="button"
                 onClick={() => navigate('/admin/login')}
-                style={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 6, padding: '9px 12px', background: '#FEE2E2', color: '#991B1B', border: '1px solid #FECACA', borderRadius: 10, fontSize: '0.8rem', fontWeight: 700, cursor: 'pointer', transition: 'var(--transition)' }}
-                onMouseOver={e => e.currentTarget.style.background='#FECACA'}
-                onMouseOut={e => e.currentTarget.style.background='#FEE2E2'}
+                className="auth-portal-btn admin"
               >
-                <Shield size={14} /> Admin Login
+                <Shield size={15} /> Admin Login
               </button>
             </div>
           </div>
