@@ -16,6 +16,7 @@ import {
   Tag, Ticket, MessageSquare, Flame, ArrowRight
 } from 'lucide-react';
 import { seedVendors } from '../../data/seedData';
+import { useRecentlyAccessed } from '../../contexts/RecentlyAccessedContext';
 import '../../styles/marketplace.css';
 
 export default function VendorProfile() {
@@ -29,6 +30,7 @@ export default function VendorProfile() {
   const { addToCart } = useCart();
   const { getPromotionsByVendor, getFeaturedProducts } = useMarketing();
   const { addToast } = useToast();
+  const { recordStoreView } = useRecentlyAccessed();
 
   const vendor = getVendorByIdOrSlug(lookupKey);
 
@@ -53,6 +55,7 @@ export default function VendorProfile() {
       const pageTitle = `${vendor.businessName} — Official Verified Storefront | Vendor Hub`;
       document.title = pageTitle;
       api.recordStoreVisit(vendor.id);
+      recordStoreView(vendor);
 
       // Dynamic SEO Meta Description
       let metaDesc = document.querySelector('meta[name="description"]');

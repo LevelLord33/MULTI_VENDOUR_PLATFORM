@@ -5,6 +5,7 @@ import { useCart } from '../../contexts/CartContext';
 import { useAuth } from '../../contexts/AuthContext';
 import { useToast } from '../../contexts/ToastContext';
 import { useComparison } from '../../contexts/ComparisonContext';
+import { useRecentlyAccessed } from '../../contexts/RecentlyAccessedContext';
 import Navbar from '../common/Navbar';
 import ContactVendorModal from './ContactVendorModal';
 import ShareModal from '../common/ShareModal';
@@ -26,6 +27,7 @@ export default function ProductDetail() {
   const { getVendorById, user } = useAuth();
   const { addToast } = useToast();
   const { toggleCompare, isInCompare } = useComparison();
+  const { recordProductView, recentProducts } = useRecentlyAccessed();
 
   const product = getProductById(id);
 
@@ -97,8 +99,10 @@ export default function ProductDetail() {
   useEffect(() => {
     if (product) {
       document.title = `${product.name} | Vendor Hub`;
+      const v = getVendorById(product.vendorId);
+      recordProductView(product, v);
     }
-  }, [product]);
+  }, [product, getVendorById, recordProductView]);
 
   // 5. Memos
   const vendor = useMemo(() => {

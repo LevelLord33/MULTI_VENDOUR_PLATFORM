@@ -1,6 +1,6 @@
 // ─────────────────────────────────────────────
 //  Vendor Hub · Multi-Vendor Physical Marketplace Seed Data
-//  10 Verified Merchants · 150 Catalog SKUs (15 per vendor)
+//  20 Verified Merchants · 250 Catalog SKUs
 // ─────────────────────────────────────────────
 
 export const ADMIN_CREDENTIALS = {
@@ -9,7 +9,18 @@ export const ADMIN_CREDENTIALS = {
   "name": "Platform Admin"
 };
 
-// ── 10 Physical Merchants ────────────────────────
+export const CATEGORIES = [
+  "All",
+  "Electronics",
+  "Fashion",
+  "Grocery",
+  "Home & Living",
+  "Sports",
+  "Beauty",
+  "Automotive"
+];
+
+// ── 20 Physical Merchants ────────────────────────
 export const seedVendors = [
   {
     "id": "v1",
@@ -30,7 +41,7 @@ export const seedVendors = [
     "storeStatus": "published",
     "isVerified": true,
     "gstin": "07AABCT1234F1Z8",
-    "announcement": "\u26a1 Same-Day Courier Dispatch across India & 1-Year Direct Brand Warranty!",
+    "announcement": "⚡ Same-Day Courier Dispatch across India & 1-Year Direct Brand Warranty!",
     "featuredProductIds": [
       "p1",
       "p2",
@@ -68,7 +79,7 @@ export const seedVendors = [
     "storeStatus": "published",
     "isVerified": true,
     "gstin": "27AABCS5678G2Z1",
-    "announcement": "\u2728 Festive Collection Live: Complimentary Garment Care Kit on orders above \u20b92,499!",
+    "announcement": "✨ Festive Collection Live: Complimentary Garment Care Kit on orders above ₹2,499!",
     "featuredProductIds": [
       "p16",
       "p17",
@@ -106,7 +117,7 @@ export const seedVendors = [
     "storeStatus": "published",
     "isVerified": true,
     "gstin": "29AABCF9012H3Z4",
-    "announcement": "\ud83c\udf3f 100% Certified Organic Warehouse Stock with Nitrogen-Flushed Tamper-Proof Packaging.",
+    "announcement": "🌿 100% Certified Organic Warehouse Stock with Nitrogen-Flushed Tamper-Proof Packaging.",
     "featuredProductIds": [
       "p31",
       "p32",
@@ -144,7 +155,7 @@ export const seedVendors = [
     "storeStatus": "published",
     "isVerified": true,
     "gstin": "19AABCH3456J4Z7",
-    "announcement": "\ud83c\udfe0 Free Silicone Hot Handle Grips included with every Cast Iron Cookware order!",
+    "announcement": "🏠 Free Silicone Hot Handle Grips included with every Cast Iron Cookware order!",
     "featuredProductIds": [
       "p46",
       "p47",
@@ -182,7 +193,7 @@ export const seedVendors = [
     "storeStatus": "published",
     "isVerified": true,
     "gstin": "36AABCA7890K1Z2",
-    "announcement": "\ud83d\udd25 New Merchant Special: Priority Express Courier Dispatch across India within 18 hours!",
+    "announcement": "🔥 New Merchant Special: Priority Express Courier Dispatch across India within 18 hours!",
     "featuredProductIds": [
       "p61",
       "p62",
@@ -220,7 +231,7 @@ export const seedVendors = [
     "storeStatus": "published",
     "isVerified": true,
     "gstin": "33AABCG1234L2Z3",
-    "announcement": "\ud83c\udf38 100% Cruelty-Free, Zero Parabens, Handcrafted in small fresh apothecary batches.",
+    "announcement": "🌸 100% Cruelty-Free, Zero Parabens, Handcrafted in small fresh apothecary batches.",
     "featuredProductIds": [
       "p76",
       "p77",
@@ -257,7 +268,7 @@ export const seedVendors = [
     "storeStatus": "published",
     "isVerified": true,
     "gstin": "08AABCC5678M3Z4",
-    "announcement": "\ud83c\udffa Direct-from-Artisan: Custom double-layered bubble packaging ensures 0 transit breakage.",
+    "announcement": "🏺 Direct-from-Artisan: Custom double-layered bubble packaging ensures 0 transit breakage.",
     "featuredProductIds": [
       "p91",
       "p92",
@@ -295,7 +306,7 @@ export const seedVendors = [
     "storeStatus": "published",
     "isVerified": true,
     "gstin": "27AABCU9012N4Z5",
-    "announcement": "\ud83d\udda5\ufe0f Transform your WFH desk setup: Complimentary cable management straps with every stand!",
+    "announcement": "🖥️ Transform your WFH desk setup: Complimentary cable management straps with every stand!",
     "featuredProductIds": [
       "p106",
       "p107",
@@ -332,7 +343,7 @@ export const seedVendors = [
     "storeStatus": "published",
     "isVerified": true,
     "gstin": "32AABCG3456P5Z6",
-    "announcement": "\ud83c\udf31 Live Plant Guarantee: Guaranteed healthy arrival or instant free doorstep replacement.",
+    "announcement": "🌱 Live Plant Guarantee: Guaranteed healthy arrival or instant free doorstep replacement.",
     "featuredProductIds": [
       "p121",
       "p122",
@@ -369,7 +380,7 @@ export const seedVendors = [
     "storeStatus": "published",
     "isVerified": true,
     "gstin": "03AABCS7890Q6Z7",
-    "announcement": "\ud83c\udf99\ufe0f Authorised Indian Distributor for Professional Recording Gear & Microphones.",
+    "announcement": "🎙️ Authorised Indian Distributor for Professional Recording Gear & Microphones.",
     "featuredProductIds": [
       "p136",
       "p137",
@@ -387,10 +398,386 @@ export const seedVendors = [
     "returnPolicy": "7 Days Physical Replacement for Technical Defects",
     "warrantyPolicy": "2-Year Direct Importer Warranty & Official Tax Invoice",
     "description": "SoundMaster Pro Audio supplies verified studio condenser microphones, reference monitors, and acoustic solutions for podcasters, musicians, and creators."
+  },
+  {
+    "id": "v11",
+    "businessName": "ChaiCulture & Spices Heritage",
+    "storeSlug": "chaiculture",
+    "tagline": "Single-Estate Darjeeling Teas, Assam Orthodox Blends & Malabar GI-Tagged Spices",
+    "ownerName": "Vikramaditya Roy",
+    "email": "vikram@chaiculture.in",
+    "password": "Vendor@123",
+    "mobile": "9830198765",
+    "businessAddress": "28, Park Street, Camac Street Crossing",
+    "location": "Kolkata, West Bengal",
+    "joinedDate": "2024-03-12",
+    "avatar": "https://images.unsplash.com/photo-1544717305-2782549b5136?w=120&h=120&fit=crop",
+    "banner": "https://images.unsplash.com/photo-1544787219-7f47ccb76574?w=1200&h=300&fit=crop",
+    "themeColor": "#D97706",
+    "themePreset": "amber",
+    "storeStatus": "published",
+    "isVerified": true,
+    "gstin": "19AABCU4512D1ZX",
+    "announcement": "☕ Direct Garden Dispatches from Darjeeling & Assam with Nitrogen Flush Sealed Packaging.",
+    "featuredProductIds": [
+      "p151",
+      "p152",
+      "p153",
+      "p154"
+    ],
+    "storeRating": 4.9,
+    "totalOrdersFulfilled": 1420,
+    "onTimeDispatchRate": "99.1%",
+    "shippingPartners": [
+      "BlueDart Express",
+      "Delhivery Surface",
+      "DTDC Air"
+    ],
+    "returnPolicy": "7 Days Freshness Guarantee - Full Replacement for Damaged Aroma Seals",
+    "warrantyPolicy": "100% Certified Organic & FSSAI Lab Tested Batch Reports",
+    "description": "ChaiCulture sources directly from heritage tea estates in Darjeeling, the Brahmaputra Valley, and Malabar spice gardens for unparalleled aroma and authenticity."
+  },
+  {
+    "id": "v12",
+    "businessName": "Lumina Home & Smart Lighting",
+    "storeSlug": "lumina",
+    "tagline": "Architectural Magnetic Tracks, Smart Ambient Fixtures & Nordic Minimalist Chandeliers",
+    "ownerName": "Sneha Singhania",
+    "email": "sneha@lumina.in",
+    "password": "Vendor@123",
+    "mobile": "9820543210",
+    "businessAddress": "Plot 42, Road No. 36, Jubilee Hills",
+    "location": "Hyderabad, Telangana",
+    "joinedDate": "2024-02-18",
+    "avatar": "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=120&h=120&fit=crop",
+    "banner": "https://images.unsplash.com/photo-1513506003901-1e6a229e2d15?w=1200&h=300&fit=crop",
+    "themeColor": "#F59E0B",
+    "themePreset": "amber",
+    "storeStatus": "published",
+    "isVerified": true,
+    "gstin": "36AABCL8890K1ZW",
+    "announcement": "💡 Free Remote Lighting Design Consultations with Certified Illuminating Engineers.",
+    "featuredProductIds": [
+      "p161",
+      "p162",
+      "p163",
+      "p164"
+    ],
+    "storeRating": 4.8,
+    "totalOrdersFulfilled": 890,
+    "onTimeDispatchRate": "98.4%",
+    "shippingPartners": [
+      "BlueDart Express",
+      "Delhivery Surface"
+    ],
+    "returnPolicy": "10 Days Hassle-Free Replacement for Driver or Optical Module Defects",
+    "warrantyPolicy": "2 to 5 Years Comprehensive On-Site Warranty with Official Tax Invoice",
+    "description": "Lumina Studio curates architectural-grade smart illumination, CRI 95+ light engines, and high-efficiency smart LED fixtures for modern residences."
+  },
+  {
+    "id": "v13",
+    "businessName": "Himalayan Pure Organics",
+    "storeSlug": "himalayanpure",
+    "tagline": "Wild Forest Raw Honeys, Wood-Pressed Oils, A2 Bilona Ghee & High-Altitude Herbs",
+    "ownerName": "Rahul Rawat",
+    "email": "rahul@himalayanpure.in",
+    "password": "Vendor@123",
+    "mobile": "9816045678",
+    "businessAddress": "12/A, Rajpur Road, Near Jakhan",
+    "location": "Dehradun, Uttarakhand",
+    "joinedDate": "2024-01-20",
+    "avatar": "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=120&h=120&fit=crop",
+    "banner": "https://images.unsplash.com/photo-1500382017468-9049fed747ef?w=1200&h=300&fit=crop",
+    "themeColor": "#059669",
+    "themePreset": "emerald",
+    "storeStatus": "published",
+    "isVerified": true,
+    "gstin": "05AABCH9912M1Z5",
+    "announcement": "🌿 Harvested sustainably at 6,500+ ft altitude with zero chemical processing.",
+    "featuredProductIds": [
+      "p171",
+      "p172",
+      "p173",
+      "p174"
+    ],
+    "storeRating": 4.9,
+    "totalOrdersFulfilled": 2150,
+    "onTimeDispatchRate": "99.5%",
+    "shippingPartners": [
+      "Delhivery Surface",
+      "BlueDart Express",
+      "India Post Air"
+    ],
+    "returnPolicy": "7 Days Replacement for Broken Glass Containers or Seal Tampering",
+    "warrantyPolicy": "100% Raw Unpasteurized Guarantee with Nuclear Magnetic Resonance (NMR) Lab Reports",
+    "description": "Himalayan Pure Organics works with Uttarakhand self-help farmer collectives to bring mountain produce directly to discerning households nationwide."
+  },
+  {
+    "id": "v14",
+    "businessName": "Aethelgard Leather Works",
+    "storeSlug": "aethelgard",
+    "tagline": "Full-Grain Vegetable Tanned Bags, Laptop Messengers & Handcrafted Everyday Carry",
+    "ownerName": "Kabir Kapoor",
+    "email": "kabir@aethelgard.in",
+    "password": "Vendor@123",
+    "mobile": "9821167890",
+    "businessAddress": "78, Civil Lines, Near Parade Square",
+    "location": "Kanpur, Uttar Pradesh",
+    "joinedDate": "2024-04-05",
+    "avatar": "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=120&h=120&fit=crop",
+    "banner": "https://images.unsplash.com/photo-1548036328-c9fa89d128fa?w=1200&h=300&fit=crop",
+    "themeColor": "#78350F",
+    "themePreset": "slate",
+    "storeStatus": "published",
+    "isVerified": true,
+    "gstin": "09AABCA7766L1ZQ",
+    "announcement": "🎒 Lifetime Stitching & Hardware Guarantee on All Full-Grain Buffalo Leather Bags.",
+    "featuredProductIds": [
+      "p181",
+      "p182",
+      "p183",
+      "p184"
+    ],
+    "storeRating": 4.8,
+    "totalOrdersFulfilled": 980,
+    "onTimeDispatchRate": "98.7%",
+    "shippingPartners": [
+      "BlueDart Express",
+      "Delhivery Surface"
+    ],
+    "returnPolicy": "15 Days Physical Return or Size Exchange with Complimentary Reverse Pickup",
+    "warrantyPolicy": "Lifetime Stitching & Solid Brass Hardware Warranty",
+    "description": "Master leathercrafters in Kanpur building heirloom-grade leather gear that ages gracefully with a rich patina over decades of daily adventures."
+  },
+  {
+    "id": "v15",
+    "businessName": "Apex Pro Fitness & Strength Lab",
+    "storeSlug": "apexfitness",
+    "tagline": "Commercial Olympic Barbells, Heavy-Duty Racks & High-Density Bumper Plates",
+    "ownerName": "Harpreet Brar",
+    "email": "harpreet@apexfitness.in",
+    "password": "Vendor@123",
+    "mobile": "9872054321",
+    "businessAddress": "B-XXII, Ferozepur Road, Gurdev Nagar",
+    "location": "Ludhiana, Punjab",
+    "joinedDate": "2024-02-10",
+    "avatar": "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=120&h=120&fit=crop",
+    "banner": "https://images.unsplash.com/photo-1517838277536-f5f99be501cd?w=1200&h=300&fit=crop",
+    "themeColor": "#DC2626",
+    "themePreset": "rose",
+    "storeStatus": "published",
+    "isVerified": true,
+    "gstin": "03AABCA2233P1ZR",
+    "announcement": "🏋️ Heavy-duty pallet freight dispatch across India with drop-test safety certifications.",
+    "featuredProductIds": [
+      "p191",
+      "p192",
+      "p193",
+      "p194"
+    ],
+    "storeRating": 4.9,
+    "totalOrdersFulfilled": 1120,
+    "onTimeDispatchRate": "98.9%",
+    "shippingPartners": [
+      "Delhivery Heavy Freight",
+      "Gati KWE",
+      "BlueDart Express"
+    ],
+    "returnPolicy": "10 Days Component Replacement for Manufacturing Flaws or Knurling Imperfections",
+    "warrantyPolicy": "5-Year Barbell Shaft Warranty & 2-Year Frame Structural Warranty",
+    "description": "Apex Pro manufactures professional strength training gear engineered to IPF and IWF tolerances for commercial fitness centers and home gyms."
+  },
+  {
+    "id": "v16",
+    "businessName": "Kaveri Handlooms & Silks",
+    "storeSlug": "kaverisilks",
+    "tagline": "GI-Certified Pure Kanchipuram Silks, Tussar Weaves & Handloom Linen Essentials",
+    "ownerName": "Meenakshi Sundaram",
+    "email": "meenakshi@kaverisilks.in",
+    "password": "Vendor@123",
+    "mobile": "9840187654",
+    "businessAddress": "112, Gandhi Road, Temple Town",
+    "location": "Kanchipuram, Tamil Nadu",
+    "joinedDate": "2024-01-08",
+    "avatar": "https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=120&h=120&fit=crop",
+    "banner": "https://images.unsplash.com/photo-1610030469983-98e550d6193c?w=1200&h=300&fit=crop",
+    "themeColor": "#BE185D",
+    "themePreset": "rose",
+    "storeStatus": "published",
+    "isVerified": true,
+    "gstin": "33AABCK6655J1ZX",
+    "announcement": "🥻 Silk Mark India Certified 100% Pure Mulberry Silk & Handwoven Real Silver Zari.",
+    "featuredProductIds": [
+      "p201",
+      "p202",
+      "p203",
+      "p204"
+    ],
+    "storeRating": 4.9,
+    "totalOrdersFulfilled": 1670,
+    "onTimeDispatchRate": "99.4%",
+    "shippingPartners": [
+      "BlueDart Express",
+      "DTDC Air"
+    ],
+    "returnPolicy": "7 Days Return Policy with Silk Mark Tag Untampered",
+    "warrantyPolicy": "Official Silk Mark & Handloom Mark Tag Authenticated",
+    "description": "Kaveri Silks preserves centuries-old weaving traditions from master looms in Kanchipuram and Arani with authenticated Silk Mark verification."
+  },
+  {
+    "id": "v17",
+    "businessName": "AutoCraft Pro Accessories",
+    "storeSlug": "autocraft",
+    "tagline": "4K Dual Dash Cams, High-Flow Inflators, Jump Starters & Ceramic Auto Detailing",
+    "ownerName": "Gaurav Malhotra",
+    "email": "gaurav@autocraft.in",
+    "password": "Vendor@123",
+    "mobile": "9811122334",
+    "businessAddress": "Shop 18, Sector 14 Main Market",
+    "location": "Gurugram, Haryana",
+    "joinedDate": "2024-03-01",
+    "avatar": "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=120&h=120&fit=crop",
+    "banner": "https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?w=1200&h=300&fit=crop",
+    "themeColor": "#0284C7",
+    "themePreset": "indigo",
+    "storeStatus": "published",
+    "isVerified": true,
+    "gstin": "06AABCA3344R1ZS",
+    "announcement": "🚗 Direct Importer of Flagship STARVIS 2 Night Vision Dash Cams & Tyre Systems.",
+    "featuredProductIds": [
+      "p211",
+      "p212",
+      "p213",
+      "p214"
+    ],
+    "storeRating": 4.8,
+    "totalOrdersFulfilled": 1350,
+    "onTimeDispatchRate": "99.0%",
+    "shippingPartners": [
+      "BlueDart Express",
+      "Delhivery Surface",
+      "DTDC Air"
+    ],
+    "returnPolicy": "7 Days Replacement for Electronic or Pressure Calibration Faults",
+    "warrantyPolicy": "1-Year Direct Brand Warranty with Official Indian Tax Invoices",
+    "description": "AutoCraft Pro equips car owners with essential automotive tech, intelligent dashcams, emergency battery packs, and detailing solutions."
+  },
+  {
+    "id": "v18",
+    "businessName": "NourishBotanica Ayurveda",
+    "storeSlug": "nourishbotanica",
+    "tagline": "Clinical Botanical Skincare, Kumkumadi Elixirs & Cold-Pressed Kerala Hair Tonics",
+    "ownerName": "Dr. Ananya Nambiar",
+    "email": "ananya@nourishbotanica.in",
+    "password": "Vendor@123",
+    "mobile": "9845012398",
+    "businessAddress": "Door 45/182, Panampilly Nagar Main Ave",
+    "location": "Kochi, Kerala",
+    "joinedDate": "2024-02-14",
+    "avatar": "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=120&h=120&fit=crop",
+    "banner": "https://images.unsplash.com/photo-1556228720-195a672e8a03?w=1200&h=300&fit=crop",
+    "themeColor": "#16A34A",
+    "themePreset": "emerald",
+    "storeStatus": "published",
+    "isVerified": true,
+    "gstin": "32AABCN5544K1ZV",
+    "announcement": "✨ Formulated with Kerala AYUSH-Licensed Botanical Decoctions & Saffron Extracts.",
+    "featuredProductIds": [
+      "p221",
+      "p222",
+      "p223",
+      "p224"
+    ],
+    "storeRating": 4.9,
+    "totalOrdersFulfilled": 2450,
+    "onTimeDispatchRate": "99.6%",
+    "shippingPartners": [
+      "BlueDart Express",
+      "Delhivery Surface",
+      "DTDC Air"
+    ],
+    "returnPolicy": "7 Days Replacement for Breakage or Seal Damage during transit",
+    "warrantyPolicy": "100% Ayurvedic Pharmacopoeia Standards & Dermatologist Clinically Tested",
+    "description": "Doctor-formulated Ayurvedic skin and scalp remedies crafted with classical decoctions, cold-pressed herbs, and natural essential oils."
+  },
+  {
+    "id": "v19",
+    "businessName": "Crestview Premium Eyewear",
+    "storeSlug": "crestview",
+    "tagline": "Japanese Titanium Spectacles, Polarized TR90 Sunglasses & Blue-Cut Optics",
+    "ownerName": "Amit Trivedi",
+    "email": "amit@crestview.in",
+    "password": "Vendor@123",
+    "mobile": "9825098712",
+    "businessAddress": "G-4, Silver Square, Athwa Lines",
+    "location": "Surat, Gujarat",
+    "joinedDate": "2024-03-20",
+    "avatar": "https://images.unsplash.com/photo-1492562080023-ab3db95bfbce?w=120&h=120&fit=crop",
+    "banner": "https://images.unsplash.com/photo-1511499767150-a48a237f0083?w=1200&h=300&fit=crop",
+    "themeColor": "#2563EB",
+    "themePreset": "indigo",
+    "storeStatus": "published",
+    "isVerified": true,
+    "gstin": "24AABCC1122D1ZT",
+    "announcement": "👓 Complimentary Blue-Cut Screen Coating & Premium Hard Travel Case Included.",
+    "featuredProductIds": [
+      "p231",
+      "p232",
+      "p233",
+      "p234"
+    ],
+    "storeRating": 4.8,
+    "totalOrdersFulfilled": 1220,
+    "onTimeDispatchRate": "98.8%",
+    "shippingPartners": [
+      "BlueDart Express",
+      "Delhivery Surface"
+    ],
+    "returnPolicy": "14 Days Hassle-Free Frame Fit Exchange with Reverse Pickup",
+    "warrantyPolicy": "1-Year Frame Hinge & Coating Delamination Warranty",
+    "description": "Crestview crafts ultralight beta-titanium and Italian Mazzucchelli acetate spectacles paired with distortion-free optical coatings."
+  },
+  {
+    "id": "v20",
+    "businessName": "Artisanal Brew & Barware Studio",
+    "storeSlug": "artisanalbrew",
+    "tagline": "Specialty Pour-Overs, Precision Hand Grinders & Hand-Blown Whiskey Crystal",
+    "ownerName": "Siddharth Sengupta",
+    "email": "siddharth@artisanalbrew.in",
+    "password": "Vendor@123",
+    "mobile": "9831076543",
+    "businessAddress": "Plot 104, Saheed Nagar, Janpath Road",
+    "location": "Bhubaneswar, Odisha",
+    "joinedDate": "2024-04-10",
+    "avatar": "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=120&h=120&fit=crop",
+    "banner": "https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=1200&h=300&fit=crop",
+    "themeColor": "#D97706",
+    "themePreset": "amber",
+    "storeStatus": "published",
+    "isVerified": true,
+    "gstin": "21AABCA8877E1ZX",
+    "announcement": "☕ Master the perfect extraction with barista-grade stainless steel & crystal tools.",
+    "featuredProductIds": [
+      "p241",
+      "p242",
+      "p243",
+      "p244"
+    ],
+    "storeRating": 4.9,
+    "totalOrdersFulfilled": 1540,
+    "onTimeDispatchRate": "99.2%",
+    "shippingPartners": [
+      "BlueDart Express",
+      "Delhivery Surface",
+      "DTDC Air"
+    ],
+    "returnPolicy": "7 Days Free Replacement for Glassware Breakage or Calibration Issues",
+    "warrantyPolicy": "2-Year Burrs & Mechanical Warranty on Precision Grinders",
+    "description": "Artisanal Brew supplies specialty coffee gear, pour-over equipment, burr grinders, and lead-free crystal barware to connoisseurs across India."
   }
 ];
 
-// ── Customers ─────────────────────────────────
+// ── 5 Customers ─────────────────────────────────
 export const seedCustomers = [
   {
     "id": "c1",
@@ -419,10 +806,52 @@ export const seedCustomers = [
     "pincode": "411001",
     "joinedDate": "2024-05-15",
     "avatar": "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=80&h=80&fit=crop"
+  },
+  {
+    "id": "c3",
+    "fullName": "Rohan Sharma",
+    "email": "rohan@example.com",
+    "password": "Customer@123",
+    "mobile": "9000033333",
+    "address": "88, 100 Feet Rd, Indiranagar",
+    "location": "Bengaluru, Karnataka",
+    "city": "Bengaluru",
+    "state": "Karnataka",
+    "pincode": "560038",
+    "joinedDate": "2024-06-01",
+    "avatar": "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=80&h=80&fit=crop"
+  },
+  {
+    "id": "c4",
+    "fullName": "Pooja Patel",
+    "email": "pooja@example.com",
+    "password": "Customer@123",
+    "mobile": "9000044444",
+    "address": "24, SG Highway, Bodakdev",
+    "location": "Ahmedabad, Gujarat",
+    "city": "Ahmedabad",
+    "state": "Gujarat",
+    "pincode": "380054",
+    "joinedDate": "2024-06-10",
+    "avatar": "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=80&h=80&fit=crop"
+  },
+  {
+    "id": "c5",
+    "fullName": "Vikram Verma",
+    "email": "vikram.customer@example.com",
+    "password": "Customer@123",
+    "mobile": "9000055555",
+    "address": "102, Bandra West, Hill Road",
+    "location": "Mumbai, Maharashtra",
+    "city": "Mumbai",
+    "state": "Maharashtra",
+    "pincode": "400050",
+    "joinedDate": "2024-06-15",
+    "avatar": "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=80&h=80&fit=crop"
   }
 ];
 
-// ── 150 Physical Products (15 per vendor) ──────
+// ── 250 Physical Products ────────────────────────
 export const seedProducts = [
   {
     "id": "p1",
@@ -1856,7 +2285,7 @@ export const seedProducts = [
     "condition": "Brand New (Sealed)",
     "specifications": {
       "Power Output": "80W Class D Amplification",
-      "Frequency Range": "45\u201320,000 Hz",
+      "Frequency Range": "45–20,000 Hz",
       "Inputs": "3.5 mm AUX, RCA, Bluetooth 5.2",
       "Design": "Textured Vinyl & Classic Script Logo"
     },
@@ -4287,7 +4716,7 @@ export const seedProducts = [
     "images": [
       "https://images.unsplash.com/photo-1474979266404-7eaacbcd87c5?w=600&h=600&fit=crop"
     ],
-    "description": "Extracted in traditional wooden Kolhu/Chekku at ambient temperatures below 40\u00b0C. 100% pure, unrefined, retaining natural pungent aroma and heart-healthy Omega-3 fatty acids.",
+    "description": "Extracted in traditional wooden Kolhu/Chekku at ambient temperatures below 40°C. 100% pure, unrefined, retaining natural pungent aroma and heart-healthy Omega-3 fatty acids.",
     "condition": "Brand New (Sealed)",
     "specifications": {
       "Extraction Method": "Traditional Wooden Ghani / Chekku",
@@ -6549,11 +6978,11 @@ export const seedProducts = [
     "images": [
       "https://images.unsplash.com/photo-1593618998160-e34014e67546?w=600&h=600&fit=crop"
     ],
-    "description": "Precision forged from AUS-10 high-carbon Japanese stainless steel hardened to 60\u00b12 HRC. Razor-sharp 15-degree double bevel edge with ergonomic pakkawood handle.",
+    "description": "Precision forged from AUS-10 high-carbon Japanese stainless steel hardened to 60±2 HRC. Razor-sharp 15-degree double bevel edge with ergonomic pakkawood handle.",
     "condition": "Brand New (Sealed)",
     "specifications": {
       "Blade Steel": "AUS-10 High-Carbon Japanese Core",
-      "Hardness": "60\u00b12 Rockwell Hardness",
+      "Hardness": "60±2 Rockwell Hardness",
       "Handle": "Military-Grade Ergonomic Pakkawood",
       "Included": "Custom Leather Safety Sheath"
     },
@@ -6800,7 +7229,7 @@ export const seedProducts = [
     "specifications": {
       "Capacity": "5.5 Litres / 5.8 Quarts",
       "Enamel": "Triple-Coat Chip-Resistant Vitreous Enamel",
-      "Oven Safe": "Up to 260\u00b0C (500\u00b0F)",
+      "Oven Safe": "Up to 260°C (500°F)",
       "Knob": "Heat-Proof Stainless Steel Knob"
     },
     "shipping": {
@@ -7533,7 +7962,7 @@ export const seedProducts = [
     "images": [
       "https://images.unsplash.com/photo-1584269600464-37b1b58a9fe7?w=600&h=600&fit=crop"
     ],
-    "description": "Non-reactive hard anodized surface is 2.4 times harder than steel. 4.25mm extra-thick base ensures uniform heat distribution for deep frying, saut\u00e9ing, and gravies.",
+    "description": "Non-reactive hard anodized surface is 2.4 times harder than steel. 4.25mm extra-thick base ensures uniform heat distribution for deep frying, sautéing, and gravies.",
     "condition": "Brand New (Sealed)",
     "specifications": {
       "Capacity": "3.5 Litres / 26 cm Diameter",
@@ -9629,7 +10058,7 @@ export const seedProducts = [
     "condition": "Brand New (Sealed)",
     "specifications": {
       "Cable": "10ft (3m) PVC-Coated Braided Steel Wire",
-      "Bearings": "Dual 360\u00b0 Stainless Steel Ball Bearings",
+      "Bearings": "Dual 360° Stainless Steel Ball Bearings",
       "Handles": "Textured Anti-Slip Aluminum Alloy Handles",
       "Adjustment": "Quick-Lock Thumbscrews"
     },
@@ -17390,7 +17819,7 @@ export const seedProducts = [
     "specifications": {
       "Drivers": "45 mm Neodymium with CCAW Voice Coils",
       "Frequency Response": "15 to 28,000 Hz Flat Reference Tuning",
-      "Earcup Swivel": "90\u00b0 Swiveling Earcups for One-Ear Monitoring",
+      "Earcup Swivel": "90° Swiveling Earcups for One-Ear Monitoring",
       "Included Cables": "1.2m Coiled, 3.0m Straight, 1.2m Straight Cables"
     },
     "shipping": {
@@ -18384,8 +18813,8 @@ export const seedProducts = [
     "specifications": {
       "Dimensions": "11.8\" x 7.8\" x 1.8\" Thick per Pad",
       "Fit": "Pairs for 5\", 6\", 7\", 8\" Studio Monitors",
-      "Material": "High-Density Acoustic Polyurethane (50 kg/m\u00b3)",
-      "Tilt Angles": "Flat, +5\u00b0, +10\u00b0, -5\u00b0, -10\u00b0 Elevation Angles"
+      "Material": "High-Density Acoustic Polyurethane (50 kg/m³)",
+      "Tilt Angles": "Flat, +5°, +10°, -5°, -10° Elevation Angles"
     },
     "shipping": {
       "weight": "310 g",
@@ -18972,20 +19401,6493 @@ export const seedProducts = [
       }
     ],
     "createdAt": "2024-08-15"
+  },
+  {
+    "id": "p151",
+    "sku": "VM-TEA-P151-DAR",
+    "name": "Darjeeling First Flush FTGFOP1 Whole Leaf Tea 250g",
+    "category": "Grocery",
+    "brand": "ChaiCulture Heritage",
+    "price": 1250,
+    "mrp": 1499,
+    "discountPercent": 17,
+    "stock": 45,
+    "quantity": 45,
+    "barcode": "8901000001511",
+    "lowStockThreshold": 9,
+    "reservedStock": 0,
+    "warehouseLocation": "Rack R-151",
+    "restockLeadDays": 3,
+    "vendorId": "v11",
+    "status": "approved",
+    "images": [
+      "https://images.unsplash.com/photo-1597481499750-3e6b22637e12?w=600&h=600&fit=crop",
+      "https://images.unsplash.com/photo-1544787219-7f47ccb76574?w=600&h=600&fit=crop"
+    ],
+    "description": "Hand-plucked spring harvest from high-elevation Darjeeling slopes. Exhibits bright floral muscatel notes with an amber liquor.",
+    "condition": "Brand New (Sealed)",
+    "specifications": {
+      "Grade": "FTGFOP1",
+      "Flush": "First Flush (Spring)",
+      "Weight": "250 g",
+      "Packaging": "Aroma Lock Tin Caddy"
+    },
+    "shipping": {
+      "weight": "380 g",
+      "dispatchTime": "Ships within 24 hours",
+      "estimatedDays": "2 - 4 days",
+      "courierPartners": [
+        "BlueDart Express",
+        "Delhivery Surface",
+        "DTDC Air"
+      ],
+      "codAvailable": true,
+      "returnWindowDays": 7
+    },
+    "variants": {
+      "colors": [
+        {
+          "name": "Standard",
+          "hex": "#334155",
+          "inStock": true
+        }
+      ],
+      "options": [
+        {
+          "label": "Standard Unit",
+          "priceDelta": 0,
+          "stock": 45
+        }
+      ]
+    },
+    "badge": "Bestseller",
+    "tags": [
+      "darjeeling",
+      "tea",
+      "organic",
+      "first flush"
+    ]
+  },
+  {
+    "id": "p152",
+    "sku": "VM-TEA-P152-ASS",
+    "name": "Assam Golden Tips Orthodox Black Tea 500g",
+    "category": "Grocery",
+    "brand": "ChaiCulture Heritage",
+    "price": 890,
+    "mrp": 1099,
+    "discountPercent": 19,
+    "stock": 60,
+    "quantity": 60,
+    "barcode": "8901000001528",
+    "lowStockThreshold": 12,
+    "reservedStock": 0,
+    "warehouseLocation": "Rack R-152",
+    "restockLeadDays": 3,
+    "vendorId": "v11",
+    "status": "approved",
+    "images": [
+      "https://images.unsplash.com/photo-1576092768241-dec231879fc3?w=600&h=600&fit=crop",
+      "https://images.unsplash.com/photo-1597481499750-3e6b22637e12?w=600&h=600&fit=crop"
+    ],
+    "description": "Robust, malty breakfast tea with rich golden tips grown in the Upper Assam floodplains. Perfect with a splash of milk.",
+    "condition": "Brand New (Sealed)",
+    "specifications": {
+      "Origin": "Upper Assam",
+      "Weight": "500 g",
+      "Leaf Style": "Orthodox Broken Orange Pekoe"
+    },
+    "shipping": {
+      "weight": "620 g",
+      "dispatchTime": "Ships within 24 hours",
+      "estimatedDays": "2 - 4 days",
+      "courierPartners": [
+        "BlueDart Express",
+        "Delhivery Surface",
+        "DTDC Air"
+      ],
+      "codAvailable": true,
+      "returnWindowDays": 7
+    },
+    "variants": {
+      "colors": [
+        {
+          "name": "Standard",
+          "hex": "#334155",
+          "inStock": true
+        }
+      ],
+      "options": [
+        {
+          "label": "Standard Unit",
+          "priceDelta": 0,
+          "stock": 60
+        }
+      ]
+    },
+    "badge": "Staff Pick",
+    "tags": [
+      "assam",
+      "black tea",
+      "malty"
+    ]
+  },
+  {
+    "id": "p153",
+    "sku": "VM-TEA-P153-CRD",
+    "name": "Alleppey Green Cardamom 8mm Bold Grade 200g",
+    "category": "Grocery",
+    "brand": "Malabar Heritage",
+    "price": 950,
+    "mrp": 1200,
+    "discountPercent": 21,
+    "stock": 35,
+    "quantity": 35,
+    "barcode": "8901000001535",
+    "lowStockThreshold": 7,
+    "reservedStock": 0,
+    "warehouseLocation": "Rack R-153",
+    "restockLeadDays": 3,
+    "vendorId": "v11",
+    "status": "approved",
+    "images": [
+      "https://images.unsplash.com/photo-1615485290382-441e4d049cb5?w=600&h=600&fit=crop",
+      "https://images.unsplash.com/photo-1596040033229-a9821ebd058d?w=600&h=600&fit=crop"
+    ],
+    "description": "GI-tagged giant 8mm extra bold green cardamom pods hand-picked from the Western Ghats of Idukki. Intense aroma and essential oil density.",
+    "condition": "Brand New (Sealed)",
+    "specifications": {
+      "Pod Size": "8 mm+ Extra Bold",
+      "Origin": "Idukki, Kerala",
+      "Moisture": "<10%",
+      "Weight": "200 g"
+    },
+    "shipping": {
+      "weight": "280 g",
+      "dispatchTime": "Ships within 24 hours",
+      "estimatedDays": "2 - 4 days",
+      "courierPartners": [
+        "BlueDart Express",
+        "Delhivery Surface",
+        "DTDC Air"
+      ],
+      "codAvailable": true,
+      "returnWindowDays": 7
+    },
+    "variants": {
+      "colors": [
+        {
+          "name": "Standard",
+          "hex": "#334155",
+          "inStock": true
+        }
+      ],
+      "options": [
+        {
+          "label": "Standard Unit",
+          "priceDelta": 0,
+          "stock": 35
+        }
+      ]
+    },
+    "badge": "GI Tagged",
+    "tags": [
+      "cardamom",
+      "spices",
+      "kerala"
+    ]
+  },
+  {
+    "id": "p154",
+    "sku": "VM-TEA-P154-PEP",
+    "name": "Wayanad Tellicherry Garbled Extra Bold Black Pepper 250g",
+    "category": "Grocery",
+    "brand": "Malabar Heritage",
+    "price": 499,
+    "mrp": 650,
+    "discountPercent": 23,
+    "stock": 80,
+    "quantity": 80,
+    "barcode": "8901000001542",
+    "lowStockThreshold": 16,
+    "reservedStock": 0,
+    "warehouseLocation": "Rack R-154",
+    "restockLeadDays": 3,
+    "vendorId": "v11",
+    "status": "approved",
+    "images": [
+      "https://images.unsplash.com/photo-1509358271058-acd22cc93898?w=600&h=600&fit=crop",
+      "https://images.unsplash.com/photo-1615485290382-441e4d049cb5?w=600&h=600&fit=crop"
+    ],
+    "description": "The world's highest grade peppercorn (TGSEB). Sun-dried black pepper berries with complex citrus-pine warmth and high piperine index.",
+    "condition": "Brand New (Sealed)",
+    "specifications": {
+      "Grade": "TGSEB Extra Bold",
+      "Size": "4.75mm+",
+      "Weight": "250 g",
+      "Origin": "Wayanad, Kerala"
+    },
+    "shipping": {
+      "weight": "320 g",
+      "dispatchTime": "Ships within 24 hours",
+      "estimatedDays": "2 - 4 days",
+      "courierPartners": [
+        "BlueDart Express",
+        "Delhivery Surface",
+        "DTDC Air"
+      ],
+      "codAvailable": true,
+      "returnWindowDays": 7
+    },
+    "variants": {
+      "colors": [
+        {
+          "name": "Standard",
+          "hex": "#334155",
+          "inStock": true
+        }
+      ],
+      "options": [
+        {
+          "label": "Standard Unit",
+          "priceDelta": 0,
+          "stock": 80
+        }
+      ]
+    },
+    "badge": "Verified Indian Brand",
+    "tags": [
+      "pepper",
+      "tellicherry",
+      "spices"
+    ]
+  },
+  {
+    "id": "p155",
+    "sku": "VM-TEA-P155-SAF",
+    "name": "Kashmiri Mogra Saffron (Kesar) 2g Certified Grade A1",
+    "category": "Grocery",
+    "brand": "ChaiCulture Heritage",
+    "price": 999,
+    "mrp": 1350,
+    "discountPercent": 26,
+    "stock": 25,
+    "quantity": 25,
+    "barcode": "8901000001559",
+    "lowStockThreshold": 5,
+    "reservedStock": 0,
+    "warehouseLocation": "Rack R-155",
+    "restockLeadDays": 3,
+    "vendorId": "v11",
+    "status": "approved",
+    "images": [
+      "https://images.unsplash.com/photo-1596040033229-a9821ebd058d?w=600&h=600&fit=crop",
+      "https://images.unsplash.com/photo-1615485290382-441e4d049cb5?w=600&h=600&fit=crop"
+    ],
+    "description": "Pure Pampore saffron crimson stigmata without yellow styles. Delivers golden color, intoxicating floral fragrance, and natural antioxidant potency.",
+    "condition": "Brand New (Sealed)",
+    "specifications": {
+      "Origin": "Pampore, Kashmir",
+      "Net Weight": "2 g",
+      "Grade": "Mogra Grade 1"
+    },
+    "shipping": {
+      "weight": "120 g",
+      "dispatchTime": "Ships within 24 hours",
+      "estimatedDays": "2 - 4 days",
+      "courierPartners": [
+        "BlueDart Express",
+        "Delhivery Surface",
+        "DTDC Air"
+      ],
+      "codAvailable": true,
+      "returnWindowDays": 7
+    },
+    "variants": {
+      "colors": [
+        {
+          "name": "Standard",
+          "hex": "#334155",
+          "inStock": true
+        }
+      ],
+      "options": [
+        {
+          "label": "Standard Unit",
+          "priceDelta": 0,
+          "stock": 25
+        }
+      ]
+    },
+    "badge": "Pure Saffron",
+    "tags": [
+      "saffron",
+      "kesar",
+      "kashmir"
+    ]
+  },
+  {
+    "id": "p156",
+    "sku": "VM-TEA-P156-NIL",
+    "name": "Nilgiri Winter Frost White Tea 100g",
+    "category": "Grocery",
+    "brand": "ChaiCulture Heritage",
+    "price": 1100,
+    "mrp": 1400,
+    "discountPercent": 21,
+    "stock": 30,
+    "quantity": 30,
+    "barcode": "8901000001566",
+    "lowStockThreshold": 6,
+    "reservedStock": 0,
+    "warehouseLocation": "Rack R-156",
+    "restockLeadDays": 3,
+    "vendorId": "v11",
+    "status": "approved",
+    "images": [
+      "https://images.unsplash.com/photo-1576092768241-dec231879fc3?w=600&h=600&fit=crop",
+      "https://images.unsplash.com/photo-1597481499750-3e6b22637e12?w=600&h=600&fit=crop"
+    ],
+    "description": "Rare silver needles harvested during freezing winter mornings at 7,000 feet in Coonoor. Notes of honeydew melon and white peach.",
+    "condition": "Brand New (Sealed)",
+    "specifications": {
+      "Altitude": "7,000 ft",
+      "Type": "Silver Needle White Tea",
+      "Weight": "100 g"
+    },
+    "shipping": {
+      "weight": "220 g",
+      "dispatchTime": "Ships within 24 hours",
+      "estimatedDays": "2 - 4 days",
+      "courierPartners": [
+        "BlueDart Express",
+        "Delhivery Surface",
+        "DTDC Air"
+      ],
+      "codAvailable": true,
+      "returnWindowDays": 7
+    },
+    "variants": {
+      "colors": [
+        {
+          "name": "Standard",
+          "hex": "#334155",
+          "inStock": true
+        }
+      ],
+      "options": [
+        {
+          "label": "Standard Unit",
+          "priceDelta": 0,
+          "stock": 30
+        }
+      ]
+    },
+    "badge": "Rare Harvest",
+    "tags": [
+      "white tea",
+      "nilgiri"
+    ]
+  },
+  {
+    "id": "p157",
+    "sku": "VM-TEA-P157-MAS",
+    "name": "Royal Kadak Masala Chai Blend with Real Spices 500g",
+    "category": "Grocery",
+    "brand": "ChaiCulture Heritage",
+    "price": 450,
+    "mrp": 550,
+    "discountPercent": 18,
+    "stock": 90,
+    "quantity": 90,
+    "barcode": "8901000001573",
+    "lowStockThreshold": 18,
+    "reservedStock": 0,
+    "warehouseLocation": "Rack R-157",
+    "restockLeadDays": 3,
+    "vendorId": "v11",
+    "status": "approved",
+    "images": [
+      "https://images.unsplash.com/photo-1544787219-7f47ccb76574?w=600&h=600&fit=crop",
+      "https://images.unsplash.com/photo-1576092768241-dec231879fc3?w=600&h=600&fit=crop"
+    ],
+    "description": "Granular CTC blended with crushed green cardamom, ginger, cinnamon, clove, and nutmeg. Yields a rich spiced dhaba-style cup.",
+    "condition": "Brand New (Sealed)",
+    "specifications": {
+      "Spices": "Cardamom, Ginger, Clove, Cinnamon",
+      "Base": "Assam CTC",
+      "Weight": "500 g"
+    },
+    "shipping": {
+      "weight": "580 g",
+      "dispatchTime": "Ships within 24 hours",
+      "estimatedDays": "2 - 4 days",
+      "courierPartners": [
+        "BlueDart Express",
+        "Delhivery Surface",
+        "DTDC Air"
+      ],
+      "codAvailable": true,
+      "returnWindowDays": 7
+    },
+    "variants": {
+      "colors": [
+        {
+          "name": "Standard",
+          "hex": "#334155",
+          "inStock": true
+        }
+      ],
+      "options": [
+        {
+          "label": "Standard Unit",
+          "priceDelta": 0,
+          "stock": 90
+        }
+      ]
+    },
+    "badge": "Popular Daily Pick",
+    "tags": [
+      "masala chai",
+      "tea"
+    ]
+  },
+  {
+    "id": "p158",
+    "sku": "VM-TEA-P158-TUL",
+    "name": "Organic Whole Leaf Green Tea with Rama & Krishna Tulsi 250g",
+    "category": "Grocery",
+    "brand": "ChaiCulture Heritage",
+    "price": 520,
+    "mrp": 650,
+    "discountPercent": 20,
+    "stock": 55,
+    "quantity": 55,
+    "barcode": "8901000001580",
+    "lowStockThreshold": 11,
+    "reservedStock": 0,
+    "warehouseLocation": "Rack R-158",
+    "restockLeadDays": 3,
+    "vendorId": "v11",
+    "status": "approved",
+    "images": [
+      "https://images.unsplash.com/photo-1597481499750-3e6b22637e12?w=600&h=600&fit=crop",
+      "https://images.unsplash.com/photo-1544787219-7f47ccb76574?w=600&h=600&fit=crop"
+    ],
+    "description": "Non-bitter steamed green tea leaves paired with sacred Rama and Krishna Tulsi herbs for immunity, relaxation, and digestion.",
+    "condition": "Brand New (Sealed)",
+    "specifications": {
+      "Certification": "USDA Organic & India Organic",
+      "Weight": "250 g",
+      "Antioxidants": "High EGCG"
+    },
+    "shipping": {
+      "weight": "340 g",
+      "dispatchTime": "Ships within 24 hours",
+      "estimatedDays": "2 - 4 days",
+      "courierPartners": [
+        "BlueDart Express",
+        "Delhivery Surface",
+        "DTDC Air"
+      ],
+      "codAvailable": true,
+      "returnWindowDays": 7
+    },
+    "variants": {
+      "colors": [
+        {
+          "name": "Standard",
+          "hex": "#334155",
+          "inStock": true
+        }
+      ],
+      "options": [
+        {
+          "label": "Standard Unit",
+          "priceDelta": 0,
+          "stock": 55
+        }
+      ]
+    },
+    "badge": "100% Organic",
+    "tags": [
+      "green tea",
+      "tulsi",
+      "detox"
+    ]
+  },
+  {
+    "id": "p159",
+    "sku": "VM-TEA-P159-CIN",
+    "name": "Ceylon True Cinnamon Quills (Sri Lankan Dalchini) 150g",
+    "category": "Grocery",
+    "brand": "Malabar Heritage",
+    "price": 399,
+    "mrp": 520,
+    "discountPercent": 23,
+    "stock": 70,
+    "quantity": 70,
+    "barcode": "8901000001597",
+    "lowStockThreshold": 14,
+    "reservedStock": 0,
+    "warehouseLocation": "Rack R-159",
+    "restockLeadDays": 3,
+    "vendorId": "v11",
+    "status": "approved",
+    "images": [
+      "https://images.unsplash.com/photo-1615485290382-441e4d049cb5?w=600&h=600&fit=crop",
+      "https://images.unsplash.com/photo-1509358271058-acd22cc93898?w=600&h=600&fit=crop"
+    ],
+    "description": "Authentic paper-thin layered Alba-grade Ceylon cinnamon sticks. Ultra-low coumarin content, sweet woody fragrance, safe for daily baking and tea.",
+    "condition": "Brand New (Sealed)",
+    "specifications": {
+      "Type": "Cinnamomum Verum",
+      "Weight": "150 g",
+      "Coumarin": "<0.004%"
+    },
+    "shipping": {
+      "weight": "240 g",
+      "dispatchTime": "Ships within 24 hours",
+      "estimatedDays": "2 - 4 days",
+      "courierPartners": [
+        "BlueDart Express",
+        "Delhivery Surface",
+        "DTDC Air"
+      ],
+      "codAvailable": true,
+      "returnWindowDays": 7
+    },
+    "variants": {
+      "colors": [
+        {
+          "name": "Standard",
+          "hex": "#334155",
+          "inStock": true
+        }
+      ],
+      "options": [
+        {
+          "label": "Standard Unit",
+          "priceDelta": 0,
+          "stock": 70
+        }
+      ]
+    },
+    "badge": "Low Coumarin",
+    "tags": [
+      "cinnamon",
+      "dalchini",
+      "spices"
+    ]
+  },
+  {
+    "id": "p160",
+    "sku": "VM-TEA-P160-GFT",
+    "name": "Grand Heritage Indian Tea Connoisseur Gift Chest (4 Tins)",
+    "category": "Grocery",
+    "brand": "ChaiCulture Heritage",
+    "price": 2499,
+    "mrp": 3200,
+    "discountPercent": 22,
+    "stock": 20,
+    "quantity": 20,
+    "barcode": "8901000001603",
+    "lowStockThreshold": 4,
+    "reservedStock": 0,
+    "warehouseLocation": "Rack R-160",
+    "restockLeadDays": 3,
+    "vendorId": "v11",
+    "status": "approved",
+    "images": [
+      "https://images.unsplash.com/photo-1544787219-7f47ccb76574?w=600&h=600&fit=crop",
+      "https://images.unsplash.com/photo-1597481499750-3e6b22637e12?w=600&h=600&fit=crop"
+    ],
+    "description": "Artisanal handcrafted pine wood chest containing 4 airtight embossed caddies: Darjeeling First Flush, Assam Golden Tips, Kashmiri Kahwa, and Nilgiri Oolong.",
+    "condition": "Brand New (Sealed)",
+    "specifications": {
+      "Chest Material": "Polished Natural Pine Wood",
+      "Contents": "4 x 75g Tins"
+    },
+    "shipping": {
+      "weight": "1250 g",
+      "dispatchTime": "Ships within 24 hours",
+      "estimatedDays": "2 - 4 days",
+      "courierPartners": [
+        "BlueDart Express",
+        "Delhivery Surface",
+        "DTDC Air"
+      ],
+      "codAvailable": true,
+      "returnWindowDays": 7
+    },
+    "variants": {
+      "colors": [
+        {
+          "name": "Standard",
+          "hex": "#334155",
+          "inStock": true
+        }
+      ],
+      "options": [
+        {
+          "label": "Standard Unit",
+          "priceDelta": 0,
+          "stock": 20
+        }
+      ]
+    },
+    "badge": "Luxury Gift Set",
+    "tags": [
+      "gift",
+      "luxury tea",
+      "assortment"
+    ]
+  },
+  {
+    "id": "p161",
+    "sku": "VM-LGT-P161-HUE",
+    "name": "Philips Hue 16M Colors Smart LED Bulb E27 10W",
+    "category": "Electronics",
+    "brand": "Philips",
+    "price": 2499,
+    "mrp": 2999,
+    "discountPercent": 17,
+    "stock": 40,
+    "quantity": 40,
+    "barcode": "8901000001610",
+    "lowStockThreshold": 8,
+    "reservedStock": 0,
+    "warehouseLocation": "Rack R-161",
+    "restockLeadDays": 3,
+    "vendorId": "v12",
+    "status": "approved",
+    "images": [
+      "https://images.unsplash.com/photo-1550985543-f47f38aeee65?w=600&h=600&fit=crop",
+      "https://images.unsplash.com/photo-1513506003901-1e6a229e2d15?w=600&h=600&fit=crop"
+    ],
+    "description": "Connect to Alexa, Google Home or Apple HomeKit. Experience 16 million colors and preset dynamic light scenes with warm-to-cool white ambiances.",
+    "condition": "Brand New (Sealed)",
+    "specifications": {
+      "Lumen Output": "806 Lumens",
+      "Base": "E27 Screw",
+      "Connectivity": "Bluetooth + Zigbee",
+      "Lifespan": "25,000 Hours"
+    },
+    "shipping": {
+      "weight": "150 g",
+      "dispatchTime": "Ships within 24 hours",
+      "estimatedDays": "2 - 4 days",
+      "courierPartners": [
+        "BlueDart Express",
+        "Delhivery Surface",
+        "DTDC Air"
+      ],
+      "codAvailable": true,
+      "returnWindowDays": 7
+    },
+    "variants": {
+      "colors": [
+        {
+          "name": "Standard",
+          "hex": "#334155",
+          "inStock": true
+        }
+      ],
+      "options": [
+        {
+          "label": "Standard Unit",
+          "priceDelta": 0,
+          "stock": 40
+        }
+      ]
+    },
+    "badge": "Smart Connected",
+    "tags": [
+      "smart bulb",
+      "lighting",
+      "philips",
+      "hue"
+    ]
+  },
+  {
+    "id": "p162",
+    "sku": "VM-LGT-P162-WIP",
+    "name": "Wipro Smart LED Batten 20W Color Changing & Dimming",
+    "category": "Home & Living",
+    "brand": "Wipro",
+    "price": 999,
+    "mrp": 1499,
+    "discountPercent": 33,
+    "stock": 65,
+    "quantity": 65,
+    "barcode": "8901000001627",
+    "lowStockThreshold": 13,
+    "reservedStock": 0,
+    "warehouseLocation": "Rack R-162",
+    "restockLeadDays": 3,
+    "vendorId": "v12",
+    "status": "approved",
+    "images": [
+      "https://images.unsplash.com/photo-1513506003901-1e6a229e2d15?w=600&h=600&fit=crop",
+      "https://images.unsplash.com/photo-1550985543-f47f38aeee65?w=600&h=600&fit=crop"
+    ],
+    "description": "4-foot slimline tube light with Wi-Fi app tuning from warm cozy yellow to energizing daylight white without replacing switches.",
+    "condition": "Brand New (Sealed)",
+    "specifications": {
+      "Wattage": "20W",
+      "Length": "4 Feet (1200mm)",
+      "Color Temp": "2700K - 6500K",
+      "CRI": ">80"
+    },
+    "shipping": {
+      "weight": "380 g",
+      "dispatchTime": "Ships within 24 hours",
+      "estimatedDays": "2 - 4 days",
+      "courierPartners": [
+        "BlueDart Express",
+        "Delhivery Surface",
+        "DTDC Air"
+      ],
+      "codAvailable": true,
+      "returnWindowDays": 7
+    },
+    "variants": {
+      "colors": [
+        {
+          "name": "Standard",
+          "hex": "#334155",
+          "inStock": true
+        }
+      ],
+      "options": [
+        {
+          "label": "Standard Unit",
+          "priceDelta": 0,
+          "stock": 65
+        }
+      ]
+    },
+    "badge": "Energy Saver",
+    "tags": [
+      "batten",
+      "wipro",
+      "led"
+    ]
+  },
+  {
+    "id": "p163",
+    "sku": "VM-LGT-P163-NOR",
+    "name": "Nordic Minimalist Trio Pendant Chandelier Matte Black",
+    "category": "Home & Living",
+    "brand": "Lumina Studio",
+    "price": 5499,
+    "mrp": 7999,
+    "discountPercent": 31,
+    "stock": 20,
+    "quantity": 20,
+    "barcode": "8901000001634",
+    "lowStockThreshold": 4,
+    "reservedStock": 0,
+    "warehouseLocation": "Rack R-163",
+    "restockLeadDays": 3,
+    "vendorId": "v12",
+    "status": "approved",
+    "images": [
+      "https://images.unsplash.com/photo-1540932239986-30128078f3c5?w=600&h=600&fit=crop",
+      "https://images.unsplash.com/photo-1513506003901-1e6a229e2d15?w=600&h=600&fit=crop"
+    ],
+    "description": "Contemporary geometric spun aluminum shades with warm teak wood detailing. Ideal for dining table islands and modern living rooms.",
+    "condition": "Brand New (Sealed)",
+    "specifications": {
+      "Heads": "3 Pendants",
+      "Suspension": "Adjustable 1.2m Braided Cable",
+      "Material": "Spun Aluminum & Natural Oak"
+    },
+    "shipping": {
+      "weight": "2400 g",
+      "dispatchTime": "Ships within 24 hours",
+      "estimatedDays": "2 - 4 days",
+      "courierPartners": [
+        "BlueDart Express",
+        "Delhivery Surface",
+        "DTDC Air"
+      ],
+      "codAvailable": true,
+      "returnWindowDays": 7
+    },
+    "variants": {
+      "colors": [
+        {
+          "name": "Standard",
+          "hex": "#334155",
+          "inStock": true
+        }
+      ],
+      "options": [
+        {
+          "label": "Standard Unit",
+          "priceDelta": 0,
+          "stock": 20
+        }
+      ]
+    },
+    "badge": "Architectural Pick",
+    "tags": [
+      "chandelier",
+      "nordic",
+      "pendant"
+    ]
+  },
+  {
+    "id": "p164",
+    "sku": "VM-LGT-P164-SYS",
+    "name": "Syska 10W Smart Wi-Fi Recessed Downlight 90mm Cutout",
+    "category": "Home & Living",
+    "brand": "Syska",
+    "price": 749,
+    "mrp": 999,
+    "discountPercent": 25,
+    "stock": 80,
+    "quantity": 80,
+    "barcode": "8901000001641",
+    "lowStockThreshold": 16,
+    "reservedStock": 0,
+    "warehouseLocation": "Rack R-164",
+    "restockLeadDays": 3,
+    "vendorId": "v12",
+    "status": "approved",
+    "images": [
+      "https://images.unsplash.com/photo-1513506003901-1e6a229e2d15?w=600&h=600&fit=crop",
+      "https://images.unsplash.com/photo-1550985543-f47f38aeee65?w=600&h=600&fit=crop"
+    ],
+    "description": "Flush ceiling spotlight with anti-glare reflector. Controlled via Syska Smart Home app for scheduling, mood scenes, and rhythm sync.",
+    "condition": "Brand New (Sealed)",
+    "specifications": {
+      "Wattage": "10W",
+      "Cutout": "90 mm",
+      "Beam Angle": "38 Degrees",
+      "Lumens": "850 lm"
+    },
+    "shipping": {
+      "weight": "210 g",
+      "dispatchTime": "Ships within 24 hours",
+      "estimatedDays": "2 - 4 days",
+      "courierPartners": [
+        "BlueDart Express",
+        "Delhivery Surface",
+        "DTDC Air"
+      ],
+      "codAvailable": true,
+      "returnWindowDays": 7
+    },
+    "variants": {
+      "colors": [
+        {
+          "name": "Standard",
+          "hex": "#334155",
+          "inStock": true
+        }
+      ],
+      "options": [
+        {
+          "label": "Standard Unit",
+          "priceDelta": 0,
+          "stock": 80
+        }
+      ]
+    },
+    "badge": "Top Value",
+    "tags": [
+      "downlight",
+      "syska",
+      "ceiling light"
+    ]
+  },
+  {
+    "id": "p165",
+    "sku": "VM-LGT-P165-YEE",
+    "name": "Yeelight Starlight Smart Ambient LED Bedside Lamp",
+    "category": "Electronics",
+    "brand": "Yeelight",
+    "price": 3299,
+    "mrp": 4499,
+    "discountPercent": 27,
+    "stock": 30,
+    "quantity": 30,
+    "barcode": "8901000001658",
+    "lowStockThreshold": 6,
+    "reservedStock": 0,
+    "warehouseLocation": "Rack R-165",
+    "restockLeadDays": 3,
+    "vendorId": "v12",
+    "status": "approved",
+    "images": [
+      "https://images.unsplash.com/photo-1550985543-f47f38aeee65?w=600&h=600&fit=crop",
+      "https://images.unsplash.com/photo-1540932239986-30128078f3c5?w=600&h=600&fit=crop"
+    ],
+    "description": "Touch-sensitive 360-degree cylindrical diffused nightstand lamp. Syncs with music rhythms and mimics sunrise for natural morning wakeups.",
+    "condition": "Brand New (Sealed)",
+    "specifications": {
+      "Luminance": "400 Lumens",
+      "Color Spectrum": "16 Million Colors",
+      "Controls": "Top Touch Bar + App"
+    },
+    "shipping": {
+      "weight": "850 g",
+      "dispatchTime": "Ships within 24 hours",
+      "estimatedDays": "2 - 4 days",
+      "courierPartners": [
+        "BlueDart Express",
+        "Delhivery Surface",
+        "DTDC Air"
+      ],
+      "codAvailable": true,
+      "returnWindowDays": 7
+    },
+    "variants": {
+      "colors": [
+        {
+          "name": "Standard",
+          "hex": "#334155",
+          "inStock": true
+        }
+      ],
+      "options": [
+        {
+          "label": "Standard Unit",
+          "priceDelta": 0,
+          "stock": 30
+        }
+      ]
+    },
+    "badge": "Bedroom Essential",
+    "tags": [
+      "lamp",
+      "bedside",
+      "ambient"
+    ]
+  },
+  {
+    "id": "p166",
+    "sku": "VM-LGT-P166-MAG",
+    "name": "Architectural 48V Low Voltage Magnetic Track Rail 1 Meter",
+    "category": "Home & Living",
+    "brand": "Lumina Studio",
+    "price": 1850,
+    "mrp": 2400,
+    "discountPercent": 23,
+    "stock": 45,
+    "quantity": 45,
+    "barcode": "8901000001665",
+    "lowStockThreshold": 9,
+    "reservedStock": 0,
+    "warehouseLocation": "Rack R-166",
+    "restockLeadDays": 3,
+    "vendorId": "v12",
+    "status": "approved",
+    "images": [
+      "https://images.unsplash.com/photo-1513506003901-1e6a229e2d15?w=600&h=600&fit=crop",
+      "https://images.unsplash.com/photo-1540932239986-30128078f3c5?w=600&h=600&fit=crop"
+    ],
+    "description": "Extruded aerospace-grade aluminum magnetic channel allowing tool-free repositioning of linear floodlights and accent track spots safely at 48V DC.",
+    "condition": "Brand New (Sealed)",
+    "specifications": {
+      "Voltage": "48V DC Safe Touch",
+      "Length": "1000 mm",
+      "Profile": "Surface / Recessed Mount",
+      "Color": "Matte Anodized Black"
+    },
+    "shipping": {
+      "weight": "1100 g",
+      "dispatchTime": "Ships within 24 hours",
+      "estimatedDays": "2 - 4 days",
+      "courierPartners": [
+        "BlueDart Express",
+        "Delhivery Surface",
+        "DTDC Air"
+      ],
+      "codAvailable": true,
+      "returnWindowDays": 7
+    },
+    "variants": {
+      "colors": [
+        {
+          "name": "Standard",
+          "hex": "#334155",
+          "inStock": true
+        }
+      ],
+      "options": [
+        {
+          "label": "Standard Unit",
+          "priceDelta": 0,
+          "stock": 45
+        }
+      ]
+    },
+    "badge": "Architectural Grade",
+    "tags": [
+      "magnetic track",
+      "lighting rail"
+    ]
+  },
+  {
+    "id": "p167",
+    "sku": "VM-LGT-P167-HAV",
+    "name": "Havells Adore K9 Crystal Wall Sconce Light Warm White",
+    "category": "Home & Living",
+    "brand": "Havells",
+    "price": 1699,
+    "mrp": 2299,
+    "discountPercent": 26,
+    "stock": 50,
+    "quantity": 50,
+    "barcode": "8901000001672",
+    "lowStockThreshold": 10,
+    "reservedStock": 0,
+    "warehouseLocation": "Rack R-167",
+    "restockLeadDays": 3,
+    "vendorId": "v12",
+    "status": "approved",
+    "images": [
+      "https://images.unsplash.com/photo-1540932239986-30128078f3c5?w=600&h=600&fit=crop",
+      "https://images.unsplash.com/photo-1513506003901-1e6a229e2d15?w=600&h=600&fit=crop"
+    ],
+    "description": "Faceted optical K9 crystals cast shimmering refraction across foyer and bedroom walls. Rust-resistant electroplated champagne gold brass chassis.",
+    "condition": "Brand New (Sealed)",
+    "specifications": {
+      "Socket": "G9 LED (Included)",
+      "Finish": "Champagne Gold Electroplated",
+      "Crystal": "Precision Cut K9 Optical Glass"
+    },
+    "shipping": {
+      "weight": "920 g",
+      "dispatchTime": "Ships within 24 hours",
+      "estimatedDays": "2 - 4 days",
+      "courierPartners": [
+        "BlueDart Express",
+        "Delhivery Surface",
+        "DTDC Air"
+      ],
+      "codAvailable": true,
+      "returnWindowDays": 7
+    },
+    "variants": {
+      "colors": [
+        {
+          "name": "Standard",
+          "hex": "#334155",
+          "inStock": true
+        }
+      ],
+      "options": [
+        {
+          "label": "Standard Unit",
+          "priceDelta": 0,
+          "stock": 50
+        }
+      ]
+    },
+    "badge": "Premium Finish",
+    "tags": [
+      "wall sconce",
+      "crystal",
+      "havells"
+    ]
+  },
+  {
+    "id": "p168",
+    "sku": "VM-LGT-P168-TUY",
+    "name": "Tuya Zigbee Smart Touch Dimmer Switch Tempered Glass",
+    "category": "Electronics",
+    "brand": "Lumina Studio",
+    "price": 1299,
+    "mrp": 1899,
+    "discountPercent": 32,
+    "stock": 75,
+    "quantity": 75,
+    "barcode": "8901000001689",
+    "lowStockThreshold": 15,
+    "reservedStock": 0,
+    "warehouseLocation": "Rack R-168",
+    "restockLeadDays": 3,
+    "vendorId": "v12",
+    "status": "approved",
+    "images": [
+      "https://images.unsplash.com/photo-1550985543-f47f38aeee65?w=600&h=600&fit=crop",
+      "https://images.unsplash.com/photo-1513506003901-1e6a229e2d15?w=600&h=600&fit=crop"
+    ],
+    "description": "Replaces standard Indian 2-module switchboard slots. Capacitive slider touch bar provides 1% to 100% stepless smooth dimming without flicker.",
+    "condition": "Brand New (Sealed)",
+    "specifications": {
+      "Standard": "Indian 2-Module Gang Box",
+      "Load": "Max 400W LED",
+      "Panel": "2.5D Scratch-Resistant Tempered Glass"
+    },
+    "shipping": {
+      "weight": "180 g",
+      "dispatchTime": "Ships within 24 hours",
+      "estimatedDays": "2 - 4 days",
+      "courierPartners": [
+        "BlueDart Express",
+        "Delhivery Surface",
+        "DTDC Air"
+      ],
+      "codAvailable": true,
+      "returnWindowDays": 7
+    },
+    "variants": {
+      "colors": [
+        {
+          "name": "Standard",
+          "hex": "#334155",
+          "inStock": true
+        }
+      ],
+      "options": [
+        {
+          "label": "Standard Unit",
+          "priceDelta": 0,
+          "stock": 75
+        }
+      ]
+    },
+    "badge": "Smart Automation",
+    "tags": [
+      "dimmer",
+      "smart switch",
+      "zigbee"
+    ]
+  },
+  {
+    "id": "p169",
+    "sku": "VM-LGT-P169-EVE",
+    "name": "Eveready 30W High-Lumen Outdoor Floodlight IP66",
+    "category": "Home & Living",
+    "brand": "Eveready",
+    "price": 850,
+    "mrp": 1199,
+    "discountPercent": 29,
+    "stock": 60,
+    "quantity": 60,
+    "barcode": "8901000001696",
+    "lowStockThreshold": 12,
+    "reservedStock": 0,
+    "warehouseLocation": "Rack R-169",
+    "restockLeadDays": 3,
+    "vendorId": "v12",
+    "status": "approved",
+    "images": [
+      "https://images.unsplash.com/photo-1513506003901-1e6a229e2d15?w=600&h=600&fit=crop",
+      "https://images.unsplash.com/photo-1550985543-f47f38aeee65?w=600&h=600&fit=crop"
+    ],
+    "description": "Heavy-duty die-cast aluminum housing for garden, facade, and parking illumination. Withstands torrential monsoon rain and 4kV surge protection.",
+    "condition": "Brand New (Sealed)",
+    "specifications": {
+      "Protection": "IP66 Waterproof & Dustproof",
+      "Wattage": "30W (3300 Lumens)",
+      "Surge": "4kV Inbuilt Protection"
+    },
+    "shipping": {
+      "weight": "740 g",
+      "dispatchTime": "Ships within 24 hours",
+      "estimatedDays": "2 - 4 days",
+      "courierPartners": [
+        "BlueDart Express",
+        "Delhivery Surface",
+        "DTDC Air"
+      ],
+      "codAvailable": true,
+      "returnWindowDays": 7
+    },
+    "variants": {
+      "colors": [
+        {
+          "name": "Standard",
+          "hex": "#334155",
+          "inStock": true
+        }
+      ],
+      "options": [
+        {
+          "label": "Standard Unit",
+          "priceDelta": 0,
+          "stock": 60
+        }
+      ]
+    },
+    "badge": "Heavy Duty",
+    "tags": [
+      "floodlight",
+      "outdoor",
+      "waterproof"
+    ]
+  },
+  {
+    "id": "p170",
+    "sku": "VM-LGT-P170-EDI",
+    "name": "Vintage Edison Filament ST64 Amber Glass Bulb 4W E27",
+    "category": "Home & Living",
+    "brand": "Lumina Studio",
+    "price": 320,
+    "mrp": 499,
+    "discountPercent": 36,
+    "stock": 120,
+    "quantity": 120,
+    "barcode": "8901000001702",
+    "lowStockThreshold": 24,
+    "reservedStock": 0,
+    "warehouseLocation": "Rack R-170",
+    "restockLeadDays": 3,
+    "vendorId": "v12",
+    "status": "approved",
+    "images": [
+      "https://images.unsplash.com/photo-1550985543-f47f38aeee65?w=600&h=600&fit=crop",
+      "https://images.unsplash.com/photo-1540932239986-30128078f3c5?w=600&h=600&fit=crop"
+    ],
+    "description": "Retro spiral LED filaments encased in hand-blown golden amber teardrop glass. Emits a comforting 2200K candle-warm ambiance for cafes and homes.",
+    "condition": "Brand New (Sealed)",
+    "specifications": {
+      "Color Temp": "2200K Golden Warm",
+      "Wattage": "4W (Equivalent to 40W Incandescent)",
+      "Shape": "ST64 Teardrop"
+    },
+    "shipping": {
+      "weight": "95 g",
+      "dispatchTime": "Ships within 24 hours",
+      "estimatedDays": "2 - 4 days",
+      "courierPartners": [
+        "BlueDart Express",
+        "Delhivery Surface",
+        "DTDC Air"
+      ],
+      "codAvailable": true,
+      "returnWindowDays": 7
+    },
+    "variants": {
+      "colors": [
+        {
+          "name": "Standard",
+          "hex": "#334155",
+          "inStock": true
+        }
+      ],
+      "options": [
+        {
+          "label": "Standard Unit",
+          "priceDelta": 0,
+          "stock": 120
+        }
+      ]
+    },
+    "badge": "Vintage Aesthetic",
+    "tags": [
+      "edison bulb",
+      "filament",
+      "warm light"
+    ]
+  },
+  {
+    "id": "p171",
+    "sku": "VM-ORG-P171-HON",
+    "name": "Raw Wild Forest White Honey 500g NMR Tested",
+    "category": "Grocery",
+    "brand": "Himalayan Pure",
+    "price": 650,
+    "mrp": 850,
+    "discountPercent": 24,
+    "stock": 55,
+    "quantity": 55,
+    "barcode": "8901000001719",
+    "lowStockThreshold": 11,
+    "reservedStock": 0,
+    "warehouseLocation": "Rack R-171",
+    "restockLeadDays": 3,
+    "vendorId": "v13",
+    "status": "approved",
+    "images": [
+      "https://images.unsplash.com/photo-1587049352846-4a222e784d38?w=600&h=600&fit=crop",
+      "https://images.unsplash.com/photo-1500382017468-9049fed747ef?w=600&h=600&fit=crop"
+    ],
+    "description": "Unprocessed, unheated raw wild flower nectar harvested from cliff bee hives in the Garhwal Himalayas. Creamy texture with natural pollen granules.",
+    "condition": "Brand New (Sealed)",
+    "specifications": {
+      "Purity": "100% NMR Tested (Zero Added Sugars)",
+      "Origin": "Garhwal, Uttarakhand",
+      "Weight": "500 g"
+    },
+    "shipping": {
+      "weight": "780 g",
+      "dispatchTime": "Ships within 24 hours",
+      "estimatedDays": "2 - 4 days",
+      "courierPartners": [
+        "BlueDart Express",
+        "Delhivery Surface",
+        "DTDC Air"
+      ],
+      "codAvailable": true,
+      "returnWindowDays": 7
+    },
+    "variants": {
+      "colors": [
+        {
+          "name": "Standard",
+          "hex": "#334155",
+          "inStock": true
+        }
+      ],
+      "options": [
+        {
+          "label": "Standard Unit",
+          "priceDelta": 0,
+          "stock": 55
+        }
+      ]
+    },
+    "badge": "NMR Certified",
+    "tags": [
+      "honey",
+      "raw honey",
+      "himalayan"
+    ]
+  },
+  {
+    "id": "p172",
+    "sku": "VM-ORG-P172-GHE",
+    "name": "A2 Desi Gir Cow Vedic Bilona Ghee 1 Litre Glass Jar",
+    "category": "Grocery",
+    "brand": "Himalayan Pure",
+    "price": 2199,
+    "mrp": 2699,
+    "discountPercent": 19,
+    "stock": 40,
+    "quantity": 40,
+    "barcode": "8901000001726",
+    "lowStockThreshold": 8,
+    "reservedStock": 0,
+    "warehouseLocation": "Rack R-172",
+    "restockLeadDays": 3,
+    "vendorId": "v13",
+    "status": "approved",
+    "images": [
+      "https://images.unsplash.com/photo-1589301760014-d929f3979dbc?w=600&h=600&fit=crop",
+      "https://images.unsplash.com/photo-1587049352846-4a222e784d38?w=600&h=600&fit=crop"
+    ],
+    "description": "Prepared using traditional clay pot bilona churning of whole curd from grass-fed mountain cows. Golden granular aroma rich in butyric acid and Omega-3.",
+    "condition": "Brand New (Sealed)",
+    "specifications": {
+      "Method": "Traditional Vedic Bilona (Curd Churned)",
+      "Source": "Free-Grazing A2 Gir Cows",
+      "Volume": "1000 ml"
+    },
+    "shipping": {
+      "weight": "1450 g",
+      "dispatchTime": "Ships within 24 hours",
+      "estimatedDays": "2 - 4 days",
+      "courierPartners": [
+        "BlueDart Express",
+        "Delhivery Surface",
+        "DTDC Air"
+      ],
+      "codAvailable": true,
+      "returnWindowDays": 7
+    },
+    "variants": {
+      "colors": [
+        {
+          "name": "Standard",
+          "hex": "#334155",
+          "inStock": true
+        }
+      ],
+      "options": [
+        {
+          "label": "Standard Unit",
+          "priceDelta": 0,
+          "stock": 40
+        }
+      ]
+    },
+    "badge": "Vedic Bilona",
+    "tags": [
+      "ghee",
+      "a2 ghee",
+      "bilona"
+    ]
+  },
+  {
+    "id": "p173",
+    "sku": "VM-ORG-P173-OIL",
+    "name": "Wood Cold-Pressed Yellow Mustard Oil (Kachi Ghani) 1L",
+    "category": "Grocery",
+    "brand": "Himalayan Pure",
+    "price": 380,
+    "mrp": 499,
+    "discountPercent": 24,
+    "stock": 85,
+    "quantity": 85,
+    "barcode": "8901000001733",
+    "lowStockThreshold": 17,
+    "reservedStock": 0,
+    "warehouseLocation": "Rack R-173",
+    "restockLeadDays": 3,
+    "vendorId": "v13",
+    "status": "approved",
+    "images": [
+      "https://images.unsplash.com/photo-1474979266404-7eaacbcd87c5?w=600&h=600&fit=crop",
+      "https://images.unsplash.com/photo-1587049352846-4a222e784d38?w=600&h=600&fit=crop"
+    ],
+    "description": "Extracted in traditional Mara Chekku wooden kolhus below 40°C. Sweet pungent aroma, naturally rich in MUFA and natural antioxidants.",
+    "condition": "Brand New (Sealed)",
+    "specifications": {
+      "Extraction": "Cold-Pressed Wooden Ghani",
+      "Seed": "Non-GMO Yellow Mustard",
+      "Volume": "1000 ml"
+    },
+    "shipping": {
+      "weight": "1150 g",
+      "dispatchTime": "Ships within 24 hours",
+      "estimatedDays": "2 - 4 days",
+      "courierPartners": [
+        "BlueDart Express",
+        "Delhivery Surface",
+        "DTDC Air"
+      ],
+      "codAvailable": true,
+      "returnWindowDays": 7
+    },
+    "variants": {
+      "colors": [
+        {
+          "name": "Standard",
+          "hex": "#334155",
+          "inStock": true
+        }
+      ],
+      "options": [
+        {
+          "label": "Standard Unit",
+          "priceDelta": 0,
+          "stock": 85
+        }
+      ]
+    },
+    "badge": "Cold-Pressed",
+    "tags": [
+      "mustard oil",
+      "kachi ghani",
+      "cooking oil"
+    ]
+  },
+  {
+    "id": "p174",
+    "sku": "VM-ORG-P174-SLT",
+    "name": "Himalayan Pink Rock Salt Mineral Coarse Crystals 1kg",
+    "category": "Grocery",
+    "brand": "Himalayan Pure",
+    "price": 160,
+    "mrp": 220,
+    "discountPercent": 27,
+    "stock": 150,
+    "quantity": 150,
+    "barcode": "8901000001740",
+    "lowStockThreshold": 30,
+    "reservedStock": 0,
+    "warehouseLocation": "Rack R-174",
+    "restockLeadDays": 3,
+    "vendorId": "v13",
+    "status": "approved",
+    "images": [
+      "https://images.unsplash.com/photo-1518110925495-5fe2fda0442c?w=600&h=600&fit=crop",
+      "https://images.unsplash.com/photo-1587049352846-4a222e784d38?w=600&h=600&fit=crop"
+    ],
+    "description": "Unrefined pink salt mined from pristine ancient sea beds containing 84 essential trace minerals including iron, magnesium, and potassium.",
+    "condition": "Brand New (Sealed)",
+    "specifications": {
+      "Form": "Coarse Crystal Grain (For Salt Grinders)",
+      "Purity": "100% Natural Unbleached",
+      "Weight": "1000 g"
+    },
+    "shipping": {
+      "weight": "1050 g",
+      "dispatchTime": "Ships within 24 hours",
+      "estimatedDays": "2 - 4 days",
+      "courierPartners": [
+        "BlueDart Express",
+        "Delhivery Surface",
+        "DTDC Air"
+      ],
+      "codAvailable": true,
+      "returnWindowDays": 7
+    },
+    "variants": {
+      "colors": [
+        {
+          "name": "Standard",
+          "hex": "#334155",
+          "inStock": true
+        }
+      ],
+      "options": [
+        {
+          "label": "Standard Unit",
+          "priceDelta": 0,
+          "stock": 150
+        }
+      ]
+    },
+    "badge": "84 Trace Minerals",
+    "tags": [
+      "pink salt",
+      "rock salt",
+      "himalayan salt"
+    ]
+  },
+  {
+    "id": "p175",
+    "sku": "VM-ORG-P175-RAJ",
+    "name": "Pahadi Harsil Red-Speckled White Rajma 1kg",
+    "category": "Grocery",
+    "brand": "Himalayan Pure",
+    "price": 290,
+    "mrp": 380,
+    "discountPercent": 24,
+    "stock": 70,
+    "quantity": 70,
+    "barcode": "8901000001757",
+    "lowStockThreshold": 14,
+    "reservedStock": 0,
+    "warehouseLocation": "Rack R-175",
+    "restockLeadDays": 3,
+    "vendorId": "v13",
+    "status": "approved",
+    "images": [
+      "https://images.unsplash.com/photo-1589301760014-d929f3979dbc?w=600&h=600&fit=crop",
+      "https://images.unsplash.com/photo-1500382017468-9049fed747ef?w=600&h=600&fit=crop"
+    ],
+    "description": "Sourced from the scenic valleys of Harsil, Uttarkashi. Cooks tender without falling apart and produces a creamy, deeply savory gravy.",
+    "condition": "Brand New (Sealed)",
+    "specifications": {
+      "Origin": "Harsil, Bhagirathi Valley (8,000 ft)",
+      "Glazing": "Unpolished (Zero Wax)",
+      "Weight": "1000 g"
+    },
+    "shipping": {
+      "weight": "1020 g",
+      "dispatchTime": "Ships within 24 hours",
+      "estimatedDays": "2 - 4 days",
+      "courierPartners": [
+        "BlueDart Express",
+        "Delhivery Surface",
+        "DTDC Air"
+      ],
+      "codAvailable": true,
+      "returnWindowDays": 7
+    },
+    "variants": {
+      "colors": [
+        {
+          "name": "Standard",
+          "hex": "#334155",
+          "inStock": true
+        }
+      ],
+      "options": [
+        {
+          "label": "Standard Unit",
+          "priceDelta": 0,
+          "stock": 70
+        }
+      ]
+    },
+    "badge": "Valley Harvest",
+    "tags": [
+      "rajma",
+      "pulses",
+      "organic"
+    ]
+  },
+  {
+    "id": "p176",
+    "sku": "VM-ORG-P176-ACV",
+    "name": "Raw Apple Cider Vinegar with Mother & Fenugreek 500ml",
+    "category": "Grocery",
+    "brand": "Himalayan Pure",
+    "price": 340,
+    "mrp": 450,
+    "discountPercent": 24,
+    "stock": 60,
+    "quantity": 60,
+    "barcode": "8901000001764",
+    "lowStockThreshold": 12,
+    "reservedStock": 0,
+    "warehouseLocation": "Rack R-176",
+    "restockLeadDays": 3,
+    "vendorId": "v13",
+    "status": "approved",
+    "images": [
+      "https://images.unsplash.com/photo-1474979266404-7eaacbcd87c5?w=600&h=600&fit=crop",
+      "https://images.unsplash.com/photo-1587049352846-4a222e784d38?w=600&h=600&fit=crop"
+    ],
+    "description": "Brewed from crunchy Kinnaur mountain apples, naturally fermented without pasteurization. Infused with methi (fenugreek) for metabolic balance.",
+    "condition": "Brand New (Sealed)",
+    "specifications": {
+      "Acidity": "5% Natural Acidity",
+      "Processing": "Unfiltered & Unpasteurized",
+      "Volume": "500 ml"
+    },
+    "shipping": {
+      "weight": "820 g",
+      "dispatchTime": "Ships within 24 hours",
+      "estimatedDays": "2 - 4 days",
+      "courierPartners": [
+        "BlueDart Express",
+        "Delhivery Surface",
+        "DTDC Air"
+      ],
+      "codAvailable": true,
+      "returnWindowDays": 7
+    },
+    "variants": {
+      "colors": [
+        {
+          "name": "Standard",
+          "hex": "#334155",
+          "inStock": true
+        }
+      ],
+      "options": [
+        {
+          "label": "Standard Unit",
+          "priceDelta": 0,
+          "stock": 60
+        }
+      ]
+    },
+    "badge": "Live Cultures",
+    "tags": [
+      "acv",
+      "apple cider vinegar",
+      "gut health"
+    ]
+  },
+  {
+    "id": "p177",
+    "sku": "VM-ORG-P177-CHM",
+    "name": "Organic Whole Chamomile Flower Dried Herbal Infusion 100g",
+    "category": "Grocery",
+    "brand": "Himalayan Pure",
+    "price": 420,
+    "mrp": 550,
+    "discountPercent": 24,
+    "stock": 45,
+    "quantity": 45,
+    "barcode": "8901000001771",
+    "lowStockThreshold": 9,
+    "reservedStock": 0,
+    "warehouseLocation": "Rack R-177",
+    "restockLeadDays": 3,
+    "vendorId": "v13",
+    "status": "approved",
+    "images": [
+      "https://images.unsplash.com/photo-1597481499750-3e6b22637e12?w=600&h=600&fit=crop",
+      "https://images.unsplash.com/photo-1500382017468-9049fed747ef?w=600&h=600&fit=crop"
+    ],
+    "description": "Whole sun-dried matricaria chamomile blooms harvested from alpine herb beds. Soothing bedtime caffeine-free herbal tea with apple-like floral aroma.",
+    "condition": "Brand New (Sealed)",
+    "specifications": {
+      "Form": "Intact Whole Dried Flowers",
+      "Caffeine": "100% Caffeine Free",
+      "Weight": "100 g"
+    },
+    "shipping": {
+      "weight": "180 g",
+      "dispatchTime": "Ships within 24 hours",
+      "estimatedDays": "2 - 4 days",
+      "courierPartners": [
+        "BlueDart Express",
+        "Delhivery Surface",
+        "DTDC Air"
+      ],
+      "codAvailable": true,
+      "returnWindowDays": 7
+    },
+    "variants": {
+      "colors": [
+        {
+          "name": "Standard",
+          "hex": "#334155",
+          "inStock": true
+        }
+      ],
+      "options": [
+        {
+          "label": "Standard Unit",
+          "priceDelta": 0,
+          "stock": 45
+        }
+      ]
+    },
+    "badge": "Sleep & Calm",
+    "tags": [
+      "chamomile",
+      "herbal tea",
+      "sleep"
+    ]
+  },
+  {
+    "id": "p178",
+    "sku": "VM-ORG-P178-CHI",
+    "name": "Certified Organic Black Chia Seeds 250g Zip Pouch",
+    "category": "Grocery",
+    "brand": "Himalayan Pure",
+    "price": 240,
+    "mrp": 320,
+    "discountPercent": 25,
+    "stock": 90,
+    "quantity": 90,
+    "barcode": "8901000001788",
+    "lowStockThreshold": 18,
+    "reservedStock": 0,
+    "warehouseLocation": "Rack R-178",
+    "restockLeadDays": 3,
+    "vendorId": "v13",
+    "status": "approved",
+    "images": [
+      "https://images.unsplash.com/photo-1518110925495-5fe2fda0442c?w=600&h=600&fit=crop",
+      "https://images.unsplash.com/photo-1587049352846-4a222e784d38?w=600&h=600&fit=crop"
+    ],
+    "description": "Hydrophilic superfood seeds packed with dietary fiber, Omega-3 fatty acids, and plant protein. Perfect for puddings, smoothies, and overnight oats.",
+    "condition": "Brand New (Sealed)",
+    "specifications": {
+      "Dietary Fiber": "38 g per 100g",
+      "Purity": "99.9% Cleaned & Sortexed",
+      "Weight": "250 g"
+    },
+    "shipping": {
+      "weight": "270 g",
+      "dispatchTime": "Ships within 24 hours",
+      "estimatedDays": "2 - 4 days",
+      "courierPartners": [
+        "BlueDart Express",
+        "Delhivery Surface",
+        "DTDC Air"
+      ],
+      "codAvailable": true,
+      "returnWindowDays": 7
+    },
+    "variants": {
+      "colors": [
+        {
+          "name": "Standard",
+          "hex": "#334155",
+          "inStock": true
+        }
+      ],
+      "options": [
+        {
+          "label": "Standard Unit",
+          "priceDelta": 0,
+          "stock": 90
+        }
+      ]
+    },
+    "badge": "Superfood",
+    "tags": [
+      "chia seeds",
+      "fiber",
+      "superfood"
+    ]
+  },
+  {
+    "id": "p179",
+    "sku": "VM-ORG-P179-ALM",
+    "name": "Cold-Pressed Sweet Kashmiri Almond Oil 200ml Glass Dropper",
+    "category": "Grocery",
+    "brand": "Himalayan Pure",
+    "price": 580,
+    "mrp": 750,
+    "discountPercent": 23,
+    "stock": 50,
+    "quantity": 50,
+    "barcode": "8901000001795",
+    "lowStockThreshold": 10,
+    "reservedStock": 0,
+    "warehouseLocation": "Rack R-179",
+    "restockLeadDays": 3,
+    "vendorId": "v13",
+    "status": "approved",
+    "images": [
+      "https://images.unsplash.com/photo-1474979266404-7eaacbcd87c5?w=600&h=600&fit=crop",
+      "https://images.unsplash.com/photo-1587049352846-4a222e784d38?w=600&h=600&fit=crop"
+    ],
+    "description": "Pure edible grade Rogan Badam Shirin pressed from sweet mamra almonds. Nourishing for brain development, infant massage, and radiant skin.",
+    "condition": "Brand New (Sealed)",
+    "specifications": {
+      "Grade": "100% Edible & Therapeutic Grade",
+      "Extraction": "First Cold Press",
+      "Volume": "200 ml"
+    },
+    "shipping": {
+      "weight": "430 g",
+      "dispatchTime": "Ships within 24 hours",
+      "estimatedDays": "2 - 4 days",
+      "courierPartners": [
+        "BlueDart Express",
+        "Delhivery Surface",
+        "DTDC Air"
+      ],
+      "codAvailable": true,
+      "returnWindowDays": 7
+    },
+    "variants": {
+      "colors": [
+        {
+          "name": "Standard",
+          "hex": "#334155",
+          "inStock": true
+        }
+      ],
+      "options": [
+        {
+          "label": "Standard Unit",
+          "priceDelta": 0,
+          "stock": 50
+        }
+      ]
+    },
+    "badge": "Therapeutic Grade",
+    "tags": [
+      "almond oil",
+      "badam rogan"
+    ]
+  },
+  {
+    "id": "p180",
+    "sku": "VM-ORG-P180-SHI",
+    "name": "Shilajit Pure Himalayan Soft Resin 20g Gold Grade",
+    "category": "Grocery",
+    "brand": "Himalayan Pure",
+    "price": 1450,
+    "mrp": 1999,
+    "discountPercent": 27,
+    "stock": 35,
+    "quantity": 35,
+    "barcode": "8901000001801",
+    "lowStockThreshold": 7,
+    "reservedStock": 0,
+    "warehouseLocation": "Rack R-180",
+    "restockLeadDays": 3,
+    "vendorId": "v13",
+    "status": "approved",
+    "images": [
+      "https://images.unsplash.com/photo-1587049352846-4a222e784d38?w=600&h=600&fit=crop",
+      "https://images.unsplash.com/photo-1500382017468-9049fed747ef?w=600&h=600&fit=crop"
+    ],
+    "description": "Purified using traditional Shodhana Ayurvedic decoction. Yields over 80% fulvic acid with 84+ ionic minerals for cellular vitality, strength, and endurance.",
+    "condition": "Brand New (Sealed)",
+    "specifications": {
+      "Fulvic Acid": ">80%",
+      "Form": "Pure Soft Mineral Pitch Resin",
+      "Weight": "20 g (With Measuring Spoon)"
+    },
+    "shipping": {
+      "weight": "160 g",
+      "dispatchTime": "Ships within 24 hours",
+      "estimatedDays": "2 - 4 days",
+      "courierPartners": [
+        "BlueDart Express",
+        "Delhivery Surface",
+        "DTDC Air"
+      ],
+      "codAvailable": true,
+      "returnWindowDays": 7
+    },
+    "variants": {
+      "colors": [
+        {
+          "name": "Standard",
+          "hex": "#334155",
+          "inStock": true
+        }
+      ],
+      "options": [
+        {
+          "label": "Standard Unit",
+          "priceDelta": 0,
+          "stock": 35
+        }
+      ]
+    },
+    "badge": "Gold Grade Resin",
+    "tags": [
+      "shilajit",
+      "stamina",
+      "ayurveda"
+    ]
+  },
+  {
+    "id": "p181",
+    "sku": "VM-LTH-P181-LAP",
+    "name": "Vintage Full-Grain Leather 15.6\" Laptop Messenger Bag",
+    "category": "Fashion",
+    "brand": "Aethelgard",
+    "price": 4999,
+    "mrp": 6999,
+    "discountPercent": 29,
+    "stock": 25,
+    "quantity": 25,
+    "barcode": "8901000001818",
+    "lowStockThreshold": 5,
+    "reservedStock": 0,
+    "warehouseLocation": "Rack R-181",
+    "restockLeadDays": 3,
+    "vendorId": "v14",
+    "status": "approved",
+    "images": [
+      "https://images.unsplash.com/photo-1548036328-c9fa89d128fa?w=600&h=600&fit=crop",
+      "https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=600&h=600&fit=crop"
+    ],
+    "description": "Crafted from thick vegetable-tanned buffalo hide with antiqued solid brass hardware. Padded sleeve protects laptops up to 15.6 inches.",
+    "condition": "Brand New (Sealed)",
+    "specifications": {
+      "Material": "100% Full-Grain Buffalo Hide",
+      "Laptop Compatibility": "Up to 15.6 Inches",
+      "Dimensions": "40 x 30 x 10 cm"
+    },
+    "shipping": {
+      "weight": "1450 g",
+      "dispatchTime": "Ships within 24 hours",
+      "estimatedDays": "2 - 4 days",
+      "courierPartners": [
+        "BlueDart Express",
+        "Delhivery Surface",
+        "DTDC Air"
+      ],
+      "codAvailable": true,
+      "returnWindowDays": 7
+    },
+    "variants": {
+      "colors": [
+        {
+          "name": "Standard",
+          "hex": "#334155",
+          "inStock": true
+        }
+      ],
+      "options": [
+        {
+          "label": "Standard Unit",
+          "priceDelta": 0,
+          "stock": 25
+        }
+      ]
+    },
+    "badge": "Heirloom Grade",
+    "tags": [
+      "leather bag",
+      "messenger",
+      "laptop bag"
+    ]
+  },
+  {
+    "id": "p182",
+    "sku": "VM-LTH-P182-DUF",
+    "name": "Handcrafted Weekend Buffalo Leather Duffle Bag 45L",
+    "category": "Fashion",
+    "brand": "Aethelgard",
+    "price": 6499,
+    "mrp": 8999,
+    "discountPercent": 28,
+    "stock": 18,
+    "quantity": 18,
+    "barcode": "8901000001825",
+    "lowStockThreshold": 4,
+    "reservedStock": 0,
+    "warehouseLocation": "Rack R-182",
+    "restockLeadDays": 3,
+    "vendorId": "v14",
+    "status": "approved",
+    "images": [
+      "https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=600&h=600&fit=crop",
+      "https://images.unsplash.com/photo-1548036328-c9fa89d128fa?w=600&h=600&fit=crop"
+    ],
+    "description": "Spacious airline carry-on approved duffle with separate shoe compartment and reinforced water-resistant canvas lining.",
+    "condition": "Brand New (Sealed)",
+    "specifications": {
+      "Capacity": "45 Litres",
+      "Zippers": "YKK Solid Brass",
+      "Carry": "Padded Removable Shoulder Strap"
+    },
+    "shipping": {
+      "weight": "1850 g",
+      "dispatchTime": "Ships within 24 hours",
+      "estimatedDays": "2 - 4 days",
+      "courierPartners": [
+        "BlueDart Express",
+        "Delhivery Surface",
+        "DTDC Air"
+      ],
+      "codAvailable": true,
+      "returnWindowDays": 7
+    },
+    "variants": {
+      "colors": [
+        {
+          "name": "Standard",
+          "hex": "#334155",
+          "inStock": true
+        }
+      ],
+      "options": [
+        {
+          "label": "Standard Unit",
+          "priceDelta": 0,
+          "stock": 18
+        }
+      ]
+    },
+    "badge": "Travel Essential",
+    "tags": [
+      "duffle bag",
+      "leather",
+      "weekend travel"
+    ]
+  },
+  {
+    "id": "p183",
+    "sku": "VM-LTH-P183-WAL",
+    "name": "Minimalist RFID-Blocking Bi-Fold Leather Cardholder Wallet",
+    "category": "Fashion",
+    "brand": "Aethelgard",
+    "price": 899,
+    "mrp": 1299,
+    "discountPercent": 31,
+    "stock": 70,
+    "quantity": 70,
+    "barcode": "8901000001832",
+    "lowStockThreshold": 14,
+    "reservedStock": 0,
+    "warehouseLocation": "Rack R-183",
+    "restockLeadDays": 3,
+    "vendorId": "v14",
+    "status": "approved",
+    "images": [
+      "https://images.unsplash.com/photo-1627123424574-724758594e93?w=600&h=600&fit=crop",
+      "https://images.unsplash.com/photo-1548036328-c9fa89d128fa?w=600&h=600&fit=crop"
+    ],
+    "description": "Slim 8mm profile wallet with 6 card slots, quick thumb-slide access, and electromagnetic RFID shielding against digital skimming.",
+    "condition": "Brand New (Sealed)",
+    "specifications": {
+      "RFID Shielding": "13.56 MHz High-Frequency Protection",
+      "Slots": "6 Cards + Cash Pocket",
+      "Thickness": "8 mm"
+    },
+    "shipping": {
+      "weight": "95 g",
+      "dispatchTime": "Ships within 24 hours",
+      "estimatedDays": "2 - 4 days",
+      "courierPartners": [
+        "BlueDart Express",
+        "Delhivery Surface",
+        "DTDC Air"
+      ],
+      "codAvailable": true,
+      "returnWindowDays": 7
+    },
+    "variants": {
+      "colors": [
+        {
+          "name": "Standard",
+          "hex": "#334155",
+          "inStock": true
+        }
+      ],
+      "options": [
+        {
+          "label": "Standard Unit",
+          "priceDelta": 0,
+          "stock": 70
+        }
+      ]
+    },
+    "badge": "Slim EDC",
+    "tags": [
+      "wallet",
+      "cardholder",
+      "rfid"
+    ]
+  },
+  {
+    "id": "p184",
+    "sku": "VM-LTH-P184-BLT",
+    "name": "Vegetable-Tanned Full-Grain Brass Buckle Formal Belt 38mm",
+    "category": "Fashion",
+    "brand": "Aethelgard",
+    "price": 1450,
+    "mrp": 1999,
+    "discountPercent": 27,
+    "stock": 55,
+    "quantity": 55,
+    "barcode": "8901000001849",
+    "lowStockThreshold": 11,
+    "reservedStock": 0,
+    "warehouseLocation": "Rack R-184",
+    "restockLeadDays": 3,
+    "vendorId": "v14",
+    "status": "approved",
+    "images": [
+      "https://images.unsplash.com/photo-1548036328-c9fa89d128fa?w=600&h=600&fit=crop",
+      "https://images.unsplash.com/photo-1627123424574-724758594e93?w=600&h=600&fit=crop"
+    ],
+    "description": "One single piece of 3.8mm thick unbonded harness leather. No cracking or peeling. Solid single-cast brass prong buckle.",
+    "condition": "Brand New (Sealed)",
+    "specifications": {
+      "Width": "38 mm (1.5 Inch)",
+      "Thickness": "3.8 mm Single Ply",
+      "Buckle": "Solid Cast Brushed Brass"
+    },
+    "shipping": {
+      "weight": "220 g",
+      "dispatchTime": "Ships within 24 hours",
+      "estimatedDays": "2 - 4 days",
+      "courierPartners": [
+        "BlueDart Express",
+        "Delhivery Surface",
+        "DTDC Air"
+      ],
+      "codAvailable": true,
+      "returnWindowDays": 7
+    },
+    "variants": {
+      "colors": [
+        {
+          "name": "Standard",
+          "hex": "#334155",
+          "inStock": true
+        }
+      ],
+      "options": [
+        {
+          "label": "Standard Unit",
+          "priceDelta": 0,
+          "stock": 55
+        }
+      ]
+    },
+    "badge": "Lifetime Guarantee",
+    "tags": [
+      "belt",
+      "leather belt",
+      "formal"
+    ]
+  },
+  {
+    "id": "p185",
+    "sku": "VM-LTH-P185-ORG",
+    "name": "Genuine Leather Tech Travel Cable & Charger Organizer Case",
+    "category": "Fashion",
+    "brand": "Aethelgard",
+    "price": 1250,
+    "mrp": 1699,
+    "discountPercent": 26,
+    "stock": 40,
+    "quantity": 40,
+    "barcode": "8901000001856",
+    "lowStockThreshold": 8,
+    "reservedStock": 0,
+    "warehouseLocation": "Rack R-185",
+    "restockLeadDays": 3,
+    "vendorId": "v14",
+    "status": "approved",
+    "images": [
+      "https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=600&h=600&fit=crop",
+      "https://images.unsplash.com/photo-1548036328-c9fa89d128fa?w=600&h=600&fit=crop"
+    ],
+    "description": "Elastic loop compartments accommodate charging bricks, braided cables, flash drives, power banks, and wireless earbuds in organized elegance.",
+    "condition": "Brand New (Sealed)",
+    "specifications": {
+      "Interior": "Soft Scratch-Proof Microfiber",
+      "Hardware": "YKK Antique Brass",
+      "Dimensions": "22 x 15 x 6 cm"
+    },
+    "shipping": {
+      "weight": "260 g",
+      "dispatchTime": "Ships within 24 hours",
+      "estimatedDays": "2 - 4 days",
+      "courierPartners": [
+        "BlueDart Express",
+        "Delhivery Surface",
+        "DTDC Air"
+      ],
+      "codAvailable": true,
+      "returnWindowDays": 7
+    },
+    "variants": {
+      "colors": [
+        {
+          "name": "Standard",
+          "hex": "#334155",
+          "inStock": true
+        }
+      ],
+      "options": [
+        {
+          "label": "Standard Unit",
+          "priceDelta": 0,
+          "stock": 40
+        }
+      ]
+    },
+    "badge": "Tech Organizer",
+    "tags": [
+      "tech pouch",
+      "cable organizer"
+    ]
+  },
+  {
+    "id": "p186",
+    "sku": "VM-LTH-P186-KEY",
+    "name": "Horween Leather Key Clip Organizer with AirTag Holder",
+    "category": "Fashion",
+    "brand": "Aethelgard",
+    "price": 699,
+    "mrp": 999,
+    "discountPercent": 30,
+    "stock": 80,
+    "quantity": 80,
+    "barcode": "8901000001863",
+    "lowStockThreshold": 16,
+    "reservedStock": 0,
+    "warehouseLocation": "Rack R-186",
+    "restockLeadDays": 3,
+    "vendorId": "v14",
+    "status": "approved",
+    "images": [
+      "https://images.unsplash.com/photo-1627123424574-724758594e93?w=600&h=600&fit=crop",
+      "https://images.unsplash.com/photo-1548036328-c9fa89d128fa?w=600&h=600&fit=crop"
+    ],
+    "description": "Compact swivel screw design holds up to 6 keys noiselessly without pocket scratching. Integrated snug sleeve for Apple AirTag tracking.",
+    "condition": "Brand New (Sealed)",
+    "specifications": {
+      "Key Capacity": "6 Keys",
+      "Hardware": "Stainless Steel Fasteners",
+      "AirTag Fit": "Precision Cutout"
+    },
+    "shipping": {
+      "weight": "65 g",
+      "dispatchTime": "Ships within 24 hours",
+      "estimatedDays": "2 - 4 days",
+      "courierPartners": [
+        "BlueDart Express",
+        "Delhivery Surface",
+        "DTDC Air"
+      ],
+      "codAvailable": true,
+      "returnWindowDays": 7
+    },
+    "variants": {
+      "colors": [
+        {
+          "name": "Standard",
+          "hex": "#334155",
+          "inStock": true
+        }
+      ],
+      "options": [
+        {
+          "label": "Standard Unit",
+          "priceDelta": 0,
+          "stock": 80
+        }
+      ]
+    },
+    "badge": "Compact EDC",
+    "tags": [
+      "keychain",
+      "airtag",
+      "leather"
+    ]
+  },
+  {
+    "id": "p187",
+    "sku": "VM-LTH-P187-PAS",
+    "name": "Rugged Leather Passport & Travel Document Wallet",
+    "category": "Fashion",
+    "brand": "Aethelgard",
+    "price": 1150,
+    "mrp": 1599,
+    "discountPercent": 28,
+    "stock": 45,
+    "quantity": 45,
+    "barcode": "8901000001870",
+    "lowStockThreshold": 9,
+    "reservedStock": 0,
+    "warehouseLocation": "Rack R-187",
+    "restockLeadDays": 3,
+    "vendorId": "v14",
+    "status": "approved",
+    "images": [
+      "https://images.unsplash.com/photo-1548036328-c9fa89d128fa?w=600&h=600&fit=crop",
+      "https://images.unsplash.com/photo-1627123424574-724758594e93?w=600&h=600&fit=crop"
+    ],
+    "description": "Holds two international passports, boarding pass foldouts, 4 credit cards, and a micro SIM / ejector pin in secure burnished leather slots.",
+    "condition": "Brand New (Sealed)",
+    "specifications": {
+      "Slots": "Dual Passport + Boarding Pass Sleeve",
+      "Stitching": "Hand-Waxed Nylon Thread",
+      "Closure": "Hidden Magnetic Snap"
+    },
+    "shipping": {
+      "weight": "140 g",
+      "dispatchTime": "Ships within 24 hours",
+      "estimatedDays": "2 - 4 days",
+      "courierPartners": [
+        "BlueDart Express",
+        "Delhivery Surface",
+        "DTDC Air"
+      ],
+      "codAvailable": true,
+      "returnWindowDays": 7
+    },
+    "variants": {
+      "colors": [
+        {
+          "name": "Standard",
+          "hex": "#334155",
+          "inStock": true
+        }
+      ],
+      "options": [
+        {
+          "label": "Standard Unit",
+          "priceDelta": 0,
+          "stock": 45
+        }
+      ]
+    },
+    "badge": "Frequent Flyer",
+    "tags": [
+      "passport wallet",
+      "travel"
+    ]
+  },
+  {
+    "id": "p188",
+    "sku": "VM-LTH-P188-PEN",
+    "name": "Slimline Leather Fountain Pen & Apple Pencil Case",
+    "category": "Fashion",
+    "brand": "Aethelgard",
+    "price": 499,
+    "mrp": 699,
+    "discountPercent": 29,
+    "stock": 65,
+    "quantity": 65,
+    "barcode": "8901000001887",
+    "lowStockThreshold": 13,
+    "reservedStock": 0,
+    "warehouseLocation": "Rack R-188",
+    "restockLeadDays": 3,
+    "vendorId": "v14",
+    "status": "approved",
+    "images": [
+      "https://images.unsplash.com/photo-1627123424574-724758594e93?w=600&h=600&fit=crop",
+      "https://images.unsplash.com/photo-1548036328-c9fa89d128fa?w=600&h=600&fit=crop"
+    ],
+    "description": "Protects high-end fountain pens or digital styluses from bag abrasions. Snug single-piece fold construction with burnished hand-dyed edges.",
+    "condition": "Brand New (Sealed)",
+    "specifications": {
+      "Pen Length": "Up to 165 mm",
+      "Material": "Full-Grain Cowhide",
+      "Lining": "Suede"
+    },
+    "shipping": {
+      "weight": "45 g",
+      "dispatchTime": "Ships within 24 hours",
+      "estimatedDays": "2 - 4 days",
+      "courierPartners": [
+        "BlueDart Express",
+        "Delhivery Surface",
+        "DTDC Air"
+      ],
+      "codAvailable": true,
+      "returnWindowDays": 7
+    },
+    "variants": {
+      "colors": [
+        {
+          "name": "Standard",
+          "hex": "#334155",
+          "inStock": true
+        }
+      ],
+      "options": [
+        {
+          "label": "Standard Unit",
+          "priceDelta": 0,
+          "stock": 65
+        }
+      ]
+    },
+    "badge": "Stationery Essential",
+    "tags": [
+      "pen case",
+      "pencil sleeve"
+    ]
+  },
+  {
+    "id": "p189",
+    "sku": "VM-LTH-P189-DSK",
+    "name": "Desk Mat Pure Hand-Stitched Cowhide Leather 90x40cm",
+    "category": "Home & Living",
+    "brand": "Aethelgard",
+    "price": 2199,
+    "mrp": 2999,
+    "discountPercent": 27,
+    "stock": 30,
+    "quantity": 30,
+    "barcode": "8901000001894",
+    "lowStockThreshold": 6,
+    "reservedStock": 0,
+    "warehouseLocation": "Rack R-189",
+    "restockLeadDays": 3,
+    "vendorId": "v14",
+    "status": "approved",
+    "images": [
+      "https://images.unsplash.com/photo-1548036328-c9fa89d128fa?w=600&h=600&fit=crop",
+      "https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=600&h=600&fit=crop"
+    ],
+    "description": "Transforms home office desks with rich natural leather scent. Smooth mouse tracking surface with non-slip suede bottom backing.",
+    "condition": "Brand New (Sealed)",
+    "specifications": {
+      "Dimensions": "900 x 400 mm",
+      "Thickness": "2.2 mm",
+      "Backing": "Anti-Skid Natural Suede"
+    },
+    "shipping": {
+      "weight": "680 g",
+      "dispatchTime": "Ships within 24 hours",
+      "estimatedDays": "2 - 4 days",
+      "courierPartners": [
+        "BlueDart Express",
+        "Delhivery Surface",
+        "DTDC Air"
+      ],
+      "codAvailable": true,
+      "returnWindowDays": 7
+    },
+    "variants": {
+      "colors": [
+        {
+          "name": "Standard",
+          "hex": "#334155",
+          "inStock": true
+        }
+      ],
+      "options": [
+        {
+          "label": "Standard Unit",
+          "priceDelta": 0,
+          "stock": 30
+        }
+      ]
+    },
+    "badge": "Workspace Upgrade",
+    "tags": [
+      "desk mat",
+      "leather pad",
+      "workspace"
+    ]
+  },
+  {
+    "id": "p190",
+    "sku": "VM-LTH-P190-TOI",
+    "name": "Water-Resistant Hanging Leather Dopp Kit Toiletry Bag",
+    "category": "Fashion",
+    "brand": "Aethelgard",
+    "price": 1850,
+    "mrp": 2499,
+    "discountPercent": 26,
+    "stock": 35,
+    "quantity": 35,
+    "barcode": "8901000001900",
+    "lowStockThreshold": 7,
+    "reservedStock": 0,
+    "warehouseLocation": "Rack R-190",
+    "restockLeadDays": 3,
+    "vendorId": "v14",
+    "status": "approved",
+    "images": [
+      "https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=600&h=600&fit=crop",
+      "https://images.unsplash.com/photo-1548036328-c9fa89d128fa?w=600&h=600&fit=crop"
+    ],
+    "description": "Equipped with an internal swivel hook to hang from hotel towel racks. Dual waterproof zippered compartments prevent toiletry spills.",
+    "condition": "Brand New (Sealed)",
+    "specifications": {
+      "Interior Lining": "100% Waterproof TPU Coated Nylon",
+      "Hardware": "Brass Hook & Pulls",
+      "Dimensions": "25 x 16 x 12 cm"
+    },
+    "shipping": {
+      "weight": "480 g",
+      "dispatchTime": "Ships within 24 hours",
+      "estimatedDays": "2 - 4 days",
+      "courierPartners": [
+        "BlueDart Express",
+        "Delhivery Surface",
+        "DTDC Air"
+      ],
+      "codAvailable": true,
+      "returnWindowDays": 7
+    },
+    "variants": {
+      "colors": [
+        {
+          "name": "Standard",
+          "hex": "#334155",
+          "inStock": true
+        }
+      ],
+      "options": [
+        {
+          "label": "Standard Unit",
+          "priceDelta": 0,
+          "stock": 35
+        }
+      ]
+    },
+    "badge": "Travel Master",
+    "tags": [
+      "dopp kit",
+      "toiletry bag",
+      "leather"
+    ]
+  },
+  {
+    "id": "p191",
+    "sku": "VM-FIT-P191-DMB",
+    "name": "Quick-Dial Adjustable Dumbbells Pair (2.5kg to 24kg)",
+    "category": "Sports",
+    "brand": "Apex Pro",
+    "price": 14999,
+    "mrp": 19999,
+    "discountPercent": 25,
+    "stock": 20,
+    "quantity": 20,
+    "barcode": "8901000001917",
+    "lowStockThreshold": 4,
+    "reservedStock": 0,
+    "warehouseLocation": "Rack R-191",
+    "restockLeadDays": 3,
+    "vendorId": "v15",
+    "status": "approved",
+    "images": [
+      "https://images.unsplash.com/photo-1583454110551-21f2fa2afe61?w=600&h=600&fit=crop",
+      "https://images.unsplash.com/photo-1517838277536-f5f99be501cd?w=600&h=600&fit=crop"
+    ],
+    "description": "Replaces 15 pairs of dumbbells with a single dial turn mechanism. Heavy-duty interlocking steel plate mold with quiet rubber molding.",
+    "condition": "Brand New (Sealed)",
+    "specifications": {
+      "Weight Range": "2.5 kg to 24 kg per dumbbell",
+      "Increments": "15 Weight Settings",
+      "Includes": "2 Dumbbells + Storage Trays"
+    },
+    "shipping": {
+      "weight": "51000 g",
+      "dispatchTime": "Ships within 24 hours",
+      "estimatedDays": "2 - 4 days",
+      "courierPartners": [
+        "BlueDart Express",
+        "Delhivery Surface",
+        "DTDC Air"
+      ],
+      "codAvailable": true,
+      "returnWindowDays": 7
+    },
+    "variants": {
+      "colors": [
+        {
+          "name": "Standard",
+          "hex": "#334155",
+          "inStock": true
+        }
+      ],
+      "options": [
+        {
+          "label": "Standard Unit",
+          "priceDelta": 0,
+          "stock": 20
+        }
+      ]
+    },
+    "badge": "Home Gym Hero",
+    "tags": [
+      "dumbbells",
+      "adjustable dumbbells",
+      "gym"
+    ]
+  },
+  {
+    "id": "p192",
+    "sku": "VM-FIT-P192-BAR",
+    "name": "Olympic Hard Chrome Barbell 20kg 7ft 1000lb Capacity",
+    "category": "Sports",
+    "brand": "Apex Pro",
+    "price": 8499,
+    "mrp": 11999,
+    "discountPercent": 29,
+    "stock": 25,
+    "quantity": 25,
+    "barcode": "8901000001924",
+    "lowStockThreshold": 5,
+    "reservedStock": 0,
+    "warehouseLocation": "Rack R-192",
+    "restockLeadDays": 3,
+    "vendorId": "v15",
+    "status": "approved",
+    "images": [
+      "https://images.unsplash.com/photo-1517838277536-f5f99be501cd?w=600&h=600&fit=crop",
+      "https://images.unsplash.com/photo-1583454110551-21f2fa2afe61?w=600&h=600&fit=crop"
+    ],
+    "description": "Machined from spring steel with 190,000 PSI tensile strength. Dual 4-needle bearings provide smooth rotation for Olympic snatches and cleans.",
+    "condition": "Brand New (Sealed)",
+    "specifications": {
+      "Shaft Diameter": "28 mm",
+      "Weight": "20 kg (44 lbs)",
+      "Bearings": "8 Needle Bearings + Brass Bushings",
+      "Knurling": "Volcano 1.2mm"
+    },
+    "shipping": {
+      "weight": "20500 g",
+      "dispatchTime": "Ships within 24 hours",
+      "estimatedDays": "2 - 4 days",
+      "courierPartners": [
+        "BlueDart Express",
+        "Delhivery Surface",
+        "DTDC Air"
+      ],
+      "codAvailable": true,
+      "returnWindowDays": 7
+    },
+    "variants": {
+      "colors": [
+        {
+          "name": "Standard",
+          "hex": "#334155",
+          "inStock": true
+        }
+      ],
+      "options": [
+        {
+          "label": "Standard Unit",
+          "priceDelta": 0,
+          "stock": 25
+        }
+      ]
+    },
+    "badge": "IPF Spec",
+    "tags": [
+      "barbell",
+      "olympic bar",
+      "powerlifting"
+    ]
+  },
+  {
+    "id": "p193",
+    "sku": "VM-FIT-P193-KTL",
+    "name": "Cast Iron Powder-Coated Kettlebell 16kg Competition Grade",
+    "category": "Sports",
+    "brand": "Apex Pro",
+    "price": 2499,
+    "mrp": 3299,
+    "discountPercent": 24,
+    "stock": 40,
+    "quantity": 40,
+    "barcode": "8901000001931",
+    "lowStockThreshold": 8,
+    "reservedStock": 0,
+    "warehouseLocation": "Rack R-193",
+    "restockLeadDays": 3,
+    "vendorId": "v15",
+    "status": "approved",
+    "images": [
+      "https://images.unsplash.com/photo-1583454110551-21f2fa2afe61?w=600&h=600&fit=crop",
+      "https://images.unsplash.com/photo-1517838277536-f5f99be501cd?w=600&h=600&fit=crop"
+    ],
+    "description": "Single-piece gravity cast iron with zero plastic fills. Textured matte powder coat holds chalk for high-rep swings, snatches, and Turkish get-ups.",
+    "condition": "Brand New (Sealed)",
+    "specifications": {
+      "Weight": "16 kg (Yellow Band)",
+      "Handle Diameter": "35 mm",
+      "Finish": "Matte Anti-Slip Powder Coat"
+    },
+    "shipping": {
+      "weight": "16200 g",
+      "dispatchTime": "Ships within 24 hours",
+      "estimatedDays": "2 - 4 days",
+      "courierPartners": [
+        "BlueDart Express",
+        "Delhivery Surface",
+        "DTDC Air"
+      ],
+      "codAvailable": true,
+      "returnWindowDays": 7
+    },
+    "variants": {
+      "colors": [
+        {
+          "name": "Standard",
+          "hex": "#334155",
+          "inStock": true
+        }
+      ],
+      "options": [
+        {
+          "label": "Standard Unit",
+          "priceDelta": 0,
+          "stock": 40
+        }
+      ]
+    },
+    "badge": "Single Cast Iron",
+    "tags": [
+      "kettlebell",
+      "strength",
+      "fitness"
+    ]
+  },
+  {
+    "id": "p194",
+    "sku": "VM-FIT-P194-BNC",
+    "name": "Commercial Heavy-Duty Adjustable Workout Incline Bench",
+    "category": "Sports",
+    "brand": "Apex Pro",
+    "price": 7999,
+    "mrp": 10999,
+    "discountPercent": 27,
+    "stock": 15,
+    "quantity": 15,
+    "barcode": "8901000001948",
+    "lowStockThreshold": 4,
+    "reservedStock": 0,
+    "warehouseLocation": "Rack R-194",
+    "restockLeadDays": 3,
+    "vendorId": "v15",
+    "status": "approved",
+    "images": [
+      "https://images.unsplash.com/photo-1517838277536-f5f99be501cd?w=600&h=600&fit=crop",
+      "https://images.unsplash.com/photo-1583454110551-21f2fa2afe61?w=600&h=600&fit=crop"
+    ],
+    "description": "Laser-cut 11-gauge steel frame supporting up to 450 kg. Ladder adjustment system provides 7 backrest angles from decline to 90-degree shoulder press.",
+    "condition": "Brand New (Sealed)",
+    "specifications": {
+      "Weight Capacity": "450 kg (1000 lbs)",
+      "Angles": "-15° to 90° (7 Positions)",
+      "Padding": "High-Density Recycled Bonded Foam"
+    },
+    "shipping": {
+      "weight": "26000 g",
+      "dispatchTime": "Ships within 24 hours",
+      "estimatedDays": "2 - 4 days",
+      "courierPartners": [
+        "BlueDart Express",
+        "Delhivery Surface",
+        "DTDC Air"
+      ],
+      "codAvailable": true,
+      "returnWindowDays": 7
+    },
+    "variants": {
+      "colors": [
+        {
+          "name": "Standard",
+          "hex": "#334155",
+          "inStock": true
+        }
+      ],
+      "options": [
+        {
+          "label": "Standard Unit",
+          "priceDelta": 0,
+          "stock": 15
+        }
+      ]
+    },
+    "badge": "Heavy Commercial",
+    "tags": [
+      "workout bench",
+      "incline bench",
+      "gym"
+    ]
+  },
+  {
+    "id": "p195",
+    "sku": "VM-FIT-P195-PUL",
+    "name": "Multi-Grip Wall-Mounted Heavy Duty Pull-Up & Chin-Up Bar",
+    "category": "Sports",
+    "brand": "Apex Pro",
+    "price": 2199,
+    "mrp": 2999,
+    "discountPercent": 27,
+    "stock": 35,
+    "quantity": 35,
+    "barcode": "8901000001955",
+    "lowStockThreshold": 7,
+    "reservedStock": 0,
+    "warehouseLocation": "Rack R-195",
+    "restockLeadDays": 3,
+    "vendorId": "v15",
+    "status": "approved",
+    "images": [
+      "https://images.unsplash.com/photo-1517838277536-f5f99be501cd?w=600&h=600&fit=crop",
+      "https://images.unsplash.com/photo-1583454110551-21f2fa2afe61?w=600&h=600&fit=crop"
+    ],
+    "description": "Features wide, narrow, neutral, and angled hand positions. Mounts onto solid brick or concrete with supplied high-tensile anchor bolts.",
+    "condition": "Brand New (Sealed)",
+    "specifications": {
+      "Load Limit": "250 kg",
+      "Grip Options": "4 Hand Grip Ergonomics",
+      "Wall Distance": "50 cm Clearance"
+    },
+    "shipping": {
+      "weight": "8500 g",
+      "dispatchTime": "Ships within 24 hours",
+      "estimatedDays": "2 - 4 days",
+      "courierPartners": [
+        "BlueDart Express",
+        "Delhivery Surface",
+        "DTDC Air"
+      ],
+      "codAvailable": true,
+      "returnWindowDays": 7
+    },
+    "variants": {
+      "colors": [
+        {
+          "name": "Standard",
+          "hex": "#334155",
+          "inStock": true
+        }
+      ],
+      "options": [
+        {
+          "label": "Standard Unit",
+          "priceDelta": 0,
+          "stock": 35
+        }
+      ]
+    },
+    "badge": "Calisthenics Pick",
+    "tags": [
+      "pull up bar",
+      "calisthenics",
+      "fitness"
+    ]
+  },
+  {
+    "id": "p196",
+    "sku": "VM-FIT-P196-BMP",
+    "name": "High-Density Virgin Rubber Bumper Plates 10kg Pair",
+    "category": "Sports",
+    "brand": "Apex Pro",
+    "price": 4299,
+    "mrp": 5499,
+    "discountPercent": 22,
+    "stock": 30,
+    "quantity": 30,
+    "barcode": "8901000001962",
+    "lowStockThreshold": 6,
+    "reservedStock": 0,
+    "warehouseLocation": "Rack R-196",
+    "restockLeadDays": 3,
+    "vendorId": "v15",
+    "status": "approved",
+    "images": [
+      "https://images.unsplash.com/photo-1583454110551-21f2fa2afe61?w=600&h=600&fit=crop",
+      "https://images.unsplash.com/photo-1517838277536-f5f99be501cd?w=600&h=600&fit=crop"
+    ],
+    "description": "Standard 450mm IWF diameter bumper plates made with odorless virgin rubber. Stainless steel center ring fits all 50mm Olympic barbell sleeves.",
+    "condition": "Brand New (Sealed)",
+    "specifications": {
+      "Plate Weight": "2 x 10 kg (20 kg Pair)",
+      "Center Insert": "50.4 mm Stainless Steel",
+      "Diameter": "450 mm Standard"
+    },
+    "shipping": {
+      "weight": "20200 g",
+      "dispatchTime": "Ships within 24 hours",
+      "estimatedDays": "2 - 4 days",
+      "courierPartners": [
+        "BlueDart Express",
+        "Delhivery Surface",
+        "DTDC Air"
+      ],
+      "codAvailable": true,
+      "returnWindowDays": 7
+    },
+    "variants": {
+      "colors": [
+        {
+          "name": "Standard",
+          "hex": "#334155",
+          "inStock": true
+        }
+      ],
+      "options": [
+        {
+          "label": "Standard Unit",
+          "priceDelta": 0,
+          "stock": 30
+        }
+      ]
+    },
+    "badge": "Deadlift Approved",
+    "tags": [
+      "bumper plates",
+      "weights",
+      "crossfit"
+    ]
+  },
+  {
+    "id": "p197",
+    "sku": "VM-FIT-P197-BAT",
+    "name": "Heavy PolyDacron Battle Rope 1.5\" x 30ft with Sleeve",
+    "category": "Sports",
+    "brand": "Apex Pro",
+    "price": 2850,
+    "mrp": 3800,
+    "discountPercent": 25,
+    "stock": 40,
+    "quantity": 40,
+    "barcode": "8901000001979",
+    "lowStockThreshold": 8,
+    "reservedStock": 0,
+    "warehouseLocation": "Rack R-197",
+    "restockLeadDays": 3,
+    "vendorId": "v15",
+    "status": "approved",
+    "images": [
+      "https://images.unsplash.com/photo-1517838277536-f5f99be501cd?w=600&h=600&fit=crop",
+      "https://images.unsplash.com/photo-1583454110551-21f2fa2afe61?w=600&h=600&fit=crop"
+    ],
+    "description": "3-strand twisted synthetic PolyDacron covered with high-tenacity nylon friction sleeve. Heavy heat-shrink handles for blister-free grip.",
+    "condition": "Brand New (Sealed)",
+    "specifications": {
+      "Thickness": "38 mm (1.5 Inch)",
+      "Length": "9.1 Meters (30 ft)",
+      "Includes": "Wall Anchor Kit"
+    },
+    "shipping": {
+      "weight": "8200 g",
+      "dispatchTime": "Ships within 24 hours",
+      "estimatedDays": "2 - 4 days",
+      "courierPartners": [
+        "BlueDart Express",
+        "Delhivery Surface",
+        "DTDC Air"
+      ],
+      "codAvailable": true,
+      "returnWindowDays": 7
+    },
+    "variants": {
+      "colors": [
+        {
+          "name": "Standard",
+          "hex": "#334155",
+          "inStock": true
+        }
+      ],
+      "options": [
+        {
+          "label": "Standard Unit",
+          "priceDelta": 0,
+          "stock": 40
+        }
+      ]
+    },
+    "badge": "HIIT Cardio",
+    "tags": [
+      "battle rope",
+      "hiit",
+      "cardio"
+    ]
+  },
+  {
+    "id": "p198",
+    "sku": "VM-FIT-P198-HEX",
+    "name": "Hexagonal Rubber Encased Dumbbells 10kg Pair",
+    "category": "Sports",
+    "brand": "Apex Pro",
+    "price": 2999,
+    "mrp": 3999,
+    "discountPercent": 25,
+    "stock": 50,
+    "quantity": 50,
+    "barcode": "8901000001986",
+    "lowStockThreshold": 10,
+    "reservedStock": 0,
+    "warehouseLocation": "Rack R-198",
+    "restockLeadDays": 3,
+    "vendorId": "v15",
+    "status": "approved",
+    "images": [
+      "https://images.unsplash.com/photo-1583454110551-21f2fa2afe61?w=600&h=600&fit=crop",
+      "https://images.unsplash.com/photo-1517838277536-f5f99be501cd?w=600&h=600&fit=crop"
+    ],
+    "description": "Anti-roll hexagonal cast iron core encased in heavy vulcanized natural rubber. Contoured chrome-plated knurled grip handles.",
+    "condition": "Brand New (Sealed)",
+    "specifications": {
+      "Weight": "2 x 10 kg",
+      "Handle": "Ergonomic Chrome Knurl",
+      "Head Style": "Anti-Roll Hexagonal"
+    },
+    "shipping": {
+      "weight": "20200 g",
+      "dispatchTime": "Ships within 24 hours",
+      "estimatedDays": "2 - 4 days",
+      "courierPartners": [
+        "BlueDart Express",
+        "Delhivery Surface",
+        "DTDC Air"
+      ],
+      "codAvailable": true,
+      "returnWindowDays": 7
+    },
+    "variants": {
+      "colors": [
+        {
+          "name": "Standard",
+          "hex": "#334155",
+          "inStock": true
+        }
+      ],
+      "options": [
+        {
+          "label": "Standard Unit",
+          "priceDelta": 0,
+          "stock": 50
+        }
+      ]
+    },
+    "badge": "Durable Rubber",
+    "tags": [
+      "hex dumbbells",
+      "dumbbells",
+      "weights"
+    ]
+  },
+  {
+    "id": "p199",
+    "sku": "VM-FIT-P199-MAT",
+    "name": "Non-Slip High-Density TPE 8mm Extra Thick Yoga Mat",
+    "category": "Sports",
+    "brand": "Apex Pro",
+    "price": 1299,
+    "mrp": 1799,
+    "discountPercent": 28,
+    "stock": 75,
+    "quantity": 75,
+    "barcode": "8901000001993",
+    "lowStockThreshold": 15,
+    "reservedStock": 0,
+    "warehouseLocation": "Rack R-199",
+    "restockLeadDays": 3,
+    "vendorId": "v15",
+    "status": "approved",
+    "images": [
+      "https://images.unsplash.com/photo-1518611012118-696072aa579a?w=600&h=600&fit=crop",
+      "https://images.unsplash.com/photo-1517838277536-f5f99be501cd?w=600&h=600&fit=crop"
+    ],
+    "description": "Laser-engraved body alignment lines guide posture in warrior and downward-dog poses. 8mm dual-layer cushioning protects knees and joints.",
+    "condition": "Brand New (Sealed)",
+    "specifications": {
+      "Thickness": "8 mm High Density",
+      "Material": "Eco TPE (PVC & Latex Free)",
+      "Dimensions": "183 x 61 cm"
+    },
+    "shipping": {
+      "weight": "980 g",
+      "dispatchTime": "Ships within 24 hours",
+      "estimatedDays": "2 - 4 days",
+      "courierPartners": [
+        "BlueDart Express",
+        "Delhivery Surface",
+        "DTDC Air"
+      ],
+      "codAvailable": true,
+      "returnWindowDays": 7
+    },
+    "variants": {
+      "colors": [
+        {
+          "name": "Standard",
+          "hex": "#334155",
+          "inStock": true
+        }
+      ],
+      "options": [
+        {
+          "label": "Standard Unit",
+          "priceDelta": 0,
+          "stock": 75
+        }
+      ]
+    },
+    "badge": "Joint Cushion",
+    "tags": [
+      "yoga mat",
+      "tpe",
+      "fitness"
+    ]
+  },
+  {
+    "id": "p200",
+    "sku": "VM-FIT-P200-CAG",
+    "name": "Commercial Power Rack Squat Cage with Pull-Up Bar",
+    "category": "Sports",
+    "brand": "Apex Pro",
+    "price": 28999,
+    "mrp": 39999,
+    "discountPercent": 28,
+    "stock": 8,
+    "quantity": 8,
+    "barcode": "8901000002006",
+    "lowStockThreshold": 4,
+    "reservedStock": 0,
+    "warehouseLocation": "Rack R-200",
+    "restockLeadDays": 3,
+    "vendorId": "v15",
+    "status": "approved",
+    "images": [
+      "https://images.unsplash.com/photo-1517838277536-f5f99be501cd?w=600&h=600&fit=crop",
+      "https://images.unsplash.com/photo-1583454110551-21f2fa2afe61?w=600&h=600&fit=crop"
+    ],
+    "description": "Engineered from 2x2 inch 12-gauge square steel tubing. Includes dual J-cups, full-length solid steel safety spotter pins, and plate storage horns.",
+    "condition": "Brand New (Sealed)",
+    "specifications": {
+      "Load Capacity": "400 kg",
+      "Uprights": "50 x 50 mm 12-Gauge Steel",
+      "Footprint": "120 x 115 x 215 cm"
+    },
+    "shipping": {
+      "weight": "62000 g",
+      "dispatchTime": "Ships within 24 hours",
+      "estimatedDays": "2 - 4 days",
+      "courierPartners": [
+        "BlueDart Express",
+        "Delhivery Surface",
+        "DTDC Air"
+      ],
+      "codAvailable": true,
+      "returnWindowDays": 7
+    },
+    "variants": {
+      "colors": [
+        {
+          "name": "Standard",
+          "hex": "#334155",
+          "inStock": true
+        }
+      ],
+      "options": [
+        {
+          "label": "Standard Unit",
+          "priceDelta": 0,
+          "stock": 8
+        }
+      ]
+    },
+    "badge": "Heavy Powerhouse",
+    "tags": [
+      "squat rack",
+      "power cage",
+      "gym equipment"
+    ]
+  },
+  {
+    "id": "p201",
+    "sku": "VM-SLK-P201-KAN",
+    "name": "Pure Kanchipuram Silk Saree Royal Blue Gold Zari",
+    "category": "Fashion",
+    "brand": "Kaveri Silks",
+    "price": 14999,
+    "mrp": 19999,
+    "discountPercent": 25,
+    "stock": 15,
+    "quantity": 15,
+    "barcode": "8901000002013",
+    "lowStockThreshold": 4,
+    "reservedStock": 0,
+    "warehouseLocation": "Rack R-201",
+    "restockLeadDays": 3,
+    "vendorId": "v16",
+    "status": "approved",
+    "images": [
+      "https://images.unsplash.com/photo-1610030469983-98e550d6193c?w=600&h=600&fit=crop",
+      "https://images.unsplash.com/photo-1583391733956-3750e0ff4e8b?w=600&h=600&fit=crop"
+    ],
+    "description": "Authenticated with Silk Mark tag. Handwoven Korvai border with traditional Mayil (peacock) and Rudraksha zari motifs in pure silver thread.",
+    "condition": "Brand New (Sealed)",
+    "specifications": {
+      "Certification": "Silk Mark India Certified",
+      "Zari": "Silver Dipped Gold Zari",
+      "Length": "6.2 Meters with Blouse"
+    },
+    "shipping": {
+      "weight": "850 g",
+      "dispatchTime": "Ships within 24 hours",
+      "estimatedDays": "2 - 4 days",
+      "courierPartners": [
+        "BlueDart Express",
+        "Delhivery Surface",
+        "DTDC Air"
+      ],
+      "codAvailable": true,
+      "returnWindowDays": 7
+    },
+    "variants": {
+      "colors": [
+        {
+          "name": "Standard",
+          "hex": "#334155",
+          "inStock": true
+        }
+      ],
+      "options": [
+        {
+          "label": "Standard Unit",
+          "priceDelta": 0,
+          "stock": 15
+        }
+      ]
+    },
+    "badge": "Silk Mark Certified",
+    "tags": [
+      "kanchipuram",
+      "silk saree",
+      "bridal"
+    ]
+  },
+  {
+    "id": "p202",
+    "sku": "VM-SLK-P202-CHA",
+    "name": "Handloom Chanderi Cotton Silk Saree Pastel Peach",
+    "category": "Fashion",
+    "brand": "Kaveri Silks",
+    "price": 3499,
+    "mrp": 4899,
+    "discountPercent": 29,
+    "stock": 35,
+    "quantity": 35,
+    "barcode": "8901000002020",
+    "lowStockThreshold": 7,
+    "reservedStock": 0,
+    "warehouseLocation": "Rack R-202",
+    "restockLeadDays": 3,
+    "vendorId": "v16",
+    "status": "approved",
+    "images": [
+      "https://images.unsplash.com/photo-1583391733956-3750e0ff4e8b?w=600&h=600&fit=crop",
+      "https://images.unsplash.com/photo-1610030469983-98e550d6193c?w=600&h=600&fit=crop"
+    ],
+    "description": "Sheer, airy handspun Chanderi fabric with delicate golden zari ashrafi butis. Exceptionally comfortable for warm daytime festivities.",
+    "condition": "Brand New (Sealed)",
+    "specifications": {
+      "Weft & Warp": "Fine Cotton & Pure Mulberry Silk",
+      "Feel": "Featherlight & Crisp",
+      "Length": "6.3 Meters"
+    },
+    "shipping": {
+      "weight": "480 g",
+      "dispatchTime": "Ships within 24 hours",
+      "estimatedDays": "2 - 4 days",
+      "courierPartners": [
+        "BlueDart Express",
+        "Delhivery Surface",
+        "DTDC Air"
+      ],
+      "codAvailable": true,
+      "returnWindowDays": 7
+    },
+    "variants": {
+      "colors": [
+        {
+          "name": "Standard",
+          "hex": "#334155",
+          "inStock": true
+        }
+      ],
+      "options": [
+        {
+          "label": "Standard Unit",
+          "priceDelta": 0,
+          "stock": 35
+        }
+      ]
+    },
+    "badge": "Handloom Mark",
+    "tags": [
+      "chanderi",
+      "saree",
+      "handloom"
+    ]
+  },
+  {
+    "id": "p203",
+    "sku": "VM-SLK-P203-TUS",
+    "name": "Bhagalpuri Tussar Silk Saree Hand Block Printed Kalamkari",
+    "category": "Fashion",
+    "brand": "Kaveri Silks",
+    "price": 4999,
+    "mrp": 6999,
+    "discountPercent": 29,
+    "stock": 25,
+    "quantity": 25,
+    "barcode": "8901000002037",
+    "lowStockThreshold": 5,
+    "reservedStock": 0,
+    "warehouseLocation": "Rack R-203",
+    "restockLeadDays": 3,
+    "vendorId": "v16",
+    "status": "approved",
+    "images": [
+      "https://images.unsplash.com/photo-1610030469983-98e550d6193c?w=600&h=600&fit=crop",
+      "https://images.unsplash.com/photo-1583391733956-3750e0ff4e8b?w=600&h=600&fit=crop"
+    ],
+    "description": "Wild natural golden sheen tussar silk adorned with intricate natural vegetable dye Kalamkari tree-of-life motifs.",
+    "condition": "Brand New (Sealed)",
+    "specifications": {
+      "Silk Type": "Wild Tussar / Kosa Silk",
+      "Printing": "Hand Block Vegetable Dyes",
+      "Length": "6.25 Meters"
+    },
+    "shipping": {
+      "weight": "580 g",
+      "dispatchTime": "Ships within 24 hours",
+      "estimatedDays": "2 - 4 days",
+      "courierPartners": [
+        "BlueDart Express",
+        "Delhivery Surface",
+        "DTDC Air"
+      ],
+      "codAvailable": true,
+      "returnWindowDays": 7
+    },
+    "variants": {
+      "colors": [
+        {
+          "name": "Standard",
+          "hex": "#334155",
+          "inStock": true
+        }
+      ],
+      "options": [
+        {
+          "label": "Standard Unit",
+          "priceDelta": 0,
+          "stock": 25
+        }
+      ]
+    },
+    "badge": "Natural Dye",
+    "tags": [
+      "tussar silk",
+      "kalamkari",
+      "saree"
+    ]
+  },
+  {
+    "id": "p204",
+    "sku": "VM-SLK-P204-LIN",
+    "name": "Pure Organic Linen Full-Sleeve Kurta for Men Ivory White",
+    "category": "Fashion",
+    "brand": "Kaveri Silks",
+    "price": 2299,
+    "mrp": 2999,
+    "discountPercent": 23,
+    "stock": 50,
+    "quantity": 50,
+    "barcode": "8901000002044",
+    "lowStockThreshold": 10,
+    "reservedStock": 0,
+    "warehouseLocation": "Rack R-204",
+    "restockLeadDays": 3,
+    "vendorId": "v16",
+    "status": "approved",
+    "images": [
+      "https://images.unsplash.com/photo-1507679799987-c73779587ccf?w=600&h=600&fit=crop",
+      "https://images.unsplash.com/photo-1610030469983-98e550d6193c?w=600&h=600&fit=crop"
+    ],
+    "description": "Woven from 60 lea European flax linen yarn with a mandarin collar, mother-of-pearl buttons, and side slit pockets.",
+    "condition": "Brand New (Sealed)",
+    "specifications": {
+      "Yarn": "60 Lea 100% Pure Flax Linen",
+      "Buttons": "Natural Mother of Pearl",
+      "Fit": "Regular Comfort Fit"
+    },
+    "shipping": {
+      "weight": "320 g",
+      "dispatchTime": "Ships within 24 hours",
+      "estimatedDays": "2 - 4 days",
+      "courierPartners": [
+        "BlueDart Express",
+        "Delhivery Surface",
+        "DTDC Air"
+      ],
+      "codAvailable": true,
+      "returnWindowDays": 7
+    },
+    "variants": {
+      "colors": [
+        {
+          "name": "Standard",
+          "hex": "#334155",
+          "inStock": true
+        }
+      ],
+      "options": [
+        {
+          "label": "Standard Unit",
+          "priceDelta": 0,
+          "stock": 50
+        }
+      ]
+    },
+    "badge": "Pure Flax Linen",
+    "tags": [
+      "linen kurta",
+      "menswear",
+      "ethnic"
+    ]
+  },
+  {
+    "id": "p205",
+    "sku": "VM-SLK-P205-STL",
+    "name": "Pure Mulberry Silk Stole Crimson Red with Hand-Tied Tassels",
+    "category": "Fashion",
+    "brand": "Kaveri Silks",
+    "price": 1850,
+    "mrp": 2499,
+    "discountPercent": 26,
+    "stock": 45,
+    "quantity": 45,
+    "barcode": "8901000002051",
+    "lowStockThreshold": 9,
+    "reservedStock": 0,
+    "warehouseLocation": "Rack R-205",
+    "restockLeadDays": 3,
+    "vendorId": "v16",
+    "status": "approved",
+    "images": [
+      "https://images.unsplash.com/photo-1583391733956-3750e0ff4e8b?w=600&h=600&fit=crop",
+      "https://images.unsplash.com/photo-1610030469983-98e550d6193c?w=600&h=600&fit=crop"
+    ],
+    "description": "Glossy double-sided woven mulberry silk scarf with a featherlight drape. Accentuates evening gowns or traditional kurtas with vibrant elegance.",
+    "condition": "Brand New (Sealed)",
+    "specifications": {
+      "Dimensions": "70 x 200 cm",
+      "Edge": "Hand-Twisted Fringe",
+      "Fabric": "100% Mulberry Silk"
+    },
+    "shipping": {
+      "weight": "160 g",
+      "dispatchTime": "Ships within 24 hours",
+      "estimatedDays": "2 - 4 days",
+      "courierPartners": [
+        "BlueDart Express",
+        "Delhivery Surface",
+        "DTDC Air"
+      ],
+      "codAvailable": true,
+      "returnWindowDays": 7
+    },
+    "variants": {
+      "colors": [
+        {
+          "name": "Standard",
+          "hex": "#334155",
+          "inStock": true
+        }
+      ],
+      "options": [
+        {
+          "label": "Standard Unit",
+          "priceDelta": 0,
+          "stock": 45
+        }
+      ]
+    },
+    "badge": "Silk Mark",
+    "tags": [
+      "silk stole",
+      "scarf",
+      "luxury"
+    ]
+  },
+  {
+    "id": "p206",
+    "sku": "VM-SLK-P206-BAN",
+    "name": "Banarasi Katan Silk Brocade Bridal Dupatta Emerald Green",
+    "category": "Fashion",
+    "brand": "Kaveri Silks",
+    "price": 3999,
+    "mrp": 5499,
+    "discountPercent": 27,
+    "stock": 20,
+    "quantity": 20,
+    "barcode": "8901000002068",
+    "lowStockThreshold": 4,
+    "reservedStock": 0,
+    "warehouseLocation": "Rack R-206",
+    "restockLeadDays": 3,
+    "vendorId": "v16",
+    "status": "approved",
+    "images": [
+      "https://images.unsplash.com/photo-1610030469983-98e550d6193c?w=600&h=600&fit=crop",
+      "https://images.unsplash.com/photo-1583391733956-3750e0ff4e8b?w=600&h=600&fit=crop"
+    ],
+    "description": "Opulent Kadwa weave technique where each gold flower motif is individually hand-interlocked into the pure silk warp without loose float threads.",
+    "condition": "Brand New (Sealed)",
+    "specifications": {
+      "Weave": "Kadwa Hand-Brocade",
+      "Length": "2.5 Meters x 1 Meter",
+      "Fabric": "Pure Katan Silk"
+    },
+    "shipping": {
+      "weight": "440 g",
+      "dispatchTime": "Ships within 24 hours",
+      "estimatedDays": "2 - 4 days",
+      "courierPartners": [
+        "BlueDart Express",
+        "Delhivery Surface",
+        "DTDC Air"
+      ],
+      "codAvailable": true,
+      "returnWindowDays": 7
+    },
+    "variants": {
+      "colors": [
+        {
+          "name": "Standard",
+          "hex": "#334155",
+          "inStock": true
+        }
+      ],
+      "options": [
+        {
+          "label": "Standard Unit",
+          "priceDelta": 0,
+          "stock": 20
+        }
+      ]
+    },
+    "badge": "Bridal Heirloom",
+    "tags": [
+      "banarasi",
+      "dupatta",
+      "brocade"
+    ]
+  },
+  {
+    "id": "p207",
+    "sku": "VM-SLK-P207-IKA",
+    "name": "Handcrafted Pochampally Ikat Mercerized Cotton Dress Material",
+    "category": "Fashion",
+    "brand": "Kaveri Silks",
+    "price": 1950,
+    "mrp": 2600,
+    "discountPercent": 25,
+    "stock": 40,
+    "quantity": 40,
+    "barcode": "8901000002075",
+    "lowStockThreshold": 8,
+    "reservedStock": 0,
+    "warehouseLocation": "Rack R-207",
+    "restockLeadDays": 3,
+    "vendorId": "v16",
+    "status": "approved",
+    "images": [
+      "https://images.unsplash.com/photo-1583391733956-3750e0ff4e8b?w=600&h=600&fit=crop",
+      "https://images.unsplash.com/photo-1610030469983-98e550d6193c?w=600&h=600&fit=crop"
+    ],
+    "description": "Geometrical tie-dye warp and weft double-ikat weaving from Bhoodan Pochampally, Telangana. Includes matching kurta, bottom, and dupatta fabric.",
+    "condition": "Brand New (Sealed)",
+    "specifications": {
+      "Set": "Kurta (2.5m) + Bottom (2.0m) + Dupatta (2.4m)",
+      "Fabric": "100% Combed Mercerized Cotton"
+    },
+    "shipping": {
+      "weight": "620 g",
+      "dispatchTime": "Ships within 24 hours",
+      "estimatedDays": "2 - 4 days",
+      "courierPartners": [
+        "BlueDart Express",
+        "Delhivery Surface",
+        "DTDC Air"
+      ],
+      "codAvailable": true,
+      "returnWindowDays": 7
+    },
+    "variants": {
+      "colors": [
+        {
+          "name": "Standard",
+          "hex": "#334155",
+          "inStock": true
+        }
+      ],
+      "options": [
+        {
+          "label": "Standard Unit",
+          "priceDelta": 0,
+          "stock": 40
+        }
+      ]
+    },
+    "badge": "GI Certified",
+    "tags": [
+      "ikat",
+      "pochampally",
+      "dress material"
+    ]
+  },
+  {
+    "id": "p208",
+    "sku": "VM-SLK-P208-CLU",
+    "name": "Raw Silk Box Clutch Evening Purse with Floral Zardozi",
+    "category": "Fashion",
+    "brand": "Kaveri Silks",
+    "price": 1299,
+    "mrp": 1799,
+    "discountPercent": 28,
+    "stock": 35,
+    "quantity": 35,
+    "barcode": "8901000002082",
+    "lowStockThreshold": 7,
+    "reservedStock": 0,
+    "warehouseLocation": "Rack R-208",
+    "restockLeadDays": 3,
+    "vendorId": "v16",
+    "status": "approved",
+    "images": [
+      "https://images.unsplash.com/photo-1544816155-12df9643f363?w=600&h=600&fit=crop",
+      "https://images.unsplash.com/photo-1583391733956-3750e0ff4e8b?w=600&h=600&fit=crop"
+    ],
+    "description": "Hard-shell rectangular minaudiere clutch upholstered in rich magenta raw silk and embroidered with French wire dabka zardozi.",
+    "condition": "Brand New (Sealed)",
+    "specifications": {
+      "Closure": "Crystal Studded Push Clasp",
+      "Includes": "Detachable Gold Chain Strap",
+      "Dimensions": "19 x 12 x 5 cm"
+    },
+    "shipping": {
+      "weight": "360 g",
+      "dispatchTime": "Ships within 24 hours",
+      "estimatedDays": "2 - 4 days",
+      "courierPartners": [
+        "BlueDart Express",
+        "Delhivery Surface",
+        "DTDC Air"
+      ],
+      "codAvailable": true,
+      "returnWindowDays": 7
+    },
+    "variants": {
+      "colors": [
+        {
+          "name": "Standard",
+          "hex": "#334155",
+          "inStock": true
+        }
+      ],
+      "options": [
+        {
+          "label": "Standard Unit",
+          "priceDelta": 0,
+          "stock": 35
+        }
+      ]
+    },
+    "badge": "Handmade Zardozi",
+    "tags": [
+      "clutch",
+      "purse",
+      "zardozi"
+    ]
+  },
+  {
+    "id": "p209",
+    "sku": "VM-SLK-P209-MYS",
+    "name": "Traditional Mysore Crepe Silk Saree Maroon Contrast Pallu",
+    "category": "Fashion",
+    "brand": "Kaveri Silks",
+    "price": 7999,
+    "mrp": 10999,
+    "discountPercent": 27,
+    "stock": 22,
+    "quantity": 22,
+    "barcode": "8901000002099",
+    "lowStockThreshold": 4,
+    "reservedStock": 0,
+    "warehouseLocation": "Rack R-209",
+    "restockLeadDays": 3,
+    "vendorId": "v16",
+    "status": "approved",
+    "images": [
+      "https://images.unsplash.com/photo-1610030469983-98e550d6193c?w=600&h=600&fit=crop",
+      "https://images.unsplash.com/photo-1583391733956-3750e0ff4e8b?w=600&h=600&fit=crop"
+    ],
+    "description": "Supple 100% natural crepe de chine silk with distinctive pebbled texture and pure 0.65% real gold content zari borders.",
+    "condition": "Brand New (Sealed)",
+    "specifications": {
+      "Weight of Saree": "540 g (Heavy Crepe)",
+      "Silk": "Karnataka Silk Industries Standard",
+      "Length": "6.2 Meters"
+    },
+    "shipping": {
+      "weight": "590 g",
+      "dispatchTime": "Ships within 24 hours",
+      "estimatedDays": "2 - 4 days",
+      "courierPartners": [
+        "BlueDart Express",
+        "Delhivery Surface",
+        "DTDC Air"
+      ],
+      "codAvailable": true,
+      "returnWindowDays": 7
+    },
+    "variants": {
+      "colors": [
+        {
+          "name": "Standard",
+          "hex": "#334155",
+          "inStock": true
+        }
+      ],
+      "options": [
+        {
+          "label": "Standard Unit",
+          "priceDelta": 0,
+          "stock": 22
+        }
+      ]
+    },
+    "badge": "Mysore Silk",
+    "tags": [
+      "mysore silk",
+      "crepe saree"
+    ]
+  },
+  {
+    "id": "p210",
+    "sku": "VM-SLK-P210-NEH",
+    "name": "Khadi Handspun Nehru Bundi Jacket Midnight Blue",
+    "category": "Fashion",
+    "brand": "Kaveri Silks",
+    "price": 2499,
+    "mrp": 3499,
+    "discountPercent": 29,
+    "stock": 40,
+    "quantity": 40,
+    "barcode": "8901000002105",
+    "lowStockThreshold": 8,
+    "reservedStock": 0,
+    "warehouseLocation": "Rack R-210",
+    "restockLeadDays": 3,
+    "vendorId": "v16",
+    "status": "approved",
+    "images": [
+      "https://images.unsplash.com/photo-1507679799987-c73779587ccf?w=600&h=600&fit=crop",
+      "https://images.unsplash.com/photo-1610030469983-98e550d6193c?w=600&h=600&fit=crop"
+    ],
+    "description": "Hand-spun and hand-woven khadi cotton jacket with a structured stand collar, five front brass buttons, and three jetted welt pockets.",
+    "condition": "Brand New (Sealed)",
+    "specifications": {
+      "Weave": "Certified Handspun Khadi",
+      "Lining": "Breathable Viscose Satin",
+      "Style": "Nehru Bundi Sleeveless"
+    },
+    "shipping": {
+      "weight": "380 g",
+      "dispatchTime": "Ships within 24 hours",
+      "estimatedDays": "2 - 4 days",
+      "courierPartners": [
+        "BlueDart Express",
+        "Delhivery Surface",
+        "DTDC Air"
+      ],
+      "codAvailable": true,
+      "returnWindowDays": 7
+    },
+    "variants": {
+      "colors": [
+        {
+          "name": "Standard",
+          "hex": "#334155",
+          "inStock": true
+        }
+      ],
+      "options": [
+        {
+          "label": "Standard Unit",
+          "priceDelta": 0,
+          "stock": 40
+        }
+      ]
+    },
+    "badge": "Authentic Khadi",
+    "tags": [
+      "nehru jacket",
+      "khadi",
+      "menswear"
+    ]
+  },
+  {
+    "id": "p211",
+    "sku": "VM-AUT-P211-DSH",
+    "name": "70mai A810 4K HDR Front & 1080p Rear Dual Dash Cam with GPS",
+    "category": "Automotive",
+    "brand": "70mai",
+    "price": 16999,
+    "mrp": 21999,
+    "discountPercent": 23,
+    "stock": 25,
+    "quantity": 25,
+    "barcode": "8901000002112",
+    "lowStockThreshold": 5,
+    "reservedStock": 0,
+    "warehouseLocation": "Rack R-211",
+    "restockLeadDays": 3,
+    "vendorId": "v17",
+    "status": "approved",
+    "images": [
+      "https://images.unsplash.com/photo-1549399542-7e3f8b79c341?w=600&h=600&fit=crop",
+      "https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?w=600&h=600&fit=crop"
+    ],
+    "description": "Features Sony Starvis 2 IMX678 sensor for ultra-clear license plate capture in dark highway conditions. Built-in GPS logger and ADAS driver alerts.",
+    "condition": "Brand New (Sealed)",
+    "specifications": {
+      "Sensor": "Sony STARVIS 2 IMX678",
+      "Resolution": "4K UHD 3840x2160p 60FPS",
+      "Parking Mode": "24h AI Motion Detection"
+    },
+    "shipping": {
+      "weight": "450 g",
+      "dispatchTime": "Ships within 24 hours",
+      "estimatedDays": "2 - 4 days",
+      "courierPartners": [
+        "BlueDart Express",
+        "Delhivery Surface",
+        "DTDC Air"
+      ],
+      "codAvailable": true,
+      "returnWindowDays": 7
+    },
+    "variants": {
+      "colors": [
+        {
+          "name": "Standard",
+          "hex": "#334155",
+          "inStock": true
+        }
+      ],
+      "options": [
+        {
+          "label": "Standard Unit",
+          "priceDelta": 0,
+          "stock": 25
+        }
+      ]
+    },
+    "badge": "Flagship 4K",
+    "tags": [
+      "dashcam",
+      "70mai",
+      "car camera"
+    ]
+  },
+  {
+    "id": "p212",
+    "sku": "VM-AUT-P212-INF",
+    "name": "Michelin Digital Preset Rapid Tyre Inflator 12V High Flow",
+    "category": "Automotive",
+    "brand": "Michelin",
+    "price": 3999,
+    "mrp": 4999,
+    "discountPercent": 20,
+    "stock": 45,
+    "quantity": 45,
+    "barcode": "8901000002129",
+    "lowStockThreshold": 9,
+    "reservedStock": 0,
+    "warehouseLocation": "Rack R-212",
+    "restockLeadDays": 3,
+    "vendorId": "v17",
+    "status": "approved",
+    "images": [
+      "https://images.unsplash.com/photo-1486006920555-c77dce18193b?w=600&h=600&fit=crop",
+      "https://images.unsplash.com/photo-1549399542-7e3f8b79c341?w=600&h=600&fit=crop"
+    ],
+    "description": "Inflates a standard car tire from 0 to 35 PSI in under 3 minutes. Auto-stop digital display prevents over-inflation with ±1 PSI precision.",
+    "condition": "Brand New (Sealed)",
+    "specifications": {
+      "Max Pressure": "150 PSI",
+      "Display": "Backlit Digital LCD (PSI, BAR, kPa)",
+      "Cord": "3.5m Power Cable + Brass Screw Valve"
+    },
+    "shipping": {
+      "weight": "1250 g",
+      "dispatchTime": "Ships within 24 hours",
+      "estimatedDays": "2 - 4 days",
+      "courierPartners": [
+        "BlueDart Express",
+        "Delhivery Surface",
+        "DTDC Air"
+      ],
+      "codAvailable": true,
+      "returnWindowDays": 7
+    },
+    "variants": {
+      "colors": [
+        {
+          "name": "Standard",
+          "hex": "#334155",
+          "inStock": true
+        }
+      ],
+      "options": [
+        {
+          "label": "Standard Unit",
+          "priceDelta": 0,
+          "stock": 45
+        }
+      ]
+    },
+    "badge": "Michelin Certified",
+    "tags": [
+      "tyre inflator",
+      "car pump",
+      "air compressor"
+    ]
+  },
+  {
+    "id": "p213",
+    "sku": "VM-AUT-P213-JMP",
+    "name": "70mai Emergency Car Jump Starter 11100mAh 600A Peak",
+    "category": "Automotive",
+    "brand": "70mai",
+    "price": 4899,
+    "mrp": 6499,
+    "discountPercent": 25,
+    "stock": 35,
+    "quantity": 35,
+    "barcode": "8901000002136",
+    "lowStockThreshold": 7,
+    "reservedStock": 0,
+    "warehouseLocation": "Rack R-213",
+    "restockLeadDays": 3,
+    "vendorId": "v17",
+    "status": "approved",
+    "images": [
+      "https://images.unsplash.com/photo-1549399542-7e3f8b79c341?w=600&h=600&fit=crop",
+      "https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?w=600&h=600&fit=crop"
+    ],
+    "description": "Instantly cranks dead batteries for up to 4.0L petrol and 2.0L diesel engines. Doubles as a fast-charging power bank with an emergency LED flashlight.",
+    "condition": "Brand New (Sealed)",
+    "specifications": {
+      "Battery Capacity": "11,100 mAh (41.07Wh)",
+      "Peak Current": "600A",
+      "Safety": "Short Circuit & Reverse Polarity Protection"
+    },
+    "shipping": {
+      "weight": "720 g",
+      "dispatchTime": "Ships within 24 hours",
+      "estimatedDays": "2 - 4 days",
+      "courierPartners": [
+        "BlueDart Express",
+        "Delhivery Surface",
+        "DTDC Air"
+      ],
+      "codAvailable": true,
+      "returnWindowDays": 7
+    },
+    "variants": {
+      "colors": [
+        {
+          "name": "Standard",
+          "hex": "#334155",
+          "inStock": true
+        }
+      ],
+      "options": [
+        {
+          "label": "Standard Unit",
+          "priceDelta": 0,
+          "stock": 35
+        }
+      ]
+    },
+    "badge": "Emergency Must-Have",
+    "tags": [
+      "jump starter",
+      "car battery",
+      "powerbank"
+    ]
+  },
+  {
+    "id": "p214",
+    "sku": "VM-AUT-P214-WAX",
+    "name": "Meguiar's Ultimate Ceramic Liquid Wax Hydrophobic 473ml",
+    "category": "Automotive",
+    "brand": "Meguiar's",
+    "price": 2199,
+    "mrp": 2899,
+    "discountPercent": 24,
+    "stock": 50,
+    "quantity": 50,
+    "barcode": "8901000002143",
+    "lowStockThreshold": 10,
+    "reservedStock": 0,
+    "warehouseLocation": "Rack R-214",
+    "restockLeadDays": 3,
+    "vendorId": "v17",
+    "status": "approved",
+    "images": [
+      "https://images.unsplash.com/photo-1486006920555-c77dce18193b?w=600&h=600&fit=crop",
+      "https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?w=600&h=600&fit=crop"
+    ],
+    "description": "Hybrid ceramic chemistry creates a hyper-slick SiO2 barrier on clear coats. Delivers extreme water beading and UV paint oxidation defense.",
+    "condition": "Brand New (Sealed)",
+    "specifications": {
+      "Volume": "473 ml (16 fl oz)",
+      "Technology": "SiO2 Hybrid Ceramic",
+      "Application": "Manual Foam Pad or DA Polisher"
+    },
+    "shipping": {
+      "weight": "560 g",
+      "dispatchTime": "Ships within 24 hours",
+      "estimatedDays": "2 - 4 days",
+      "courierPartners": [
+        "BlueDart Express",
+        "Delhivery Surface",
+        "DTDC Air"
+      ],
+      "codAvailable": true,
+      "returnWindowDays": 7
+    },
+    "variants": {
+      "colors": [
+        {
+          "name": "Standard",
+          "hex": "#334155",
+          "inStock": true
+        }
+      ],
+      "options": [
+        {
+          "label": "Standard Unit",
+          "priceDelta": 0,
+          "stock": 50
+        }
+      ]
+    },
+    "badge": "Extreme Beading",
+    "tags": [
+      "ceramic wax",
+      "meguiars",
+      "car polish"
+    ]
+  },
+  {
+    "id": "p215",
+    "sku": "VM-AUT-P215-WSH",
+    "name": "Bosch EasyAquatak 120 Compact High Pressure Washer 1500W",
+    "category": "Automotive",
+    "brand": "Bosch",
+    "price": 7999,
+    "mrp": 10500,
+    "discountPercent": 24,
+    "stock": 20,
+    "quantity": 20,
+    "barcode": "8901000002150",
+    "lowStockThreshold": 4,
+    "reservedStock": 0,
+    "warehouseLocation": "Rack R-215",
+    "restockLeadDays": 3,
+    "vendorId": "v17",
+    "status": "approved",
+    "images": [
+      "https://images.unsplash.com/photo-1549399542-7e3f8b79c341?w=600&h=600&fit=crop",
+      "https://images.unsplash.com/photo-1486006920555-c77dce18193b?w=600&h=600&fit=crop"
+    ],
+    "description": "120-bar operating pressure blasts away road grime from wheel wells and body panels with 350 L/h flow rate. Includes high-pressure detergent nozzle.",
+    "condition": "Brand New (Sealed)",
+    "specifications": {
+      "Pressure": "120 Bar Max",
+      "Motor Power": "1500W High Efficiency",
+      "Hose Length": "5 Meters Heavy Duty"
+    },
+    "shipping": {
+      "weight": "4800 g",
+      "dispatchTime": "Ships within 24 hours",
+      "estimatedDays": "2 - 4 days",
+      "courierPartners": [
+        "BlueDart Express",
+        "Delhivery Surface",
+        "DTDC Air"
+      ],
+      "codAvailable": true,
+      "returnWindowDays": 7
+    },
+    "variants": {
+      "colors": [
+        {
+          "name": "Standard",
+          "hex": "#334155",
+          "inStock": true
+        }
+      ],
+      "options": [
+        {
+          "label": "Standard Unit",
+          "priceDelta": 0,
+          "stock": 20
+        }
+      ]
+    },
+    "badge": "Bosch Professional",
+    "tags": [
+      "pressure washer",
+      "bosch",
+      "car wash"
+    ]
+  },
+  {
+    "id": "p216",
+    "sku": "VM-AUT-P216-DUS",
+    "name": "Jopasu International Microfiber Car Duster Wax Treated",
+    "category": "Automotive",
+    "brand": "Jopasu",
+    "price": 899,
+    "mrp": 1199,
+    "discountPercent": 25,
+    "stock": 90,
+    "quantity": 90,
+    "barcode": "8901000002167",
+    "lowStockThreshold": 18,
+    "reservedStock": 0,
+    "warehouseLocation": "Rack R-216",
+    "restockLeadDays": 3,
+    "vendorId": "v17",
+    "status": "approved",
+    "images": [
+      "https://images.unsplash.com/photo-1486006920555-c77dce18193b?w=600&h=600&fit=crop",
+      "https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?w=600&h=600&fit=crop"
+    ],
+    "description": "Baked-on paraffin wax stranded microfiber head lifts dust without scratching paint. Cleans an entire SUV exterior in 2 minutes without water.",
+    "condition": "Brand New (Sealed)",
+    "specifications": {
+      "Treatment": "Permanently Baked-in Wax Strands",
+      "Handle": "Extendable Unbreakable ABS",
+      "Washable": "Yes (Re-waxable)"
+    },
+    "shipping": {
+      "weight": "620 g",
+      "dispatchTime": "Ships within 24 hours",
+      "estimatedDays": "2 - 4 days",
+      "courierPartners": [
+        "BlueDart Express",
+        "Delhivery Surface",
+        "DTDC Air"
+      ],
+      "codAvailable": true,
+      "returnWindowDays": 7
+    },
+    "variants": {
+      "colors": [
+        {
+          "name": "Standard",
+          "hex": "#334155",
+          "inStock": true
+        }
+      ],
+      "options": [
+        {
+          "label": "Standard Unit",
+          "priceDelta": 0,
+          "stock": 90
+        }
+      ]
+    },
+    "badge": "Auto Bestseller",
+    "tags": [
+      "car duster",
+      "jopasu",
+      "cleaning"
+    ]
+  },
+  {
+    "id": "p217",
+    "sku": "VM-AUT-P217-CHG",
+    "name": "Baseus 65W USB-C PD 3.0 & QC 4.0 Dual Port Car Charger",
+    "category": "Electronics",
+    "brand": "Baseus",
+    "price": 1499,
+    "mrp": 1999,
+    "discountPercent": 25,
+    "stock": 65,
+    "quantity": 65,
+    "barcode": "8901000002174",
+    "lowStockThreshold": 13,
+    "reservedStock": 0,
+    "warehouseLocation": "Rack R-217",
+    "restockLeadDays": 3,
+    "vendorId": "v17",
+    "status": "approved",
+    "images": [
+      "https://images.unsplash.com/photo-1549399542-7e3f8b79c341?w=600&h=600&fit=crop",
+      "https://images.unsplash.com/photo-1486006920555-c77dce18193b?w=600&h=600&fit=crop"
+    ],
+    "description": "Charges MacBooks and Dell XPS laptops at full 65W speed via 12V cigarette lighter port. Translucent chassis reveals ice-blue internal circuitry.",
+    "condition": "Brand New (Sealed)",
+    "specifications": {
+      "Total Output": "65W Max Power Delivery",
+      "Ports": "USB-C (65W) + USB-A (30W)",
+      "Body": "Aluminum Alloy & Polycarbonate"
+    },
+    "shipping": {
+      "weight": "60 g",
+      "dispatchTime": "Ships within 24 hours",
+      "estimatedDays": "2 - 4 days",
+      "courierPartners": [
+        "BlueDart Express",
+        "Delhivery Surface",
+        "DTDC Air"
+      ],
+      "codAvailable": true,
+      "returnWindowDays": 7
+    },
+    "variants": {
+      "colors": [
+        {
+          "name": "Standard",
+          "hex": "#334155",
+          "inStock": true
+        }
+      ],
+      "options": [
+        {
+          "label": "Standard Unit",
+          "priceDelta": 0,
+          "stock": 65
+        }
+      ]
+    },
+    "badge": "65W Laptop PD",
+    "tags": [
+      "car charger",
+      "fast charge",
+      "usb-c"
+    ]
+  },
+  {
+    "id": "p218",
+    "sku": "VM-AUT-P218-MAT",
+    "name": "7D Custom-Molded All-Weather Waterproof Car Floor Mat Set",
+    "category": "Automotive",
+    "brand": "AutoCraft",
+    "price": 3499,
+    "mrp": 4999,
+    "discountPercent": 30,
+    "stock": 30,
+    "quantity": 30,
+    "barcode": "8901000002181",
+    "lowStockThreshold": 6,
+    "reservedStock": 0,
+    "warehouseLocation": "Rack R-218",
+    "restockLeadDays": 3,
+    "vendorId": "v17",
+    "status": "approved",
+    "images": [
+      "https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?w=600&h=600&fit=crop",
+      "https://images.unsplash.com/photo-1486006920555-c77dce18193b?w=600&h=600&fit=crop"
+    ],
+    "description": "7-layer constructed car floor liners with detachable curly grass matting for mud and rain protection. Laser scanned fit with anti-skid backing.",
+    "condition": "Brand New (Sealed)",
+    "specifications": {
+      "Construction": "7-Layer EVA + Leatherette + Grass Mat",
+      "Coverage": "Edge-to-Edge Raised Borders",
+      "Set": "Front & Rear Rows"
+    },
+    "shipping": {
+      "weight": "4200 g",
+      "dispatchTime": "Ships within 24 hours",
+      "estimatedDays": "2 - 4 days",
+      "courierPartners": [
+        "BlueDart Express",
+        "Delhivery Surface",
+        "DTDC Air"
+      ],
+      "codAvailable": true,
+      "returnWindowDays": 7
+    },
+    "variants": {
+      "colors": [
+        {
+          "name": "Standard",
+          "hex": "#334155",
+          "inStock": true
+        }
+      ],
+      "options": [
+        {
+          "label": "Standard Unit",
+          "priceDelta": 0,
+          "stock": 30
+        }
+      ]
+    },
+    "badge": "Custom 7D",
+    "tags": [
+      "floor mats",
+      "car mats",
+      "7d"
+    ]
+  },
+  {
+    "id": "p219",
+    "sku": "VM-AUT-P219-SHM",
+    "name": "Wavex Wonder Wash Carnauba Wax High-Foam Shampoo 5L",
+    "category": "Automotive",
+    "brand": "Wavex",
+    "price": 1199,
+    "mrp": 1600,
+    "discountPercent": 25,
+    "stock": 45,
+    "quantity": 45,
+    "barcode": "8901000002198",
+    "lowStockThreshold": 9,
+    "reservedStock": 0,
+    "warehouseLocation": "Rack R-219",
+    "restockLeadDays": 3,
+    "vendorId": "v17",
+    "status": "approved",
+    "images": [
+      "https://images.unsplash.com/photo-1486006920555-c77dce18193b?w=600&h=600&fit=crop",
+      "https://images.unsplash.com/photo-1549399542-7e3f8b79c341?w=600&h=600&fit=crop"
+    ],
+    "description": "pH-neutral snow foam wash enriched with genuine carnauba wax. Gently loosens abrasive dirt without stripping existing wax or sealant coatings.",
+    "condition": "Brand New (Sealed)",
+    "specifications": {
+      "Volume": "5 Litres Bulk Can",
+      "pH Level": "7.0 (Neutral)",
+      "Dilution Ratio": "1:200 for Foam Cannon"
+    },
+    "shipping": {
+      "weight": "5300 g",
+      "dispatchTime": "Ships within 24 hours",
+      "estimatedDays": "2 - 4 days",
+      "courierPartners": [
+        "BlueDart Express",
+        "Delhivery Surface",
+        "DTDC Air"
+      ],
+      "codAvailable": true,
+      "returnWindowDays": 7
+    },
+    "variants": {
+      "colors": [
+        {
+          "name": "Standard",
+          "hex": "#334155",
+          "inStock": true
+        }
+      ],
+      "options": [
+        {
+          "label": "Standard Unit",
+          "priceDelta": 0,
+          "stock": 45
+        }
+      ]
+    },
+    "badge": "Pro Detailer",
+    "tags": [
+      "car shampoo",
+      "snow foam",
+      "car wash"
+    ]
+  },
+  {
+    "id": "p220",
+    "sku": "VM-AUT-P220-LED",
+    "name": "Philips Ultinon Pro9000 LED Headlight Bulb Set H7 5800K",
+    "category": "Automotive",
+    "brand": "Philips",
+    "price": 6499,
+    "mrp": 8999,
+    "discountPercent": 28,
+    "stock": 25,
+    "quantity": 25,
+    "barcode": "8901000002204",
+    "lowStockThreshold": 5,
+    "reservedStock": 0,
+    "warehouseLocation": "Rack R-220",
+    "restockLeadDays": 3,
+    "vendorId": "v17",
+    "status": "approved",
+    "images": [
+      "https://images.unsplash.com/photo-1549399542-7e3f8b79c341?w=600&h=600&fit=crop",
+      "https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?w=600&h=600&fit=crop"
+    ],
+    "description": "Provides up to 250% brighter beam cut-off on night highways without blinding oncoming traffic. Lumileds TopContact LEDs with AirCool heat dissipation.",
+    "condition": "Brand New (Sealed)",
+    "specifications": {
+      "Socket": "H7 (12V / 24V Compatible)",
+      "Color Temp": "5800K Crisp White",
+      "Lifespan": "Up to 5,000 Hours"
+    },
+    "shipping": {
+      "weight": "340 g",
+      "dispatchTime": "Ships within 24 hours",
+      "estimatedDays": "2 - 4 days",
+      "courierPartners": [
+        "BlueDart Express",
+        "Delhivery Surface",
+        "DTDC Air"
+      ],
+      "codAvailable": true,
+      "returnWindowDays": 7
+    },
+    "variants": {
+      "colors": [
+        {
+          "name": "Standard",
+          "hex": "#334155",
+          "inStock": true
+        }
+      ],
+      "options": [
+        {
+          "label": "Standard Unit",
+          "priceDelta": 0,
+          "stock": 25
+        }
+      ]
+    },
+    "badge": "250% Brighter",
+    "tags": [
+      "headlight",
+      "led bulb",
+      "philips"
+    ]
+  },
+  {
+    "id": "p221",
+    "sku": "VM-BOT-P221-KUM",
+    "name": "Authentic Kumkumadi Miraculous Beauty Fluid 30ml",
+    "category": "Beauty",
+    "brand": "NourishBotanica",
+    "price": 1850,
+    "mrp": 2400,
+    "discountPercent": 23,
+    "stock": 50,
+    "quantity": 50,
+    "barcode": "8901000002211",
+    "lowStockThreshold": 10,
+    "reservedStock": 0,
+    "warehouseLocation": "Rack R-221",
+    "restockLeadDays": 3,
+    "vendorId": "v18",
+    "status": "approved",
+    "images": [
+      "https://images.unsplash.com/photo-1620916566398-39f1143ab7be?w=600&h=600&fit=crop",
+      "https://images.unsplash.com/photo-1556228720-195a672e8a03?w=600&h=600&fit=crop"
+    ],
+    "description": "Ayurvedic classical formulation cooked for 72 hours with Kashmiri saffron, red sandalwood, vetiver, and goat's milk to illuminate skin tone.",
+    "condition": "Brand New (Sealed)",
+    "specifications": {
+      "Key Herb": "Kashmiri Crocus Sativus (Saffron)",
+      "Base": "Pure Sesame Seed Oil",
+      "Volume": "30 ml"
+    },
+    "shipping": {
+      "weight": "140 g",
+      "dispatchTime": "Ships within 24 hours",
+      "estimatedDays": "2 - 4 days",
+      "courierPartners": [
+        "BlueDart Express",
+        "Delhivery Surface",
+        "DTDC Air"
+      ],
+      "codAvailable": true,
+      "returnWindowDays": 7
+    },
+    "variants": {
+      "colors": [
+        {
+          "name": "Standard",
+          "hex": "#334155",
+          "inStock": true
+        }
+      ],
+      "options": [
+        {
+          "label": "Standard Unit",
+          "priceDelta": 0,
+          "stock": 50
+        }
+      ]
+    },
+    "badge": "100% Ayurvedic",
+    "tags": [
+      "kumkumadi",
+      "face oil",
+      "saffron serum"
+    ]
+  },
+  {
+    "id": "p222",
+    "sku": "VM-BOT-P222-BRI",
+    "name": "Bringadi Intensive Scalp & Hair Fall Treatment Oil 200ml",
+    "category": "Beauty",
+    "brand": "NourishBotanica",
+    "price": 899,
+    "mrp": 1199,
+    "discountPercent": 25,
+    "stock": 80,
+    "quantity": 80,
+    "barcode": "8901000002228",
+    "lowStockThreshold": 16,
+    "reservedStock": 0,
+    "warehouseLocation": "Rack R-222",
+    "restockLeadDays": 3,
+    "vendorId": "v18",
+    "status": "approved",
+    "images": [
+      "https://images.unsplash.com/photo-1608248597359-00998f48354c?w=600&h=600&fit=crop",
+      "https://images.unsplash.com/photo-1620916566398-39f1143ab7be?w=600&h=600&fit=crop"
+    ],
+    "description": "Infused with Bhringraj, Amla, and Indigo leaves boiled in virgin coconut milk to revitalize dormant follicles and prevent premature graying.",
+    "condition": "Brand New (Sealed)",
+    "specifications": {
+      "Herbal Actives": "Bhringraj, Indigo, Cardamom, Amla",
+      "Base": "Kerala Virgin Coconut Oil",
+      "Volume": "200 ml"
+    },
+    "shipping": {
+      "weight": "260 g",
+      "dispatchTime": "Ships within 24 hours",
+      "estimatedDays": "2 - 4 days",
+      "courierPartners": [
+        "BlueDart Express",
+        "Delhivery Surface",
+        "DTDC Air"
+      ],
+      "codAvailable": true,
+      "returnWindowDays": 7
+    },
+    "variants": {
+      "colors": [
+        {
+          "name": "Standard",
+          "hex": "#334155",
+          "inStock": true
+        }
+      ],
+      "options": [
+        {
+          "label": "Standard Unit",
+          "priceDelta": 0,
+          "stock": 80
+        }
+      ]
+    },
+    "badge": "Hair Revitalizer",
+    "tags": [
+      "hair oil",
+      "bhringraj",
+      "hair fall"
+    ]
+  },
+  {
+    "id": "p223",
+    "sku": "VM-BOT-P223-ROS",
+    "name": "Pure Kashmiri Rose Water Hydro-Steam Distilled 200ml",
+    "category": "Beauty",
+    "brand": "NourishBotanica",
+    "price": 499,
+    "mrp": 650,
+    "discountPercent": 23,
+    "stock": 95,
+    "quantity": 95,
+    "barcode": "8901000002235",
+    "lowStockThreshold": 19,
+    "reservedStock": 0,
+    "warehouseLocation": "Rack R-223",
+    "restockLeadDays": 3,
+    "vendorId": "v18",
+    "status": "approved",
+    "images": [
+      "https://images.unsplash.com/photo-1556228720-195a672e8a03?w=600&h=600&fit=crop",
+      "https://images.unsplash.com/photo-1620916566398-39f1143ab7be?w=600&h=600&fit=crop"
+    ],
+    "description": "Hydro-distilled from freshly plucked Rosa Damascena petals in traditional copper deg-bhapka stills. Balances facial pH and cools tired eyes.",
+    "condition": "Brand New (Sealed)",
+    "specifications": {
+      "Botanical": "Rosa Damascena",
+      "Method": "Steam Distillation (Deg-Bhapka)",
+      "Alcohol": "0% Alcohol & Preservative Free"
+    },
+    "shipping": {
+      "weight": "280 g",
+      "dispatchTime": "Ships within 24 hours",
+      "estimatedDays": "2 - 4 days",
+      "courierPartners": [
+        "BlueDart Express",
+        "Delhivery Surface",
+        "DTDC Air"
+      ],
+      "codAvailable": true,
+      "returnWindowDays": 7
+    },
+    "variants": {
+      "colors": [
+        {
+          "name": "Standard",
+          "hex": "#334155",
+          "inStock": true
+        }
+      ],
+      "options": [
+        {
+          "label": "Standard Unit",
+          "priceDelta": 0,
+          "stock": 95
+        }
+      ]
+    },
+    "badge": "Pure Steam Distilled",
+    "tags": [
+      "rose water",
+      "toner",
+      "skincare"
+    ]
+  },
+  {
+    "id": "p224",
+    "sku": "VM-BOT-P224-NIA",
+    "name": "Clinical Niacinamide 10% + Zinc 1% Blemish Recovery Serum 30ml",
+    "category": "Beauty",
+    "brand": "NourishBotanica",
+    "price": 549,
+    "mrp": 699,
+    "discountPercent": 21,
+    "stock": 70,
+    "quantity": 70,
+    "barcode": "8901000002242",
+    "lowStockThreshold": 14,
+    "reservedStock": 0,
+    "warehouseLocation": "Rack R-224",
+    "restockLeadDays": 3,
+    "vendorId": "v18",
+    "status": "approved",
+    "images": [
+      "https://images.unsplash.com/photo-1620916566398-39f1143ab7be?w=600&h=600&fit=crop",
+      "https://images.unsplash.com/photo-1608248597359-00998f48354c?w=600&h=600&fit=crop"
+    ],
+    "description": "Regulates sebum production, tightens enlarged pores, and lightens post-inflammatory hyperpigmentation with high-purity Vitamin B3.",
+    "condition": "Brand New (Sealed)",
+    "specifications": {
+      "Active Ingredients": "10% Niacinamide + 1% Zinc PCA",
+      "pH Range": "5.0 - 5.5",
+      "Skin Type": "Oily / Acne-Prone"
+    },
+    "shipping": {
+      "weight": "110 g",
+      "dispatchTime": "Ships within 24 hours",
+      "estimatedDays": "2 - 4 days",
+      "courierPartners": [
+        "BlueDart Express",
+        "Delhivery Surface",
+        "DTDC Air"
+      ],
+      "codAvailable": true,
+      "returnWindowDays": 7
+    },
+    "variants": {
+      "colors": [
+        {
+          "name": "Standard",
+          "hex": "#334155",
+          "inStock": true
+        }
+      ],
+      "options": [
+        {
+          "label": "Standard Unit",
+          "priceDelta": 0,
+          "stock": 70
+        }
+      ]
+    },
+    "badge": "Clinical Actives",
+    "tags": [
+      "niacinamide",
+      "serum",
+      "acne"
+    ]
+  },
+  {
+    "id": "p225",
+    "sku": "VM-BOT-P225-SUN",
+    "name": "Mineral Matte Sunscreen SPF 50 PA++++ Invisible Shield 50g",
+    "category": "Beauty",
+    "brand": "NourishBotanica",
+    "price": 699,
+    "mrp": 899,
+    "discountPercent": 22,
+    "stock": 85,
+    "quantity": 85,
+    "barcode": "8901000002259",
+    "lowStockThreshold": 17,
+    "reservedStock": 0,
+    "warehouseLocation": "Rack R-225",
+    "restockLeadDays": 3,
+    "vendorId": "v18",
+    "status": "approved",
+    "images": [
+      "https://images.unsplash.com/photo-1556228720-195a672e8a03?w=600&h=600&fit=crop",
+      "https://images.unsplash.com/photo-1620916566398-39f1143ab7be?w=600&h=600&fit=crop"
+    ],
+    "description": "100% zinc oxide physical mineral sunscreen leaves zero white cast on brown skin tones. Enriched with blue light defense and centella asiatica.",
+    "condition": "Brand New (Sealed)",
+    "specifications": {
+      "Broad Spectrum": "SPF 50+ PA++++",
+      "Filters": "Zinc Oxide Micronized (Non-Nano)",
+      "Finish": "Oil-Free Ultra-Matte"
+    },
+    "shipping": {
+      "weight": "90 g",
+      "dispatchTime": "Ships within 24 hours",
+      "estimatedDays": "2 - 4 days",
+      "courierPartners": [
+        "BlueDart Express",
+        "Delhivery Surface",
+        "DTDC Air"
+      ],
+      "codAvailable": true,
+      "returnWindowDays": 7
+    },
+    "variants": {
+      "colors": [
+        {
+          "name": "Standard",
+          "hex": "#334155",
+          "inStock": true
+        }
+      ],
+      "options": [
+        {
+          "label": "Standard Unit",
+          "priceDelta": 0,
+          "stock": 85
+        }
+      ]
+    },
+    "badge": "Zero White Cast",
+    "tags": [
+      "sunscreen",
+      "spf 50",
+      "mineral sunscreen"
+    ]
+  },
+  {
+    "id": "p226",
+    "sku": "VM-BOT-P226-UBT",
+    "name": "Kashmiri Saffron & Wild Sandalwood Radiance Face Ubtan 100g",
+    "category": "Beauty",
+    "brand": "NourishBotanica",
+    "price": 650,
+    "mrp": 850,
+    "discountPercent": 24,
+    "stock": 60,
+    "quantity": 60,
+    "barcode": "8901000002266",
+    "lowStockThreshold": 12,
+    "reservedStock": 0,
+    "warehouseLocation": "Rack R-226",
+    "restockLeadDays": 3,
+    "vendorId": "v18",
+    "status": "approved",
+    "images": [
+      "https://images.unsplash.com/photo-1608248597359-00998f48354c?w=600&h=600&fit=crop",
+      "https://images.unsplash.com/photo-1556228720-195a672e8a03?w=600&h=600&fit=crop"
+    ],
+    "description": "Exfoliating micro-ground chickpea flour blended with wild turmeric (kasturi manjal), neem, and pure chandan for weekly radiance facials.",
+    "condition": "Brand New (Sealed)",
+    "specifications": {
+      "Ingredients": "Sandalwood, Saffron, Kasturi Manjal, Almond Flour",
+      "Form": "Dry Powder (Mix with Rose Water)",
+      "Weight": "100 g"
+    },
+    "shipping": {
+      "weight": "180 g",
+      "dispatchTime": "Ships within 24 hours",
+      "estimatedDays": "2 - 4 days",
+      "courierPartners": [
+        "BlueDart Express",
+        "Delhivery Surface",
+        "DTDC Air"
+      ],
+      "codAvailable": true,
+      "returnWindowDays": 7
+    },
+    "variants": {
+      "colors": [
+        {
+          "name": "Standard",
+          "hex": "#334155",
+          "inStock": true
+        }
+      ],
+      "options": [
+        {
+          "label": "Standard Unit",
+          "priceDelta": 0,
+          "stock": 60
+        }
+      ]
+    },
+    "badge": "Wedding Radiance",
+    "tags": [
+      "ubtan",
+      "face pack",
+      "ayurveda"
+    ]
+  },
+  {
+    "id": "p227",
+    "sku": "VM-BOT-P227-NIG",
+    "name": "Gotu Kola & Hyaluronic Acid Overnight Peptide Repair Crème 50g",
+    "category": "Beauty",
+    "brand": "NourishBotanica",
+    "price": 1199,
+    "mrp": 1599,
+    "discountPercent": 25,
+    "stock": 45,
+    "quantity": 45,
+    "barcode": "8901000002273",
+    "lowStockThreshold": 9,
+    "reservedStock": 0,
+    "warehouseLocation": "Rack R-227",
+    "restockLeadDays": 3,
+    "vendorId": "v18",
+    "status": "approved",
+    "images": [
+      "https://images.unsplash.com/photo-1620916566398-39f1143ab7be?w=600&h=600&fit=crop",
+      "https://images.unsplash.com/photo-1556228720-195a672e8a03?w=600&h=600&fit=crop"
+    ],
+    "description": "Velvety night cream powered by Brahmi (Gotu Kola) to stimulate collagen synthesis while multi-molecular hyaluronic acid plumps fine lines.",
+    "condition": "Brand New (Sealed)",
+    "specifications": {
+      "Key Actives": "Centella Asiatica + Multi-Molecular HA + Peptides",
+      "Texture": "Rich Cushion Crème",
+      "Volume": "50 g"
+    },
+    "shipping": {
+      "weight": "220 g",
+      "dispatchTime": "Ships within 24 hours",
+      "estimatedDays": "2 - 4 days",
+      "courierPartners": [
+        "BlueDart Express",
+        "Delhivery Surface",
+        "DTDC Air"
+      ],
+      "codAvailable": true,
+      "returnWindowDays": 7
+    },
+    "variants": {
+      "colors": [
+        {
+          "name": "Standard",
+          "hex": "#334155",
+          "inStock": true
+        }
+      ],
+      "options": [
+        {
+          "label": "Standard Unit",
+          "priceDelta": 0,
+          "stock": 45
+        }
+      ]
+    },
+    "badge": "Collagen Booster",
+    "tags": [
+      "night cream",
+      "anti aging",
+      "gotu kola"
+    ]
+  },
+  {
+    "id": "p228",
+    "sku": "VM-BOT-P228-COC",
+    "name": "Cold-Pressed Extra Virgin Coconut Oil from Kerala 500ml",
+    "category": "Beauty",
+    "brand": "NourishBotanica",
+    "price": 399,
+    "mrp": 520,
+    "discountPercent": 23,
+    "stock": 75,
+    "quantity": 75,
+    "barcode": "8901000002280",
+    "lowStockThreshold": 15,
+    "reservedStock": 0,
+    "warehouseLocation": "Rack R-228",
+    "restockLeadDays": 3,
+    "vendorId": "v18",
+    "status": "approved",
+    "images": [
+      "https://images.unsplash.com/photo-1556228720-195a672e8a03?w=600&h=600&fit=crop",
+      "https://images.unsplash.com/photo-1608248597359-00998f48354c?w=600&h=600&fit=crop"
+    ],
+    "description": "Extracted from fresh raw coconut milk within 2 hours of husking. Retains fresh tropical aroma and high lauric acid content for hair and skin.",
+    "condition": "Brand New (Sealed)",
+    "specifications": {
+      "Source": "Centrifuged Fresh Coconut Milk",
+      "Color": "Crystal Clear (Non-Rancid)",
+      "Volume": "500 ml"
+    },
+    "shipping": {
+      "weight": "680 g",
+      "dispatchTime": "Ships within 24 hours",
+      "estimatedDays": "2 - 4 days",
+      "courierPartners": [
+        "BlueDart Express",
+        "Delhivery Surface",
+        "DTDC Air"
+      ],
+      "codAvailable": true,
+      "returnWindowDays": 7
+    },
+    "variants": {
+      "colors": [
+        {
+          "name": "Standard",
+          "hex": "#334155",
+          "inStock": true
+        }
+      ],
+      "options": [
+        {
+          "label": "Standard Unit",
+          "priceDelta": 0,
+          "stock": 75
+        }
+      ]
+    },
+    "badge": "Raw Virgin",
+    "tags": [
+      "coconut oil",
+      "hair care",
+      "kerala"
+    ]
+  },
+  {
+    "id": "p229",
+    "sku": "VM-BOT-P229-WSH",
+    "name": "Activated Bamboo Charcoal & Tea Tree Deep Pore Face Wash 150ml",
+    "category": "Beauty",
+    "brand": "NourishBotanica",
+    "price": 380,
+    "mrp": 499,
+    "discountPercent": 24,
+    "stock": 80,
+    "quantity": 80,
+    "barcode": "8901000002297",
+    "lowStockThreshold": 16,
+    "reservedStock": 0,
+    "warehouseLocation": "Rack R-229",
+    "restockLeadDays": 3,
+    "vendorId": "v18",
+    "status": "approved",
+    "images": [
+      "https://images.unsplash.com/photo-1620916566398-39f1143ab7be?w=600&h=600&fit=crop",
+      "https://images.unsplash.com/photo-1556228720-195a672e8a03?w=600&h=600&fit=crop"
+    ],
+    "description": "Sulfate-free micro-foaming cleanser traps pollution particulates and dissolves stubborn blackhead buildup without stripping natural lipids.",
+    "condition": "Brand New (Sealed)",
+    "specifications": {
+      "Surfactants": "100% Coconut Derived Mild Glucosides",
+      "Sulfate / Paraben": "0% Harsh Chemicals",
+      "Volume": "150 ml"
+    },
+    "shipping": {
+      "weight": "190 g",
+      "dispatchTime": "Ships within 24 hours",
+      "estimatedDays": "2 - 4 days",
+      "courierPartners": [
+        "BlueDart Express",
+        "Delhivery Surface",
+        "DTDC Air"
+      ],
+      "codAvailable": true,
+      "returnWindowDays": 7
+    },
+    "variants": {
+      "colors": [
+        {
+          "name": "Standard",
+          "hex": "#334155",
+          "inStock": true
+        }
+      ],
+      "options": [
+        {
+          "label": "Standard Unit",
+          "priceDelta": 0,
+          "stock": 80
+        }
+      ]
+    },
+    "badge": "Deep Cleansing",
+    "tags": [
+      "face wash",
+      "charcoal",
+      "tea tree"
+    ]
+  },
+  {
+    "id": "p230",
+    "sku": "VM-BOT-P230-VET",
+    "name": "Pure Khus (Vetiver) Root Water Hydrosol Facial Mist 100ml",
+    "category": "Beauty",
+    "brand": "NourishBotanica",
+    "price": 450,
+    "mrp": 599,
+    "discountPercent": 25,
+    "stock": 65,
+    "quantity": 65,
+    "barcode": "8901000002303",
+    "lowStockThreshold": 13,
+    "reservedStock": 0,
+    "warehouseLocation": "Rack R-230",
+    "restockLeadDays": 3,
+    "vendorId": "v18",
+    "status": "approved",
+    "images": [
+      "https://images.unsplash.com/photo-1608248597359-00998f48354c?w=600&h=600&fit=crop",
+      "https://images.unsplash.com/photo-1556228720-195a672e8a03?w=600&h=600&fit=crop"
+    ],
+    "description": "Earthy, grounding aroma distilled from wild vetiver grass roots. Acts as a natural astringent to minimize pores and soothe irritated summer skin.",
+    "condition": "Brand New (Sealed)",
+    "specifications": {
+      "Botanical": "Chrysopogon Zizanioides (Vetiver)",
+      "Packaging": "Amber Glass Spray Bottle",
+      "Volume": "100 ml"
+    },
+    "shipping": {
+      "weight": "210 g",
+      "dispatchTime": "Ships within 24 hours",
+      "estimatedDays": "2 - 4 days",
+      "courierPartners": [
+        "BlueDart Express",
+        "Delhivery Surface",
+        "DTDC Air"
+      ],
+      "codAvailable": true,
+      "returnWindowDays": 7
+    },
+    "variants": {
+      "colors": [
+        {
+          "name": "Standard",
+          "hex": "#334155",
+          "inStock": true
+        }
+      ],
+      "options": [
+        {
+          "label": "Standard Unit",
+          "priceDelta": 0,
+          "stock": 65
+        }
+      ]
+    },
+    "badge": "Cooling Mist",
+    "tags": [
+      "vetiver mist",
+      "khus",
+      "facial toner"
+    ]
+  },
+  {
+    "id": "p231",
+    "sku": "VM-EYE-P231-AVI",
+    "name": "Japanese Beta-Titanium Ultralight Aviator Spectacles",
+    "category": "Fashion",
+    "brand": "Crestview",
+    "price": 3499,
+    "mrp": 4999,
+    "discountPercent": 30,
+    "stock": 35,
+    "quantity": 35,
+    "barcode": "8901000002310",
+    "lowStockThreshold": 7,
+    "reservedStock": 0,
+    "warehouseLocation": "Rack R-231",
+    "restockLeadDays": 3,
+    "vendorId": "v19",
+    "status": "approved",
+    "images": [
+      "https://images.unsplash.com/photo-1511499767150-a48a237f0083?w=600&h=600&fit=crop",
+      "https://images.unsplash.com/photo-1572635196237-14b3f281503f?w=600&h=600&fit=crop"
+    ],
+    "description": "Weighing only 12 grams, crafted from aerospace beta-titanium that bends and snaps back into shape. Screwless cylinder hinges for lifelong durability.",
+    "condition": "Brand New (Sealed)",
+    "specifications": {
+      "Weight": "12.4 Grams (Ultralight)",
+      "Material": "Pure Japanese Beta-Titanium",
+      "Frame Size": "52-19-145 mm"
+    },
+    "shipping": {
+      "weight": "180 g",
+      "dispatchTime": "Ships within 24 hours",
+      "estimatedDays": "2 - 4 days",
+      "courierPartners": [
+        "BlueDart Express",
+        "Delhivery Surface",
+        "DTDC Air"
+      ],
+      "codAvailable": true,
+      "returnWindowDays": 7
+    },
+    "variants": {
+      "colors": [
+        {
+          "name": "Standard",
+          "hex": "#334155",
+          "inStock": true
+        }
+      ],
+      "options": [
+        {
+          "label": "Standard Unit",
+          "priceDelta": 0,
+          "stock": 35
+        }
+      ]
+    },
+    "badge": "Ultralight 12g",
+    "tags": [
+      "titanium spectacles",
+      "eyewear",
+      "glasses"
+    ]
+  },
+  {
+    "id": "p232",
+    "sku": "VM-EYE-P232-WAY",
+    "name": "Polarized TR90 Matte Black Wayfarer Sunglasses UV400",
+    "category": "Fashion",
+    "brand": "Crestview",
+    "price": 1699,
+    "mrp": 2499,
+    "discountPercent": 32,
+    "stock": 60,
+    "quantity": 60,
+    "barcode": "8901000002327",
+    "lowStockThreshold": 12,
+    "reservedStock": 0,
+    "warehouseLocation": "Rack R-232",
+    "restockLeadDays": 3,
+    "vendorId": "v19",
+    "status": "approved",
+    "images": [
+      "https://images.unsplash.com/photo-1572635196237-14b3f281503f?w=600&h=600&fit=crop",
+      "https://images.unsplash.com/photo-1511499767150-a48a237f0083?w=600&h=600&fit=crop"
+    ],
+    "description": "TAC polarized lenses eliminate harsh glare from wet roads and water surfaces. Flexible Swiss memory TR90 polymer frames resist high drops.",
+    "condition": "Brand New (Sealed)",
+    "specifications": {
+      "Lenses": "9-Layer HD TAC Polarized",
+      "UV Protection": "100% UV400 (UVA & UVB)",
+      "Frame": "Swiss Grilamid TR90"
+    },
+    "shipping": {
+      "weight": "160 g",
+      "dispatchTime": "Ships within 24 hours",
+      "estimatedDays": "2 - 4 days",
+      "courierPartners": [
+        "BlueDart Express",
+        "Delhivery Surface",
+        "DTDC Air"
+      ],
+      "codAvailable": true,
+      "returnWindowDays": 7
+    },
+    "variants": {
+      "colors": [
+        {
+          "name": "Standard",
+          "hex": "#334155",
+          "inStock": true
+        }
+      ],
+      "options": [
+        {
+          "label": "Standard Unit",
+          "priceDelta": 0,
+          "stock": 60
+        }
+      ]
+    },
+    "badge": "Polarized HD",
+    "tags": [
+      "sunglasses",
+      "polarized",
+      "wayfarer"
+    ]
+  },
+  {
+    "id": "p233",
+    "sku": "VM-EYE-P233-BLU",
+    "name": "Zero-Power Blue Light Filter Glasses for Digital Screens",
+    "category": "Fashion",
+    "brand": "Crestview",
+    "price": 999,
+    "mrp": 1499,
+    "discountPercent": 33,
+    "stock": 90,
+    "quantity": 90,
+    "barcode": "8901000002334",
+    "lowStockThreshold": 18,
+    "reservedStock": 0,
+    "warehouseLocation": "Rack R-233",
+    "restockLeadDays": 3,
+    "vendorId": "v19",
+    "status": "approved",
+    "images": [
+      "https://images.unsplash.com/photo-1511499767150-a48a237f0083?w=600&h=600&fit=crop",
+      "https://images.unsplash.com/photo-1572635196237-14b3f281503f?w=600&h=600&fit=crop"
+    ],
+    "description": "Filters 90% of harmful blue-violet light emitted by laptops, smartphones, and monitors. Relieves digital eye strain and prevents dry eyes.",
+    "condition": "Brand New (Sealed)",
+    "specifications": {
+      "Blue Light Cut": "90% at 415-455nm Spectrum",
+      "Coating": "Anti-Reflective Hydrophobic",
+      "Power": "Zero Power (Plano)"
+    },
+    "shipping": {
+      "weight": "140 g",
+      "dispatchTime": "Ships within 24 hours",
+      "estimatedDays": "2 - 4 days",
+      "courierPartners": [
+        "BlueDart Express",
+        "Delhivery Surface",
+        "DTDC Air"
+      ],
+      "codAvailable": true,
+      "returnWindowDays": 7
+    },
+    "variants": {
+      "colors": [
+        {
+          "name": "Standard",
+          "hex": "#334155",
+          "inStock": true
+        }
+      ],
+      "options": [
+        {
+          "label": "Standard Unit",
+          "priceDelta": 0,
+          "stock": 90
+        }
+      ]
+    },
+    "badge": "Screen Defense",
+    "tags": [
+      "computer glasses",
+      "blue light",
+      "anti glare"
+    ]
+  },
+  {
+    "id": "p234",
+    "sku": "VM-EYE-P234-TOR",
+    "name": "Handcrafted Tortoise Shell Round Acetate Eyeglass Frame",
+    "category": "Fashion",
+    "brand": "Crestview",
+    "price": 2499,
+    "mrp": 3499,
+    "discountPercent": 29,
+    "stock": 40,
+    "quantity": 40,
+    "barcode": "8901000002341",
+    "lowStockThreshold": 8,
+    "reservedStock": 0,
+    "warehouseLocation": "Rack R-234",
+    "restockLeadDays": 3,
+    "vendorId": "v19",
+    "status": "approved",
+    "images": [
+      "https://images.unsplash.com/photo-1572635196237-14b3f281503f?w=600&h=600&fit=crop",
+      "https://images.unsplash.com/photo-1511499767150-a48a237f0083?w=600&h=600&fit=crop"
+    ],
+    "description": "Machined from Italian Mazzucchelli cellulose acetate blocks with wire core temples. Hand-polished over 72 hours for deep lustrous tortoiseshell depth.",
+    "condition": "Brand New (Sealed)",
+    "specifications": {
+      "Material": "Italian Mazzucchelli Cellulose Acetate",
+      "Hinges": "5-Barrel German Riveted",
+      "Shape": "Classic P3 Round"
+    },
+    "shipping": {
+      "weight": "175 g",
+      "dispatchTime": "Ships within 24 hours",
+      "estimatedDays": "2 - 4 days",
+      "courierPartners": [
+        "BlueDart Express",
+        "Delhivery Surface",
+        "DTDC Air"
+      ],
+      "codAvailable": true,
+      "returnWindowDays": 7
+    },
+    "variants": {
+      "colors": [
+        {
+          "name": "Standard",
+          "hex": "#334155",
+          "inStock": true
+        }
+      ],
+      "options": [
+        {
+          "label": "Standard Unit",
+          "priceDelta": 0,
+          "stock": 40
+        }
+      ]
+    },
+    "badge": "Handmade Acetate",
+    "tags": [
+      "acetate frames",
+      "tortoiseshell",
+      "glasses"
+    ]
+  },
+  {
+    "id": "p235",
+    "sku": "VM-EYE-P235-CLB",
+    "name": "Clubmaster Semi-Rimless Vintage Acetate & Gold Alloy Frames",
+    "category": "Fashion",
+    "brand": "Crestview",
+    "price": 2199,
+    "mrp": 2999,
+    "discountPercent": 27,
+    "stock": 45,
+    "quantity": 45,
+    "barcode": "8901000002358",
+    "lowStockThreshold": 9,
+    "reservedStock": 0,
+    "warehouseLocation": "Rack R-235",
+    "restockLeadDays": 3,
+    "vendorId": "v19",
+    "status": "approved",
+    "images": [
+      "https://images.unsplash.com/photo-1511499767150-a48a237f0083?w=600&h=600&fit=crop",
+      "https://images.unsplash.com/photo-1572635196237-14b3f281503f?w=600&h=600&fit=crop"
+    ],
+    "description": "The iconic 1950s browline silhouette featuring glossy black acetate upper rims accented by engraved monel metal lower frames.",
+    "condition": "Brand New (Sealed)",
+    "specifications": {
+      "Bridge": "Adjustable Soft Silicone Nose Pads",
+      "Width": "50 mm Eye Size",
+      "Finish": "Polished Black & Gold"
+    },
+    "shipping": {
+      "weight": "165 g",
+      "dispatchTime": "Ships within 24 hours",
+      "estimatedDays": "2 - 4 days",
+      "courierPartners": [
+        "BlueDart Express",
+        "Delhivery Surface",
+        "DTDC Air"
+      ],
+      "codAvailable": true,
+      "returnWindowDays": 7
+    },
+    "variants": {
+      "colors": [
+        {
+          "name": "Standard",
+          "hex": "#334155",
+          "inStock": true
+        }
+      ],
+      "options": [
+        {
+          "label": "Standard Unit",
+          "priceDelta": 0,
+          "stock": 45
+        }
+      ]
+    },
+    "badge": "Classic Browline",
+    "tags": [
+      "clubmaster",
+      "retro glasses",
+      "vintage"
+    ]
+  },
+  {
+    "id": "p236",
+    "sku": "VM-EYE-P236-SPO",
+    "name": "Sports Wrap-Around Polarized Sunglasses for Cycling & Running",
+    "category": "Sports",
+    "brand": "Crestview",
+    "price": 1899,
+    "mrp": 2699,
+    "discountPercent": 30,
+    "stock": 50,
+    "quantity": 50,
+    "barcode": "8901000002365",
+    "lowStockThreshold": 10,
+    "reservedStock": 0,
+    "warehouseLocation": "Rack R-236",
+    "restockLeadDays": 3,
+    "vendorId": "v19",
+    "status": "approved",
+    "images": [
+      "https://images.unsplash.com/photo-1572635196237-14b3f281503f?w=600&h=600&fit=crop",
+      "https://images.unsplash.com/photo-1511499767150-a48a237f0083?w=600&h=600&fit=crop"
+    ],
+    "description": "Curved 8-base panoramic wrap protects eyes from wind, dust, and side peripheral glare. Hydrophilic rubber nose pads grip tighter as you sweat.",
+    "condition": "Brand New (Sealed)",
+    "specifications": {
+      "Lens Geometry": "8-Base Panoramic Shield",
+      "Ventilation": "Anti-Fog Aerodynamic Brow Ports",
+      "Nosepad": "Unobtainium Anti-Slip Rubber"
+    },
+    "shipping": {
+      "weight": "145 g",
+      "dispatchTime": "Ships within 24 hours",
+      "estimatedDays": "2 - 4 days",
+      "courierPartners": [
+        "BlueDart Express",
+        "Delhivery Surface",
+        "DTDC Air"
+      ],
+      "codAvailable": true,
+      "returnWindowDays": 7
+    },
+    "variants": {
+      "colors": [
+        {
+          "name": "Standard",
+          "hex": "#334155",
+          "inStock": true
+        }
+      ],
+      "options": [
+        {
+          "label": "Standard Unit",
+          "priceDelta": 0,
+          "stock": 50
+        }
+      ]
+    },
+    "badge": "Sports Performance",
+    "tags": [
+      "sports sunglasses",
+      "cycling",
+      "running"
+    ]
+  },
+  {
+    "id": "p237",
+    "sku": "VM-EYE-P237-RIM",
+    "name": "Rimless Flexible Memory Metal Lightweight Eyeglasses Silver",
+    "category": "Fashion",
+    "brand": "Crestview",
+    "price": 2899,
+    "mrp": 3999,
+    "discountPercent": 28,
+    "stock": 30,
+    "quantity": 30,
+    "barcode": "8901000002372",
+    "lowStockThreshold": 6,
+    "reservedStock": 0,
+    "warehouseLocation": "Rack R-237",
+    "restockLeadDays": 3,
+    "vendorId": "v19",
+    "status": "approved",
+    "images": [
+      "https://images.unsplash.com/photo-1511499767150-a48a237f0083?w=600&h=600&fit=crop",
+      "https://images.unsplash.com/photo-1572635196237-14b3f281503f?w=600&h=600&fit=crop"
+    ],
+    "description": "Minimalist three-piece rimless design mounts directly into prescription lenses. Super-elastic Nitinol memory alloy temples twist 360 degrees without snapping.",
+    "condition": "Brand New (Sealed)",
+    "specifications": {
+      "Frame Type": "3-Piece Drill Mount Rimless",
+      "Temple Metal": "Nitinol Shape-Memory Alloy",
+      "Weight": "9.8 Grams"
+    },
+    "shipping": {
+      "weight": "150 g",
+      "dispatchTime": "Ships within 24 hours",
+      "estimatedDays": "2 - 4 days",
+      "courierPartners": [
+        "BlueDart Express",
+        "Delhivery Surface",
+        "DTDC Air"
+      ],
+      "codAvailable": true,
+      "returnWindowDays": 7
+    },
+    "variants": {
+      "colors": [
+        {
+          "name": "Standard",
+          "hex": "#334155",
+          "inStock": true
+        }
+      ],
+      "options": [
+        {
+          "label": "Standard Unit",
+          "priceDelta": 0,
+          "stock": 30
+        }
+      ]
+    },
+    "badge": "Zero Frame Weight",
+    "tags": [
+      "rimless",
+      "memory metal",
+      "glasses"
+    ]
+  },
+  {
+    "id": "p238",
+    "sku": "VM-EYE-P238-TRA",
+    "name": "Photochromic Light-Adaptive Transition Frame Glasses",
+    "category": "Fashion",
+    "brand": "Crestview",
+    "price": 3199,
+    "mrp": 4499,
+    "discountPercent": 29,
+    "stock": 40,
+    "quantity": 40,
+    "barcode": "8901000002389",
+    "lowStockThreshold": 8,
+    "reservedStock": 0,
+    "warehouseLocation": "Rack R-238",
+    "restockLeadDays": 3,
+    "vendorId": "v19",
+    "status": "approved",
+    "images": [
+      "https://images.unsplash.com/photo-1572635196237-14b3f281503f?w=600&h=600&fit=crop",
+      "https://images.unsplash.com/photo-1511499767150-a48a237f0083?w=600&h=600&fit=crop"
+    ],
+    "description": "Clear indoors, transforms into dark sunglasses within 30 seconds of stepping under sunlight UV rays. The only pair of glasses you need all day.",
+    "condition": "Brand New (Sealed)",
+    "specifications": {
+      "Adaptive Range": "Category 0 (Indoor Clear) to Category 3 (Dark Outdoor)",
+      "Activation Time": "<30 Seconds"
+    },
+    "shipping": {
+      "weight": "160 g",
+      "dispatchTime": "Ships within 24 hours",
+      "estimatedDays": "2 - 4 days",
+      "courierPartners": [
+        "BlueDart Express",
+        "Delhivery Surface",
+        "DTDC Air"
+      ],
+      "codAvailable": true,
+      "returnWindowDays": 7
+    },
+    "variants": {
+      "colors": [
+        {
+          "name": "Standard",
+          "hex": "#334155",
+          "inStock": true
+        }
+      ],
+      "options": [
+        {
+          "label": "Standard Unit",
+          "priceDelta": 0,
+          "stock": 40
+        }
+      ]
+    },
+    "badge": "Indoor & Outdoor",
+    "tags": [
+      "transition glasses",
+      "photochromic",
+      "spectacles"
+    ]
+  },
+  {
+    "id": "p239",
+    "sku": "VM-EYE-P239-REA",
+    "name": "Ultra-Slim Foldable Pocket Reading Glasses +2.00 Case",
+    "category": "Fashion",
+    "brand": "Crestview",
+    "price": 799,
+    "mrp": 1199,
+    "discountPercent": 33,
+    "stock": 75,
+    "quantity": 75,
+    "barcode": "8901000002396",
+    "lowStockThreshold": 15,
+    "reservedStock": 0,
+    "warehouseLocation": "Rack R-239",
+    "restockLeadDays": 3,
+    "vendorId": "v19",
+    "status": "approved",
+    "images": [
+      "https://images.unsplash.com/photo-1511499767150-a48a237f0083?w=600&h=600&fit=crop",
+      "https://images.unsplash.com/photo-1572635196237-14b3f281503f?w=600&h=600&fit=crop"
+    ],
+    "description": "Telescopic temples fold flat into a 9mm slim aluminum pod that slips into coin pockets or attaches to keyrings. Crystal clear optical grade lenses.",
+    "condition": "Brand New (Sealed)",
+    "specifications": {
+      "Power": "+2.00 Diopters",
+      "Case Profile": "9 mm Ultra-Slim Aluminum Capsule",
+      "Mechanism": "Telescopic Folding Temples"
+    },
+    "shipping": {
+      "weight": "85 g",
+      "dispatchTime": "Ships within 24 hours",
+      "estimatedDays": "2 - 4 days",
+      "courierPartners": [
+        "BlueDart Express",
+        "Delhivery Surface",
+        "DTDC Air"
+      ],
+      "codAvailable": true,
+      "returnWindowDays": 7
+    },
+    "variants": {
+      "colors": [
+        {
+          "name": "Standard",
+          "hex": "#334155",
+          "inStock": true
+        }
+      ],
+      "options": [
+        {
+          "label": "Standard Unit",
+          "priceDelta": 0,
+          "stock": 75
+        }
+      ]
+    },
+    "badge": "Pocket Portable",
+    "tags": [
+      "reading glasses",
+      "pocket glasses",
+      "readers"
+    ]
+  },
+  {
+    "id": "p240",
+    "sku": "VM-EYE-P240-CLO",
+    "name": "Optical High-Density Microfiber Lens Cleaning Cloth 5-Pack",
+    "category": "Fashion",
+    "brand": "Crestview",
+    "price": 299,
+    "mrp": 450,
+    "discountPercent": 34,
+    "stock": 120,
+    "quantity": 120,
+    "barcode": "8901000002402",
+    "lowStockThreshold": 24,
+    "reservedStock": 0,
+    "warehouseLocation": "Rack R-240",
+    "restockLeadDays": 3,
+    "vendorId": "v19",
+    "status": "approved",
+    "images": [
+      "https://images.unsplash.com/photo-1511499767150-a48a237f0083?w=600&h=600&fit=crop",
+      "https://images.unsplash.com/photo-1572635196237-14b3f281503f?w=600&h=600&fit=crop"
+    ],
+    "description": "Silky 250 GSM micro-weave wipes away fingerprint smudges, oils, and moisture from camera lenses, spectacles, and touchscreens without lint.",
+    "condition": "Brand New (Sealed)",
+    "specifications": {
+      "Quantity": "5 Individual Wrapped Cloths",
+      "Size": "18 x 15 cm",
+      "Material": "High Density 250 GSM Microfiber"
+    },
+    "shipping": {
+      "weight": "75 g",
+      "dispatchTime": "Ships within 24 hours",
+      "estimatedDays": "2 - 4 days",
+      "courierPartners": [
+        "BlueDart Express",
+        "Delhivery Surface",
+        "DTDC Air"
+      ],
+      "codAvailable": true,
+      "returnWindowDays": 7
+    },
+    "variants": {
+      "colors": [
+        {
+          "name": "Standard",
+          "hex": "#334155",
+          "inStock": true
+        }
+      ],
+      "options": [
+        {
+          "label": "Standard Unit",
+          "priceDelta": 0,
+          "stock": 120
+        }
+      ]
+    },
+    "badge": "Lint-Free Essential",
+    "tags": [
+      "lens cloth",
+      "microfiber",
+      "cleaning"
+    ]
+  },
+  {
+    "id": "p241",
+    "sku": "VM-COF-P241-GRN",
+    "name": "Timemore Chestnut C2 High-Precision Aluminum Hand Grinder",
+    "category": "Home & Living",
+    "brand": "Timemore",
+    "price": 4999,
+    "mrp": 6499,
+    "discountPercent": 23,
+    "stock": 30,
+    "quantity": 30,
+    "barcode": "8901000002419",
+    "lowStockThreshold": 6,
+    "reservedStock": 0,
+    "warehouseLocation": "Rack R-241",
+    "restockLeadDays": 3,
+    "vendorId": "v20",
+    "status": "approved",
+    "images": [
+      "https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?w=600&h=600&fit=crop",
+      "https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=600&h=600&fit=crop"
+    ],
+    "description": "CNC-machined stainless steel conical burrs deliver uniform particle distribution from fine espresso to coarse French press. Dual-bearing shaft stabilization.",
+    "condition": "Brand New (Sealed)",
+    "specifications": {
+      "Burrs": "38 mm CNC High Carbon Stainless Steel",
+      "Capacity": "25g Beans",
+      "Body": "Checkered Non-Slip Aluminum"
+    },
+    "shipping": {
+      "weight": "520 g",
+      "dispatchTime": "Ships within 24 hours",
+      "estimatedDays": "2 - 4 days",
+      "courierPartners": [
+        "BlueDart Express",
+        "Delhivery Surface",
+        "DTDC Air"
+      ],
+      "codAvailable": true,
+      "returnWindowDays": 7
+    },
+    "variants": {
+      "colors": [
+        {
+          "name": "Standard",
+          "hex": "#334155",
+          "inStock": true
+        }
+      ],
+      "options": [
+        {
+          "label": "Standard Unit",
+          "priceDelta": 0,
+          "stock": 30
+        }
+      ]
+    },
+    "badge": "Barista Choice",
+    "tags": [
+      "coffee grinder",
+      "hand grinder",
+      "timemore"
+    ]
+  },
+  {
+    "id": "p242",
+    "sku": "VM-COF-P242-V60",
+    "name": "Hario V60 Ceramic Pour-Over Coffee Dripper Size 02 White",
+    "category": "Home & Living",
+    "brand": "Hario",
+    "price": 1899,
+    "mrp": 2499,
+    "discountPercent": 24,
+    "stock": 45,
+    "quantity": 45,
+    "barcode": "8901000002426",
+    "lowStockThreshold": 9,
+    "reservedStock": 0,
+    "warehouseLocation": "Rack R-242",
+    "restockLeadDays": 3,
+    "vendorId": "v20",
+    "status": "approved",
+    "images": [
+      "https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=600&h=600&fit=crop",
+      "https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?w=600&h=600&fit=crop"
+    ],
+    "description": "Made in Arita, Japan with 400-year pottery heritage. Internal spiral ribs allow water to penetrate coffee bed evenly for clean, nuanced extraction.",
+    "condition": "Brand New (Sealed)",
+    "specifications": {
+      "Size": "02 (1 - 4 Cups)",
+      "Material": "High-Grade Japanese Ceramic (Arita Yaki)",
+      "Dishwasher Safe": "Yes"
+    },
+    "shipping": {
+      "weight": "440 g",
+      "dispatchTime": "Ships within 24 hours",
+      "estimatedDays": "2 - 4 days",
+      "courierPartners": [
+        "BlueDart Express",
+        "Delhivery Surface",
+        "DTDC Air"
+      ],
+      "codAvailable": true,
+      "returnWindowDays": 7
+    },
+    "variants": {
+      "colors": [
+        {
+          "name": "Standard",
+          "hex": "#334155",
+          "inStock": true
+        }
+      ],
+      "options": [
+        {
+          "label": "Standard Unit",
+          "priceDelta": 0,
+          "stock": 45
+        }
+      ]
+    },
+    "badge": "Made in Japan",
+    "tags": [
+      "hario v60",
+      "pour over",
+      "coffee dripper"
+    ]
+  },
+  {
+    "id": "p243",
+    "sku": "VM-COF-P243-FRP",
+    "name": "Borosilicate Glass French Press Coffee Plunger 600ml Copper",
+    "category": "Home & Living",
+    "brand": "Artisanal Brew",
+    "price": 1299,
+    "mrp": 1799,
+    "discountPercent": 28,
+    "stock": 55,
+    "quantity": 55,
+    "barcode": "8901000002433",
+    "lowStockThreshold": 11,
+    "reservedStock": 0,
+    "warehouseLocation": "Rack R-243",
+    "restockLeadDays": 3,
+    "vendorId": "v20",
+    "status": "approved",
+    "images": [
+      "https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?w=600&h=600&fit=crop",
+      "https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=600&h=600&fit=crop"
+    ],
+    "description": "Thermal shock-resistant borosilicate carafe encased in an electroplated copper steel frame. 4-level filtration system prevents gritty coffee silt.",
+    "condition": "Brand New (Sealed)",
+    "specifications": {
+      "Capacity": "600 ml (4 Cups)",
+      "Glass": "Heat Resistant Borosilicate (-20°C to 150°C)",
+      "Filter": "Double Stainless Steel Mesh"
+    },
+    "shipping": {
+      "weight": "580 g",
+      "dispatchTime": "Ships within 24 hours",
+      "estimatedDays": "2 - 4 days",
+      "courierPartners": [
+        "BlueDart Express",
+        "Delhivery Surface",
+        "DTDC Air"
+      ],
+      "codAvailable": true,
+      "returnWindowDays": 7
+    },
+    "variants": {
+      "colors": [
+        {
+          "name": "Standard",
+          "hex": "#334155",
+          "inStock": true
+        }
+      ],
+      "options": [
+        {
+          "label": "Standard Unit",
+          "priceDelta": 0,
+          "stock": 55
+        }
+      ]
+    },
+    "badge": "Rich Body Coffee",
+    "tags": [
+      "french press",
+      "coffee maker",
+      "plunger"
+    ]
+  },
+  {
+    "id": "p244",
+    "sku": "VM-COF-P244-KTL",
+    "name": "Stainless Steel Gooseneck Drip Kettle with Thermometer 1L",
+    "category": "Home & Living",
+    "brand": "Artisanal Brew",
+    "price": 2199,
+    "mrp": 2999,
+    "discountPercent": 27,
+    "stock": 40,
+    "quantity": 40,
+    "barcode": "8901000002440",
+    "lowStockThreshold": 8,
+    "reservedStock": 0,
+    "warehouseLocation": "Rack R-244",
+    "restockLeadDays": 3,
+    "vendorId": "v20",
+    "status": "approved",
+    "images": [
+      "https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=600&h=600&fit=crop",
+      "https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?w=600&h=600&fit=crop"
+    ],
+    "description": "Slender 6mm curved spout provides precise 90-degree laminar water flow control. Built-in lid dial displays optimal 90°C–96°C brewing window.",
+    "condition": "Brand New (Sealed)",
+    "specifications": {
+      "Capacity": "1000 ml",
+      "Integrated Gauge": "Bimetallic Celsius & Fahrenheit Dial",
+      "Stovetop Compatible": "Gas, Induction, Electric"
+    },
+    "shipping": {
+      "weight": "620 g",
+      "dispatchTime": "Ships within 24 hours",
+      "estimatedDays": "2 - 4 days",
+      "courierPartners": [
+        "BlueDart Express",
+        "Delhivery Surface",
+        "DTDC Air"
+      ],
+      "codAvailable": true,
+      "returnWindowDays": 7
+    },
+    "variants": {
+      "colors": [
+        {
+          "name": "Standard",
+          "hex": "#334155",
+          "inStock": true
+        }
+      ],
+      "options": [
+        {
+          "label": "Standard Unit",
+          "priceDelta": 0,
+          "stock": 40
+        }
+      ]
+    },
+    "badge": "Precision Flow",
+    "tags": [
+      "gooseneck kettle",
+      "pour over",
+      "coffee kettle"
+    ]
+  },
+  {
+    "id": "p245",
+    "sku": "VM-COF-P245-MOK",
+    "name": "Classic Moka Express 6-Cup Stovetop Espresso Pot",
+    "category": "Home & Living",
+    "brand": "Artisanal Brew",
+    "price": 1999,
+    "mrp": 2699,
+    "discountPercent": 26,
+    "stock": 50,
+    "quantity": 50,
+    "barcode": "8901000002457",
+    "lowStockThreshold": 10,
+    "reservedStock": 0,
+    "warehouseLocation": "Rack R-245",
+    "restockLeadDays": 3,
+    "vendorId": "v20",
+    "status": "approved",
+    "images": [
+      "https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?w=600&h=600&fit=crop",
+      "https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=600&h=600&fit=crop"
+    ],
+    "description": "Octagonal aluminum design diffuses heat evenly to extract bold, rich, crema-topped stovetop espresso in 4 minutes flat.",
+    "condition": "Brand New (Sealed)",
+    "specifications": {
+      "Yield": "6 Espresso Cups (300 ml)",
+      "Safety Valve": "Patented Pressure Release Valve",
+      "Handle": "Ergonomic Heat-Resistant Bakelite"
+    },
+    "shipping": {
+      "weight": "590 g",
+      "dispatchTime": "Ships within 24 hours",
+      "estimatedDays": "2 - 4 days",
+      "courierPartners": [
+        "BlueDart Express",
+        "Delhivery Surface",
+        "DTDC Air"
+      ],
+      "codAvailable": true,
+      "returnWindowDays": 7
+    },
+    "variants": {
+      "colors": [
+        {
+          "name": "Standard",
+          "hex": "#334155",
+          "inStock": true
+        }
+      ],
+      "options": [
+        {
+          "label": "Standard Unit",
+          "priceDelta": 0,
+          "stock": 50
+        }
+      ]
+    },
+    "badge": "Stovetop Espresso",
+    "tags": [
+      "moka pot",
+      "espresso",
+      "coffee"
+    ]
+  },
+  {
+    "id": "p246",
+    "sku": "VM-COF-P246-GLS",
+    "name": "Double-Walled Insulated Borosilicate Latte Glasses 350ml Pair",
+    "category": "Home & Living",
+    "brand": "Artisanal Brew",
+    "price": 899,
+    "mrp": 1299,
+    "discountPercent": 31,
+    "stock": 65,
+    "quantity": 65,
+    "barcode": "8901000002464",
+    "lowStockThreshold": 13,
+    "reservedStock": 0,
+    "warehouseLocation": "Rack R-246",
+    "restockLeadDays": 3,
+    "vendorId": "v20",
+    "status": "approved",
+    "images": [
+      "https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=600&h=600&fit=crop",
+      "https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?w=600&h=600&fit=crop"
+    ],
+    "description": "Suspends your cappuccino or macchiato in mid-air. Thermal air pocket keeps hot drinks steaming while exterior glass stays cool to touch with zero condensation.",
+    "condition": "Brand New (Sealed)",
+    "specifications": {
+      "Set": "Pair of 2 Glasses",
+      "Capacity": "350 ml each",
+      "Thermal Shock Resistance": "Up to 150°C"
+    },
+    "shipping": {
+      "weight": "360 g",
+      "dispatchTime": "Ships within 24 hours",
+      "estimatedDays": "2 - 4 days",
+      "courierPartners": [
+        "BlueDart Express",
+        "Delhivery Surface",
+        "DTDC Air"
+      ],
+      "codAvailable": true,
+      "returnWindowDays": 7
+    },
+    "variants": {
+      "colors": [
+        {
+          "name": "Standard",
+          "hex": "#334155",
+          "inStock": true
+        }
+      ],
+      "options": [
+        {
+          "label": "Standard Unit",
+          "priceDelta": 0,
+          "stock": 65
+        }
+      ]
+    },
+    "badge": "Floating Latte",
+    "tags": [
+      "double wall glasses",
+      "latte cups",
+      "coffee mug"
+    ]
+  },
+  {
+    "id": "p247",
+    "sku": "VM-COF-P247-BAR",
+    "name": "Professional Stainless Steel Boston Cocktail Shaker Set 8-Piece",
+    "category": "Home & Living",
+    "brand": "Artisanal Brew",
+    "price": 2499,
+    "mrp": 3499,
+    "discountPercent": 29,
+    "stock": 35,
+    "quantity": 35,
+    "barcode": "8901000002471",
+    "lowStockThreshold": 7,
+    "reservedStock": 0,
+    "warehouseLocation": "Rack R-247",
+    "restockLeadDays": 3,
+    "vendorId": "v20",
+    "status": "approved",
+    "images": [
+      "https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?w=600&h=600&fit=crop",
+      "https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=600&h=600&fit=crop"
+    ],
+    "description": "Includes weighted 28oz & 18oz shaker tins, Hawthorne strainer, Japanese jigger (30/60ml), spiral bar spoon, muddler, and ice tongs in brushed steel.",
+    "condition": "Brand New (Sealed)",
+    "specifications": {
+      "Grade": "Food Grade 304 (18/8) Stainless Steel",
+      "Pieces": "8 Essential Bartender Tools",
+      "Seal": "Watertight Thermal Fit"
+    },
+    "shipping": {
+      "weight": "920 g",
+      "dispatchTime": "Ships within 24 hours",
+      "estimatedDays": "2 - 4 days",
+      "courierPartners": [
+        "BlueDart Express",
+        "Delhivery Surface",
+        "DTDC Air"
+      ],
+      "codAvailable": true,
+      "returnWindowDays": 7
+    },
+    "variants": {
+      "colors": [
+        {
+          "name": "Standard",
+          "hex": "#334155",
+          "inStock": true
+        }
+      ],
+      "options": [
+        {
+          "label": "Standard Unit",
+          "priceDelta": 0,
+          "stock": 35
+        }
+      ]
+    },
+    "badge": "Mixology Pro",
+    "tags": [
+      "cocktail shaker",
+      "barware",
+      "bartender kit"
+    ]
+  },
+  {
+    "id": "p248",
+    "sku": "VM-COF-P248-WHI",
+    "name": "Twisted Heavy-Base Old Fashioned Crystal Whiskey Tumblers Set of 4",
+    "category": "Home & Living",
+    "brand": "Artisanal Brew",
+    "price": 1699,
+    "mrp": 2399,
+    "discountPercent": 29,
+    "stock": 45,
+    "quantity": 45,
+    "barcode": "8901000002488",
+    "lowStockThreshold": 9,
+    "reservedStock": 0,
+    "warehouseLocation": "Rack R-248",
+    "restockLeadDays": 3,
+    "vendorId": "v20",
+    "status": "approved",
+    "images": [
+      "https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?w=600&h=600&fit=crop",
+      "https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=600&h=600&fit=crop"
+    ],
+    "description": "Heavy weighted base with twisted spiral facet cuts that refract amber whiskey tones. Lead-free crystal glasses with 300ml capacity for large ice spheres.",
+    "condition": "Brand New (Sealed)",
+    "specifications": {
+      "Set": "4 Crystal Tumblers",
+      "Capacity": "300 ml each",
+      "Weight Per Glass": "380 Grams (Solid Heavy Base)"
+    },
+    "shipping": {
+      "weight": "1650 g",
+      "dispatchTime": "Ships within 24 hours",
+      "estimatedDays": "2 - 4 days",
+      "courierPartners": [
+        "BlueDart Express",
+        "Delhivery Surface",
+        "DTDC Air"
+      ],
+      "codAvailable": true,
+      "returnWindowDays": 7
+    },
+    "variants": {
+      "colors": [
+        {
+          "name": "Standard",
+          "hex": "#334155",
+          "inStock": true
+        }
+      ],
+      "options": [
+        {
+          "label": "Standard Unit",
+          "priceDelta": 0,
+          "stock": 45
+        }
+      ]
+    },
+    "badge": "Lead-Free Crystal",
+    "tags": [
+      "whiskey glasses",
+      "crystal tumblers",
+      "barware"
+    ]
+  },
+  {
+    "id": "p249",
+    "sku": "VM-COF-P249-AER",
+    "name": "AeroPress Original Coffee & Espresso Maker System with 350 Filters",
+    "category": "Home & Living",
+    "brand": "AeroPress",
+    "price": 3899,
+    "mrp": 4999,
+    "discountPercent": 22,
+    "stock": 35,
+    "quantity": 35,
+    "barcode": "8901000002495",
+    "lowStockThreshold": 7,
+    "reservedStock": 0,
+    "warehouseLocation": "Rack R-249",
+    "restockLeadDays": 3,
+    "vendorId": "v20",
+    "status": "approved",
+    "images": [
+      "https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=600&h=600&fit=crop",
+      "https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?w=600&h=600&fit=crop"
+    ],
+    "description": "Rapid total immersion brewing yields rich coffee without bitterness or acidity. Compact, shatterproof travel companion with 350 micro-filters included.",
+    "condition": "Brand New (Sealed)",
+    "specifications": {
+      "Brews": "American, Cold Brew, or Espresso Style",
+      "Prep Time": "1 Minute Press",
+      "Includes": "Chamber, Plunger, Stirrer, Scoop, 350 Filters"
+    },
+    "shipping": {
+      "weight": "480 g",
+      "dispatchTime": "Ships within 24 hours",
+      "estimatedDays": "2 - 4 days",
+      "courierPartners": [
+        "BlueDart Express",
+        "Delhivery Surface",
+        "DTDC Air"
+      ],
+      "codAvailable": true,
+      "returnWindowDays": 7
+    },
+    "variants": {
+      "colors": [
+        {
+          "name": "Standard",
+          "hex": "#334155",
+          "inStock": true
+        }
+      ],
+      "options": [
+        {
+          "label": "Standard Unit",
+          "priceDelta": 0,
+          "stock": 35
+        }
+      ]
+    },
+    "badge": "Iconic Coffee Tool",
+    "tags": [
+      "aeropress",
+      "coffee maker",
+      "travel coffee"
+    ]
+  },
+  {
+    "id": "p250",
+    "sku": "VM-COF-P250-SCL",
+    "name": "Digital Precision Barista Gram Scale with Built-in Timer 0.1g",
+    "category": "Home & Living",
+    "brand": "Artisanal Brew",
+    "price": 1799,
+    "mrp": 2499,
+    "discountPercent": 28,
+    "stock": 50,
+    "quantity": 50,
+    "barcode": "8901000002501",
+    "lowStockThreshold": 10,
+    "reservedStock": 0,
+    "warehouseLocation": "Rack R-250",
+    "restockLeadDays": 3,
+    "vendorId": "v20",
+    "status": "approved",
+    "images": [
+      "https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?w=600&h=600&fit=crop",
+      "https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=600&h=600&fit=crop"
+    ],
+    "description": "Essential for exact coffee-to-water brew ratios. High-precision strain gauge provides 0.1g increments with integrated countdown extraction timer.",
+    "condition": "Brand New (Sealed)",
+    "specifications": {
+      "Accuracy": "0.1 g (Max Capacity 3000g)",
+      "Display": "Dual Timer & Weight Backlit LED",
+      "Includes": "Heat-Resistant Silicone Mat"
+    },
+    "shipping": {
+      "weight": "340 g",
+      "dispatchTime": "Ships within 24 hours",
+      "estimatedDays": "2 - 4 days",
+      "courierPartners": [
+        "BlueDart Express",
+        "Delhivery Surface",
+        "DTDC Air"
+      ],
+      "codAvailable": true,
+      "returnWindowDays": 7
+    },
+    "variants": {
+      "colors": [
+        {
+          "name": "Standard",
+          "hex": "#334155",
+          "inStock": true
+        }
+      ],
+      "options": [
+        {
+          "label": "Standard Unit",
+          "priceDelta": 0,
+          "stock": 50
+        }
+      ]
+    },
+    "badge": "0.1g Precision",
+    "tags": [
+      "coffee scale",
+      "kitchen scale",
+      "barista scale"
+    ]
   }
 ];
 
-export const CATEGORIES = [
-  "All",
-  "Electronics",
-  "Fashion",
-  "Grocery",
-  "Home & Living",
-  "Sports",
-  "Beauty"
+// ── Active Promotions ───────────────────────────
+export const seedPromotions = [
+  {
+    "id": "promo-tech20",
+    "vendorId": "v1",
+    "title": "TechZone Grand Electronics Discount",
+    "type": "coupon",
+    "code": "TECH20",
+    "discountType": "percentage",
+    "discountValue": 20,
+    "minOrderValue": 999,
+    "maxDiscount": 1500,
+    "usageLimit": 200,
+    "usageCount": 14,
+    "status": "active",
+    "description": "Get 20% discount up to ₹1,500 on all electronics orders above ₹999 at TechZone!",
+    "startDate": "2026-01-01",
+    "endDate": "2026-12-31"
+  },
+  {
+    "id": "promo-style15",
+    "vendorId": "v2",
+    "title": "StyleHub Trendsetter Voucher",
+    "type": "coupon",
+    "code": "STYLE15",
+    "discountType": "percentage",
+    "discountValue": 15,
+    "minOrderValue": 1499,
+    "maxDiscount": 800,
+    "usageLimit": 150,
+    "usageCount": 28,
+    "status": "active",
+    "description": "Save 15% on the latest apparel and footwear collections at StyleHub.",
+    "startDate": "2026-01-01",
+    "endDate": "2026-12-31"
+  },
+  {
+    "id": "promo-audio200",
+    "vendorId": "v1",
+    "title": "Audio Rush ₹200 Off",
+    "type": "coupon",
+    "code": "AUDIO200",
+    "discountType": "fixed",
+    "discountValue": 200,
+    "minOrderValue": 1999,
+    "maxDiscount": 200,
+    "usageLimit": 100,
+    "usageCount": 35,
+    "status": "active",
+    "description": "Flat ₹200 off on premium headphones, true wireless earbuds, and speakers.",
+    "startDate": "2026-01-01",
+    "endDate": "2026-12-31"
+  },
+  {
+    "id": "promo-banner-tech",
+    "vendorId": "v1",
+    "title": "Mega Monsoon Electronics Fiesta",
+    "subtitle": "Up to 40% Off Genuine Audio, Smartwatches & Gear + Direct Brand Warranty",
+    "type": "promotional_banner",
+    "bannerUrl": "https://images.unsplash.com/photo-1550009158-9ebf69173e03?w=1200&h=350&fit=crop",
+    "bannerPlacement": "store_top",
+    "bannerLink": "/store/techzone",
+    "buttonText": "Claim Tech Deals",
+    "badgeText": "VERIFIED BRAND WARRANTY",
+    "status": "active",
+    "startDate": "2026-01-01",
+    "endDate": "2026-12-31"
+  },
+  {
+    "id": "promo-campaign-festive",
+    "vendorId": "v1",
+    "title": "Festive Soundwave Clearance",
+    "type": "discount_campaign",
+    "discountType": "percentage",
+    "discountValue": 25,
+    "applicableCategory": "Electronics",
+    "status": "active",
+    "badgeText": "FESTIVE SALE",
+    "description": "Direct festival markdowns applied automatically across top earwear and mobile accessories.",
+    "startDate": "2026-09-01",
+    "endDate": "2026-10-31"
+  }
 ];
 
-// ── Physical Orders & Shipments ───────────────
+// ── Orders ─────────────────────────────────────
 export const seedOrders = [
   {
     "id": "ord1",
@@ -19165,91 +26067,7 @@ export const seedOrders = [
   }
 ];
 
-// ── Marketing Promotions ───────────────────────
-export const seedPromotions = [
-  {
-    "id": "promo-tech20",
-    "vendorId": "v1",
-    "title": "TechZone Grand Electronics Discount",
-    "type": "coupon",
-    "code": "TECH20",
-    "discountType": "percentage",
-    "discountValue": 20,
-    "minOrderValue": 999,
-    "maxDiscount": 1500,
-    "usageLimit": 200,
-    "usageCount": 14,
-    "status": "active",
-    "description": "Get 20% discount up to \u20b91,500 on all electronics orders above \u20b9999 at TechZone!",
-    "startDate": "2026-01-01",
-    "endDate": "2026-12-31"
-  },
-  {
-    "id": "promo-style15",
-    "vendorId": "v2",
-    "title": "StyleHub Trendsetter Voucher",
-    "type": "coupon",
-    "code": "STYLE15",
-    "discountType": "percentage",
-    "discountValue": 15,
-    "minOrderValue": 1499,
-    "maxDiscount": 800,
-    "usageLimit": 150,
-    "usageCount": 28,
-    "status": "active",
-    "description": "Save 15% on the latest apparel and footwear collections at StyleHub.",
-    "startDate": "2026-01-01",
-    "endDate": "2026-12-31"
-  },
-  {
-    "id": "promo-audio200",
-    "vendorId": "v1",
-    "title": "Audio Rush \u20b9200 Off",
-    "type": "coupon",
-    "code": "AUDIO200",
-    "discountType": "fixed",
-    "discountValue": 200,
-    "minOrderValue": 1999,
-    "maxDiscount": 200,
-    "usageLimit": 100,
-    "usageCount": 35,
-    "status": "active",
-    "description": "Flat \u20b9200 off on premium headphones, true wireless earbuds, and speakers.",
-    "startDate": "2026-01-01",
-    "endDate": "2026-12-31"
-  },
-  {
-    "id": "promo-banner-tech",
-    "vendorId": "v1",
-    "title": "Mega Monsoon Electronics Fiesta",
-    "subtitle": "Up to 40% Off Genuine Audio, Smartwatches & Gear + Direct Brand Warranty",
-    "type": "promotional_banner",
-    "bannerUrl": "https://images.unsplash.com/photo-1550009158-9ebf69173e03?w=1200&h=350&fit=crop",
-    "bannerPlacement": "store_top",
-    "bannerLink": "/store/techzone",
-    "buttonText": "Claim Tech Deals",
-    "badgeText": "VERIFIED BRAND WARRANTY",
-    "status": "active",
-    "startDate": "2026-01-01",
-    "endDate": "2026-12-31"
-  },
-  {
-    "id": "promo-campaign-festive",
-    "vendorId": "v1",
-    "title": "Festive Soundwave Clearance",
-    "type": "discount_campaign",
-    "discountType": "percentage",
-    "discountValue": 25,
-    "applicableCategory": "Electronics",
-    "status": "active",
-    "badgeText": "FESTIVE SALE",
-    "description": "Direct festival markdowns applied automatically across top earwear and mobile accessories.",
-    "startDate": "2026-09-01",
-    "endDate": "2026-10-31"
-  }
-];
-
-// ── Customer-Vendor Conversations ─────────────
+// ── Conversations ──────────────────────────────
 export const seedConversations = [
   {
     "id": "conv-seed-1",
@@ -19260,7 +26078,7 @@ export const seedConversations = [
     "vendorId": "v1",
     "vendorName": "TechZone Electronics",
     "vendorAvatar": "https://images.unsplash.com/photo-1560250097-0b93528c311a?w=80&h=80&fit=crop",
-    "subject": "Samsung Galaxy S24 Ultra \u2014 Warranty & Courier Dispatch Details",
+    "subject": "Samsung Galaxy S24 Ultra — Warranty & Courier Dispatch Details",
     "category": "product_inquiry",
     "relatedProduct": {
       "productId": "p1",

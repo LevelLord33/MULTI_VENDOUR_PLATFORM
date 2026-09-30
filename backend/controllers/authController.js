@@ -1,6 +1,9 @@
 import mongoose from 'mongoose';
+import jwt from 'jsonwebtoken';
 import User from '../models/User.js';
 import { ADMIN_CREDENTIALS, seedVendors, seedCustomers } from '../data/seedData.js';
+
+const JWT_SECRET = process.env.JWT_SECRET || 'vendorhub-super-secret-jwt-key-2025';
 
 // Hybrid in-memory state for resilient offline/development fallback
 let memUsers = [
@@ -17,16 +20,19 @@ let memUsers = [
 
 const isDbReady = () => mongoose.connection.readyState === 1;
 
-// Helper to generate simple token
+// Helper to generate cryptographically signed JWT token
 const generateToken = (user) => {
-  return Buffer.from(
-    JSON.stringify({
-      id: user.id,
-      role: user.type,
+  return jwt.sign(
+    {
+      id: user.id || user._id,
+      role: (user.type || user.role || 'customer').toLowerCase(),
       name: user.fullName || user.businessName || user.name || 'User',
-      email: user.email
-    })
-  ).toString('base64');
+      email: user.email,
+      provider: user.provider || 'local'
+    },
+    JWT_SECRET,
+    { expiresIn: '7d' }
+  );
 };
 
 /**
@@ -602,6 +608,131 @@ export const seedAuth = async (req, res) => {
     return res.status(500).json({
       success: false,
       message: 'Failed to seed users.',
+      error: error.message
+    });
+  }
+};
+
+/**
+  * OAuth Login / Registration (Google, GitHub, Social)
+  * POST /api/auth/oauth/google
+  */
+export const oauthLogin = async (req, res) => {
+  try {
+    const { provider = 'google', email, name, avatar, googleId, role = 'customer' } = req.body;
+
+    if (!email) {
+      return res.status(400).json({
+        success: false,
+        message: 'OAuth profile requires a valid email address.'
+      });
+    }
+
+    const cleanEmail = email.toLowerCase().trim();
+    let user = null;
+
+    if (isDbReady()) {
+      try {
+        user = await User.findOne({ email: cleanEmail });
+        if (user) user = user.toJSON();
+      } catch {
+        user = null;
+      }
+    }
+
+    if (!user) {
+      user = memUsers.find((u) => u.email.toLowerCase() === cleanEmail);
+    }
+
+    if (!user) {
+      const newId = `c-oauth-${Date.now()}`;
+      user = {
+        id: newId,
+        type: role,
+        role: role,
+        fullName: name || cleanEmail.split('@')[0],
+        name: name || cleanEmail.split('@')[0],
+        email: cleanEmail,
+        avatar: avatar || `https://ui-avatars.com/api/?name=${encodeURIComponent(name || 'OAuth User')}&background=4F46E5&color=fff`,
+        provider,
+        googleId: googleId || `gid_${Date.now()}`,
+        joinedDate: new Date().toISOString()
+      };
+
+      memUsers.push(user);
+
+      if (isDbReady()) {
+        try {
+          const dbUser = new User(user);
+          await dbUser.save();
+        } catch (e) {
+          console.warn('Could not save OAuth user to Mongo:', e.message);
+        }
+      }
+    }
+
+    const token = generateToken(user);
+
+    return res.json({
+      success: true,
+      message: `Successfully authenticated via ${provider.toUpperCase()} OAuth.`,
+      user,
+      token
+    });
+  } catch (error) {
+    return res.status(500).json({
+      success: false,
+      message: 'OAuth authentication failed.',
+      error: error.message
+    });
+  }
+};
+
+/**
+  * Get Current Verified User via JWT
+  * GET /api/auth/me
+  */
+export const getCurrentUser = async (req, res) => {
+  try {
+    if (!req.user || !req.user.id) {
+      return res.status(401).json({
+        success: false,
+        message: 'No authenticated user session.'
+      });
+    }
+
+    let user = null;
+    if (isDbReady()) {
+      try {
+        user = await User.findOne({ id: req.user.id });
+        if (user) user = user.toJSON();
+      } catch {
+        user = null;
+      }
+    }
+
+    if (!user) {
+      user = memUsers.find((u) => u.id === req.user.id || u.email === req.user.email);
+    }
+
+    if (!user) {
+      user = {
+        id: req.user.id,
+        name: req.user.name,
+        role: req.user.role,
+        email: req.user.email
+      };
+    }
+
+    return res.json({
+      success: true,
+      user,
+      tokenClaims: req.user
+    });
+  } catch (error) {
+    return res.status(500).json({
+      success: false,
+      message: 'Failed to retrieve current user.',
       error: error.message
     });
   }

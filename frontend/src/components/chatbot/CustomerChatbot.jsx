@@ -5,7 +5,8 @@ import { useAuth } from '../../contexts/AuthContext';
 import {
   MessageSquare, X, Send, Bot, Sparkles, ChevronDown,
   RotateCcw, Trash2, Package, Truck, ShieldCheck, Key,
-  ExternalLink, Copy, Check, ArrowRight, Store, HelpCircle
+  ExternalLink, Copy, Check, ArrowRight, Store, HelpCircle,
+  Ticket, Tag
 } from 'lucide-react';
 import '../../styles/marketplace.css';
 
@@ -69,12 +70,17 @@ export default function CustomerChatbot() {
   };
 
   const quickTopics = [
-    { label: '📦 Track My Order', prompt: 'Track my recent order' },
-    { label: '🔑 Delivery OTP Guide', prompt: 'How does doorstep Cash on Delivery OTP work?' },
-    { label: '🔄 Returns & Refund', prompt: 'What is the return and replacement policy?' },
+    { label: '📦 Track Order', prompt: 'Track my recent order' },
+    { label: '🏷️ Active Coupons', prompt: 'Show active discount coupons and promo codes' },
+    { label: '🔑 Delivery OTP', prompt: 'How does doorstep Cash on Delivery OTP work?' },
+    { label: '🔄 7-Day Returns', prompt: 'What is the return and replacement policy?' },
+    { label: '🚚 Shipping & Fees', prompt: 'What are the shipping charges and delivery time?' },
+    { label: '🛑 Cancel Order', prompt: 'Can I cancel my order and how does refund work?' },
     { label: '🛡️ Brand Warranty', prompt: 'Are products covered by official brand warranty?' },
+    { label: '⚡ Top Electronics', prompt: 'Recommend top rated electronics under 5000' },
+    { label: '👗 Fashion Deals', prompt: 'Show me best deals in fashion and clothing' },
     { label: '💬 Contact Seller', prompt: 'How do I message a merchant directly?' },
-    { label: '⚡ Top Electronics', prompt: 'Recommend top rated electronics with warranty' }
+    { label: '📞 Support Helpline', prompt: 'What is the customer support phone number and helpline?' }
   ];
 
   // Helper to format bot markdown-like text
@@ -579,6 +585,91 @@ export default function CustomerChatbot() {
                           );
                         }
 
+                        if (card.type === 'coupon_card') {
+                          const isCopied = copiedCode === card.code;
+                          return (
+                            <div
+                              key={cIdx}
+                              style={{
+                                background: 'linear-gradient(135deg, rgba(79, 70, 229, 0.05) 0%, rgba(236, 72, 153, 0.05) 100%)',
+                                border: '1px dashed var(--primary)',
+                                borderRadius: 10,
+                                padding: '10px 12px',
+                                boxShadow: '0 2px 8px rgba(0,0,0,0.04)'
+                              }}
+                            >
+                              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 4 }}>
+                                <span
+                                  style={{
+                                    background: 'var(--primary)',
+                                    color: 'white',
+                                    padding: '2px 8px',
+                                    borderRadius: 6,
+                                    fontSize: '0.74rem',
+                                    fontWeight: 800,
+                                    letterSpacing: '0.03em'
+                                  }}
+                                >
+                                  {card.discountType === 'percentage' ? `${card.discountValue}% OFF` : `₹${card.discountValue} OFF`}
+                                </span>
+                                <button
+                                  type="button"
+                                  onClick={() => handleCopy(card.code)}
+                                  style={{
+                                    background: isCopied ? '#10B981' : 'var(--surface)',
+                                    color: isCopied ? 'white' : 'var(--primary)',
+                                    border: isCopied ? 'none' : '1px solid var(--primary)',
+                                    padding: '3px 8px',
+                                    borderRadius: 6,
+                                    fontSize: '0.72rem',
+                                    fontWeight: 700,
+                                    cursor: 'pointer',
+                                    display: 'inline-flex',
+                                    alignItems: 'center',
+                                    gap: 4,
+                                    transition: 'all 0.15s ease'
+                                  }}
+                                >
+                                  {isCopied ? <Check size={11} /> : <Copy size={11} />}
+                                  <span>{isCopied ? 'Copied!' : card.code}</span>
+                                </button>
+                              </div>
+
+                              <div style={{ fontWeight: 700, fontSize: '0.8rem', color: 'var(--text-primary)', marginTop: 4 }}>
+                                {card.title}
+                              </div>
+                              <div style={{ fontSize: '0.72rem', color: 'var(--text-muted)', marginTop: 2 }}>
+                                {card.description || `Min order: ₹${(card.minOrderValue || 0).toLocaleString('en-IN')}`}
+                              </div>
+
+                              <div style={{ display: 'flex', justifyContent: 'flex-end', marginTop: 6 }}>
+                                <button
+                                  type="button"
+                                  onClick={() => {
+                                    closeChatbot();
+                                    navigate('/shop/cart');
+                                  }}
+                                  style={{
+                                    background: 'none',
+                                    border: 'none',
+                                    color: 'var(--primary)',
+                                    fontSize: '0.72rem',
+                                    fontWeight: 700,
+                                    cursor: 'pointer',
+                                    display: 'inline-flex',
+                                    alignItems: 'center',
+                                    gap: 3,
+                                    padding: 0
+                                  }}
+                                >
+                                  <span>Apply in Cart</span>
+                                  <ArrowRight size={11} />
+                                </button>
+                              </div>
+                            </div>
+                          );
+                        }
+
                         return null;
                       })}
                     </div>
@@ -642,24 +733,47 @@ export default function CustomerChatbot() {
               gap: 8
             }}
           >
-            <input
-              ref={inputRef}
-              type="text"
-              className="form-control"
-              placeholder="Ask about orders, delivery OTP, returns..."
-              value={inputVal}
-              onChange={(e) => setInputVal(e.target.value)}
-              onKeyDown={handleKeyDown}
-              disabled={isTyping}
-              style={{
-                flex: 1,
-                padding: '8px 12px',
-                fontSize: '0.84rem',
-                borderRadius: 10,
-                background: 'var(--surface)',
-                border: '1px solid var(--border)'
-              }}
-            />
+            <div style={{ position: 'relative', flex: 1, display: 'flex', alignItems: 'center' }}>
+              <input
+                ref={inputRef}
+                type="text"
+                className="form-control"
+                placeholder="Ask about orders, coupons, returns, delivery OTP, products..."
+                value={inputVal}
+                onChange={(e) => setInputVal(e.target.value)}
+                onKeyDown={handleKeyDown}
+                disabled={isTyping}
+                style={{
+                  width: '100%',
+                  padding: '8px 30px 8px 12px',
+                  fontSize: '0.84rem',
+                  borderRadius: 10,
+                  background: 'var(--surface)',
+                  border: '1px solid var(--border)'
+                }}
+              />
+              {inputVal && !isTyping && (
+                <button
+                  type="button"
+                  onClick={() => setInputVal('')}
+                  aria-label="Clear query input"
+                  style={{
+                    position: 'absolute',
+                    right: 8,
+                    background: 'none',
+                    border: 'none',
+                    color: 'var(--text-muted)',
+                    cursor: 'pointer',
+                    padding: 2,
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center'
+                  }}
+                >
+                  <X size={14} />
+                </button>
+              )}
+            </div>
 
             <button
               type="submit"

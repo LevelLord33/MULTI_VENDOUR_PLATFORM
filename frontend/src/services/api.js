@@ -9,6 +9,10 @@ const getHeaders = (user) => {
   const headers = {
     'Content-Type': 'application/json'
   };
+  const token = localStorage.getItem('vendorhub_token');
+  if (token) {
+    headers['Authorization'] = `Bearer ${token}`;
+  }
   if (user) {
     headers['x-user-id'] = user.id;
     headers['x-user-role'] = user.type || user.role || 'customer';
@@ -30,9 +34,34 @@ export const apiService = {
         const data = await res.json().catch(() => ({}));
         return { success: false, message: data.message || `Login failed (${res.status})` };
       }
-      return await res.json();
+      const data = await res.json();
+      if (data?.token) {
+        localStorage.setItem('vendorhub_token', data.token);
+      }
+      return data;
     } catch {
       return null; // Signals context to use local fallback
+    }
+  },
+
+  async oauthLogin(payload) {
+    try {
+      const res = await fetch(`${API_BASE_URL}/auth/oauth/google`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      });
+      if (!res.ok) {
+        const data = await res.json().catch(() => ({}));
+        return { success: false, message: data.message || `OAuth authentication failed (${res.status})` };
+      }
+      const data = await res.json();
+      if (data?.token) {
+        localStorage.setItem('vendorhub_token', data.token);
+      }
+      return data;
+    } catch {
+      return null;
     }
   },
 
@@ -942,6 +971,36 @@ export const apiService = {
       return await res.json();
     } catch (err) {
       console.warn('getStoreSeo fallback:', err.message);
+      return null;
+    }
+  },
+
+  // ── Customer Support Chatbot ──────────────────────
+  async sendChatbotMessage(payload, user) {
+    try {
+      const res = await fetch(`${API_BASE_URL}/chatbot/message`, {
+        method: 'POST',
+        headers: getHeaders(user),
+        body: JSON.stringify(payload)
+      });
+      if (!res.ok) {
+        const errorData = await res.json().catch(() => ({}));
+        throw new Error(errorData.message || `Chatbot error (${res.status})`);
+      }
+      return await res.json();
+    } catch (err) {
+      console.warn('sendChatbotMessage API fallback:', err?.message);
+      return null;
+    }
+  },
+
+  async getChatbotFaqs() {
+    try {
+      const res = await fetch(`${API_BASE_URL}/chatbot/faqs`);
+      if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`);
+      return await res.json();
+    } catch (err) {
+      console.warn('getChatbotFaqs fallback:', err?.message);
       return null;
     }
   },

@@ -114,6 +114,40 @@ export function AuthProvider({ children }) {
     return { success: false, message: 'Invalid user type.' };
   }, [vendors, customers]);
 
+  const oauthLogin = useCallback(async (oauthData) => {
+    // 1. Try real Express backend OAuth endpoint
+    const apiRes = await apiService.oauthLogin(oauthData);
+    if (apiRes && apiRes.success && apiRes.user) {
+      const authUser = { type: oauthData.role || 'customer', ...apiRes.user };
+      setUser(authUser);
+      localStorage.setItem('vm_current_user', JSON.stringify(authUser));
+      if (apiRes.token) {
+        localStorage.setItem('vendorhub_token', apiRes.token);
+      }
+      return { success: true, user: authUser };
+    }
+
+    // 2. Resilient local fallback if backend offline
+    const cleanEmail = oauthData.email.toLowerCase().trim();
+    let existing = customers.find((c) => c.email.toLowerCase() === cleanEmail);
+    if (!existing) {
+      existing = {
+        id: `c-oauth-${Date.now()}`,
+        fullName: oauthData.name || cleanEmail.split('@')[0],
+        email: cleanEmail,
+        avatar: oauthData.avatar || `https://ui-avatars.com/api/?name=${encodeURIComponent(oauthData.name || 'User')}&background=4F46E5&color=fff`,
+        location: 'New Delhi, Delhi',
+        city: 'New Delhi',
+        joinedDate: new Date().toISOString()
+      };
+      setCustomers((prev) => [existing, ...prev]);
+    }
+    const authUser = { type: oauthData.role || 'customer', ...existing };
+    setUser(authUser);
+    localStorage.setItem('vm_current_user', JSON.stringify(authUser));
+    return { success: true, user: authUser };
+  }, [customers]);
+
   const registerVendor = useCallback(async (data) => {
     // Attempt backend registration
     const apiRes = await apiService.registerVendor(data);
@@ -240,6 +274,7 @@ export function AuthProvider({ children }) {
   const logout = useCallback(() => {
     setUser(null);
     localStorage.removeItem('vm_current_user');
+    localStorage.removeItem('vendorhub_token');
   }, []);
 
   const getVendorById = useCallback((id) => vendors.find((v) => v.id === id), [vendors]);
@@ -265,6 +300,7 @@ export function AuthProvider({ children }) {
         vendors,
         customers,
         login,
+        oauthLogin,
         logout,
         registerVendor,
         registerCustomer,

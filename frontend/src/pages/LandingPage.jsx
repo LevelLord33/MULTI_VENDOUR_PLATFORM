@@ -169,66 +169,76 @@ export default function LandingPage() {
         <div className="landing-portal-cards">
           {/* Customer */}
           <div className="portal-card portal-customer" onClick={handleCustomerClick}>
-            <div className="portal-card-icon">
-              <ShoppingBag size={32} color="#4F46E5" />
+            <div className="portal-card-top">
+              <div className="portal-card-icon">
+                <ShoppingBag size={32} color="#4F46E5" />
+              </div>
+              <h3>Shop as Customer</h3>
+              <p>Browse thousands of products and verified storefronts across India</p>
             </div>
-            <h3>Shop as Customer</h3>
-            <p>Browse thousands of products and verified storefronts across India</p>
-            <button
-              type="button"
-              className="btn btn-primary btn-full"
-              onClick={(e) => { e.stopPropagation(); navigate('/shop'); }}
-            >
-              Start Shopping →
-            </button>
-            <div style={{ marginTop: 10, textAlign: 'center', fontSize: '0.78rem', color: '#6366F1' }}>
-              <span onClick={(e) => { e.stopPropagation(); navigate('/login'); }} style={{ textDecoration: 'underline', cursor: 'pointer' }}>
-                Customer Sign In / Register
-              </span>
+            <div className="portal-card-actions">
+              <button
+                type="button"
+                className="portal-card-btn portal-card-btn-customer"
+                onClick={(e) => { e.stopPropagation(); navigate('/shop'); }}
+              >
+                Start Shopping →
+              </button>
+              <div className="portal-card-link portal-card-link-customer">
+                <span onClick={(e) => { e.stopPropagation(); navigate('/login'); }}>
+                  Customer Sign In / Register
+                </span>
+              </div>
             </div>
           </div>
 
           {/* Vendor */}
           <div className="portal-card portal-vendor" onClick={handleVendorClick}>
-            <div className="portal-card-icon">
-              <Store size={32} color="#10B981" />
+            <div className="portal-card-top">
+              <div className="portal-card-icon">
+                <Store size={32} color="#10B981" />
+              </div>
+              <h3>Sell on VendorHub</h3>
+              <p>Reach thousands of local customers by listing your products and stores</p>
             </div>
-            <h3>Sell on VendorHub</h3>
-            <p>Reach thousands of local customers by listing your products and physical warehouse</p>
-            <button
-              type="button"
-              className="btn btn-full"
-              onClick={(e) => { e.stopPropagation(); handleVendorClick(); }}
-              style={{ background: '#F59E0B', color: 'white', border: 'none', padding: '10px 20px', borderRadius: 12, fontWeight: 600, cursor: 'pointer' }}
-            >
-              {user?.type === 'vendor' ? 'Go to Dashboard →' : 'Start Selling →'}
-            </button>
-            <div style={{ marginTop: 10, textAlign: 'center', fontSize: '0.78rem', color: '#D97706' }}>
-              <span onClick={(e) => { e.stopPropagation(); navigate('/vendor/login'); }} style={{ textDecoration: 'underline', cursor: 'pointer' }}>
-                Vendor Portal & Onboarding
-              </span>
+            <div className="portal-card-actions">
+              <button
+                type="button"
+                className="portal-card-btn portal-card-btn-vendor"
+                onClick={(e) => { e.stopPropagation(); handleVendorClick(); }}
+              >
+                {user?.type === 'vendor' ? 'Go to Dashboard →' : 'Start Selling →'}
+              </button>
+              <div className="portal-card-link portal-card-link-vendor">
+                <span onClick={(e) => { e.stopPropagation(); navigate('/vendor/login'); }}>
+                  Vendor Portal & Onboarding
+                </span>
+              </div>
             </div>
           </div>
 
           {/* Admin */}
           <div className="portal-card portal-admin" onClick={handleAdminClick}>
-            <div className="portal-card-icon">
-              <Shield size={32} color="#DC2626" />
+            <div className="portal-card-top">
+              <div className="portal-card-icon">
+                <Shield size={32} color="#DC2626" />
+              </div>
+              <h3>Admin Portal</h3>
+              <p>Review and approve vendor products, monitor inventory and disputes</p>
             </div>
-            <h3>Admin Portal</h3>
-            <p>Review and approve vendor products, monitor inventory quality and resolve disputes</p>
-            <button
-              type="button"
-              className="btn btn-full"
-              onClick={(e) => { e.stopPropagation(); handleAdminClick(); }}
-              style={{ background: '#EF4444', color: 'white', border: 'none', padding: '10px 20px', borderRadius: 12, fontWeight: 600, cursor: 'pointer' }}
-            >
-              {user?.type === 'admin' ? 'Go to Dashboard →' : 'Admin Login →'}
-            </button>
-            <div style={{ marginTop: 10, textAlign: 'center', fontSize: '0.78rem', color: '#DC2626' }}>
-              <span onClick={(e) => { e.stopPropagation(); navigate('/admin/login'); }} style={{ textDecoration: 'underline', cursor: 'pointer' }}>
-                Platform Moderation Console
-              </span>
+            <div className="portal-card-actions">
+              <button
+                type="button"
+                className="portal-card-btn portal-card-btn-admin"
+                onClick={(e) => { e.stopPropagation(); handleAdminClick(); }}
+              >
+                {user?.type === 'admin' ? 'Go to Dashboard →' : 'Admin Login →'}
+              </button>
+              <div className="portal-card-link portal-card-link-admin">
+                <span onClick={(e) => { e.stopPropagation(); navigate('/admin/login'); }}>
+                  Platform Moderation Console
+                </span>
+              </div>
             </div>
           </div>
         </div>

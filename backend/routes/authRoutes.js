@@ -1,6 +1,8 @@
 import express from 'express';
 import {
   login,
+  oauthLogin,
+  getCurrentUser,
   registerCustomer,
   registerVendor,
   getVendors,
@@ -14,8 +16,11 @@ import { requireAuth } from '../middleware/auth.js';
 
 const router = express.Router();
 
-// Authentication
+// Authentication & OAuth
 router.post('/login', login);
+router.post('/oauth/google', oauthLogin);
+router.post('/oauth', oauthLogin);
+router.get('/me', requireAuth, getCurrentUser);
 router.post('/register-customer', registerCustomer);
 router.post('/register-vendor', registerVendor);
 

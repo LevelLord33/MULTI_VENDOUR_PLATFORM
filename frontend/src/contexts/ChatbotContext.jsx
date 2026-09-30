@@ -1,6 +1,7 @@
 import { createContext, useContext, useState, useEffect, useCallback } from 'react';
 import { apiService } from '../services/api';
 import { useAuth } from './AuthContext';
+import { processClientChatbotMessage } from '../services/chatbotClientEngine';
 
 const ChatbotContext = createContext(null);
 
@@ -10,21 +11,25 @@ const INITIAL_GREETING = {
   id: 'msg-bot-welcome',
   sender: 'bot',
   text:
-    `👋 Hello! I am **HubBot**, your dedicated Vendor Hub customer support assistant.\n\n` +
-    `I can help you with:\n` +
-    `• 📦 **Live Courier Tracking**: Check real-time shipment & dispatch updates.\n` +
+    `👋 Hello! I am **HubBot**, your dedicated Vendor Hub shopping and customer support assistant.\n\n` +
+    `I can help you with all customer queries in real-time:\n` +
+    `• 📦 **Live Courier Tracking**: Check real-time shipment waybills & delivery ETA.\n` +
+    `• 🏷️ **Active Coupons & Deals**: Save with verified promo codes (\`TECH20\`, \`STYLE15\`, \`AUDIO200\`).\n` +
     `• 🔑 **Doorstep Delivery OTP**: Understand the anti-fraud 4-digit code for COD parcels.\n` +
-    `• 🔄 **Returns & Replacements**: 7-day physical return guarantee & dispute assistance.\n` +
-    `• 🛡️ **Brand Warranty**: Inquiries regarding verified manufacturer invoices.\n` +
-    `• 💬 **Storefront Chat**: How to communicate directly with physical merchants.\n\n` +
+    `• 🔄 **7-Day Returns & Replacements**: Hassle-free physical return guarantee & dispute resolution.\n` +
+    `• 🚚 **Shipping & Dispatch**: Free delivery above ₹499 & 24h warehouse dispatch.\n` +
+    `• 🛑 **Order Cancellation**: Pre-dispatch 100% instant refund guidelines.\n` +
+    `• 🛍️ **Product Search & Recommendations**: Find items under any budget or category.\n` +
+    `• 📞 **Customer Care Helpline**: Toll-free support and merchant chat.\n\n` +
     `Click a quick topic below or type your question!`,
   intent: 'welcome',
   quickReplies: [
     'Track My Order',
+    'Active Coupons & Offers',
+    'Recommend Top Electronics',
     'How does Delivery OTP work?',
     'Return & Replacement Policy',
-    'Brand Warranty Guarantee',
-    'Recommend Top Electronics'
+    'Shipping Charges & Delivery Time'
   ],
   timestamp: new Date().toISOString()
 };
@@ -94,7 +99,7 @@ export function ChatbotProvider({ children }) {
       setIsTyping(true);
 
       try {
-        const res = await apiService.sendChatbotMessage(
+        let res = await apiService.sendChatbotMessage(
           {
             message: userText,
             userId: user?.id || null,
@@ -106,7 +111,12 @@ export function ChatbotProvider({ children }) {
           user
         );
 
-        if (res && res.success && res.reply) {
+        if (!res || !res.success || !res.reply) {
+          // Use client NLP intelligence engine as resilient fallback
+          res = processClientChatbotMessage(userText, user, { pathname: window.location.pathname });
+        }
+
+        if (res && res.reply) {
           const botMsg = {
             id: `msg-bot-${Date.now()}`,
             sender: 'bot',
@@ -115,38 +125,28 @@ export function ChatbotProvider({ children }) {
             actionCards: res.actionCards || [],
             quickReplies: res.quickReplies || [
               'Track My Order',
-              'Return Policy',
-              'Delivery OTP Guide'
+              'Active Coupons & Offers',
+              'How does Delivery OTP work?',
+              'Return Policy'
             ],
             timestamp: res.timestamp || new Date().toISOString()
           };
           setMessages((prev) => [...prev, botMsg]);
-        } else {
-          // Offline intelligent fallback
-          setTimeout(() => {
-            const fallbackMsg = {
-              id: `msg-bot-${Date.now()}`,
-              sender: 'bot',
-              text:
-                `Thank you for your question regarding "${userText}".\n\n` +
-                `• For **Order Tracking & Delivery OTP**: Navigate to **My Orders** in the top navigation bar.\n` +
-                `• For **7-Day Returns & Disputes**: You can file a claim directly from your delivered order items.\n` +
-                `• For **Direct Merchant Chat**: Click "Message Merchant" on any product or storefront card.`,
-              intent: 'offline_fallback',
-              quickReplies: ['Track My Orders', 'How does Delivery OTP work?', 'Return Policy'],
-              timestamp: new Date().toISOString()
-            };
-            setMessages((prev) => [...prev, fallbackMsg]);
-          }, 400);
         }
-      } catch {
+      } catch (err) {
+        console.warn('Chatbot processing exception, using client NLP engine:', err);
+        const fallback = processClientChatbotMessage(userText, user, { pathname: window.location.pathname });
         const fallbackMsg = {
           id: `msg-bot-${Date.now()}`,
           sender: 'bot',
-          text:
-            `I am here to assist with physical merchandise orders, delivery OTP verification, brand warranties, and merchant chat. Please choose an option below:`,
-          intent: 'error_fallback',
-          quickReplies: ['Track My Orders', 'How does Delivery OTP work?', 'Return Policy'],
+          text: fallback.reply,
+          intent: fallback.intent || 'fallback_guided',
+          actionCards: fallback.actionCards || [],
+          quickReplies: fallback.quickReplies || [
+            'Track My Order',
+            'Active Coupons & Offers',
+            'How does Delivery OTP work?'
+          ],
           timestamp: new Date().toISOString()
         };
         setMessages((prev) => [...prev, fallbackMsg]);

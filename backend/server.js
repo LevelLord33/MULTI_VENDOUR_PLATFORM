@@ -106,6 +106,51 @@ app.get('/api/health', (req, res) => {
   });
 });
 
+// API Documentation & Discovery Endpoint
+app.get('/api/docs', (req, res) => {
+  res.json({
+    platform: 'VendorHub Multi-Vendor Enterprise API',
+    version: '1.0.0',
+    authScheme: 'Bearer JWT (JSON Web Token) / Google OAuth 2.0',
+    endpoints: {
+      auth: [
+        { method: 'POST', path: '/api/auth/login', desc: 'Authenticate Customer, Vendor, or Admin' },
+        { method: 'POST', path: '/api/auth/oauth/google', desc: 'Google OAuth 2.0 Sign-In & JWT Provisioning' },
+        { method: 'GET', path: '/api/auth/me', desc: 'Retrieve current verified JWT user profile', auth: true },
+        { method: 'POST', path: '/api/auth/register-customer', desc: 'Register a verified customer profile' },
+        { method: 'POST', path: '/api/auth/register-vendor', desc: 'Register a verified merchant store' },
+        { method: 'GET', path: '/api/auth/vendors', desc: 'List verified physical merchants' },
+      ],
+      products: [
+        { method: 'GET', path: '/api/products', desc: 'Get catalog with fair anti-monopoly exposure ranking' },
+        { method: 'GET', path: '/api/products/:id', desc: 'Get product details, stock, and vendor SLA' },
+        { method: 'POST', path: '/api/products', desc: 'Create product listing (Vendor)', auth: true },
+      ],
+      orders: [
+        { method: 'POST', path: '/api/orders', desc: 'Place order with multi-party escrow hold', auth: true },
+        { method: 'GET', path: '/api/orders', desc: 'List user orders and OTPs', auth: true },
+        { method: 'PATCH', path: '/api/orders/:id/status', desc: 'Update courier dispatch & delivery SLA', auth: true },
+      ],
+      disputes: [
+        { method: 'POST', path: '/api/disputes', desc: 'Open escrow dispute with unboxing video / evidence', auth: true },
+        { method: 'POST', path: '/api/disputes/:id/resolve', desc: 'Admin dispute arbitration & escrow disbursement', auth: true, role: 'admin' },
+      ],
+      chatbot: [
+        { method: 'POST', path: '/api/chatbot/message', desc: 'HubBot AI natural language intent engine' },
+        { method: 'GET', path: '/api/chatbot/faqs', desc: 'Get merchant & order resolution FAQs' },
+      ],
+      analytics: [
+        { method: 'GET', path: '/api/analytics/platform', desc: 'Admin platform GMV & vendor metrics', auth: true, role: 'admin' },
+        { method: 'GET', path: '/api/analytics/vendor/:id', desc: 'Vendor sales velocity & SLA analytics', auth: true },
+      ],
+      stores: [
+        { method: 'GET', path: '/api/stores', desc: 'Physical merchant directory with city & rating filters' },
+        { method: 'GET', path: '/api/stores/:slug', desc: 'Public store page with SEO & products' },
+      ]
+    }
+  });
+});
+
 // API Routes
 app.use('/api/auth', authRoutes);
 app.use('/api/products', productRoutes);

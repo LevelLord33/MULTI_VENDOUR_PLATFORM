@@ -13,10 +13,11 @@ import {
   ShoppingCart, SlidersHorizontal, Package, Heart,
   Zap, Check, RotateCcw, LayoutGrid, List, ArrowRightLeft,
   X, Truck, Star, ShieldCheck, Store, ArrowRight, Flame, Sparkles,
-  Share2, MessageSquare, MapPin, ExternalLink
+  Share2, MessageSquare, MapPin, ExternalLink, Clock
 } from 'lucide-react';
 import { CATEGORIES, seedVendors } from '../../data/seedData';
 import { rankProductsFairly } from '../../utils/fairRanking';
+import { useRecentlyAccessed } from '../../contexts/RecentlyAccessedContext';
 import '../../styles/marketplace.css';
 
 const CATEGORY_ICONS = {
@@ -87,6 +88,7 @@ export default function ProductListing() {
   const [showCompareModal, setShowCompareModal] = useState(false);
   const [contactVendor, setContactVendor] = useState(null);
   const [shareTarget, setShareTarget] = useState(null);
+  const { recentProducts, recentStores, clearRecent } = useRecentlyAccessed();
 
   // ── 5. useRef for DOM elements & debouncers ──
   const debounceTimerRef = useRef(null);
@@ -584,6 +586,111 @@ export default function ProductListing() {
           </div>
         </div>
 
+        {/* ── RECENTLY ACCESSED (STORES & PRODUCTS) ── */}
+        {(recentProducts.length > 0 || recentStores.length > 0) && (
+          <div
+            style={{
+              background: 'var(--surface)',
+              border: '1px solid var(--border)',
+              borderRadius: 16,
+              padding: '16px 20px',
+              marginBottom: 28,
+              boxShadow: '0 2px 8px rgba(0,0,0,0.04)'
+            }}
+          >
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 12 }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+                <Clock size={16} color="var(--primary)" />
+                <span style={{ fontWeight: 800, fontSize: '0.92rem', color: 'var(--text-primary)' }}>
+                  Recently Accessed
+                </span>
+                <span style={{ fontSize: '0.72rem', background: '#EEF2FF', color: 'var(--primary)', padding: '2px 8px', borderRadius: 999, fontWeight: 700 }}>
+                  {recentProducts.length + recentStores.length} items
+                </span>
+              </div>
+              <button
+                type="button"
+                onClick={clearRecent}
+                style={{ background: 'none', border: 'none', color: 'var(--text-muted)', fontSize: '0.75rem', cursor: 'pointer', fontWeight: 600 }}
+              >
+                Clear History
+              </button>
+            </div>
+
+            <div style={{ display: 'flex', gap: 12, overflowX: 'auto', paddingBottom: 6 }}>
+              {recentStores.map((s) => (
+                <div
+                  key={`store-${s.id || s.storeSlug}`}
+                  onClick={() => navigate(`/store/${s.storeSlug || s.id}`)}
+                  style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: 10,
+                    padding: '8px 14px',
+                    borderRadius: 12,
+                    background: 'var(--surface-2, #F8FAFC)',
+                    border: '1px solid var(--border)',
+                    cursor: 'pointer',
+                    flexShrink: 0,
+                    transition: 'all 0.15s ease'
+                  }}
+                  onMouseOver={(e) => e.currentTarget.style.borderColor = 'var(--primary)'}
+                  onMouseOut={(e) => e.currentTarget.style.borderColor = 'var(--border)'}
+                >
+                  <img
+                    src={s.avatar}
+                    alt={s.businessName}
+                    style={{ width: 34, height: 34, borderRadius: 8, objectFit: 'cover' }}
+                  />
+                  <div>
+                    <div style={{ fontSize: '0.78rem', fontWeight: 700, color: 'var(--text-primary)', whiteSpace: 'nowrap' }}>
+                      {s.businessName}
+                    </div>
+                    <div style={{ fontSize: '0.68rem', color: 'var(--primary)', display: 'flex', alignItems: 'center', gap: 3 }}>
+                      <Store size={10} /> Storefront
+                    </div>
+                  </div>
+                </div>
+              ))}
+
+              {recentProducts.map((p) => (
+                <div
+                  key={`prod-${p.id}`}
+                  onClick={() => navigate(`/shop/product/${p.id}`)}
+                  style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: 10,
+                    padding: '8px 14px',
+                    borderRadius: 12,
+                    background: 'var(--surface-2, #F8FAFC)',
+                    border: '1px solid var(--border)',
+                    cursor: 'pointer',
+                    flexShrink: 0,
+                    transition: 'all 0.15s ease'
+                  }}
+                  onMouseOver={(e) => e.currentTarget.style.borderColor = 'var(--primary)'}
+                  onMouseOut={(e) => e.currentTarget.style.borderColor = 'var(--border)'}
+                >
+                  <img
+                    src={p.image}
+                    alt={p.name}
+                    style={{ width: 34, height: 34, borderRadius: 8, objectFit: 'cover' }}
+                  />
+                  <div>
+                    <div style={{ fontSize: '0.78rem', fontWeight: 700, color: 'var(--text-primary)', maxWidth: 140, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+                      {p.name}
+                    </div>
+                    <div style={{ fontSize: '0.7rem', fontWeight: 800, color: 'var(--text-primary)' }}>
+                      ₹{p.price?.toLocaleString('en-IN')}
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+
         {/* ═══════════════════════════════════════════════════════════ */}
         {/* ── 1. VENDOR-FIRST VIEW (DEFAULT EXPERIENCE) ───────────── */}
         {/* ═══════════════════════════════════════════════════════════ */}
@@ -645,21 +752,43 @@ export default function ProductListing() {
                               src={vendor.avatar || 'https://images.unsplash.com/photo-1560250097-0b93528c311a?w=120&h=120&fit=crop'}
                               alt={vendor.businessName}
                               className="vendor-showcase-avatar"
+                              onError={(e) => {
+                                e.target.onerror = null;
+                                e.target.src = `https://ui-avatars.com/api/?name=${encodeURIComponent(vendor.businessName)}&background=4F46E5&color=fff`;
+                              }}
                             />
                             <div className="vendor-showcase-info">
-                              <h3>
-                                <Link to={`/store/${vendor.storeSlug || vendor.id}`} style={{ color: 'inherit', textDecoration: 'none' }}>
-                                  {vendor.businessName}
-                                </Link>
-                              </h3>
+                              <div style={{ display: 'flex', alignItems: 'center', gap: 8, flexWrap: 'wrap' }}>
+                                <h3 style={{ margin: 0 }}>
+                                  <Link to={`/store/${vendor.storeSlug || vendor.id}`} style={{ color: 'inherit', textDecoration: 'none' }}>
+                                    {vendor.businessName}
+                                  </Link>
+                                </h3>
+                                <span
+                                  style={{
+                                    display: 'inline-flex',
+                                    alignItems: 'center',
+                                    gap: 4,
+                                    background: '#EEF2FF',
+                                    color: 'var(--primary)',
+                                    fontSize: '0.72rem',
+                                    fontWeight: 700,
+                                    padding: '2px 8px',
+                                    borderRadius: 6,
+                                  }}
+                                >
+                                  <ShieldCheck size={13} color="var(--primary)" />
+                                  Verified Store
+                                </span>
+                              </div>
                               <p>{vendor.tagline || 'Verified merchant storefront with live warehouse inventory'}</p>
                             </div>
                           </div>
 
-                          <div style={{ display: 'flex', gap: 8, alignItems: 'center', flexWrap: 'wrap' }}>
+                          <div className="vendor-showcase-header-actions">
                             <button
                               type="button"
-                              className="btn btn-ghost btn-sm"
+                              className="btn btn-outline btn-sm"
                               onClick={() => setShareTarget({
                                 title: vendor.businessName,
                                 subtitle: vendor.tagline,
@@ -668,22 +797,22 @@ export default function ProductListing() {
                                 badge: 'Verified Store'
                               })}
                               title="Share Store"
-                              style={{ display: 'inline-flex', alignItems: 'center', gap: 6 }}
+                              style={{ display: 'inline-flex', alignItems: 'center', gap: 6, background: 'var(--surface)', borderColor: 'var(--border)' }}
                             >
                               <Share2 size={14} /> Share
                             </button>
                             <button
                               type="button"
-                              className="btn btn-ghost btn-sm"
+                              className="btn btn-outline btn-sm"
                               onClick={() => setContactVendor(vendor)}
-                              style={{ display: 'inline-flex', alignItems: 'center', gap: 6 }}
+                              style={{ display: 'inline-flex', alignItems: 'center', gap: 6, background: 'var(--surface)', borderColor: 'var(--border)' }}
                             >
                               <MessageSquare size={14} /> Contact
                             </button>
                             <Link
                               to={`/store/${vendor.storeSlug || vendor.id}`}
                               className="btn btn-primary btn-sm"
-                              style={{ display: 'inline-flex', alignItems: 'center', gap: 6, textDecoration: 'none' }}
+                              style={{ display: 'inline-flex', alignItems: 'center', gap: 6, textDecoration: 'none', fontWeight: 700 }}
                             >
                               <span>Enter Storefront</span>
                               <ArrowRight size={14} />
@@ -751,6 +880,10 @@ export default function ProductListing() {
                                     src={product.image || product.images?.[0] || 'https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=300&h=300&fit=crop'}
                                     alt={product.name}
                                     className="vendor-shelf-item-img"
+                                    onError={(e) => {
+                                      e.target.onerror = null;
+                                      e.target.src = 'https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=300&h=300&fit=crop';
+                                    }}
                                   />
                                   <div className="vendor-shelf-item-title" title={product.name}>
                                     {product.name}

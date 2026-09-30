@@ -11,6 +11,7 @@ import { ToastProvider } from './contexts/ToastContext';
 import { SocketProvider } from './contexts/SocketContext';
 import { LanguageProvider } from './contexts/LanguageContext';
 import { ThemeProvider } from './contexts/ThemeContext';
+import { RecentlyAccessedProvider } from './contexts/RecentlyAccessedContext';
 import ProtectedRoute from './components/common/ProtectedRoute';
 import ScrollToTop from './components/common/ScrollToTop';
 import CustomerChatbot from './components/chatbot/CustomerChatbot';
@@ -65,7 +66,8 @@ export default function App() {
                       <MarketingProvider>
                         <MessageProvider>
                           <ChatbotProvider>
-                            <Routes>
+                            <RecentlyAccessedProvider>
+                              <Routes>
                     {/* ── Public ── */}
                     <Route path="/" element={<LandingPage />} />
                     <Route path="/login" element={<CustomerAuth initialMode="login" />} />
@@ -198,7 +200,8 @@ export default function App() {
                     <Route path="*" element={<Navigate to="/" replace />} />
                   </Routes>
                   <CustomerChatbot />
-                </ChatbotProvider>
+                </RecentlyAccessedProvider>
+              </ChatbotProvider>
               </MessageProvider>
                       </MarketingProvider>
                     </DisputeProvider>

@@ -18,7 +18,7 @@ function mockReqRes(body = {}) {
 }
 
 async function runTests() {
-  console.log('🤖 Running HubBot Chatbot Verification Tests...\n');
+  console.log('🤖 Running Comprehensive HubBot Chatbot Verification Tests...\n');
   let passed = 0;
   let total = 0;
 
@@ -37,7 +37,7 @@ async function runTests() {
     const { req, res, getResult } = mockReqRes();
     await getChatbotFaqs(req, res);
     const result = getResult();
-    assert(result.status === 200 && result.data.success && result.data.faqs.length >= 6, 'getChatbotFaqs returns curated FAQ dictionary');
+    assert(result.status === 200 && result.data.success && result.data.faqs.length >= 8, 'getChatbotFaqs returns comprehensive FAQ dictionary');
   }
 
   // 2. Intent: Order Tracking
@@ -80,9 +80,50 @@ async function runTests() {
     );
   }
 
-  // 5. Intent: Product Recommendation
+  // 5. Intent: Active Coupons & Discounts
   {
-    const { req, res, getResult } = mockReqRes({ message: 'Can you recommend any wireless headphones or accessories?', userId: 'c1' });
+    const { req, res, getResult } = mockReqRes({ message: 'Are there any discount coupon codes or promo offers?', userId: 'c1' });
+    await processChatbotMessage(req, res);
+    const result = getResult();
+    assert(
+      result.status === 200 &&
+      result.data.intent === 'coupons' &&
+      Array.isArray(result.data.actionCards) &&
+      result.data.actionCards.length > 0 &&
+      result.data.reply?.includes('TECH20'),
+      'processChatbotMessage returns active coupons with actionable cards'
+    );
+  }
+
+  // 6. Intent: Order Cancellation
+  {
+    const { req, res, getResult } = mockReqRes({ message: 'Can I cancel my order or stop it?', userId: 'c1' });
+    await processChatbotMessage(req, res);
+    const result = getResult();
+    assert(
+      result.status === 200 &&
+      result.data.intent === 'order_cancellation' &&
+      result.data.reply?.includes('Instant Cancellation'),
+      'processChatbotMessage handles order cancellation query'
+    );
+  }
+
+  // 7. Intent: Shipping Charges & Delivery Time
+  {
+    const { req, res, getResult } = mockReqRes({ message: 'What are the shipping charges and delivery time to Delhi?', userId: 'c1' });
+    await processChatbotMessage(req, res);
+    const result = getResult();
+    assert(
+      result.status === 200 &&
+      result.data.intent === 'shipping_info' &&
+      result.data.reply?.includes('FREE Standard Delivery'),
+      'processChatbotMessage handles shipping charges & delivery speed query'
+    );
+  }
+
+  // 8. Intent: Product Search with Price Filter
+  {
+    const { req, res, getResult } = mockReqRes({ message: 'Recommend top rated headphones under 3000', userId: 'c1' });
     await processChatbotMessage(req, res);
     const result = getResult();
     assert(
@@ -90,11 +131,11 @@ async function runTests() {
       result.data.intent === 'product_recommendation' &&
       Array.isArray(result.data.actionCards) &&
       result.data.actionCards.length > 0,
-      'processChatbotMessage returns product recommendations'
+      'processChatbotMessage handles category search with price filter'
     );
   }
 
-  // 6. Intent: Vendor & Storefront Help
+  // 9. Intent: Vendor & Storefront Help
   {
     const { req, res, getResult } = mockReqRes({ message: 'How can I contact the vendor or store owner?', userId: 'c1' });
     await processChatbotMessage(req, res);
@@ -107,9 +148,9 @@ async function runTests() {
     );
   }
 
-  // 7. Intent: Payment Methods
+  // 10. Intent: Payment Methods
   {
-    const { req, res, getResult } = mockReqRes({ message: 'How does the UPI QR payment work?', userId: 'c1' });
+    const { req, res, getResult } = mockReqRes({ message: 'How does the UPI QR payment work and is it safe?', userId: 'c1' });
     await processChatbotMessage(req, res);
     const result = getResult();
     assert(
@@ -120,7 +161,33 @@ async function runTests() {
     );
   }
 
-  console.log(`\n🎉 Results: ${passed}/${total} chatbot tests passed!\n`);
+  // 11. Intent: Customer Care & Helpline
+  {
+    const { req, res, getResult } = mockReqRes({ message: 'What is customer care phone number or helpline?', userId: 'c1' });
+    await processChatbotMessage(req, res);
+    const result = getResult();
+    assert(
+      result.status === 200 &&
+      result.data.intent === 'customer_support' &&
+      result.data.reply?.includes('1800-836-3687'),
+      'processChatbotMessage provides customer care toll-free helpline'
+    );
+  }
+
+  // 12. Intent: Greetings & Warm Welcome
+  {
+    const { req, res, getResult } = mockReqRes({ message: 'Hello good morning!', userId: 'c1' });
+    await processChatbotMessage(req, res);
+    const result = getResult();
+    assert(
+      result.status === 200 &&
+      result.data.intent === 'greeting' &&
+      result.data.reply?.includes('HubBot'),
+      'processChatbotMessage greets user and lists capabilities'
+    );
+  }
+
+  console.log(`\n🎉 Results: ${passed}/${total} chatbot verification tests passed!\n`);
   if (passed !== total) {
     process.exit(1);
   }

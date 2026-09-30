@@ -73,11 +73,20 @@ export default function AdminLogin() {
           <h1 className="auth-form-title">Admin Login</h1>
           <p className="auth-form-sub">Restricted platform control portal — authorized personnel only</p>
 
-          <div style={{ background: 'var(--surface-2, #F8FAFC)', border: '1px solid var(--border, #E2E8F0)', borderRadius: 12, padding: '12px 16px', marginBottom: 20, fontSize: '0.82rem', color: 'var(--text-secondary)' }}>
+          <div style={{ background: 'var(--surface-2, #F8FAFC)', border: '1px solid var(--border, #E2E8F0)', borderRadius: 12, padding: '12px 16px', marginBottom: 14, fontSize: '0.82rem', color: 'var(--text-secondary)' }}>
             <div style={{ fontWeight: 700, color: '#9333EA', marginBottom: 4 }}>Demo Admin Access:</div>
             <div><strong>Email:</strong> admin@vendour.com</div>
             <div><strong>Password:</strong> Admin@1234</div>
           </div>
+
+          <button
+            type="button"
+            className="auth-demo-btn"
+            style={{ background: 'rgba(147, 51, 234, 0.08)', color: '#9333EA', borderColor: '#9333EA', marginBottom: 18, width: '100%', padding: '10px' }}
+            onClick={() => setForm({ email: 'admin@vendour.com', password: 'Admin@1234' })}
+          >
+            ⚡ Quick Fill Demo Admin Credentials
+          </button>
 
           {error && (
             <div style={{ background: '#FEF2F2', border: '1px solid #FECACA', borderRadius: 10, padding: '10px 14px', marginBottom: 16, color: '#DC2626', fontSize: '0.86rem' }}>

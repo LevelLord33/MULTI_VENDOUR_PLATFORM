@@ -10,8 +10,9 @@ import { useChatbot } from '../../contexts/ChatbotContext';
 import {
   ShoppingBag, ShoppingCart, User, LogOut, Package,
   ChevronDown, Search, LayoutDashboard, Store, Shield, ArrowRightLeft,
-  Globe, Check, Sun, Moon, Palette, MessageSquare, Bot, Home
+  Globe, Check, Sun, Moon, Palette, MessageSquare, Bot, Home, Code2
 } from 'lucide-react';
+import ApiAndArchitectureModal from './ApiAndArchitectureModal';
 import '../../styles/marketplace.css';
 
 export default function Navbar({ searchQuery, onSearchChange }) {
@@ -28,6 +29,7 @@ export default function Navbar({ searchQuery, onSearchChange }) {
   // 2. useState hooks
   const [dropOpen, setDropOpen] = useState(false);
   const [langDropOpen, setLangDropOpen] = useState(false);
+  const [showApiModal, setShowApiModal] = useState(false);
 
   // 3. useRef hook
   const dropRef = useRef(null);
@@ -140,6 +142,19 @@ export default function Navbar({ searchQuery, onSearchChange }) {
               title="Review & approve products as platform admin"
             >
               🛡️ {t('adminPortal', 'Admin Portal')}
+            </button>
+            <button
+              className="portal-chip"
+              onClick={() => setShowApiModal(true)}
+              style={{
+                background: 'linear-gradient(135deg, rgba(16, 185, 129, 0.2) 0%, rgba(5, 150, 105, 0.25) 100%)',
+                color: '#10b981',
+                borderColor: '#10b981',
+                fontWeight: 700
+              }}
+              title="Open Live API Console & Architecture/Resume Defense"
+            >
+              ⚡ API & Resume Defense
             </button>
           </div>
         </div>
@@ -372,6 +387,12 @@ export default function Navbar({ searchQuery, onSearchChange }) {
           )}
         </div>
       </div>
+
+      {/* Developer API & Resume Defense Modal */}
+      <ApiAndArchitectureModal
+        isOpen={showApiModal}
+        onClose={() => setShowApiModal(false)}
+      />
     </nav>
   );
 }
