@@ -1509,30 +1509,103 @@ export default function VendorProfile() {
             </div>
 
             <p style={{ fontSize: '0.82rem', color: 'var(--text-secondary)', marginBottom: 14 }}>
-              Choose which notifications you would like to receive from {vendor.businessName}. You can change these anytime in your subscriber hub.
+              Choose your preferred notification channels and topics for updates from {vendor.businessName}. You can change these anytime in your subscriber hub.
             </p>
 
-            {/* Mobile number for SMS alerts */}
-            <div style={{ marginBottom: 16, background: 'var(--surface-2)', padding: '12px 14px', borderRadius: 8, border: '1px solid var(--border)' }}>
-              <label style={{ display: 'block', fontSize: '0.82rem', fontWeight: 700, color: 'var(--text-primary)', marginBottom: 4 }}>
-                📱 Mobile Phone for SMS Updates
-              </label>
-              <div style={{ fontSize: '0.74rem', color: 'var(--text-muted)', marginBottom: 8 }}>
-                {!user?.mobile
-                  ? 'Enter your 10-digit mobile number to receive instant SMS & WhatsApp alerts for store deals.'
-                  : 'SMS notifications will be delivered to this number (update anytime):'}
+            {/* 1. Notification Delivery Channels (Email vs SMS) */}
+            <div style={{ marginBottom: 16, background: 'var(--surface-2)', padding: '12px 14px', borderRadius: 10, border: '1px solid var(--border)' }}>
+              <div style={{ fontSize: '0.82rem', fontWeight: 700, color: 'var(--text-primary)', marginBottom: 8, display: 'flex', alignItems: 'center', gap: 6 }}>
+                <span>Delivery Channels</span>
+                <span style={{ fontSize: '0.7rem', color: 'var(--text-muted)', fontWeight: 500 }}>(Choose one or both)</span>
               </div>
-              <input
-                type="tel"
-                placeholder="10-digit mobile number (e.g. 9876543210)"
-                className="form-input"
-                style={{ background: 'var(--surface)', fontSize: '0.85rem' }}
-                value={subMobile}
-                onChange={(e) => setSubMobile(e.target.value)}
-              />
+
+              <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+                {/* Email Option */}
+                <label
+                  style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'space-between',
+                    padding: '8px 10px',
+                    borderRadius: 6,
+                    background: subPrefs.channelEmail !== false ? 'rgba(79, 70, 229, 0.08)' : 'var(--surface)',
+                    border: subPrefs.channelEmail !== false ? '1px solid #C7D2FE' : '1px solid var(--border)',
+                    cursor: 'pointer'
+                  }}
+                >
+                  <div>
+                    <div style={{ fontSize: '0.82rem', fontWeight: 600, color: 'var(--text-primary)' }}>
+                      ✉️ Email Alerts {user?.email ? `(${user.email})` : ''}
+                    </div>
+                    <div style={{ fontSize: '0.7rem', color: 'var(--text-muted)' }}>
+                      Private & secure — alerts delivered to your inbox without sharing your phone number
+                    </div>
+                  </div>
+                  <input
+                    type="checkbox"
+                    checked={subPrefs.channelEmail !== false}
+                    onChange={(e) => setSubPrefs({ ...subPrefs, channelEmail: e.target.checked })}
+                    style={{ width: 17, height: 17, accentColor: 'var(--primary)' }}
+                  />
+                </label>
+
+                {/* SMS Option */}
+                <label
+                  style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'space-between',
+                    padding: '8px 10px',
+                    borderRadius: 6,
+                    background: subPrefs.channelSms ? 'rgba(79, 70, 229, 0.08)' : 'var(--surface)',
+                    border: subPrefs.channelSms ? '1px solid #C7D2FE' : '1px solid var(--border)',
+                    cursor: 'pointer'
+                  }}
+                >
+                  <div>
+                    <div style={{ fontSize: '0.82rem', fontWeight: 600, color: 'var(--text-primary)' }}>
+                      📱 SMS Text & WhatsApp Alerts
+                    </div>
+                    <div style={{ fontSize: '0.7rem', color: 'var(--text-muted)' }}>
+                      Receive urgent flash sales and order updates directly on your mobile device
+                    </div>
+                  </div>
+                  <input
+                    type="checkbox"
+                    checked={Boolean(subPrefs.channelSms)}
+                    onChange={(e) => setSubPrefs({ ...subPrefs, channelSms: e.target.checked })}
+                    style={{ width: 17, height: 17, accentColor: 'var(--primary)' }}
+                  />
+                </label>
+              </div>
+
+              {/* Conditional Mobile Phone Input: ONLY visible if customer checked SMS */}
+              {subPrefs.channelSms ? (
+                <div style={{ marginTop: 12, paddingTop: 10, borderTop: '1px dashed var(--border)' }}>
+                  <label style={{ display: 'block', fontSize: '0.78rem', fontWeight: 700, color: 'var(--text-primary)', marginBottom: 4 }}>
+                    Enter Mobile Phone Number for SMS Alerts:
+                  </label>
+                  <input
+                    type="tel"
+                    placeholder="10-digit mobile number (e.g. 9876543210)"
+                    className="form-input"
+                    style={{ background: 'var(--surface)', fontSize: '0.85rem' }}
+                    value={subMobile}
+                    onChange={(e) => setSubMobile(e.target.value)}
+                  />
+                </div>
+              ) : (
+                <div style={{ marginTop: 8, fontSize: '0.72rem', color: '#059669', display: 'flex', alignItems: 'center', gap: 5, padding: '4px 6px', background: '#ECFDF5', borderRadius: 4 }}>
+                  <span>🔒 Privacy Protected: No phone number required. All deal alerts will be sent to your email.</span>
+                </div>
+              )}
             </div>
 
-            <div style={{ display: 'flex', flexDirection: 'column', gap: 10, marginBottom: 20 }}>
+            {/* 2. Notification Topics */}
+            <div style={{ fontSize: '0.82rem', fontWeight: 700, color: 'var(--text-primary)', marginBottom: 6 }}>
+              Select Topics
+            </div>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 8, marginBottom: 20 }}>
               {[
                 { key: 'newProducts', label: '✨ New Product Releases', desc: 'Alerts when merchant stocks new catalog items' },
                 { key: 'promotions', label: '🏷️ Promotional Vouchers', desc: 'Direct discount codes & festive promotions' },
@@ -1557,7 +1630,7 @@ export default function VendorProfile() {
                   </div>
                   <input
                     type="checkbox"
-                    checked={subPrefs[item.key]}
+                    checked={subPrefs[item.key] !== false}
                     onChange={(e) => setSubPrefs({ ...subPrefs, [item.key]: e.target.checked })}
                     style={{ width: 17, height: 17, accentColor: 'var(--primary)' }}
                   />

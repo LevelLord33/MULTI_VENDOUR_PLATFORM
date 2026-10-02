@@ -20,6 +20,8 @@ const vendorSubscriptionSchema = new mongoose.Schema(
       default: null
     },
     notificationPreferences: {
+      channelEmail: { type: Boolean, default: true },
+      channelSms: { type: Boolean, default: false },
       newProducts: { type: Boolean, default: true },
       promotions: { type: Boolean, default: true },
       deals: { type: Boolean, default: true },

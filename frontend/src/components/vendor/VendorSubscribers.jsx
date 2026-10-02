@@ -97,13 +97,17 @@ export default function VendorSubscribers() {
       setSendingBroadcast(true);
       const res = await api.sendVendorUpdate(user.id, broadcastForm);
       if (res?.success) {
-        const report = res.stats?.twilioReport;
         let successMsg = res.message || 'Update broadcast sent successfully!';
-        if (report) {
-          const sentCount = (report.smsSent || 0) + (report.whatsappSent || 0);
-          if (sentCount > 0) {
-            successMsg += ` (${sentCount} SMS/WhatsApp dispatched)`;
-          }
+        const parts = [];
+        if (res.stats?.emailReport?.sent > 0) {
+          parts.push(`${res.stats.emailReport.sent} Emails`);
+        }
+        const phoneSent = (res.stats?.twilioReport?.smsSent || 0) + (res.stats?.twilioReport?.whatsappSent || 0);
+        if (phoneSent > 0) {
+          parts.push(`${phoneSent} SMS/WhatsApp`);
+        }
+        if (parts.length > 0) {
+          successMsg += ` (${parts.join(', ')} delivered)`;
         }
         addToast(successMsg, 'success');
         setShowBroadcastModal(false);
@@ -112,7 +116,7 @@ export default function VendorSubscribers() {
           title: '',
           message: '',
           link: '',
-          channel: 'both'
+          channel: 'all'
         });
       }
     } catch (err) {
@@ -357,6 +361,16 @@ export default function VendorSubscribers() {
 
                           <td>
                             <div style={{ display: 'flex', flexWrap: 'wrap', gap: 4 }}>
+                              {prefs.channelEmail !== false && (
+                                <span className="badge" style={{ fontSize: '0.68rem', padding: '1px 6px', background: '#EEF2FF', color: '#4F46E5', fontWeight: 700 }}>
+                                  ✉️ Email
+                                </span>
+                              )}
+                              {prefs.channelSms && (
+                                <span className="badge" style={{ fontSize: '0.68rem', padding: '1px 6px', background: '#DCFCE7', color: '#166534', fontWeight: 700 }}>
+                                  📱 SMS
+                                </span>
+                              )}
                               {prefs.newProducts !== false && (
                                 <span className="badge badge-primary" style={{ fontSize: '0.68rem', padding: '1px 6px' }}>
                                   New Drops
@@ -461,12 +475,13 @@ export default function VendorSubscribers() {
                   <label className="form-label" style={{ fontWeight: 600, fontSize: '0.85rem', marginBottom: 6 }}>
                     Delivery Channels
                   </label>
-                  <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(125px, 1fr))', gap: 8 }}>
+                  <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(130px, 1fr))', gap: 8 }}>
                     {[
-                      { key: 'both', label: '📱 SMS + WhatsApp', badge: 'Recommended' },
-                      { key: 'whatsapp', label: '💬 WhatsApp Only', badge: 'Direct' },
-                      { key: 'sms', label: '✉️ SMS Only', badge: 'Carrier' },
-                      { key: 'app_only', label: '🔔 In-App Notice', badge: 'Silent' }
+                      { key: 'all', label: '🚀 All Channels', badge: 'Email + SMS + App' },
+                      { key: 'email', label: '✉️ Email Digest', badge: 'High Privacy' },
+                      { key: 'both', label: '📱 SMS + WhatsApp', badge: 'Mobile Alerts' },
+                      { key: 'sms', label: '💬 SMS Only', badge: 'Carrier Direct' },
+                      { key: 'app_only', label: '🔔 In-App Notice', badge: 'Silent Bell' }
                     ].map((ch) => (
                       <button
                         key={ch.key}

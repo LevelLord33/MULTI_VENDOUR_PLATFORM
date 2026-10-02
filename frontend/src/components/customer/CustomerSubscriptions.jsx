@@ -20,6 +20,8 @@ export default function CustomerSubscriptions() {
   const [loading, setLoading] = useState(true);
   const [editingPrefsVendorId, setEditingPrefsVendorId] = useState(null);
   const [prefForm, setPrefForm] = useState({
+    channelEmail: true,
+    channelSms: false,
     newProducts: true,
     promotions: true,
     deals: true,
@@ -64,6 +66,8 @@ export default function CustomerSubscriptions() {
   const openPrefsModal = (sub) => {
     setEditingPrefsVendorId(sub.vendorId);
     setPrefForm({
+      channelEmail: sub.notificationPreferences?.channelEmail !== false,
+      channelSms: Boolean(sub.notificationPreferences?.channelSms),
       newProducts: sub.notificationPreferences?.newProducts !== false,
       promotions: sub.notificationPreferences?.promotions !== false,
       deals: sub.notificationPreferences?.deals !== false,
@@ -342,6 +346,12 @@ export default function CustomerSubscriptions() {
                       {/* Display Active Tags when not editing */}
                       {!isEditingThis && (
                         <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6 }}>
+                          <span className={`badge ${prefs.channelEmail !== false ? 'badge-primary' : 'badge-ghost'}`} style={{ fontSize: '0.72rem', background: prefs.channelEmail !== false ? '#EEF2FF' : undefined, color: prefs.channelEmail !== false ? '#4F46E5' : undefined }}>
+                            {prefs.channelEmail !== false ? '✓' : '✗'} ✉️ Email
+                          </span>
+                          <span className={`badge ${prefs.channelSms ? 'badge-primary' : 'badge-ghost'}`} style={{ fontSize: '0.72rem', background: prefs.channelSms ? '#DCFCE7' : undefined, color: prefs.channelSms ? '#166534' : undefined }}>
+                            {prefs.channelSms ? '✓' : '✗'} 📱 SMS
+                          </span>
                           <span className={`badge ${prefs.newProducts !== false ? 'badge-primary' : 'badge-ghost'}`} style={{ fontSize: '0.72rem' }}>
                             {prefs.newProducts !== false ? '✓' : '✗'} New Products
                           </span>
@@ -370,6 +380,60 @@ export default function CustomerSubscriptions() {
                             gap: 8
                           }}
                         >
+                          <div style={{ fontSize: '0.72rem', fontWeight: 700, color: '#475569', textTransform: 'uppercase', marginBottom: 2 }}>
+                            Delivery Channels
+                          </div>
+
+                          <label
+                            style={{
+                              display: 'flex',
+                              alignItems: 'center',
+                              justifyContent: 'space-between',
+                              fontSize: '0.78rem',
+                              cursor: 'pointer',
+                              padding: '4px 0'
+                            }}
+                          >
+                            <div>
+                              <div style={{ fontWeight: 600, color: '#1E293B' }}>✉️ Email Alerts</div>
+                              <div style={{ fontSize: '0.7rem', color: '#64748B' }}>Deliver announcements to your inbox (privacy safe)</div>
+                            </div>
+                            <input
+                              type="checkbox"
+                              checked={prefForm.channelEmail !== false}
+                              onChange={(e) => setPrefForm({ ...prefForm, channelEmail: e.target.checked })}
+                              style={{ width: 16, height: 16, accentColor: 'var(--primary)' }}
+                            />
+                          </label>
+
+                          <label
+                            style={{
+                              display: 'flex',
+                              alignItems: 'center',
+                              justifyContent: 'space-between',
+                              fontSize: '0.78rem',
+                              cursor: 'pointer',
+                              padding: '4px 0'
+                            }}
+                          >
+                            <div>
+                              <div style={{ fontWeight: 600, color: '#1E293B' }}>📱 SMS & WhatsApp Alerts</div>
+                              <div style={{ fontSize: '0.7rem', color: '#64748B' }}>Deliver instant text alerts to your mobile phone</div>
+                            </div>
+                            <input
+                              type="checkbox"
+                              checked={Boolean(prefForm.channelSms)}
+                              onChange={(e) => setPrefForm({ ...prefForm, channelSms: e.target.checked })}
+                              style={{ width: 16, height: 16, accentColor: 'var(--primary)' }}
+                            />
+                          </label>
+
+                          <div style={{ height: 1, background: '#E2E8F0', margin: '4px 0' }} />
+
+                          <div style={{ fontSize: '0.72rem', fontWeight: 700, color: '#475569', textTransform: 'uppercase', marginBottom: 2 }}>
+                            Notification Topics
+                          </div>
+
                           {[
                             { key: 'newProducts', label: 'New Product Releases', desc: 'When vendor adds new catalog items' },
                             { key: 'promotions', label: 'Vendor Promotions & Coupons', desc: 'Discount vouchers & seasonal offers' },
@@ -392,7 +456,7 @@ export default function CustomerSubscriptions() {
                               </div>
                               <input
                                 type="checkbox"
-                                checked={prefForm[item.key]}
+                                checked={prefForm[item.key] !== false}
                                 onChange={(e) =>
                                   setPrefForm({ ...prefForm, [item.key]: e.target.checked })
                                 }

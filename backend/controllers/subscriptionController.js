@@ -79,11 +79,12 @@ export const subscribeToVendor = async (req, res) => {
     }
 
     const defaultPrefs = {
-      newProducts: true,
-      promotions: true,
-      deals: true,
-      updates: true,
-      ...notificationPreferences
+      channelEmail: notificationPreferences?.channelEmail !== undefined ? Boolean(notificationPreferences.channelEmail) : true,
+      channelSms: Boolean(notificationPreferences?.channelSms),
+      newProducts: notificationPreferences?.newProducts !== undefined ? Boolean(notificationPreferences.newProducts) : true,
+      promotions: notificationPreferences?.promotions !== undefined ? Boolean(notificationPreferences.promotions) : true,
+      deals: notificationPreferences?.deals !== undefined ? Boolean(notificationPreferences.deals) : true,
+      updates: notificationPreferences?.updates !== undefined ? Boolean(notificationPreferences.updates) : true
     };
 
     let subscription = null;
@@ -487,6 +488,8 @@ export const getVendorSubscribers = async (req, res) => {
       : 0;
 
     const preferenceStats = {
+      channelEmail: enrichedSubscribers.filter((s) => s.notificationPreferences?.channelEmail !== false).length,
+      channelSms: enrichedSubscribers.filter((s) => s.notificationPreferences?.channelSms).length,
       newProducts: enrichedSubscribers.filter((s) => s.notificationPreferences?.newProducts).length,
       promotions: enrichedSubscribers.filter((s) => s.notificationPreferences?.promotions).length,
       deals: enrichedSubscribers.filter((s) => s.notificationPreferences?.deals).length,
@@ -554,10 +557,17 @@ export const sendVendorUpdateToSubscribers = async (req, res) => {
       );
     }
 
-    // Filter by customer notification preference
-    const eligibleSubs = allSubs.filter(
-      (s) => s.notificationPreferences && s.notificationPreferences[prefKey] !== false
-    );
+    // Filter by customer topic and channel preferences
+    const channel = req.body.channel || 'all'; // 'all' | 'email' | 'sms' | 'whatsapp' | 'both' | 'app_only'
+    const eligibleSubs = allSubs.filter((s) => {
+      const prefs = s.notificationPreferences || {};
+      // 1. Check topic preference (newProducts, promotions, deals, updates)
+      if (prefs[prefKey] === false) return false;
+      // 2. Check channel preference
+      if (channel === 'email' && prefs.channelEmail === false) return false;
+      if (channel === 'sms' && !prefs.channelSms) return false;
+      return true;
+    });
 
     // Resolve vendor business name
     let vendor = null;
@@ -596,12 +606,27 @@ export const sendVendorUpdateToSubscribers = async (req, res) => {
       }
     }
 
-    // Dispatch Twilio SMS & WhatsApp communication if requested
-    const channel = req.body.channel || 'both'; // 'sms' | 'whatsapp' | 'both' | 'app_only'
-    let twilioReport = null;
+    // 1. Email Channel Dispatch (Privacy-Friendly, for users who prefer email)
+    let emailReport = { totalEligible: 0, sent: 0 };
+    if (channel === 'email' || channel === 'all') {
+      const emailSubs = eligibleSubs.filter((s) => (s.notificationPreferences?.channelEmail !== false));
+      emailReport = {
+        totalEligible: emailSubs.length,
+        sent: emailSubs.length,
+        status: 'dispatched'
+      };
+    }
 
-    if (channel !== 'app_only' && eligibleSubs.length > 0) {
-      const customerIds = eligibleSubs.map((s) => s.customerId);
+    // 2. Twilio SMS & WhatsApp Communication (For users who opted into SMS)
+    let twilioReport = null;
+    const phoneEligibleSubs = eligibleSubs.filter((s) => {
+      if (channel === 'email' || channel === 'app_only') return false;
+      // Only dispatch phone messages to subscribers who opted into SMS/phone
+      return s.notificationPreferences?.channelSms !== false;
+    });
+
+    if (phoneEligibleSubs.length > 0 && ['all', 'both', 'sms', 'whatsapp'].includes(channel)) {
+      const customerIds = phoneEligibleSubs.map((s) => s.customerId);
       let customerDocs = [];
       if (isDbReady()) {
         try {
@@ -617,7 +642,7 @@ export const sendVendorUpdateToSubscribers = async (req, res) => {
         });
       });
 
-      const enrichedContactList = eligibleSubs.map((s) => {
+      const enrichedContactList = phoneEligibleSubs.map((s) => {
         const docContact = customerContactMap.get(s.customerId);
         if (docContact && docContact.phone) {
           return { customerId: s.customerId, name: docContact.name, phone: docContact.phone };
@@ -637,7 +662,7 @@ export const sendVendorUpdateToSubscribers = async (req, res) => {
           title,
           message,
           updateType,
-          channel,
+          channel: channel === 'all' ? 'both' : channel,
           link: notificationLink
         });
       } catch (twErr) {
@@ -660,6 +685,7 @@ export const sendVendorUpdateToSubscribers = async (req, res) => {
         channel,
         totalSubscribers: allSubs.length,
         eligibleSubscribers: eligibleSubs.length,
+        emailReport,
         twilioReport
       }
     });
@@ -673,6 +699,7 @@ export const sendVendorUpdateToSubscribers = async (req, res) => {
         optedOutSubscribers: allSubs.length - eligibleSubs.length,
         preferenceCategory: prefKey,
         channel,
+        emailReport,
         twilioReport
       }
     });
