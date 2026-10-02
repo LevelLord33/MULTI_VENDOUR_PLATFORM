@@ -28,7 +28,7 @@ export default function VendorProfile() {
   const navigate = useNavigate();
 
   // 1. useContext hooks
-  const { user, getVendorByIdOrSlug, followedVendors = [], toggleFollowVendor, customerLocation } = useAuth();
+  const { user, getVendorByIdOrSlug, followedVendors = [], toggleFollowVendor, customerLocation, updateCustomer } = useAuth();
   const { getApprovedProducts } = useProducts();
   const { addToCart, addBundleToCart } = useCart();
   const { getPromotionsByVendor, getFeaturedProducts } = useMarketing();
@@ -79,12 +79,19 @@ export default function VendorProfile() {
 
   const isFollowing = Array.isArray(followedVendors) && followedVendors.includes(vendor?.id);
   const [showSubModal, setShowSubModal] = useState(false);
+  const [subMobile, setSubMobile] = useState(user?.mobile || user?.phone || '');
   const [subPrefs, setSubPrefs] = useState({
     newProducts: true,
     promotions: true,
     deals: true,
     updates: true
   });
+
+  useEffect(() => {
+    if (user?.mobile || user?.phone) {
+      setSubMobile(user.mobile || user.phone);
+    }
+  }, [user?.mobile, user?.phone]);
 
   const handleToggleFollow = async (customPrefs = null) => {
     if (!vendor) return;
@@ -94,6 +101,9 @@ export default function VendorProfile() {
       addToast(`Unsubscribed from ${vendor.businessName}`, 'info');
     } else {
       const prefs = customPrefs || subPrefs;
+      if (subMobile && subMobile.trim() && updateCustomer) {
+        updateCustomer({ mobile: subMobile.trim() });
+      }
       await api.subscribeToVendor(vendor.id, prefs);
       if (!isFollowing) await toggleFollowVendor(vendor.id);
       addToast(`Subscribed to ${vendor.businessName}! You will receive eligible updates.`, 'success');
@@ -1498,9 +1508,29 @@ export default function VendorProfile() {
               </button>
             </div>
 
-            <p style={{ fontSize: '0.82rem', color: 'var(--text-secondary)', marginBottom: 16 }}>
+            <p style={{ fontSize: '0.82rem', color: 'var(--text-secondary)', marginBottom: 14 }}>
               Choose which notifications you would like to receive from {vendor.businessName}. You can change these anytime in your subscriber hub.
             </p>
+
+            {/* Mobile number for SMS alerts */}
+            <div style={{ marginBottom: 16, background: 'var(--surface-2)', padding: '12px 14px', borderRadius: 8, border: '1px solid var(--border)' }}>
+              <label style={{ display: 'block', fontSize: '0.82rem', fontWeight: 700, color: 'var(--text-primary)', marginBottom: 4 }}>
+                📱 Mobile Phone for SMS Updates
+              </label>
+              <div style={{ fontSize: '0.74rem', color: 'var(--text-muted)', marginBottom: 8 }}>
+                {!user?.mobile
+                  ? 'Enter your 10-digit mobile number to receive instant SMS & WhatsApp alerts for store deals.'
+                  : 'SMS notifications will be delivered to this number (update anytime):'}
+              </div>
+              <input
+                type="tel"
+                placeholder="10-digit mobile number (e.g. 9876543210)"
+                className="form-input"
+                style={{ background: 'var(--surface)', fontSize: '0.85rem' }}
+                value={subMobile}
+                onChange={(e) => setSubMobile(e.target.value)}
+              />
+            </div>
 
             <div style={{ display: 'flex', flexDirection: 'column', gap: 10, marginBottom: 20 }}>
               {[
