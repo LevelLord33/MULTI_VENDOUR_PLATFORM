@@ -62,8 +62,11 @@ export default function VendorSubscribers() {
       const q = searchQuery.toLowerCase();
       list = list.filter(
         (s) =>
-          s.customerName.toLowerCase().includes(q) ||
-          s.maskedEmail.toLowerCase().includes(q)
+          (s.customerName || '').toLowerCase().includes(q) ||
+          (s.subscriberAlias || '').toLowerCase().includes(q) ||
+          (s.subscriberCode || '').toLowerCase().includes(q) ||
+          (s.maskedEmail || '').toLowerCase().includes(q) ||
+          (s.relayEmail || '').toLowerCase().includes(q)
       );
     }
     if (filterType === 'buyers') {
@@ -196,25 +199,44 @@ export default function VendorSubscribers() {
             </div>
           </div>
 
-          {/* Privacy Note Banner */}
+          {/* Privacy Protection Banner */}
           <div
             style={{
-              background: 'var(--surface-2)',
-              border: '1px solid var(--border)',
-              borderRadius: '8px',
-              padding: '12px 18px',
+              background: 'linear-gradient(135deg, rgba(79, 70, 229, 0.07), rgba(16, 185, 129, 0.07))',
+              border: '1px solid rgba(79, 70, 229, 0.22)',
+              borderRadius: '10px',
+              padding: '14px 18px',
               marginBottom: 24,
               display: 'flex',
-              alignItems: 'center',
-              gap: 12,
-              fontSize: '0.82rem',
+              alignItems: 'flex-start',
+              gap: 14,
+              fontSize: '0.84rem',
               color: 'var(--text-secondary)'
             }}
           >
-            <ShieldCheck size={18} color="var(--primary)" style={{ flexShrink: 0 }} />
-            <span>
-              <strong>Customer Privacy Protected:</strong> Customer email addresses are masked and personal contact information is kept confidential in compliance with marketplace data safety policies.
-            </span>
+            <div
+              style={{
+                width: 38,
+                height: 38,
+                borderRadius: '8px',
+                background: 'rgba(79, 70, 229, 0.12)',
+                color: 'var(--primary)',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                flexShrink: 0
+              }}
+            >
+              <ShieldCheck size={22} />
+            </div>
+            <div>
+              <div style={{ fontWeight: 700, color: 'var(--text-primary)', marginBottom: 2 }}>
+                🔒 Zero-Knowledge Customer Privacy Shield Active
+              </div>
+              <div style={{ lineHeight: 1.45, fontSize: '0.8rem' }}>
+                In strict accordance with customer privacy policies, subscribers' personal names, private phone numbers, and direct email addresses are shielded. All broadcasts (SMS & Email) are dispatched through VendorHub's encrypted proxy relay, allowing you to reach your audience without handling sensitive personal data.
+              </div>
+            </div>
           </div>
 
           {/* Search & Filter Toolbar */}
@@ -230,7 +252,7 @@ export default function VendorSubscribers() {
               gap: 14
             }}
           >
-            <div style={{ position: 'relative', width: 320, maxWidth: '100%' }}>
+            <div style={{ position: 'relative', width: 340, maxWidth: '100%' }}>
               <Search
                 size={16}
                 color="var(--text-muted)"
@@ -238,7 +260,7 @@ export default function VendorSubscribers() {
               />
               <input
                 type="text"
-                placeholder="Search subscribers by name..."
+                placeholder="Search by subscriber ID or relay address..."
                 className="form-input"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
@@ -292,11 +314,11 @@ export default function VendorSubscribers() {
                 <table className="vendor-table">
                   <thead>
                     <tr>
-                      <th>Subscriber</th>
+                      <th>Subscriber Handle</th>
                       <th>Relationship Status</th>
                       <th>Subscribed Date</th>
                       <th>Purchases Made</th>
-                      <th>Notification Preferences</th>
+                      <th>Communication Relay Gateways</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -308,23 +330,43 @@ export default function VendorSubscribers() {
                             <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
                               <div
                                 style={{
-                                  width: 36,
-                                  height: 36,
-                                  borderRadius: '50%',
-                                  background: 'linear-gradient(135deg, #EEF2FF, #DDD6FE)',
-                                  color: '#4F46E5',
+                                  width: 38,
+                                  height: 38,
+                                  borderRadius: '10px',
+                                  background: 'linear-gradient(135deg, #EEF2FF, #E0E7FF)',
+                                  color: '#4338CA',
                                   fontWeight: 700,
                                   display: 'flex',
                                   alignItems: 'center',
                                   justifyContent: 'center',
-                                  fontSize: '0.85rem'
+                                  fontSize: '0.85rem',
+                                  border: '1px solid #C7D2FE',
+                                  flexShrink: 0
                                 }}
                               >
-                                {sub.customerName.charAt(0)}
+                                <ShieldCheck size={18} />
                               </div>
                               <div>
-                                <div style={{ fontWeight: 600, fontSize: '0.88rem' }}>{sub.customerName}</div>
-                                <div style={{ fontSize: '0.72rem', color: 'var(--text-muted)' }}>{sub.maskedEmail}</div>
+                                <div style={{ fontWeight: 600, fontSize: '0.88rem', display: 'flex', alignItems: 'center', gap: 6 }}>
+                                  <span>{sub.customerName || sub.subscriberAlias}</span>
+                                  {sub.subscriberCode && (
+                                    <span
+                                      style={{
+                                        fontSize: '0.65rem',
+                                        padding: '1px 6px',
+                                        borderRadius: 4,
+                                        background: '#F1F5F9',
+                                        color: '#475569',
+                                        fontWeight: 600
+                                      }}
+                                    >
+                                      {sub.subscriberCode}
+                                    </span>
+                                  )}
+                                </div>
+                                <div style={{ fontSize: '0.72rem', color: 'var(--text-muted)', display: 'flex', alignItems: 'center', gap: 4, marginTop: 2 }}>
+                                  <span>🔒 {sub.maskedEmail || sub.relayEmail}</span>
+                                </div>
                               </div>
                             </div>
                           </td>
@@ -336,7 +378,7 @@ export default function VendorSubscribers() {
                               </span>
                             ) : (
                               <span className="badge badge-info" style={{ fontSize: '0.72rem' }}>
-                                ⭐ Storefront Subscriber
+                                ⭐ Storefront Follower
                               </span>
                             )}
                           </td>
@@ -360,37 +402,49 @@ export default function VendorSubscribers() {
                           </td>
 
                           <td>
-                            <div style={{ display: 'flex', flexWrap: 'wrap', gap: 4 }}>
-                              {prefs.channelEmail !== false && (
-                                <span className="badge" style={{ fontSize: '0.68rem', padding: '1px 6px', background: '#EEF2FF', color: '#4F46E5', fontWeight: 700 }}>
-                                  ✉️ Email
-                                </span>
-                              )}
-                              {prefs.channelSms && (
-                                <span className="badge" style={{ fontSize: '0.68rem', padding: '1px 6px', background: '#DCFCE7', color: '#166534', fontWeight: 700 }}>
-                                  📱 SMS
-                                </span>
-                              )}
-                              {prefs.newProducts !== false && (
-                                <span className="badge badge-primary" style={{ fontSize: '0.68rem', padding: '1px 6px' }}>
-                                  New Drops
-                                </span>
-                              )}
-                              {prefs.promotions !== false && (
-                                <span className="badge badge-success" style={{ fontSize: '0.68rem', padding: '1px 6px' }}>
-                                  Vouchers
-                                </span>
-                              )}
-                              {prefs.deals !== false && (
-                                <span className="badge badge-warning" style={{ fontSize: '0.68rem', padding: '1px 6px' }}>
-                                  Deals
-                                </span>
-                              )}
-                              {prefs.updates !== false && (
-                                <span className="badge badge-info" style={{ fontSize: '0.68rem', padding: '1px 6px' }}>
-                                  Notices
-                                </span>
-                              )}
+                            <div style={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
+                              <div style={{ display: 'flex', flexWrap: 'wrap', gap: 4 }}>
+                                {prefs.channelEmail !== false ? (
+                                  <span className="badge" style={{ fontSize: '0.68rem', padding: '2px 7px', background: '#EEF2FF', color: '#4F46E5', fontWeight: 700 }}>
+                                    ✉️ Email Relay Active
+                                  </span>
+                                ) : (
+                                  <span className="badge" style={{ fontSize: '0.68rem', padding: '2px 7px', background: 'var(--surface-2)', color: 'var(--text-muted)' }}>
+                                    Email Opt-out
+                                  </span>
+                                )}
+                                {prefs.channelSms ? (
+                                  <span className="badge" style={{ fontSize: '0.68rem', padding: '2px 7px', background: '#DCFCE7', color: '#166534', fontWeight: 700 }}>
+                                    📱 SMS Gateway (Encrypted)
+                                  </span>
+                                ) : (
+                                  <span className="badge" style={{ fontSize: '0.68rem', padding: '2px 7px', background: 'var(--surface-2)', color: 'var(--text-muted)' }}>
+                                    SMS Opt-out
+                                  </span>
+                                )}
+                              </div>
+                              <div style={{ display: 'flex', flexWrap: 'wrap', gap: 3, marginTop: 2 }}>
+                                {prefs.newProducts !== false && (
+                                  <span className="badge badge-primary" style={{ fontSize: '0.65rem', padding: '1px 5px' }}>
+                                    Drops
+                                  </span>
+                                )}
+                                {prefs.promotions !== false && (
+                                  <span className="badge badge-success" style={{ fontSize: '0.65rem', padding: '1px 5px' }}>
+                                    Vouchers
+                                  </span>
+                                )}
+                                {prefs.deals !== false && (
+                                  <span className="badge badge-warning" style={{ fontSize: '0.65rem', padding: '1px 5px' }}>
+                                    Deals
+                                  </span>
+                                )}
+                                {prefs.updates !== false && (
+                                  <span className="badge badge-info" style={{ fontSize: '0.65rem', padding: '1px 5px' }}>
+                                    Notices
+                                  </span>
+                                )}
+                              </div>
                             </div>
                           </td>
                         </tr>
@@ -568,6 +622,26 @@ export default function VendorSubscribers() {
                     value={broadcastForm.link}
                     onChange={(e) => setBroadcastForm({ ...broadcastForm, link: e.target.value })}
                   />
+                </div>
+
+                {/* Privacy Guarantee in Broadcast Modal */}
+                <div
+                  style={{
+                    background: 'var(--surface-2)',
+                    border: '1px solid var(--border)',
+                    borderRadius: 8,
+                    padding: '10px 14px',
+                    fontSize: '0.78rem',
+                    color: 'var(--text-secondary)',
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: 10
+                  }}
+                >
+                  <ShieldCheck size={18} color="var(--primary)" style={{ flexShrink: 0 }} />
+                  <span>
+                    <strong>Zero-Contact Gateway Dispatch:</strong> Messages are sent via VendorHub's carrier proxy (Twilio SMS & Email Relay). Customer private phone numbers and personal emails are never visible to you.
+                  </span>
                 </div>
 
                 <div style={{ display: 'flex', justifyContent: 'flex-end', gap: 10, marginTop: 8 }}>

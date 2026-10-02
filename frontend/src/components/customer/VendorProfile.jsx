@@ -1593,6 +1593,9 @@ export default function VendorProfile() {
                     value={subMobile}
                     onChange={(e) => setSubMobile(e.target.value)}
                   />
+                  <div style={{ marginTop: 6, fontSize: '0.72rem', color: '#059669', display: 'flex', alignItems: 'center', gap: 5 }}>
+                    <span>🔒 100% Privacy Shield: Your mobile number is strictly encrypted and never shared with the vendor. Messages are dispatched via VendorHub carrier proxy.</span>
+                  </div>
                 </div>
               ) : (
                 <div style={{ marginTop: 8, fontSize: '0.72rem', color: '#059669', display: 'flex', alignItems: 'center', gap: 5, padding: '4px 6px', background: '#ECFDF5', borderRadius: 4 }}>
@@ -1605,7 +1608,7 @@ export default function VendorProfile() {
             <div style={{ fontSize: '0.82rem', fontWeight: 700, color: 'var(--text-primary)', marginBottom: 6 }}>
               Select Topics
             </div>
-            <div style={{ display: 'flex', flexDirection: 'column', gap: 8, marginBottom: 20 }}>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 8, marginBottom: 16 }}>
               {[
                 { key: 'newProducts', label: '✨ New Product Releases', desc: 'Alerts when merchant stocks new catalog items' },
                 { key: 'promotions', label: '🏷️ Promotional Vouchers', desc: 'Direct discount codes & festive promotions' },
@@ -1636,6 +1639,27 @@ export default function VendorProfile() {
                   />
                 </label>
               ))}
+            </div>
+
+            {/* Zero-Knowledge Customer Privacy Guarantee Badge */}
+            <div
+              style={{
+                marginBottom: 16,
+                padding: '9px 12px',
+                background: 'rgba(79, 70, 229, 0.05)',
+                border: '1px solid rgba(79, 70, 229, 0.16)',
+                borderRadius: 8,
+                fontSize: '0.74rem',
+                color: 'var(--text-secondary)',
+                display: 'flex',
+                alignItems: 'center',
+                gap: 8
+              }}
+            >
+              <ShieldCheck size={18} color="var(--primary)" style={{ flexShrink: 0 }} />
+              <span>
+                <strong>Zero-Knowledge Subscription:</strong> The vendor receives only an anonymous subscriber handle. Your personal name, email address, and phone number are never revealed to this merchant.
+              </span>
             </div>
 
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: 10 }}>

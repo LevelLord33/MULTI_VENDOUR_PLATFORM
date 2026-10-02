@@ -315,6 +315,10 @@ export default function CustomerSubscriptions() {
                           </span>
                         </div>
                       )}
+                      <div style={{ display: 'flex', alignItems: 'center', gap: 5, marginTop: 6, paddingTop: 6, borderTop: '1px dashed var(--border)', fontSize: '0.72rem', color: '#059669', fontWeight: 500 }}>
+                        <ShieldCheck size={13} style={{ flexShrink: 0 }} />
+                        <span>Private Relay: Your personal email and phone number are hidden from this vendor</span>
+                      </div>
                     </div>
 
                     {/* Notification Preferences Section */}
