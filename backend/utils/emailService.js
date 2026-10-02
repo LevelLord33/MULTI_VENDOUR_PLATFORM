@@ -13,9 +13,10 @@ export const getMailTransporter = async () => {
   if (cachedTransporter) return cachedTransporter;
 
   const host = process.env.SMTP_HOST;
-  const port = process.env.SMTP_PORT ? Number(process.env.SMTP_PORT) : 587;
-  const user = process.env.SMTP_USER || process.env.EMAIL_USER;
-  const pass = process.env.SMTP_PASS || process.env.EMAIL_PASS || process.env.EMAIL_APP_PASSWORD;
+  const port = process.env.SMTP_PORT ? Number(process.env.SMTP_PORT) : 465;
+  const user = (process.env.SMTP_USER || process.env.EMAIL_USER || '').trim().replace(/["']/g, '');
+  const rawPass = process.env.SMTP_PASS || process.env.EMAIL_PASS || process.env.EMAIL_APP_PASSWORD || '';
+  const pass = rawPass.replace(/["'\s]/g, '').trim();
 
   if (user && pass) {
     if (host) {
@@ -26,9 +27,11 @@ export const getMailTransporter = async () => {
         auth: { user, pass }
       });
     } else {
-      // Default to Gmail service if user is a gmail address
+      // Connect to Google SMTP on port 465 (SSL)
       cachedTransporter = nodemailer.createTransport({
-        service: 'gmail',
+        host: 'smtp.gmail.com',
+        port: 465,
+        secure: true,
         auth: { user, pass }
       });
     }
