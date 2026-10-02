@@ -5,6 +5,7 @@ import Order from '../models/Order.js';
 import Notification from '../models/Notification.js';
 import { logActivity } from '../utils/activityLogger.js';
 import { sendSubscriberBroadcastTwilio } from '../utils/twilioService.js';
+import { sendSubscriberBroadcastEmail } from '../utils/emailService.js';
 import { seedVendors, seedCustomers, seedOrders } from '../data/seedData.js';
 
 const isDbReady = () => mongoose.connection.readyState === 1;
@@ -475,7 +476,7 @@ export const getVendorSubscribers = async (req, res) => {
       const hasPurchased = Boolean(purchaseInfo && purchaseInfo.count > 0);
 
       enrichedSubscribers.push({
-        id: sub.id,
+        id: `sub_${code}`,
         subscriberId: `sub_${code}`,
         customerName: alias,
         subscriberAlias: alias,
@@ -620,15 +621,52 @@ export const sendVendorUpdateToSubscribers = async (req, res) => {
       }
     }
 
-    // 1. Email Channel Dispatch (Privacy-Friendly, for users who prefer email)
-    let emailReport = { totalEligible: 0, sent: 0 };
+    // 1. Email Channel Dispatch (Privacy-Friendly via VendorHub Private Relay)
+    let emailReport = { totalEligible: 0, sent: 0, previewUrls: [] };
     if (channel === 'email' || channel === 'all') {
       const emailSubs = eligibleSubs.filter((s) => (s.notificationPreferences?.channelEmail !== false));
-      emailReport = {
-        totalEligible: emailSubs.length,
-        sent: emailSubs.length,
-        status: 'dispatched'
-      };
+      if (emailSubs.length > 0) {
+        const emailCustomerIds = emailSubs.map((s) => s.customerId);
+        let emailCustomers = [];
+        if (isDbReady()) {
+          try {
+            emailCustomers = await User.find({ id: { $in: emailCustomerIds } }).lean();
+          } catch (e) {}
+        }
+
+        const emailMap = new Map();
+        emailCustomers.forEach((c) => {
+          if (c.email) emailMap.set(c.id, c.email);
+        });
+
+        const previewUrls = [];
+        let sentCount = 0;
+        for (const sub of emailSubs) {
+          const custEmail = emailMap.get(sub.customerId) || seedCustomers.find((c) => c.id === sub.customerId)?.email;
+          if (custEmail) {
+            const result = await sendSubscriberBroadcastEmail({
+              vendor,
+              toEmail: custEmail,
+              subscriberAlias: `Subscriber #${String(sub.id || sub.customerId).replace(/[^a-zA-Z0-9]/g, '').slice(-4).toUpperCase()}`,
+              title,
+              message,
+              updateType,
+              link: notificationLink
+            });
+            if (result.success) {
+              sentCount++;
+              if (result.previewUrl) previewUrls.push(result.previewUrl);
+            }
+          }
+        }
+
+        emailReport = {
+          totalEligible: emailSubs.length,
+          sent: sentCount,
+          previewUrls,
+          status: 'dispatched'
+        };
+      }
     }
 
     // 2. Twilio SMS & WhatsApp Communication (For users who opted into SMS)
