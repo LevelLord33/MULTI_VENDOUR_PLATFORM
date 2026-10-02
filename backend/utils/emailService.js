@@ -130,8 +130,9 @@ export const sendSubscriberBroadcastEmail = async ({
       </html>
     `;
 
+    const senderEmail = process.env.EMAIL_FROM || process.env.EMAIL_USER || process.env.SMTP_USER || 'relay@vendorhub.in';
     const info = await transporter.sendMail({
-      from: `"${vendorName} via VendorHub" <${process.env.EMAIL_FROM || 'relay@vendorhub.in'}>`,
+      from: `"${vendorName} via VendorHub" <${senderEmail}>`,
       to: toEmail,
       subject: `[${vendorName}] ${title}`,
       text: `${title}\n\n${message}\n\nVisit store: ${storeUrl}\n\n(Your personal email is hidden from the merchant via VendorHub Private Relay)`,
