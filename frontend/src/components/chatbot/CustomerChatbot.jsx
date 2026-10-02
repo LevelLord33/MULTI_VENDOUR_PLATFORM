@@ -1,12 +1,12 @@
 import { useState, useRef, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { useChatbot } from '../../contexts/ChatbotContext';
 import { useAuth } from '../../contexts/AuthContext';
 import {
   MessageSquare, X, Send, Bot, Sparkles, ChevronDown,
   RotateCcw, Trash2, Package, Truck, ShieldCheck, Key,
   ExternalLink, Copy, Check, ArrowRight, Store, HelpCircle,
-  Ticket, Tag
+  Ticket, Tag, Maximize2
 } from 'lucide-react';
 import '../../styles/marketplace.css';
 
@@ -15,6 +15,8 @@ export default function CustomerChatbot() {
     isOpen,
     isTyping,
     messages,
+    activeRole,
+    switchRole,
     toggleChatbot,
     closeChatbot,
     clearHistory,
@@ -22,6 +24,11 @@ export default function CustomerChatbot() {
   } = useChatbot();
   const { user } = useAuth();
   const navigate = useNavigate();
+  const location = useLocation();
+
+  if (location.pathname.startsWith('/admin')) {
+    return null;
+  }
 
   const [inputVal, setInputVal] = useState('');
   const [copiedCode, setCopiedCode] = useState(null);
@@ -69,7 +76,7 @@ export default function CustomerChatbot() {
     setTimeout(() => setCopiedCode(null), 2000);
   };
 
-  const quickTopics = [
+  const customerQuickTopics = [
     { label: '📦 Track Order', prompt: 'Track my recent order' },
     { label: '🏷️ Active Coupons', prompt: 'Show active discount coupons and promo codes' },
     { label: '🔑 Delivery OTP', prompt: 'How does doorstep Cash on Delivery OTP work?' },
@@ -83,6 +90,20 @@ export default function CustomerChatbot() {
     { label: '📞 Support Helpline', prompt: 'What is the customer support phone number and helpline?' }
   ];
 
+  const vendorQuickTopics = [
+    { label: '➕ Add Product', prompt: 'How do I add a new physical product with SKU, HSN, and GST?' },
+    { label: '🚚 Fulfill Orders', prompt: 'How do I process orders, print labels, and assign courier waybills?' },
+    { label: '💎 Vendor Plans', prompt: 'What are the vendor subscription plans and commission rates?' },
+    { label: '💰 Payouts (T+3)', prompt: 'When will I receive payouts and how does bank settlement work?' },
+    { label: '📄 GST Invoices', prompt: 'How do GST invoices and automated Twilio WhatsApp alerts work?' },
+    { label: '📣 Marketing & Promos', prompt: 'How can I create promotional coupons and boost listings?' },
+    { label: '📦 Stock Alerts', prompt: 'How do inventory alerts work to prevent out-of-stock penalties?' },
+    { label: '⚠️ Return Claims', prompt: 'How do vendors handle customer returns and dispute claims?' },
+    { label: '🎨 Store Builder', prompt: 'How do I customize my store banner, logo, and operating hours?' }
+  ];
+
+  const currentTopics = activeRole === 'vendor' ? vendorQuickTopics : customerQuickTopics;
+
   // Helper to format bot markdown-like text
   const renderFormattedText = (rawText) => {
     if (!rawText) return null;
@@ -91,7 +112,10 @@ export default function CustomerChatbot() {
     return lines.map((line, idx) => {
       // Bold tags
       const formatted = line.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
-      const withCode = formatted.replace(/`([^`]+)`/g, '<code style="background:rgba(0,0,0,0.06);padding:2px 6px;border-radius:4px;font-family:monospace;font-weight:700;">$1</code>');
+      const withCode = formatted.replace(
+        /`([^`]+)`/g,
+        '<code style="background:rgba(0,0,0,0.06);padding:2px 6px;border-radius:4px;font-family:monospace;font-weight:700;">$1</code>'
+      );
 
       if (line.trim().startsWith('• ') || line.trim().startsWith('* ')) {
         return (
@@ -138,7 +162,7 @@ export default function CustomerChatbot() {
             position: 'absolute',
             bottom: 74,
             right: 0,
-            width: 270,
+            width: 280,
             background: 'var(--surface)',
             border: '1px solid var(--border)',
             borderRadius: 14,
@@ -152,10 +176,10 @@ export default function CustomerChatbot() {
         >
           <div
             style={{
-              width: 32,
-              height: 32,
+              width: 34,
+              height: 34,
               borderRadius: 8,
-              background: 'var(--primary)',
+              background: activeRole === 'vendor' ? '#10B981' : 'var(--primary)',
               color: 'white',
               display: 'flex',
               alignItems: 'center',
@@ -163,15 +187,26 @@ export default function CustomerChatbot() {
               flexShrink: 0
             }}
           >
-            <Sparkles size={16} />
+            <Bot size={19} />
           </div>
           <div style={{ flex: 1 }}>
-            <div style={{ fontSize: '0.84rem', fontWeight: 700, color: 'var(--text-primary)' }}>
-              Need order or delivery help?
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 2 }}>
+              <span style={{ fontWeight: 800, fontSize: '0.82rem', color: 'var(--text-primary)' }}>
+                {activeRole === 'vendor' ? 'HubBot Vendor Co-Pilot' : 'HubBot Assistant'}
+              </span>
+              <button
+                type="button"
+                onClick={() => setShowTeaser(false)}
+                style={{ background: 'none', border: 'none', color: 'var(--text-muted)', cursor: 'pointer', padding: 0 }}
+              >
+                <X size={13} />
+              </button>
             </div>
-            <div style={{ fontSize: '0.74rem', color: 'var(--text-muted)', marginTop: 2 }}>
-              Ask <strong>HubBot</strong> for live courier tracking, doorstep OTP & return assistance!
-            </div>
+            <p style={{ margin: 0, fontSize: '0.74rem', color: 'var(--text-secondary)', lineHeight: 1.35 }}>
+              {activeRole === 'vendor'
+                ? 'Need help with product listing, courier waybills, or payout settlements?'
+                : 'Need help with orders, active coupons, or delivery OTPs?'}
+            </p>
             <button
               type="button"
               onClick={toggleChatbot}
@@ -179,68 +214,62 @@ export default function CustomerChatbot() {
                 marginTop: 6,
                 background: 'none',
                 border: 'none',
-                padding: 0,
-                color: 'var(--primary)',
+                color: activeRole === 'vendor' ? '#10B981' : 'var(--primary)',
                 fontWeight: 700,
-                fontSize: '0.78rem',
+                fontSize: '0.74rem',
                 cursor: 'pointer',
                 display: 'inline-flex',
                 alignItems: 'center',
-                gap: 4
+                gap: 4,
+                padding: 0
               }}
             >
-              Start Chat <ArrowRight size={12} />
+              <span>Chat now</span>
+              <ArrowRight size={12} />
             </button>
           </div>
-          <button
-            type="button"
-            onClick={() => setShowTeaser(false)}
-            style={{ background: 'none', border: 'none', cursor: 'pointer', color: 'var(--text-muted)', padding: 0 }}
-          >
-            <X size={14} />
-          </button>
         </div>
       )}
 
-      {/* ── FLOATING LAUNCHER BUTTON ── */}
+      {/* ── FLOATING TRIGGER LAUNCHER BUTTON ── */}
       {!isOpen && (
         <button
           type="button"
           onClick={toggleChatbot}
-          aria-label="Open Customer Support Chatbot"
+          title="Open Hub Assistant"
+          aria-label="Open AI Assistant"
           style={{
-            width: 60,
-            height: 60,
+            width: 58,
+            height: 58,
             borderRadius: '50%',
-            background: 'linear-gradient(135deg, #4F46E5 0%, #7C3AED 100%)',
+            background: activeRole === 'vendor' ? 'linear-gradient(135deg, #10B981 0%, #059669 100%)' : 'linear-gradient(135deg, var(--primary) 0%, #7C3AED 100%)',
             color: 'white',
-            border: '3px solid rgba(255,255,255,0.8)',
-            boxShadow: '0 8px 24px rgba(79, 70, 229, 0.45)',
+            border: '2px solid rgba(255,255,255,0.4)',
+            boxShadow: '0 8px 24px rgba(79, 70, 229, 0.4)',
+            cursor: 'pointer',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
-            cursor: 'pointer',
-            position: 'relative',
-            transition: 'transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.2s ease'
+            transition: 'all 0.2s cubic-bezier(0.4, 0, 0.2, 1)',
+            position: 'relative'
           }}
           onMouseOver={(e) => {
-            e.currentTarget.style.transform = 'scale(1.08)';
-            e.currentTarget.style.boxShadow = '0 12px 30px rgba(79, 70, 229, 0.6)';
+            e.currentTarget.style.transform = 'scale(1.08) translateY(-2px)';
+            e.currentTarget.style.boxShadow = '0 12px 28px rgba(79, 70, 229, 0.5)';
           }}
           onMouseOut={(e) => {
-            e.currentTarget.style.transform = 'scale(1)';
-            e.currentTarget.style.boxShadow = '0 8px 24px rgba(79, 70, 229, 0.45)';
+            e.currentTarget.style.transform = 'scale(1) translateY(0)';
+            e.currentTarget.style.boxShadow = '0 8px 24px rgba(79, 70, 229, 0.4)';
           }}
         >
-          <Bot size={28} />
-          {/* Green active dot */}
+          <Bot size={26} />
           <span
             style={{
               position: 'absolute',
               top: 2,
               right: 2,
-              width: 14,
-              height: 14,
+              width: 13,
+              height: 13,
               borderRadius: '50%',
               background: '#10B981',
               border: '2px solid white'
@@ -249,42 +278,42 @@ export default function CustomerChatbot() {
         </button>
       )}
 
-      {/* ── CHAT WINDOW ── */}
+      {/* ── EXPANDED CHAT WINDOW ── */}
       {isOpen && (
         <div
           style={{
-            width: 400,
+            width: 410,
             maxWidth: 'calc(100vw - 32px)',
-            height: 570,
-            maxHeight: 'calc(100vh - 40px)',
+            height: 620,
+            maxHeight: 'calc(100vh - 100px)',
             background: 'var(--surface)',
             border: '1px solid var(--border)',
-            borderRadius: 20,
-            boxShadow: '0 20px 45px rgba(0,0,0,0.22)',
+            borderRadius: 18,
+            boxShadow: '0 16px 48px rgba(0,0,0,0.22)',
             display: 'flex',
             flexDirection: 'column',
             overflow: 'hidden',
-            animation: 'fadeIn 0.2s ease-out'
+            animation: 'slideUpModal 0.25s cubic-bezier(0.16, 1, 0.3, 1)'
           }}
         >
-          {/* ── CHAT HEADER ── */}
+          {/* ── TOP HEADER ── */}
           <div
             style={{
-              padding: '14px 18px',
-              background: 'linear-gradient(135deg, #4F46E5 0%, #6366F1 100%)',
+              padding: '12px 16px',
+              background: activeRole === 'vendor' ? 'linear-gradient(135deg, #10B981 0%, #059669 100%)' : 'linear-gradient(135deg, var(--primary) 0%, #7C3AED 100%)',
               color: 'white',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'space-between',
-              boxShadow: '0 2px 10px rgba(0,0,0,0.1)'
+              boxShadow: '0 2px 8px rgba(0,0,0,0.1)'
             }}
           >
             <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
               <div
                 style={{
-                  width: 38,
-                  height: 38,
-                  borderRadius: 12,
+                  width: 36,
+                  height: 36,
+                  borderRadius: 10,
                   background: 'rgba(255,255,255,0.2)',
                   display: 'flex',
                   alignItems: 'center',
@@ -293,14 +322,14 @@ export default function CustomerChatbot() {
                   position: 'relative'
                 }}
               >
-                <Bot size={22} />
+                <Bot size={20} />
                 <span
                   style={{
                     position: 'absolute',
                     bottom: -1,
                     right: -1,
-                    width: 10,
-                    height: 10,
+                    width: 9,
+                    height: 9,
                     borderRadius: '50%',
                     background: '#10B981',
                     border: '2px solid white'
@@ -310,29 +339,47 @@ export default function CustomerChatbot() {
 
               <div>
                 <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
-                  <span style={{ fontWeight: 800, fontSize: '0.96rem', letterSpacing: '0.01em' }}>
-                    HubBot Support
+                  <span style={{ fontWeight: 800, fontSize: '0.92rem', letterSpacing: '0.01em' }}>
+                    HubBot AI
                   </span>
                   <span
                     style={{
-                      fontSize: '0.66rem',
+                      fontSize: '0.64rem',
                       background: 'rgba(255,255,255,0.25)',
                       padding: '1px 6px',
                       borderRadius: 4,
                       fontWeight: 700
                     }}
                   >
-                    AI Assistant
+                    {activeRole === 'vendor' ? 'Vendor Co-Pilot' : 'Concierge'}
                   </span>
                 </div>
-                <div style={{ fontSize: '0.74rem', opacity: 0.9 }}>
-                  Online • Verified Marketplace Help
+                <div style={{ fontSize: '0.72rem', opacity: 0.9 }}>
+                  Online • {activeRole === 'vendor' ? 'Merchant Business Ops' : 'Verified Shopping Help'}
                 </div>
               </div>
             </div>
 
             {/* Header Actions */}
-            <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 5 }}>
+              <button
+                type="button"
+                onClick={() => {
+                  closeChatbot();
+                  navigate('/assistant');
+                }}
+                title="Open In Full Page"
+                style={{
+                  background: 'rgba(255,255,255,0.15)',
+                  border: 'none',
+                  borderRadius: 6,
+                  color: 'white',
+                  cursor: 'pointer',
+                  padding: '5px 7px'
+                }}
+              >
+                <Maximize2 size={14} />
+              </button>
               <button
                 type="button"
                 onClick={clearHistory}
@@ -346,7 +393,7 @@ export default function CustomerChatbot() {
                   padding: '5px 7px'
                 }}
               >
-                <Trash2 size={15} />
+                <Trash2 size={14} />
               </button>
               <button
                 type="button"
@@ -361,7 +408,60 @@ export default function CustomerChatbot() {
                   padding: '5px 7px'
                 }}
               >
-                <ChevronDown size={17} />
+                <ChevronDown size={16} />
+              </button>
+            </div>
+          </div>
+
+          {/* ── ROLE SWITCHER STRIP ── */}
+          <div
+            style={{
+              padding: '6px 12px',
+              background: 'var(--surface-2)',
+              borderBottom: '1px solid var(--border)',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'space-between',
+              gap: 8
+            }}
+          >
+            <span style={{ fontSize: '0.7rem', fontWeight: 700, color: 'var(--text-muted)' }}>
+              Mode:
+            </span>
+            <div style={{ display: 'inline-flex', background: 'var(--surface)', borderRadius: 16, padding: 2, border: '1px solid var(--border)' }}>
+              <button
+                type="button"
+                onClick={() => switchRole('customer')}
+                style={{
+                  padding: '3px 10px',
+                  borderRadius: 14,
+                  border: 'none',
+                  fontSize: '0.7rem',
+                  fontWeight: 700,
+                  cursor: 'pointer',
+                  background: activeRole === 'customer' ? 'var(--primary)' : 'transparent',
+                  color: activeRole === 'customer' ? 'white' : 'var(--text-muted)',
+                  transition: 'all 0.15s ease'
+                }}
+              >
+                🛍️ Customer
+              </button>
+              <button
+                type="button"
+                onClick={() => switchRole('vendor')}
+                style={{
+                  padding: '3px 10px',
+                  borderRadius: 14,
+                  border: 'none',
+                  fontSize: '0.7rem',
+                  fontWeight: 700,
+                  cursor: 'pointer',
+                  background: activeRole === 'vendor' ? '#10B981' : 'transparent',
+                  color: activeRole === 'vendor' ? 'white' : 'var(--text-muted)',
+                  transition: 'all 0.15s ease'
+                }}
+              >
+                🏪 Vendor
               </button>
             </div>
           </div>
@@ -378,7 +478,7 @@ export default function CustomerChatbot() {
               scrollbarWidth: 'none'
             }}
           >
-            {quickTopics.map((item, idx) => (
+            {currentTopics.map((item, idx) => (
               <button
                 key={idx}
                 type="button"
@@ -388,7 +488,7 @@ export default function CustomerChatbot() {
                   borderRadius: 20,
                   background: 'var(--surface)',
                   border: '1px solid var(--border)',
-                  fontSize: '0.74rem',
+                  fontSize: '0.72rem',
                   fontWeight: 600,
                   color: 'var(--text-secondary)',
                   cursor: 'pointer',
@@ -399,8 +499,8 @@ export default function CustomerChatbot() {
                   transition: 'all 0.15s ease'
                 }}
                 onMouseOver={(e) => {
-                  e.currentTarget.style.borderColor = 'var(--primary)';
-                  e.currentTarget.style.color = 'var(--primary)';
+                  e.currentTarget.style.borderColor = activeRole === 'vendor' ? '#10B981' : 'var(--primary)';
+                  e.currentTarget.style.color = activeRole === 'vendor' ? '#10B981' : 'var(--primary)';
                 }}
                 onMouseOut={(e) => {
                   e.currentTarget.style.borderColor = 'var(--border)';
@@ -441,7 +541,7 @@ export default function CustomerChatbot() {
                   {/* Sender label */}
                   <div
                     style={{
-                      fontSize: '0.7rem',
+                      fontSize: '0.68rem',
                       color: 'var(--text-muted)',
                       marginBottom: 3,
                       display: 'flex',
@@ -449,74 +549,81 @@ export default function CustomerChatbot() {
                       gap: 4
                     }}
                   >
-                    {isBot && <Bot size={11} color="var(--primary)" />}
-                    <span>{isBot ? 'HubBot' : user?.fullName || 'You'}</span>
+                    {isBot ? (
+                      <>
+                        <Bot size={12} color="var(--primary)" />
+                        <span style={{ fontWeight: 700 }}>
+                          {msg.role === 'vendor' ? 'HubBot Vendor Co-Pilot' : 'HubBot Concierge'}
+                        </span>
+                      </>
+                    ) : (
+                      <span style={{ fontWeight: 700 }}>You</span>
+                    )}
+                    <span>•</span>
+                    <span>{new Date(msg.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</span>
                   </div>
 
                   {/* Message Bubble */}
                   <div
                     style={{
                       padding: '10px 14px',
-                      borderRadius: isBot ? '14px 14px 14px 2px' : '14px 14px 2px 14px',
+                      borderRadius: isBot ? '4px 14px 14px 14px' : '14px 4px 14px 14px',
                       background: isBot ? 'var(--surface-2)' : 'var(--primary)',
                       color: isBot ? 'var(--text-primary)' : 'white',
-                      border: isBot ? '1px solid var(--border)' : 'none',
                       fontSize: '0.84rem',
-                      lineHeight: 1.5,
-                      boxShadow: '0 2px 5px rgba(0,0,0,0.04)'
+                      lineHeight: 1.45,
+                      boxShadow: '0 1px 4px rgba(0,0,0,0.04)',
+                      border: isBot ? '1px solid var(--border)' : 'none',
+                      wordBreak: 'break-word'
                     }}
                   >
                     {renderFormattedText(msg.text)}
                   </div>
 
-                  {/* ── ACTION CARDS (Order or Product preview) ── */}
-                  {msg.actionCards?.length > 0 && (
-                    <div style={{ width: '100%', marginTop: 8, display: 'flex', flexDirection: 'column', gap: 8 }}>
+                  {/* ── ACTION CARDS ── */}
+                  {isBot && msg.actionCards?.length > 0 && (
+                    <div style={{ display: 'flex', flexDirection: 'column', gap: 8, marginTop: 8, width: '100%' }}>
                       {msg.actionCards.map((card, cIdx) => {
                         if (card.type === 'order_card') {
                           return (
                             <div
                               key={cIdx}
                               style={{
-                                background: 'var(--surface)',
+                                background: 'var(--surface-2)',
                                 border: '1px solid var(--border)',
                                 borderRadius: 10,
-                                padding: 10,
-                                boxShadow: '0 3px 10px rgba(0,0,0,0.06)'
+                                padding: '10px 12px',
+                                boxShadow: '0 2px 6px rgba(0,0,0,0.03)'
                               }}
                             >
-                              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 6 }}>
-                                <span style={{ fontWeight: 800, fontSize: '0.82rem', color: 'var(--text-primary)' }}>
+                              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 4 }}>
+                                <span style={{ fontWeight: 800, fontSize: '0.8rem' }}>
                                   Order #{card.orderId}
                                 </span>
                                 <span
                                   style={{
                                     fontSize: '0.68rem',
-                                    fontWeight: 700,
-                                    padding: '2px 6px',
+                                    padding: '1px 6px',
                                     borderRadius: 4,
-                                    background: card.status === 'Delivered' ? '#DCFCE7' : '#FEF3C7',
-                                    color: card.status === 'Delivered' ? '#166534' : '#92400E'
+                                    fontWeight: 700,
+                                    background: card.status === 'Delivered' ? 'rgba(16, 185, 129, 0.15)' : 'rgba(79, 70, 229, 0.15)',
+                                    color: card.status === 'Delivered' ? '#10B981' : 'var(--primary)'
                                   }}
                                 >
                                   {card.status}
                                 </span>
                               </div>
-
-                              <div style={{ fontSize: '0.74rem', color: 'var(--text-muted)', marginBottom: 6 }}>
-                                <div>Courier: <strong>{card.courierPartner}</strong></div>
-                                <div>Waybill: <code>{card.trackingNumber}</code></div>
+                              <div style={{ fontSize: '0.74rem', color: 'var(--text-muted)', marginBottom: 4 }}>
+                                {card.courierPartner} • Tracking: <code style={{ fontWeight: 700 }}>{card.trackingNumber}</code>
                               </div>
-
                               {card.deliveryOtp && (
                                 <div
                                   style={{
-                                    padding: '6px 8px',
-                                    background: '#F0FDF4',
-                                    border: '1px dashed #22C55E',
+                                    padding: '4px 8px',
+                                    background: 'rgba(16, 185, 129, 0.1)',
                                     borderRadius: 6,
-                                    fontSize: '0.74rem',
-                                    color: '#15803D',
+                                    fontSize: '0.72rem',
+                                    color: '#059669',
                                     fontWeight: 700,
                                     display: 'flex',
                                     justifyContent: 'space-between',
@@ -528,7 +635,6 @@ export default function CustomerChatbot() {
                                   <code style={{ fontSize: '0.86rem', letterSpacing: 2 }}>{card.deliveryOtp}</code>
                                 </div>
                               )}
-
                               <button
                                 type="button"
                                 className="btn btn-outline btn-sm"
@@ -626,22 +732,19 @@ export default function CustomerChatbot() {
                                     cursor: 'pointer',
                                     display: 'inline-flex',
                                     alignItems: 'center',
-                                    gap: 4,
-                                    transition: 'all 0.15s ease'
+                                    gap: 4
                                   }}
                                 >
                                   {isCopied ? <Check size={11} /> : <Copy size={11} />}
                                   <span>{isCopied ? 'Copied!' : card.code}</span>
                                 </button>
                               </div>
-
                               <div style={{ fontWeight: 700, fontSize: '0.8rem', color: 'var(--text-primary)', marginTop: 4 }}>
                                 {card.title}
                               </div>
                               <div style={{ fontSize: '0.72rem', color: 'var(--text-muted)', marginTop: 2 }}>
                                 {card.description || `Min order: ₹${(card.minOrderValue || 0).toLocaleString('en-IN')}`}
                               </div>
-
                               <div style={{ display: 'flex', justifyContent: 'flex-end', marginTop: 6 }}>
                                 <button
                                   type="button"
@@ -670,6 +773,57 @@ export default function CustomerChatbot() {
                           );
                         }
 
+                        if (card.type === 'navigation_card') {
+                          return (
+                            <div
+                              key={cIdx}
+                              style={{
+                                background: 'var(--surface-2)',
+                                border: '1px solid var(--border)',
+                                borderRadius: 10,
+                                padding: '10px 12px',
+                                boxShadow: '0 2px 6px rgba(0,0,0,0.03)'
+                              }}
+                            >
+                              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 2 }}>
+                                <span style={{ fontWeight: 800, fontSize: '0.8rem', color: 'var(--text-primary)' }}>
+                                  {card.title}
+                                </span>
+                                {card.badge && (
+                                  <span style={{ fontSize: '0.64rem', fontWeight: 800, padding: '1px 5px', borderRadius: 4, background: 'var(--surface)', color: 'var(--primary)' }}>
+                                    {card.badge}
+                                  </span>
+                                )}
+                              </div>
+                              <div style={{ fontSize: '0.72rem', color: 'var(--text-muted)', marginBottom: 8 }}>
+                                {card.description}
+                              </div>
+                              <button
+                                type="button"
+                                className="btn btn-primary btn-sm"
+                                onClick={() => {
+                                  closeChatbot();
+                                  navigate(card.link);
+                                }}
+                                style={{
+                                  width: '100%',
+                                  fontSize: '0.72rem',
+                                  padding: '4px 8px',
+                                  background: activeRole === 'vendor' ? '#10B981' : 'var(--primary)',
+                                  borderColor: activeRole === 'vendor' ? '#10B981' : 'var(--primary)',
+                                  display: 'flex',
+                                  alignItems: 'center',
+                                  justifyContent: 'center',
+                                  gap: 4
+                                }}
+                              >
+                                <span>{card.buttonText}</span>
+                                <ArrowRight size={12} />
+                              </button>
+                            </div>
+                          );
+                        }
+
                         return null;
                       })}
                     </div>
@@ -693,8 +847,8 @@ export default function CustomerChatbot() {
                             cursor: 'pointer'
                           }}
                           onMouseOver={(e) => {
-                            e.currentTarget.style.borderColor = 'var(--primary)';
-                            e.currentTarget.style.color = 'var(--primary)';
+                            e.currentTarget.style.borderColor = activeRole === 'vendor' ? '#10B981' : 'var(--primary)';
+                            e.currentTarget.style.color = activeRole === 'vendor' ? '#10B981' : 'var(--primary)';
                           }}
                           onMouseOut={(e) => {
                             e.currentTarget.style.borderColor = 'var(--border)';
@@ -710,91 +864,78 @@ export default function CustomerChatbot() {
               );
             })}
 
-            {/* Typing indicator */}
             {isTyping && (
-              <div style={{ display: 'flex', alignItems: 'center', gap: 6, color: 'var(--text-muted)', fontSize: '0.75rem', padding: '6px 12px' }}>
-                <Bot size={13} color="var(--primary)" />
-                <span>HubBot is checking verified records...</span>
+              <div
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: 6,
+                  padding: '8px 12px',
+                  background: 'var(--surface-2)',
+                  borderRadius: 12,
+                  width: 'fit-content'
+                }}
+              >
+                <Bot size={14} color="var(--primary)" />
+                <span style={{ fontSize: '0.74rem', color: 'var(--text-muted)' }}>HubBot is composing...</span>
               </div>
             )}
-
             <div ref={messagesEndRef} />
           </div>
 
-          {/* ── CHAT COMPOSER ── */}
-          <form
-            onSubmit={handleSend}
+          {/* ── BOTTOM INPUT AREA ── */}
+          <div
             style={{
-              padding: '10px 14px',
-              borderTop: '1px solid var(--border)',
+              padding: '10px 12px',
               background: 'var(--surface-2)',
-              display: 'flex',
-              alignItems: 'center',
-              gap: 8
+              borderTop: '1px solid var(--border)'
             }}
           >
-            <div style={{ position: 'relative', flex: 1, display: 'flex', alignItems: 'center' }}>
+            <form onSubmit={handleSend} style={{ display: 'flex', gap: 8 }}>
               <input
                 ref={inputRef}
                 type="text"
-                className="form-control"
-                placeholder="Ask about orders, coupons, returns, delivery OTP, products..."
                 value={inputVal}
                 onChange={(e) => setInputVal(e.target.value)}
                 onKeyDown={handleKeyDown}
+                placeholder={
+                  activeRole === 'vendor'
+                    ? 'Ask Vendor Co-Pilot (listing, AWB, payouts)...'
+                    : 'Ask Customer Concierge (orders, OTP, coupons)...'
+                }
                 disabled={isTyping}
                 style={{
-                  width: '100%',
-                  padding: '8px 30px 8px 12px',
-                  fontSize: '0.84rem',
+                  flex: 1,
+                  padding: '9px 12px',
                   borderRadius: 10,
+                  border: '1px solid var(--border)',
                   background: 'var(--surface)',
-                  border: '1px solid var(--border)'
+                  color: 'var(--text-primary)',
+                  fontSize: '0.82rem',
+                  outline: 'none'
                 }}
               />
-              {inputVal && !isTyping && (
-                <button
-                  type="button"
-                  onClick={() => setInputVal('')}
-                  aria-label="Clear query input"
-                  style={{
-                    position: 'absolute',
-                    right: 8,
-                    background: 'none',
-                    border: 'none',
-                    color: 'var(--text-muted)',
-                    cursor: 'pointer',
-                    padding: 2,
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center'
-                  }}
-                >
-                  <X size={14} />
-                </button>
-              )}
-            </div>
-
-            <button
-              type="submit"
-              disabled={!inputVal.trim() || isTyping}
-              style={{
-                width: 36,
-                height: 36,
-                borderRadius: 10,
-                background: inputVal.trim() ? 'var(--primary)' : 'var(--border)',
-                color: 'white',
-                border: 'none',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                cursor: inputVal.trim() ? 'pointer' : 'default',
-                transition: 'background 0.15s ease'
-              }}
-            >
-              <Send size={15} />
-            </button>
-          </form>
+              <button
+                type="submit"
+                disabled={!inputVal.trim() || isTyping}
+                style={{
+                  padding: '9px 14px',
+                  borderRadius: 10,
+                  border: 'none',
+                  background: activeRole === 'vendor' ? '#10B981' : 'var(--primary)',
+                  color: 'white',
+                  cursor: !inputVal.trim() || isTyping ? 'not-allowed' : 'pointer',
+                  opacity: !inputVal.trim() || isTyping ? 0.6 : 1,
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  boxShadow: '0 2px 6px rgba(0,0,0,0.1)'
+                }}
+              >
+                <Send size={15} />
+              </button>
+            </form>
+          </div>
         </div>
       )}
     </div>

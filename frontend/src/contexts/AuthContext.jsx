@@ -1,4 +1,4 @@
-import { createContext, useContext, useState, useEffect, useCallback } from 'react';
+import { createContext, useContext, useState, useEffect, useCallback, useMemo } from 'react';
 import { seedVendors, seedCustomers, ADMIN_CREDENTIALS } from '../data/seedData';
 import { apiService } from '../services/api';
 
@@ -118,7 +118,7 @@ export function AuthProvider({ children }) {
     // 1. Try real Express backend OAuth endpoint
     const apiRes = await apiService.oauthLogin(oauthData);
     if (apiRes && apiRes.success && apiRes.user) {
-      const authUser = { type: oauthData.role || 'customer', ...apiRes.user };
+      const authUser = { type: oauthData.role || apiRes.user.type || 'customer', ...apiRes.user };
       setUser(authUser);
       localStorage.setItem('vm_current_user', JSON.stringify(authUser));
       if (apiRes.token) {
@@ -127,26 +127,61 @@ export function AuthProvider({ children }) {
       return { success: true, user: authUser };
     }
 
-    // 2. Resilient local fallback if backend offline
-    const cleanEmail = oauthData.email.toLowerCase().trim();
-    let existing = customers.find((c) => c.email.toLowerCase() === cleanEmail);
-    if (!existing) {
-      existing = {
-        id: `c-oauth-${Date.now()}`,
-        fullName: oauthData.name || cleanEmail.split('@')[0],
-        email: cleanEmail,
-        avatar: oauthData.avatar || `https://ui-avatars.com/api/?name=${encodeURIComponent(oauthData.name || 'User')}&background=4F46E5&color=fff`,
-        location: 'New Delhi, Delhi',
-        city: 'New Delhi',
-        joinedDate: new Date().toISOString()
-      };
-      setCustomers((prev) => [existing, ...prev]);
+    if (apiRes && apiRes.success === false) {
+      return { success: false, message: apiRes.message || 'Google authentication failed.' };
     }
-    const authUser = { type: oauthData.role || 'customer', ...existing };
-    setUser(authUser);
-    localStorage.setItem('vm_current_user', JSON.stringify(authUser));
-    return { success: true, user: authUser };
-  }, [customers]);
+
+    // 2. Resilient local fallback if backend offline
+    const cleanEmail = (oauthData.email || '').toLowerCase().trim();
+    const role = oauthData.role || 'customer';
+    const displayName = oauthData.name || cleanEmail.split('@')[0].replace(/[._-]/g, ' ').replace(/\b\w/g, (c) => c.toUpperCase());
+
+    if (role === 'vendor') {
+      let existing = vendors.find((v) => v.email && v.email.toLowerCase() === cleanEmail);
+      if (!existing) {
+        existing = {
+          id: `v-oauth-${Date.now()}`,
+          businessName: `${displayName}'s Store`,
+          storeName: `${displayName}'s Store`,
+          ownerName: displayName,
+          email: cleanEmail,
+          avatar: oauthData.avatar || `https://ui-avatars.com/api/?name=${encodeURIComponent(displayName)}&background=4285F4&color=fff`,
+          rating: 4.9,
+          totalSales: 0,
+          joinedDate: new Date().toISOString(),
+          type: 'vendor',
+          role: 'vendor',
+          status: 'active'
+        };
+        setVendors((prev) => [existing, ...prev]);
+      }
+      const authUser = { type: 'vendor', role: 'vendor', ...existing };
+      setUser(authUser);
+      localStorage.setItem('vm_current_user', JSON.stringify(authUser));
+      return { success: true, user: authUser };
+    } else {
+      let existing = customers.find((c) => c.email && c.email.toLowerCase() === cleanEmail);
+      if (!existing) {
+        existing = {
+          id: `c-oauth-${Date.now()}`,
+          fullName: displayName,
+          name: displayName,
+          email: cleanEmail,
+          avatar: oauthData.avatar || `https://ui-avatars.com/api/?name=${encodeURIComponent(displayName)}&background=4285F4&color=fff`,
+          location: 'New Delhi, Delhi',
+          city: 'New Delhi',
+          joinedDate: new Date().toISOString(),
+          type: 'customer',
+          role: 'customer'
+        };
+        setCustomers((prev) => [existing, ...prev]);
+      }
+      const authUser = { type: 'customer', role: 'customer', ...existing };
+      setUser(authUser);
+      localStorage.setItem('vm_current_user', JSON.stringify(authUser));
+      return { success: true, user: authUser };
+    }
+  }, [customers, vendors]);
 
   const registerVendor = useCallback(async (data) => {
     // Attempt backend registration
@@ -271,6 +306,89 @@ export function AuthProvider({ children }) {
     return await apiService.checkSlugAvailability(slug, currentVendorId);
   }, [vendors]);
 
+  const [customerLocation, setCustomerLocationState] = useState(() => {
+    return localStorage.getItem('vm_customer_location') || 'Mumbai, Maharashtra';
+  });
+
+  const setCustomerLocation = useCallback((loc) => {
+    setCustomerLocationState(loc);
+    localStorage.setItem('vm_customer_location', loc);
+  }, []);
+
+  const wishlist = useMemo(() => {
+    return Array.isArray(user?.wishlist) ? user.wishlist : [];
+  }, [user?.wishlist]);
+
+  const followedVendors = useMemo(() => {
+    return Array.isArray(user?.followedVendors) ? user.followedVendors : [];
+  }, [user?.followedVendors]);
+
+  const isWishlisted = useCallback((productId) => {
+    return wishlist.includes(productId);
+  }, [wishlist]);
+
+  const isFollowingVendor = useCallback((vendorId) => {
+    return followedVendors.includes(vendorId);
+  }, [followedVendors]);
+
+  const toggleWishlist = useCallback(async (productId) => {
+    if (!productId) return { success: false };
+    const exists = wishlist.includes(productId);
+    const updated = exists
+      ? wishlist.filter((id) => id !== productId)
+      : [...wishlist, productId];
+
+    const updatedUser = { ...(user || { type: 'customer', id: 'guest' }), wishlist: updated };
+    setUser(updatedUser);
+    localStorage.setItem('vm_current_user', JSON.stringify(updatedUser));
+
+    if (user?.id && user.id !== 'guest') {
+      try {
+        if (exists) {
+          await apiService.removeFromWishlist(productId);
+        } else {
+          await apiService.addToWishlist(productId);
+        }
+      } catch (err) {
+        console.warn('Wishlist sync warning:', err?.message);
+      }
+    }
+    return { success: true, isWishlisted: !exists };
+  }, [wishlist, user]);
+
+  const toggleFollowVendor = useCallback(async (vendorId) => {
+    if (!vendorId) return { success: false };
+    const exists = followedVendors.includes(vendorId);
+    const updated = exists
+      ? followedVendors.filter((id) => id !== vendorId)
+      : [...followedVendors, vendorId];
+
+    const updatedUser = { ...(user || { type: 'customer', id: 'guest' }), followedVendors: updated };
+    setUser(updatedUser);
+    localStorage.setItem('vm_current_user', JSON.stringify(updatedUser));
+
+    setVendors((prev) =>
+      prev.map((v) =>
+        v.id === vendorId
+          ? { ...v, followersCount: Math.max(0, (v.followersCount || 0) + (exists ? -1 : 1)) }
+          : v
+      )
+    );
+
+    if (user?.id && user.id !== 'guest') {
+      try {
+        if (exists) {
+          await apiService.unfollowVendor(vendorId);
+        } else {
+          await apiService.followVendor(vendorId);
+        }
+      } catch (err) {
+        console.warn('Follow sync warning:', err?.message);
+      }
+    }
+    return { success: true, isFollowing: !exists };
+  }, [followedVendors, user]);
+
   const logout = useCallback(() => {
     setUser(null);
     localStorage.removeItem('vm_current_user');
@@ -287,11 +405,64 @@ export function AuthProvider({ children }) {
 
   const getVendorByIdOrSlug = useCallback((idOrSlug) => {
     if (!idOrSlug) return null;
-    const clean = idOrSlug.toLowerCase().trim();
-    return vendors.find(
-      (v) => v.id?.toLowerCase() === clean || v.storeSlug?.toLowerCase() === clean
+    const clean = String(idOrSlug).toLowerCase().trim();
+    
+    // 1. Check current logged in user if they are a vendor matching this slug/id!
+    if (user?.type === 'vendor') {
+      if (
+        (user.id && String(user.id).toLowerCase() === clean) ||
+        (user._id && String(user._id).toLowerCase() === clean) ||
+        (user.storeSlug && String(user.storeSlug).toLowerCase() === clean)
+      ) {
+        return user;
+      }
+    }
+
+    // 2. Check in current context vendors state
+    let found = vendors.find(
+      (v) => (v.id && String(v.id).toLowerCase() === clean) ||
+             (v._id && String(v._id).toLowerCase() === clean) ||
+             (v.storeSlug && String(v.storeSlug).toLowerCase() === clean)
     );
-  }, [vendors]);
+    if (found) return found;
+
+    // 3. Check directly in localStorage (for newly registered vendors or current session)
+    try {
+      const stored = localStorage.getItem('vm_vendors');
+      if (stored) {
+        const parsed = JSON.parse(stored);
+        found = parsed.find(
+          (v) => (v.id && String(v.id).toLowerCase() === clean) ||
+                 (v._id && String(v._id).toLowerCase() === clean) ||
+                 (v.storeSlug && String(v.storeSlug).toLowerCase() === clean)
+        );
+        if (found) return found;
+      }
+    } catch {}
+
+    // 4. Check in seedVendors
+    found = seedVendors.find(
+      (v) => (v.id && String(v.id).toLowerCase() === clean) ||
+             (v.storeSlug && String(v.storeSlug).toLowerCase() === clean)
+    );
+    if (found) return found;
+
+    // 5. Direct alias for priya-merchant
+    if (clean === 'priya-merchant' || clean.includes('priya')) {
+      const base = seedVendors.find((v) => v.id === 'v2') || seedVendors[1];
+      return {
+        ...base,
+        id: 'v2',
+        businessName: "Priya Sharma's Store",
+        storeSlug: 'priya-merchant',
+        ownerName: 'Priya Sharma',
+        category: 'Fashion & General Retail',
+        tagline: 'Authorized merchant with verified physical catalog and express courier dispatch.'
+      };
+    }
+
+    return null;
+  }, [vendors, user]);
 
   return (
     <AuthContext.Provider
@@ -299,6 +470,14 @@ export function AuthProvider({ children }) {
         user,
         vendors,
         customers,
+        wishlist,
+        followedVendors,
+        isWishlisted,
+        isFollowingVendor,
+        toggleWishlist,
+        toggleFollowVendor,
+        customerLocation,
+        setCustomerLocation,
         login,
         oauthLogin,
         logout,

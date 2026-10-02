@@ -2,14 +2,17 @@ import { useState, useEffect, useMemo, useCallback } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import Navbar from '../common/Navbar';
 import ShareModal from '../common/ShareModal';
+import VendorBusinessCardModal from '../common/VendorBusinessCardModal';
 import { api } from '../../services/api';
 import { useLanguage } from '../../contexts/LanguageContext';
+import { useAuth } from '../../contexts/AuthContext';
+import { checkDeliveryCoverage } from '../../utils/geoUtils';
 import { seedVendors, seedProducts } from '../../data/seedData';
 import {
   Store, Search, Star, ShieldCheck, MapPin, Package,
   ArrowRight, Share2, Sparkles, Filter, CheckCircle2,
   Truck, Award, ChevronRight, RefreshCw, Layers, ExternalLink,
-  Flame, Compass, Building2
+  Flame, Compass, Building2, QrCode, Navigation, Shield
 } from 'lucide-react';
 import '../../styles/marketplace.css';
 
@@ -24,6 +27,7 @@ const BUSINESS_TYPES = [
 
 export default function StoreDirectory() {
   const { t } = useLanguage();
+  const { customerLocation, setCustomerLocation } = useAuth();
   const navigate = useNavigate();
 
   const [stores, setStores] = useState([]);
@@ -35,12 +39,15 @@ export default function StoreDirectory() {
   const [selectedCategory, setSelectedCategory] = useState('All');
   const [selectedCity, setSelectedCity] = useState('All Cities');
   const [selectedBusinessType, setSelectedBusinessType] = useState('All Types');
-  const [activeTab, setActiveTab] = useState('all'); // 'all' | 'emerging' | 'featured'
+  const [activeTab, setActiveTab] = useState('all'); // 'all' | 'emerging' | 'nearby' | 'top_rated' | 'featured'
   const [sortBy, setSortBy] = useState('popular'); // 'popular' | 'rating' | 'orders' | 'name'
   const [verifiedOnly, setVerifiedOnly] = useState(false);
+  const [deliversOnly, setDeliversOnly] = useState(false);
+  const [minRating, setMinRating] = useState(0);
 
-  // Share Modal State
+  // Modals
   const [shareTarget, setShareTarget] = useState(null);
+  const [cardVendor, setCardVendor] = useState(null);
 
   useEffect(() => {
     document.title = 'Explore Verified Stores & Local Merchants | Vendor Hub';
@@ -62,13 +69,22 @@ export default function StoreDirectory() {
           emergingOnly: activeTab === 'emerging' ? 'true' : '',
           featured: activeTab === 'featured' ? 'true' : '',
           sortBy,
-          verifiedOnly: verifiedOnly ? 'true' : ''
+          verifiedOnly: verifiedOnly ? 'true' : '',
+          customerCity: customerLocation,
+          deliversOnly: deliversOnly ? 'true' : '',
+          minRating: minRating > 0 ? String(minRating) : ''
         }),
         api.getStoreCategories()
       ]);
 
       if (storesRes && storesRes.success && storesRes.stores && storesRes.stores.length > 0) {
-        setStores(storesRes.stores);
+        let storeList = storesRes.stores;
+        if (activeTab === 'nearby') {
+          storeList = storeList.filter((s) => checkDeliveryCoverage(s, customerLocation).delivers);
+        } else if (activeTab === 'top_rated') {
+          storeList = storeList.filter((s) => (s.storeRating || 0) >= 4.5);
+        }
+        setStores(storeList);
       } else {
         // Fallback to seedVendors
         let fallback = seedVendors.map((v) => {
@@ -85,7 +101,8 @@ export default function StoreDirectory() {
             banner: v.banner,
             themeColor: v.themeColor,
             isVerified: v.isVerified !== false,
-            isEmerging: Boolean(v.isEmerging || ['v5', 'v6', 'v7', 'v8', 'v9', 'v10'].includes(v.id)),
+            isEmerging: Boolean(v.isEmerging || (v.totalOrdersFulfilled || 0) < 350),
+            deliveryRadiusKm: v.deliveryRadiusKm || 25,
             gstin: v.gstin,
             storeRating: v.storeRating || 4.8,
             totalOrdersFulfilled: v.totalOrdersFulfilled || 200,
@@ -113,10 +130,23 @@ export default function StoreDirectory() {
         if (bTypeParam) {
           fallback = fallback.filter(s => s.businessType.toLowerCase().includes(bTypeParam.toLowerCase()));
         }
+        if (verifiedOnly) {
+          fallback = fallback.filter(s => s.isVerified);
+        }
+        if (deliversOnly) {
+          fallback = fallback.filter(s => checkDeliveryCoverage(s, customerLocation).delivers);
+        }
+        if (minRating > 0) {
+          fallback = fallback.filter(s => (s.storeRating || 0) >= minRating);
+        }
         if (activeTab === 'emerging') {
           fallback = fallback.filter(s => s.isEmerging);
         } else if (activeTab === 'featured') {
           fallback = fallback.filter(s => s.isFeatured);
+        } else if (activeTab === 'nearby') {
+          fallback = fallback.filter(s => checkDeliveryCoverage(s, customerLocation).delivers);
+        } else if (activeTab === 'top_rated') {
+          fallback = fallback.filter(s => (s.storeRating || 0) >= 4.5);
         }
         setStores(fallback);
       }
@@ -129,7 +159,7 @@ export default function StoreDirectory() {
     } finally {
       setLoading(false);
     }
-  }, [searchQuery, selectedCategory, selectedCity, selectedBusinessType, activeTab, sortBy, verifiedOnly]);
+  }, [searchQuery, selectedCategory, selectedCity, selectedBusinessType, activeTab, sortBy, verifiedOnly, customerLocation, deliversOnly, minRating]);
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -400,6 +430,28 @@ export default function StoreDirectory() {
             </button>
 
             <button
+              onClick={() => setActiveTab('nearby')}
+              style={{
+                border: 'none',
+                padding: '8px 18px',
+                borderRadius: 8,
+                fontSize: '0.85rem',
+                fontWeight: 700,
+                cursor: 'pointer',
+                display: 'flex',
+                alignItems: 'center',
+                gap: 6,
+                background: activeTab === 'nearby' ? '#10B981' : 'var(--surface)',
+                color: activeTab === 'nearby' ? '#fff' : 'var(--text-secondary)',
+                boxShadow: activeTab === 'nearby' ? '0 2px 8px rgba(16,185,129,0.3)' : 'none'
+              }}
+              title="Stores serving your current delivery zone"
+            >
+              <Navigation size={15} />
+              Nearby to Me
+            </button>
+
+            <button
               onClick={() => setActiveTab('emerging')}
               style={{
                 border: 'none',
@@ -417,10 +469,28 @@ export default function StoreDirectory() {
               }}
             >
               <Flame size={15} />
-              New & Emerging Merchants
-              <span style={{ fontSize: '0.72rem', background: activeTab === 'emerging' ? 'rgba(255,255,255,0.25)' : 'var(--border)', padding: '1px 6px', borderRadius: 999 }}>
-                {emergingStores.length}
-              </span>
+              New & Emerging
+            </button>
+
+            <button
+              onClick={() => setActiveTab('top_rated')}
+              style={{
+                border: 'none',
+                padding: '8px 18px',
+                borderRadius: 8,
+                fontSize: '0.85rem',
+                fontWeight: 700,
+                cursor: 'pointer',
+                display: 'flex',
+                alignItems: 'center',
+                gap: 6,
+                background: activeTab === 'top_rated' ? '#8B5CF6' : 'var(--surface)',
+                color: activeTab === 'top_rated' ? '#fff' : 'var(--text-secondary)',
+                boxShadow: activeTab === 'top_rated' ? '0 2px 8px rgba(139,92,246,0.3)' : 'none'
+              }}
+            >
+              <Star size={15} fill={activeTab === 'top_rated' ? '#fff' : 'none'} />
+              Top Rated (4.5+ ★)
             </button>
 
             <button
@@ -440,7 +510,7 @@ export default function StoreDirectory() {
                 boxShadow: activeTab === 'featured' ? '0 2px 8px rgba(99,102,241,0.3)' : 'none'
               }}
             >
-              <Star size={15} />
+              <Award size={15} />
               Featured Stores
             </button>
           </div>
@@ -470,8 +540,23 @@ export default function StoreDirectory() {
           </div>
         </div>
 
-        {/* ── Multi-Dimensional Filters: Location, Business Type, Category ── */}
+        {/* ── Multi-Dimensional Filters: Location, Business Type, Delivery Radius ── */}
         <div style={{ display: 'flex', gap: 12, marginBottom: 20, flexWrap: 'wrap', alignItems: 'center' }}>
+          {/* Customer Location Selector */}
+          <div style={{ display: 'flex', alignItems: 'center', gap: 6, background: 'var(--surface)', border: '1px solid var(--border)', padding: '4px 10px', borderRadius: 8 }}>
+            <Navigation size={14} color="#10B981" />
+            <span style={{ fontSize: '0.78rem', color: 'var(--text-muted)' }}>My Area:</span>
+            <select
+              value={customerLocation.split(',')[0]}
+              onChange={(e) => setCustomerLocation(`${e.target.value}, India`)}
+              style={{ border: 'none', background: 'transparent', outline: 'none', fontSize: '0.82rem', fontWeight: 700, color: 'var(--text-primary)', cursor: 'pointer' }}
+            >
+              {INDIAN_CITIES.filter((c) => c !== 'All Cities').map((c) => (
+                <option key={c} value={c}>{c}</option>
+              ))}
+            </select>
+          </div>
+
           {/* City / Location Filter */}
           <div style={{ display: 'flex', alignItems: 'center', gap: 6, background: 'var(--surface)', border: '1px solid var(--border)', padding: '4px 10px', borderRadius: 8 }}>
             <MapPin size={15} color="var(--primary)" />
@@ -500,6 +585,31 @@ export default function StoreDirectory() {
             </select>
           </div>
 
+          {/* Rating Filter */}
+          <div style={{ display: 'flex', alignItems: 'center', gap: 6, background: 'var(--surface)', border: '1px solid var(--border)', padding: '4px 10px', borderRadius: 8 }}>
+            <Star size={14} color="#F59E0B" fill="#F59E0B" />
+            <select
+              value={minRating}
+              onChange={(e) => setMinRating(Number(e.target.value))}
+              style={{ border: 'none', background: 'transparent', outline: 'none', fontSize: '0.82rem', fontWeight: 600, color: 'var(--text-primary)', cursor: 'pointer' }}
+            >
+              <option value="0">All Ratings</option>
+              <option value="4.5">4.5+ ★ Stars</option>
+              <option value="4.0">4.0+ ★ Stars</option>
+            </select>
+          </div>
+
+          {/* Delivers to Me Only */}
+          <label style={{ display: 'inline-flex', alignItems: 'center', gap: 6, fontSize: '0.82rem', fontWeight: 600, color: 'var(--text-secondary)', cursor: 'pointer', userSelect: 'none' }}>
+            <input
+              type="checkbox"
+              checked={deliversOnly}
+              onChange={(e) => setDeliversOnly(e.target.checked)}
+              style={{ accentColor: '#10B981', width: 15, height: 15 }}
+            />
+            <span style={{ color: deliversOnly ? '#10B981' : undefined }}>Delivers to My Area</span>
+          </label>
+
           {/* Verified Only Checkbox */}
           <label style={{ display: 'inline-flex', alignItems: 'center', gap: 6, fontSize: '0.82rem', fontWeight: 600, color: 'var(--text-secondary)', cursor: 'pointer', userSelect: 'none' }}>
             <input
@@ -508,7 +618,7 @@ export default function StoreDirectory() {
               onChange={(e) => setVerifiedOnly(e.target.checked)}
               style={{ accentColor: 'var(--primary)', width: 15, height: 15 }}
             />
-            <span>Verified Merchants Only</span>
+            <span>Verified Only</span>
           </label>
 
           {/* Reset Filters button */}
@@ -589,8 +699,12 @@ export default function StoreDirectory() {
                   transition: 'transform 0.15s ease, box-shadow 0.15s ease'
                 }}
               >
-                {/* Banner & Avatar */}
-                <div style={{ height: 120, position: 'relative', overflow: 'hidden' }}>
+                {/* Banner & Avatar - Clickable */}
+                <div
+                  onClick={() => navigate(`/store/${store.storeSlug || store.id}`)}
+                  style={{ height: 120, position: 'relative', overflow: 'hidden', cursor: 'pointer' }}
+                  title={`Open ${store.businessName} Storefront`}
+                >
                   <img
                     src={store.banner}
                     alt={store.businessName}
@@ -635,7 +749,11 @@ export default function StoreDirectory() {
 
                 <div style={{ padding: '0 20px 20px', flex: 1, display: 'flex', flexDirection: 'column' }}>
                   {/* Header Row */}
-                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', marginTop: -28, marginBottom: 12 }}>
+                  <div
+                    onClick={() => navigate(`/store/${store.storeSlug || store.id}`)}
+                    style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', marginTop: -28, marginBottom: 12, cursor: 'pointer' }}
+                    title={`Open ${store.businessName} Storefront`}
+                  >
                     <img
                       src={store.avatar}
                       alt={store.businessName}
@@ -646,7 +764,13 @@ export default function StoreDirectory() {
                         objectFit: 'cover',
                         border: '3px solid var(--surface)',
                         background: '#fff',
-                        boxShadow: '0 4px 12px rgba(0,0,0,0.12)'
+                        boxShadow: '0 4px 12px rgba(0,0,0,0.12)',
+                        flexShrink: 0,
+                        aspectRatio: '1 / 1',
+                        display: 'block'
+                      }}
+                      onError={(e) => {
+                        e.target.src = `https://ui-avatars.com/api/?name=${encodeURIComponent(store.businessName)}&background=4F46E5&color=fff`;
                       }}
                     />
                     <span style={{ fontSize: '0.72rem', fontWeight: 700, padding: '3px 8px', borderRadius: 6, background: '#EEF2FF', color: 'var(--primary)' }}>
@@ -654,7 +778,11 @@ export default function StoreDirectory() {
                     </span>
                   </div>
 
-                  <div style={{ display: 'flex', alignItems: 'center', gap: 6, marginBottom: 4, flexWrap: 'wrap' }}>
+                  <div
+                    onClick={() => navigate(`/store/${store.storeSlug || store.id}`)}
+                    style={{ display: 'flex', alignItems: 'center', gap: 6, marginBottom: 4, flexWrap: 'wrap', cursor: 'pointer' }}
+                    title={`Open ${store.businessName} Storefront`}
+                  >
                     <h3 style={{ margin: 0, fontSize: '1.1rem', fontWeight: 800, color: 'var(--text-primary)' }}>
                       {store.businessName}
                     </h3>
@@ -680,7 +808,7 @@ export default function StoreDirectory() {
                     {store.tagline}
                   </p>
 
-                  {/* Sample Stock Thumbnails */}
+                  {/* Sample Stock Thumbnails - Direct Product Links */}
                   {store.sampleProducts && store.sampleProducts.length > 0 && (
                     <div style={{ marginBottom: 16 }}>
                       <div style={{ fontSize: '0.7rem', fontWeight: 700, color: 'var(--text-muted)', textTransform: 'uppercase', marginBottom: 6 }}>
@@ -690,14 +818,20 @@ export default function StoreDirectory() {
                         {store.sampleProducts.slice(0, 3).map((prod) => (
                           <div
                             key={prod.id}
-                            title={`${prod.name} (₹${prod.price?.toLocaleString('en-IN')})`}
+                            title={`${prod.name} (₹${prod.price?.toLocaleString('en-IN')}) — Click to view`}
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              navigate(`/shop/product/${prod.id}`);
+                            }}
                             style={{
                               flex: 1,
                               borderRadius: 8,
                               border: '1px solid var(--border)',
                               overflow: 'hidden',
                               background: 'var(--surface-sunken, rgba(0,0,0,0.02))',
-                              position: 'relative'
+                              position: 'relative',
+                              cursor: 'pointer',
+                              transition: 'transform 0.1s ease'
                             }}
                           >
                             <img
@@ -714,15 +848,44 @@ export default function StoreDirectory() {
                     </div>
                   )}
 
+                  {/* Delivery coverage indicator */}
+                  {(() => {
+                    const coverage = checkDeliveryCoverage(store, customerLocation);
+                    return (
+                      <div style={{ marginBottom: 12 }}>
+                        {coverage.delivers ? (
+                          <span style={{ fontSize: '0.72rem', background: '#DCFCE7', color: '#166534', padding: '2px 8px', borderRadius: 6, fontWeight: 700, display: 'inline-flex', alignItems: 'center', gap: 4 }}>
+                            <CheckCircle2 size={12} /> Delivers to your area ({coverage.targetCity}) within {store.deliveryRadiusKm || 25} km
+                          </span>
+                        ) : (
+                          <span style={{ fontSize: '0.72rem', background: 'var(--surface-sunken)', color: 'var(--text-muted)', padding: '2px 8px', borderRadius: 6 }}>
+                            📍 Radius: {store.deliveryRadiusKm || 25} km · Pan-India Dispatch
+                          </span>
+                        )}
+                      </div>
+                    );
+                  })()}
+
                   {/* Actions */}
                   <div style={{ display: 'flex', gap: 8, marginTop: 'auto', paddingTop: 10, borderTop: '1px solid var(--border)' }}>
                     <button
-                      onClick={() => navigate(`/store/${store.storeSlug}`)}
+                      onClick={() => {
+                        window.scrollTo(0, 0);
+                        navigate(`/store/${store.storeSlug || store.id}`);
+                      }}
                       className="btn btn-primary"
                       style={{ flex: 1, padding: '8px 14px', fontSize: '0.85rem', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 6 }}
                     >
                       <span>Visit Storefront</span>
                       <ArrowRight size={14} />
+                    </button>
+                    <button
+                      onClick={() => setCardVendor(store)}
+                      className="btn btn-outline"
+                      title="View Digital Business Card & Store QR"
+                      style={{ padding: '8px 12px' }}
+                    >
+                      <QrCode size={16} />
                     </button>
                     <button
                       onClick={() => setShareTarget({
@@ -735,7 +898,7 @@ export default function StoreDirectory() {
                       })}
                       className="btn btn-outline"
                       title="Share Store Link & QR Code"
-                      style={{ padding: '8px 14px' }}
+                      style={{ padding: '8px 12px' }}
                     >
                       <Share2 size={16} />
                     </button>
@@ -758,6 +921,15 @@ export default function StoreDirectory() {
           url={shareTarget.url}
           image={shareTarget.image}
           badge={shareTarget.badge}
+        />
+      )}
+
+      {/* Digital Business Card & QR Modal */}
+      {cardVendor && (
+        <VendorBusinessCardModal
+          isOpen={Boolean(cardVendor)}
+          onClose={() => setCardVendor(null)}
+          vendor={cardVendor}
         />
       )}
     </div>

@@ -18,6 +18,7 @@ import {
 import { CATEGORIES, seedVendors } from '../../data/seedData';
 import { rankProductsFairly } from '../../utils/fairRanking';
 import { useRecentlyAccessed } from '../../contexts/RecentlyAccessedContext';
+import { api } from '../../services/api';
 import '../../styles/marketplace.css';
 
 const CATEGORY_ICONS = {
@@ -70,7 +71,7 @@ export default function ProductListing() {
   // ── 2. useContext hooks ──
   const { getApprovedProducts } = useProducts();
   const { addToCart } = useCart();
-  const { getVendorById, vendors: authVendors } = useAuth();
+  const { getVendorById, vendors: authVendors, wishlist: userWishlist, toggleWishlist: toggleUserWishlist } = useAuth();
   const { addToast } = useToast();
   const { t } = useLanguage();
   const navigate = useNavigate();
@@ -83,7 +84,6 @@ export default function ProductListing() {
   const initialMode = searchParams.get('mode') === 'products' ? 'products' : 'vendors';
   const [browseMode, setBrowseMode] = useState(initialMode); // 'vendors' (DEFAULT!) | 'products'
   const [viewMode, setViewMode] = useState('grid');
-  const [wishlist, setWishlist] = useState({});
   const { compareList, isInCompare, toggleCompare, clearCompare, removeFromCompare } = useComparison();
   const [showCompareModal, setShowCompareModal] = useState(false);
   const [contactVendor, setContactVendor] = useState(null);
@@ -275,13 +275,15 @@ export default function ProductListing() {
     addToast(`${product.name} added to cart!`, 'success');
   }, [addToCart, addToast]);
 
-  const toggleWishlist = useCallback((e, productId) => {
+  const handleToggleWishlist = useCallback(async (e, product) => {
     e.stopPropagation();
-    setWishlist((prev) => ({
-      ...prev,
-      [productId]: !prev[productId]
-    }));
-  }, []);
+    const res = await toggleUserWishlist(product.id);
+    if (res?.isWishlisted) {
+      addToast(`Saved "${product.name}" to wishlist`, 'success');
+    } else {
+      addToast(`Removed "${product.name}" from wishlist`, 'info');
+    }
+  }, [toggleUserWishlist, addToast]);
 
   const handleToggleCompare = useCallback((e, product) => {
     e.stopPropagation();
@@ -319,6 +321,19 @@ export default function ProductListing() {
       }
     };
   }, [filterState.category, filtered.length]);
+
+  // Record impressions for fair exposure system
+  useEffect(() => {
+    if (filtered.length > 0) {
+      const topIds = filtered.slice(0, 20).map((p) => p.id);
+      const topVendorIds = [...new Set(filtered.slice(0, 20).map((p) => p.vendorId))];
+      api.recordExposure({
+        type: 'impression',
+        productIds: topIds,
+        vendorIds: topVendorIds
+      }).catch(() => { });
+    }
+  }, [filtered.length, filterState.category, filterState.sortBy]);
 
   useEffect(() => {
     const handleKeyDown = (e) => {
@@ -374,22 +389,42 @@ export default function ProductListing() {
 
       {/* Hero Banner - Vendor First Platform */}
       {filterState.category === 'All' && !filterState.search && (
-        <div style={{ background: 'linear-gradient(135deg, #1E1B4B 0%, #312E81 50%, #4F46E5 100%)', padding: '36px 0', marginBottom: 0, color: 'white' }}>
-          <div className="container" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: 24 }}>
-            <div style={{ maxWidth: 680 }}>
-              <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 8 }}>
-                <Zap size={18} color="#FCD34D" fill="#FCD34D" />
-                <span style={{ color: '#FCD34D', fontWeight: 800, fontSize: '0.82rem', letterSpacing: '0.04em' }}>
-                  VENDOR-FIRST MARKETPLACE · VERIFIED PHYSICAL STORES ONLY
+        <div style={{
+          background: 'linear-gradient(135deg, #0F172A 0%, #1E1B4B 45%, #312E81 100%)',
+          padding: '40px 0',
+          marginBottom: 0,
+          color: 'white',
+          position: 'relative',
+          overflow: 'hidden',
+          borderBottom: '1px solid rgba(255,255,255,0.08)'
+        }}>
+          {/* Ambient Glow */}
+          <div style={{
+            position: 'absolute',
+            top: -60,
+            right: 80,
+            width: 320,
+            height: 320,
+            borderRadius: '50%',
+            background: 'radial-gradient(circle, rgba(99, 102, 241, 0.25) 0%, transparent 70%)',
+            pointerEvents: 'none'
+          }} />
+
+          <div className="container" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: 28, position: 'relative', zIndex: 2 }}>
+            <div style={{ maxWidth: 700 }}>
+              <div style={{ display: 'inline-flex', alignItems: 'center', gap: 7, padding: '4px 12px', background: 'rgba(252, 211, 77, 0.12)', border: '1px solid rgba(252, 211, 77, 0.3)', borderRadius: 9999, marginBottom: 12 }}>
+                <Zap size={14} color="#FCD34D" fill="#FCD34D" />
+                <span style={{ color: '#FCD34D', fontWeight: 800, fontSize: '0.74rem', letterSpacing: '0.05em' }}>
+                  VENDOR-FIRST MARKETPLACE · AUTHENTIC PHYSICAL MERCHANTS
                 </span>
               </div>
-              <h2 style={{ color: 'white', fontSize: '1.8rem', fontWeight: 900, marginBottom: 10, lineHeight: 1.2 }}>
-                Discover Verified Vendors First, Not Just Random Items
-              </h2>
-              <p style={{ color: 'rgba(255,255,255,0.86)', fontSize: '0.94rem', margin: '0 0 18px', lineHeight: 1.6 }}>
-                Unlike typical e-shopping sites that hide sellers behind generic product grids, Vendor Hub showcases authentic verified storefronts. Explore a merchant's specialty, verify their physical warehouse credentials, and shop with confidence.
+              <h1 style={{ color: 'white', fontSize: '2rem', fontWeight: 900, marginBottom: 12, lineHeight: 1.25, letterSpacing: '-0.02em' }}>
+                Discover Verified Vendors First, Not Just Random SKUs
+              </h1>
+              <p style={{ color: 'rgba(255,255,255,0.85)', fontSize: '0.94rem', margin: '0 0 20px', lineHeight: 1.6 }}>
+                Unlike generic platforms that mask real merchant origins, Vendor Hub connects you directly with verified local physical stores. Verify warehouse credentials, inspect authentic catalogs, and shop with complete transparency.
               </p>
-              <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap' }}>
+              <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap' }}>
                 <button
                   type="button"
                   onClick={() => setBrowseMode('vendors')}
@@ -397,19 +432,20 @@ export default function ProductListing() {
                     display: 'inline-flex',
                     alignItems: 'center',
                     gap: 8,
-                    padding: '8px 18px',
+                    padding: '9px 20px',
                     borderRadius: 10,
-                    background: browseMode === 'vendors' ? '#FCD34D' : 'rgba(255, 255, 255, 0.18)',
+                    background: browseMode === 'vendors' ? '#FCD34D' : 'rgba(255, 255, 255, 0.12)',
                     color: browseMode === 'vendors' ? '#1E1B4B' : '#fff',
                     border: '1px solid rgba(255, 255, 255, 0.3)',
-                    fontWeight: 700,
+                    fontWeight: 800,
                     fontSize: '0.86rem',
                     cursor: 'pointer',
-                    transition: 'all 0.2s'
+                    boxShadow: browseMode === 'vendors' ? '0 4px 14px rgba(252, 211, 77, 0.35)' : 'none',
+                    transition: 'all 0.2s ease'
                   }}
                 >
-                  <Store size={15} />
-                  <span>🏪 Browse by Vendors ({filteredVendors.length})</span>
+                  <Store size={16} />
+                  <span>Explore Stores ({filteredVendors.length})</span>
                 </button>
                 <button
                   type="button"
@@ -418,30 +454,50 @@ export default function ProductListing() {
                     display: 'inline-flex',
                     alignItems: 'center',
                     gap: 8,
-                    padding: '8px 18px',
+                    padding: '9px 20px',
                     borderRadius: 10,
-                    background: browseMode === 'products' ? '#FCD34D' : 'rgba(255, 255, 255, 0.18)',
+                    background: browseMode === 'products' ? '#FCD34D' : 'rgba(255, 255, 255, 0.12)',
                     color: browseMode === 'products' ? '#1E1B4B' : '#fff',
                     border: '1px solid rgba(255, 255, 255, 0.3)',
-                    fontWeight: 700,
+                    fontWeight: 800,
                     fontSize: '0.86rem',
                     cursor: 'pointer',
-                    transition: 'all 0.2s'
+                    boxShadow: browseMode === 'products' ? '0 4px 14px rgba(252, 211, 77, 0.35)' : 'none',
+                    transition: 'all 0.2s ease'
                   }}
                 >
-                  <Package size={15} />
-                  <span>📦 Browse All Individual Items ({filtered.length})</span>
+                  <Package size={16} />
+                  <span>Browse Products ({filtered.length})</span>
                 </button>
               </div>
-            </div>
-            <div style={{ display: 'flex', gap: 14 }}>
-              <div style={{ background: 'rgba(255,255,255,0.12)', backdropFilter: 'blur(8px)', borderRadius: 14, padding: '16px 22px', textAlign: 'center', border: '1px solid rgba(255,255,255,0.2)' }}>
-                <div style={{ fontSize: '1.8rem', fontWeight: 900, color: 'white' }}>{allVendors.length}</div>
-                <div style={{ color: 'rgba(255,255,255,0.8)', fontSize: '0.74rem', fontWeight: 600 }}>Verified Stores</div>
+
+              {/* Trust Indicators */}
+              <div style={{ display: 'flex', alignItems: 'center', gap: 16, flexWrap: 'wrap', marginTop: 18, paddingTop: 14, borderTop: '1px solid rgba(255,255,255,0.12)' }}>
+                <span style={{ display: 'inline-flex', alignItems: 'center', gap: 5, fontSize: '0.76rem', color: '#A5B4FC', fontWeight: 600 }}>
+                  <ShieldCheck size={14} color="#34D399" /> 100% Escrow Protected
+                </span>
+                <span style={{ display: 'inline-flex', alignItems: 'center', gap: 5, fontSize: '0.76rem', color: '#A5B4FC', fontWeight: 600 }}>
+                  <Truck size={14} color="#FCD34D" /> Direct Warehouse Dispatch
+                </span>
+                <span style={{ display: 'inline-flex', alignItems: 'center', gap: 5, fontSize: '0.76rem', color: '#A5B4FC', fontWeight: 600 }}>
+                  <Sparkles size={14} color="#F472B6" /> Fair Exposure Algorithm
+                </span>
               </div>
-              <div style={{ background: 'rgba(255,255,255,0.12)', backdropFilter: 'blur(8px)', borderRadius: 14, padding: '16px 22px', textAlign: 'center', border: '1px solid rgba(255,255,255,0.2)' }}>
-                <div style={{ fontSize: '1.8rem', fontWeight: 900, color: 'white' }}>{approved.length}</div>
-                <div style={{ color: 'rgba(255,255,255,0.8)', fontSize: '0.74rem', fontWeight: 600 }}>Warehouse SKUs</div>
+            </div>
+
+            {/* Quick KPI Stat Boxes */}
+            <div style={{ display: 'flex', gap: 14, flexWrap: 'wrap' }}>
+              <div style={{ background: 'rgba(255,255,255,0.08)', backdropFilter: 'blur(12px)', borderRadius: 14, padding: '18px 24px', textAlign: 'center', border: '1px solid rgba(255,255,255,0.16)', minWidth: 120 }}>
+                <div style={{ fontSize: '1.9rem', fontWeight: 900, color: 'white', lineHeight: 1.1 }}>{allVendors.length}</div>
+                <div style={{ color: 'rgba(255,255,255,0.75)', fontSize: '0.74rem', fontWeight: 600, marginTop: 4 }}>Verified Stores</div>
+              </div>
+              <div style={{ background: 'rgba(255,255,255,0.08)', backdropFilter: 'blur(12px)', borderRadius: 14, padding: '18px 24px', textAlign: 'center', border: '1px solid rgba(255,255,255,0.16)', minWidth: 120 }}>
+                <div style={{ fontSize: '1.9rem', fontWeight: 900, color: 'white', lineHeight: 1.1 }}>{approved.length}</div>
+                <div style={{ color: 'rgba(255,255,255,0.75)', fontSize: '0.74rem', fontWeight: 600, marginTop: 4 }}>Tested SKUs</div>
+              </div>
+              <div style={{ background: 'rgba(255,255,255,0.08)', backdropFilter: 'blur(12px)', borderRadius: 14, padding: '18px 24px', textAlign: 'center', border: '1px solid rgba(255,255,255,0.16)', minWidth: 120 }}>
+                <div style={{ fontSize: '1.9rem', fontWeight: 900, color: '#34D399', lineHeight: 1.1 }}>24h</div>
+                <div style={{ color: 'rgba(255,255,255,0.75)', fontSize: '0.74rem', fontWeight: 600, marginTop: 4 }}>Avg Dispatch</div>
               </div>
             </div>
           </div>
@@ -973,188 +1029,188 @@ export default function ProductListing() {
               </div>
             </div>
 
-        {/* Product Grid */}
-        {filtered.length === 0 ? (
-          <div className="empty-state">
-            <div className="empty-state-icon"><Package size={64} /></div>
-            <h3>No products found in physical inventory</h3>
-            <p>{filterState.search ? `No results for "${filterState.search}"` : 'No products in this category match your criteria'}</p>
-            <button className="btn btn-outline" onClick={handleResetFilters}>
-              {t('resetFilters', 'Clear Filters')}
-            </button>
-          </div>
-        ) : (
-          <div className={`product-grid ${viewMode === 'compact' ? 'compact-grid' : ''}`}>
-            {filtered.map((product) => {
-              const vendor = getVendorById(product.vendorId);
-              const isWishlisted = !!wishlist[product.id];
-              const isCompared = compareList.some((p) => p.id === product.id);
-              const stock = product.stock !== undefined ? product.stock : (product.quantity || 0);
-              const isLowStock = stock > 0 && stock <= 5;
-              const isOutOfStock = stock <= 0;
+            {/* Product Grid */}
+            {filtered.length === 0 ? (
+              <div className="empty-state">
+                <div className="empty-state-icon"><Package size={64} /></div>
+                <h3>No products found in physical inventory</h3>
+                <p>{filterState.search ? `No results for "${filterState.search}"` : 'No products in this category match your criteria'}</p>
+                <button className="btn btn-outline" onClick={handleResetFilters}>
+                  {t('resetFilters', 'Clear Filters')}
+                </button>
+              </div>
+            ) : (
+              <div className={`product-grid ${viewMode === 'compact' ? 'compact-grid' : ''}`}>
+                {filtered.map((product) => {
+                  const vendor = getVendorById(product.vendorId);
+                  const isWishlisted = Array.isArray(userWishlist) && userWishlist.includes(product.id);
+                  const isCompared = compareList.some((p) => p.id === product.id);
+                  const stock = product.stock !== undefined ? product.stock : (product.quantity || 0);
+                  const isLowStock = stock > 0 && stock <= 5;
+                  const isOutOfStock = stock <= 0;
 
-              return (
-                <div
-                  key={product.id}
-                  className="product-card"
-                  onClick={() => navigate(`/shop/product/${product.id}`)}
-                >
-                  <div className="product-card-img-wrap">
-                    <img
-                      src={product.images[0]}
-                      alt={product.name}
-                      className="product-card-img"
-                      onError={(e) => { e.target.src = 'https://images.unsplash.com/photo-1560393464-5c69a73c5770?w=400&h=400&fit=crop'; }}
-                    />
+                  return (
+                    <div
+                      key={product.id}
+                      className="product-card"
+                      onClick={() => navigate(`/shop/product/${product.id}`)}
+                    >
+                      <div className="product-card-img-wrap">
+                        <img
+                          src={product.images[0]}
+                          alt={product.name}
+                          className="product-card-img"
+                          onError={(e) => { e.target.src = 'https://images.unsplash.com/photo-1560393464-5c69a73c5770?w=400&h=400&fit=crop'; }}
+                        />
 
-                    {/* Stock Alert Badge */}
-                    <div className="product-card-badge" style={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
-                      {isOutOfStock ? (
-                        <span className="badge badge-rejected" style={{ fontWeight: 800 }}>{t('outOfStock', 'Out of Stock')}</span>
-                      ) : isLowStock ? (
-                        <span className="badge badge-pending" style={{ fontWeight: 800, background: '#FEF3C7', color: '#B45309' }}>
-                          ⚡ {t('lowStock', 'Only')} {stock} {t('unitsLeft', 'left!')}
-                        </span>
-                      ) : (
-                        <span className="badge badge-approved" style={{ fontWeight: 700 }}>
-                          ✓ {t('inStock', 'In Stock')} ({stock})
-                        </span>
-                      )}
-                      {product.discountPercent > 0 && (
-                        <span style={{ fontSize: '0.68rem', fontWeight: 800, background: '#EF4444', color: 'white', padding: '2px 6px', borderRadius: 4, width: 'fit-content' }}>
-                          {product.discountPercent}% OFF
-                        </span>
-                      )}
-                    </div>
+                        {/* Stock Alert Badge */}
+                        <div className="product-card-badge" style={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
+                          {isOutOfStock ? (
+                            <span className="badge badge-rejected" style={{ fontWeight: 800 }}>{t('outOfStock', 'Out of Stock')}</span>
+                          ) : isLowStock ? (
+                            <span className="badge badge-pending" style={{ fontWeight: 800, background: '#FEF3C7', color: '#B45309' }}>
+                              ⚡ {t('lowStock', 'Only')} {stock} {t('unitsLeft', 'left!')}
+                            </span>
+                          ) : (
+                            <span className="badge badge-approved" style={{ fontWeight: 700 }}>
+                              ✓ {t('inStock', 'In Stock')} ({stock})
+                            </span>
+                          )}
+                          {product.discountPercent > 0 && (
+                            <span style={{ fontSize: '0.68rem', fontWeight: 800, background: '#EF4444', color: 'white', padding: '2px 6px', borderRadius: 4, width: 'fit-content' }}>
+                              {product.discountPercent}% OFF
+                            </span>
+                          )}
+                        </div>
 
-                    {/* Action buttons on top right */}
-                    <div style={{ position: 'absolute', top: 8, right: 8, display: 'flex', flexDirection: 'column', gap: 6 }}>
-                      <button
-                        className="product-card-wishlist"
-                        onClick={(e) => toggleWishlist(e, product.id)}
-                        style={{ color: isWishlisted ? 'var(--danger)' : undefined }}
-                        title={isWishlisted ? 'Remove from wishlist' : 'Save to wishlist'}
-                      >
-                        <Heart size={15} fill={isWishlisted ? 'var(--danger)' : 'none'} />
-                      </button>
-                      <button
-                        className="product-card-wishlist"
-                        onClick={(e) => handleToggleCompare(e, product)}
-                        style={{
-                          color: isCompared ? 'white' : 'var(--text-secondary)',
-                          background: isCompared ? 'var(--primary, #4F46E5)' : 'white',
-                          boxShadow: '0 2px 4px rgba(0,0,0,0.1)'
-                        }}
-                        title={isCompared ? 'Remove from comparison' : 'Compare product (select 2-4)'}
-                      >
-                        <ArrowRightLeft size={14} />
-                      </button>
-                    </div>
-                  </div>
-
-                  <div className="product-card-body">
-                    {/* SKU & Brand */}
-                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', fontSize: '0.7rem' }}>
-                      <span style={{ color: 'var(--text-muted)', fontWeight: 600 }}>{product.sku || `SKU-${product.id}`}</span>
-                      <span style={{ color: 'var(--text-secondary)', fontWeight: 700 }}>{product.brand}</span>
-                    </div>
-
-                    {/* Product Name */}
-                    <div className="product-card-name" title={product.name}>{product.name}</div>
-
-                    {/* Vendor Store Tag & Fair Exposure Badge */}
-                    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 6, flexWrap: 'wrap', margin: '4px 0 2px' }}>
-                      <div
-                        style={{ fontSize: '0.74rem', color: 'var(--primary)', fontWeight: 700, display: 'flex', alignItems: 'center', gap: 4, cursor: 'pointer' }}
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          navigate(`/store/${vendor?.storeSlug || product.vendorId}`);
-                        }}
-                        title="Sold by verified merchant. Click to open storefront."
-                      >
-                        <Store size={12} />
-                        <span>Sold by {vendor?.businessName || product.vendorName || 'Verified Merchant'}</span>
+                        {/* Action buttons on top right */}
+                        <div style={{ position: 'absolute', top: 8, right: 8, display: 'flex', flexDirection: 'column', gap: 6 }}>
+                          <button
+                            className="product-card-wishlist"
+                            onClick={(e) => handleToggleWishlist(e, product)}
+                            style={{ color: isWishlisted ? 'var(--danger)' : undefined }}
+                            title={isWishlisted ? 'Remove from wishlist' : 'Save to wishlist'}
+                          >
+                            <Heart size={15} fill={isWishlisted ? 'var(--danger)' : 'none'} />
+                          </button>
+                          <button
+                            className="product-card-wishlist"
+                            onClick={(e) => handleToggleCompare(e, product)}
+                            style={{
+                              color: isCompared ? 'white' : 'var(--text-secondary)',
+                              background: isCompared ? 'var(--primary, #4F46E5)' : 'white',
+                              boxShadow: '0 2px 4px rgba(0,0,0,0.1)'
+                            }}
+                            title={isCompared ? 'Remove from comparison' : 'Compare product (select 2-4)'}
+                          >
+                            <ArrowRightLeft size={14} />
+                          </button>
+                        </div>
                       </div>
-                      {(product._fairDiscovery?.isEmerging || ['v5', 'v6', 'v7', 'v8', 'v9', 'v10'].includes(product.vendorId)) && (
-                        <span style={{ fontSize: '0.65rem', fontWeight: 800, background: '#FEF3C7', color: '#B45309', padding: '1px 6px', borderRadius: 4, display: 'inline-flex', alignItems: 'center', gap: 2 }}>
-                          <Flame size={10} /> Emerging
-                        </span>
-                      )}
-                    </div>
 
-                    {/* Rating & Review Count */}
-                    <div style={{ display: 'flex', alignItems: 'center', gap: 6, fontSize: '0.74rem', color: 'var(--text-muted)', marginBottom: 4 }}>
-                      <span style={{ display: 'flex', alignItems: 'center', gap: 3, color: '#D97706', fontWeight: 700 }}>
-                        <Star size={12} fill="#D97706" color="#D97706" />
-                        {product.rating || 4.5}
-                      </span>
-                      <span>•</span>
-                      <span>{product.reviewsCount || product.reviews?.length || 1} ratings</span>
-                    </div>
+                      <div className="product-card-body">
+                        {/* SKU & Brand */}
+                        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', fontSize: '0.7rem' }}>
+                          <span style={{ color: 'var(--text-muted)', fontWeight: 600 }}>{product.sku || `SKU-${product.id}`}</span>
+                          <span style={{ color: 'var(--text-secondary)', fontWeight: 700 }}>{product.brand}</span>
+                        </div>
 
-                    {/* Price & MRP */}
-                    <div style={{ display: 'flex', alignItems: 'baseline', gap: 8, marginTop: 2 }}>
-                      <div className="product-card-price">
-                        <span className="currency">₹</span>
-                        {product.price.toLocaleString('en-IN')}
+                        {/* Product Name */}
+                        <div className="product-card-name" title={product.name}>{product.name}</div>
+
+                        {/* Vendor Store Tag & Fair Exposure Badge */}
+                        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 6, flexWrap: 'wrap', margin: '4px 0 2px' }}>
+                          <div
+                            style={{ fontSize: '0.74rem', color: 'var(--primary)', fontWeight: 700, display: 'flex', alignItems: 'center', gap: 4, cursor: 'pointer' }}
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              navigate(`/store/${vendor?.storeSlug || product.vendorId}`);
+                            }}
+                            title="Sold by verified merchant. Click to open storefront."
+                          >
+                            <Store size={12} />
+                            <span>Sold by {vendor?.businessName || product.vendorName || 'Verified Merchant'}</span>
+                          </div>
+                          {(product._fairDiscovery?.isEmerging || ['v5', 'v6', 'v7', 'v8', 'v9', 'v10'].includes(product.vendorId)) && (
+                            <span style={{ fontSize: '0.65rem', fontWeight: 800, background: '#FEF3C7', color: '#B45309', padding: '1px 6px', borderRadius: 4, display: 'inline-flex', alignItems: 'center', gap: 2 }}>
+                              <Flame size={10} /> Emerging
+                            </span>
+                          )}
+                        </div>
+
+                        {/* Rating & Review Count */}
+                        <div style={{ display: 'flex', alignItems: 'center', gap: 6, fontSize: '0.74rem', color: 'var(--text-muted)', marginBottom: 4 }}>
+                          <span style={{ display: 'flex', alignItems: 'center', gap: 3, color: '#D97706', fontWeight: 700 }}>
+                            <Star size={12} fill="#D97706" color="#D97706" />
+                            {product.rating || 4.5}
+                          </span>
+                          <span>•</span>
+                          <span>{product.reviewsCount || product.reviews?.length || 1} ratings</span>
+                        </div>
+
+                        {/* Price & MRP */}
+                        <div style={{ display: 'flex', alignItems: 'baseline', gap: 8, marginTop: 2 }}>
+                          <div className="product-card-price">
+                            <span className="currency">₹</span>
+                            {product.price.toLocaleString('en-IN')}
+                          </div>
+                          {product.mrp && product.mrp > product.price && (
+                            <span style={{ fontSize: '0.78rem', color: 'var(--text-muted)', textDecoration: 'line-through' }}>
+                              ₹{product.mrp.toLocaleString('en-IN')}
+                            </span>
+                          )}
+                        </div>
+
+                        {/* Dispatch & Stock Info */}
+                        <div style={{ display: 'flex', alignItems: 'center', gap: 6, fontSize: '0.72rem', color: 'var(--text-muted)', marginTop: 2 }}>
+                          <Truck size={12} color="var(--success)" />
+                          <span>{product.shipping?.dispatchTime || 'Ships in 24 hrs'}</span>
+                        </div>
+
+                        {/* Action buttons: Add to Cart and Compare */}
+                        <div style={{ display: 'flex', gap: 6, marginTop: 8 }}>
+                          <button
+                            className="product-card-add-btn"
+                            onClick={(e) => handleAddToCart(e, product)}
+                            disabled={isOutOfStock}
+                            style={{ flex: 1, opacity: isOutOfStock ? 0.6 : 1, cursor: isOutOfStock ? 'not-allowed' : 'pointer' }}
+                          >
+                            <ShoppingCart size={15} />
+                            {isOutOfStock ? t('outOfStock', 'Sold Out') : t('addToCart', 'Add to Cart')}
+                          </button>
+                          <button
+                            type="button"
+                            className="btn btn-sm"
+                            onClick={(e) => handleToggleCompare(e, product)}
+                            style={{
+                              background: isCompared ? '#EEF2FF' : 'var(--surface-2, #F8FAFC)',
+                              color: isCompared ? '#4F46E5' : 'var(--text-secondary, #475569)',
+                              border: isCompared ? '1.5px solid #4F46E5' : '1px solid var(--border, #E2E8F0)',
+                              padding: '0 10px',
+                              fontWeight: 700,
+                              fontSize: '0.78rem',
+                              display: 'inline-flex',
+                              alignItems: 'center',
+                              gap: 4,
+                              borderRadius: 8,
+                              cursor: 'pointer',
+                              whiteSpace: 'nowrap'
+                            }}
+                            title={isCompared ? 'Remove from comparison' : 'Compare product with other vendors'}
+                          >
+                            <ArrowRightLeft size={13} />
+                            {isCompared ? 'Comparing' : 'Compare'}
+                          </button>
+                        </div>
                       </div>
-                      {product.mrp && product.mrp > product.price && (
-                        <span style={{ fontSize: '0.78rem', color: 'var(--text-muted)', textDecoration: 'line-through' }}>
-                          ₹{product.mrp.toLocaleString('en-IN')}
-                        </span>
-                      )}
                     </div>
-
-                    {/* Dispatch & Stock Info */}
-                    <div style={{ display: 'flex', alignItems: 'center', gap: 6, fontSize: '0.72rem', color: 'var(--text-muted)', marginTop: 2 }}>
-                      <Truck size={12} color="var(--success)" />
-                      <span>{product.shipping?.dispatchTime || 'Ships in 24 hrs'}</span>
-                    </div>
-
-                    {/* Action buttons: Add to Cart and Compare */}
-                    <div style={{ display: 'flex', gap: 6, marginTop: 8 }}>
-                      <button
-                        className="product-card-add-btn"
-                        onClick={(e) => handleAddToCart(e, product)}
-                        disabled={isOutOfStock}
-                        style={{ flex: 1, opacity: isOutOfStock ? 0.6 : 1, cursor: isOutOfStock ? 'not-allowed' : 'pointer' }}
-                      >
-                        <ShoppingCart size={15} />
-                        {isOutOfStock ? t('outOfStock', 'Sold Out') : t('addToCart', 'Add to Cart')}
-                      </button>
-                      <button
-                        type="button"
-                        className="btn btn-sm"
-                        onClick={(e) => handleToggleCompare(e, product)}
-                        style={{
-                          background: isCompared ? '#EEF2FF' : 'var(--surface-2, #F8FAFC)',
-                          color: isCompared ? '#4F46E5' : 'var(--text-secondary, #475569)',
-                          border: isCompared ? '1.5px solid #4F46E5' : '1px solid var(--border, #E2E8F0)',
-                          padding: '0 10px',
-                          fontWeight: 700,
-                          fontSize: '0.78rem',
-                          display: 'inline-flex',
-                          alignItems: 'center',
-                          gap: 4,
-                          borderRadius: 8,
-                          cursor: 'pointer',
-                          whiteSpace: 'nowrap'
-                        }}
-                        title={isCompared ? 'Remove from comparison' : 'Compare product with other vendors'}
-                      >
-                        <ArrowRightLeft size={13} />
-                        {isCompared ? 'Comparing' : 'Compare'}
-                      </button>
-                    </div>
-                  </div>
-                </div>
-              );
-            })}
+                  );
+                })}
+              </div>
+            )}
           </div>
         )}
       </div>
-    )}
-  </div>
 
       {/* ── Floating Comparison Drawer ── */}
       {compareList.length > 0 && (

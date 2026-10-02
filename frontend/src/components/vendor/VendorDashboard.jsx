@@ -7,6 +7,8 @@ import { useDisputes } from '../../contexts/DisputeContext';
 import { useMessages } from '../../contexts/MessageContext';
 import { useToast } from '../../contexts/ToastContext';
 import { useTheme } from '../../contexts/ThemeContext';
+import { api } from '../../services/api';
+import VendorBusinessCardModal from '../common/VendorBusinessCardModal';
 import {
   LayoutDashboard, Package, PlusCircle, LogOut,
   ShoppingBag, Clock, CheckCircle, XCircle, Truck,
@@ -14,7 +16,7 @@ import {
   Palette, Store, Sparkles, ExternalLink, Copy, CheckCircle2,
   TrendingUp, Users, Eye, Star, DollarSign, ArrowUpRight,
   MessageSquare, Megaphone, Check, X, RefreshCw, Calendar,
-  ChevronRight, Filter, Layers, Zap, Sun, Moon
+  ChevronRight, Filter, Layers, Zap, Sun, Moon, QrCode, FileCheck
 } from 'lucide-react';
 import '../../styles/vendor.css';
 
@@ -24,11 +26,13 @@ const NAV_ITEMS = [
   { icon: <Box size={18} />, label: 'Smart Inventory', path: '/vendor/inventory' },
   { icon: <MessageSquare size={18} />, label: 'Customer Inbox', path: '/vendor/messages', badgeKey: 'messages' },
   { icon: <Megaphone size={18} />, label: 'Marketing Center', path: '/vendor/marketing' },
+  { icon: <Users size={18} />, label: 'Subscribers', path: '/vendor/subscribers' },
   { icon: <Palette size={18} />, label: 'Store Builder', path: '/vendor/store-builder' },
   { icon: <Truck size={18} />, label: 'Orders & Dispatch', path: '/vendor/orders' },
   { icon: <Package size={18} />, label: 'Inventory & SKUs', path: '/vendor/products' },
   { icon: <PlusCircle size={18} />, label: 'Add Physical Product', path: '/vendor/add-product' },
   { icon: <AlertTriangle size={18} />, label: 'Disputes & Claims', path: '/vendor/disputes', badgeKey: 'disputes' },
+  { icon: <Sparkles size={18} />, label: 'Hub AI Assistant', path: '/vendor/assistant' },
 ];
 
 export function VendorSidebar() {
@@ -53,7 +57,9 @@ export function VendorSidebar() {
     <aside className="vendor-sidebar">
       <div className="vendor-sidebar-header">
         <div className="sidebar-brand">
-          <div className="sidebar-brand-icon"><ShoppingBag size={20} /></div>
+          <div className="sidebar-brand-icon" style={{ background: 'linear-gradient(135deg, #4F46E5 0%, #7C3AED 100%)', boxShadow: '0 4px 12px rgba(79, 70, 229, 0.4)' }}>
+            <ShoppingBag size={20} />
+          </div>
           <span className="sidebar-brand-name">Vendor <span>Hub</span></span>
         </div>
         <div className="sidebar-vendor-info">
@@ -66,6 +72,10 @@ export function VendorSidebar() {
           <div>
             <div className="sidebar-vendor-name">{user?.businessName}</div>
             <div className="sidebar-vendor-type">Physical Merchant Hub</div>
+            <div style={{ display: 'inline-flex', alignItems: 'center', gap: 5, fontSize: '0.66rem', color: '#34D399', background: 'rgba(16, 185, 129, 0.12)', border: '1px solid rgba(16, 185, 129, 0.25)', padding: '2px 7px', borderRadius: 9999, marginTop: 4, fontWeight: 600 }}>
+              <span style={{ width: 6, height: 6, borderRadius: '50%', background: '#10B981', display: 'inline-block', boxShadow: '0 0 6px #10B981' }} />
+              Store Live & Open
+            </div>
           </div>
         </div>
       </div>
@@ -73,43 +83,60 @@ export function VendorSidebar() {
       <nav className="vendor-sidebar-nav">
         <div className="sidebar-nav-section">
           <div className="sidebar-nav-label">Fulfillment & Operations</div>
-          {NAV_ITEMS.map((item) => (
-            <button
-              key={item.path}
-              className={`sidebar-nav-item ${pathname === item.path ? 'active' : ''}`}
-              onClick={() => navigate(item.path)}
-              style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', width: '100%' }}
-            >
-              <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-                {item.icon}
-                <span>{item.label}</span>
-              </div>
-              {item.badgeKey === 'messages' && unreadVendorCount > 0 && (
-                <span style={{
-                  background: 'var(--primary)',
-                  color: 'white',
-                  borderRadius: 9999,
-                  padding: '1px 7px',
-                  fontSize: '0.7rem',
-                  fontWeight: 800
-                }}>
-                  {unreadVendorCount}
-                </span>
-              )}
-              {item.badgeKey === 'disputes' && pendingDisputesCount > 0 && (
-                <span style={{
-                  background: '#EF4444',
-                  color: 'white',
-                  borderRadius: 9999,
-                  padding: '1px 7px',
-                  fontSize: '0.7rem',
-                  fontWeight: 800
-                }}>
-                  {pendingDisputesCount}
-                </span>
-              )}
-            </button>
-          ))}
+          {NAV_ITEMS.map((item) => {
+            const isActive = pathname === item.path;
+            return (
+              <button
+                key={item.path}
+                className={`sidebar-nav-item ${isActive ? 'active' : ''}`}
+                onClick={() => navigate(item.path)}
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'space-between',
+                  width: '100%',
+                  ...(isActive ? {
+                    background: 'linear-gradient(135deg, rgba(79, 70, 229, 0.95), rgba(99, 102, 241, 0.95))',
+                    boxShadow: '0 4px 14px rgba(79, 70, 229, 0.35)',
+                    borderLeft: '3px solid #A5B4FC',
+                    fontWeight: 600,
+                    color: '#FFFFFF'
+                  } : {})
+                }}
+              >
+                <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+                  {item.icon}
+                  <span>{item.label}</span>
+                </div>
+                {item.badgeKey === 'messages' && unreadVendorCount > 0 && (
+                  <span style={{
+                    background: '#4F46E5',
+                    color: 'white',
+                    borderRadius: 9999,
+                    padding: '1px 8px',
+                    fontSize: '0.7rem',
+                    fontWeight: 800,
+                    boxShadow: '0 2px 6px rgba(79, 70, 229, 0.4)'
+                  }}>
+                    {unreadVendorCount}
+                  </span>
+                )}
+                {item.badgeKey === 'disputes' && pendingDisputesCount > 0 && (
+                  <span style={{
+                    background: '#EF4444',
+                    color: 'white',
+                    borderRadius: 9999,
+                    padding: '1px 8px',
+                    fontSize: '0.7rem',
+                    fontWeight: 800,
+                    boxShadow: '0 2px 6px rgba(239, 68, 68, 0.4)'
+                  }}>
+                    {pendingDisputesCount}
+                  </span>
+                )}
+              </button>
+            );
+          })}
         </div>
       </nav>
 
@@ -154,11 +181,8 @@ export function VendorSidebar() {
           <button className="sidebar-nav-item" onClick={() => navigate(`/store/${user?.storeSlug || user?.id || 'techzone'}`)} style={{ color: 'rgba(255,255,255,0.85)', padding: '7px 12px', fontSize: '0.8rem', width: '100%', textAlign: 'left', marginBottom: 4 }}>
             🏬 View Public Storefront
           </button>
-          <button className="sidebar-nav-item" onClick={() => navigate('/shop')} style={{ color: 'rgba(255,255,255,0.85)', padding: '7px 12px', fontSize: '0.8rem', width: '100%', textAlign: 'left', marginBottom: 4 }}>
+          <button className="sidebar-nav-item" onClick={() => navigate('/shop')} style={{ color: 'rgba(255,255,255,0.85)', padding: '7px 12px', fontSize: '0.8rem', width: '100%', textAlign: 'left' }}>
             🛍️ Customer Marketplace
-          </button>
-          <button className="sidebar-nav-item" onClick={() => navigate('/admin/login')} style={{ color: 'rgba(255,255,255,0.85)', padding: '7px 12px', fontSize: '0.8rem', width: '100%', textAlign: 'left' }}>
-            🛡️ Admin Portal
           </button>
         </div>
         <button className="sidebar-nav-item" onClick={handleLogout} style={{ color: '#F87171' }}>
@@ -210,6 +234,24 @@ export default function VendorDashboard() {
 
   // Chart hover state
   const [hoveredDataIndex, setHoveredDataIndex] = useState(null);
+
+  // Digital Business Card modal & Onboarding Application Status
+  const [isCardModalOpen, setIsCardModalOpen] = useState(false);
+  const [appStatus, setAppStatus] = useState(user?.vendorApplicationStatus || 'approved');
+  const [appData, setAppData] = useState(null);
+
+  useEffect(() => {
+    const fetchAppStatus = async () => {
+      try {
+        const res = await api.getMyVendorApplicationStatus();
+        if (res?.success && res.status) {
+          setAppStatus(res.status);
+          if (res.application) setAppData(res.application);
+        }
+      } catch (e) {}
+    };
+    fetchAppStatus();
+  }, [user?.id]);
 
   useEffect(() => {
     document.title = 'Business Command Center | Vendor Hub';
@@ -443,17 +485,32 @@ export default function VendorDashboard() {
         {/* ── Topbar ── */}
         <div className="vendor-topbar">
           <div>
-            <div className="vendor-topbar-title">Business Command Center</div>
-            <div style={{ fontSize: '0.82rem', color: 'var(--text-muted)' }}>
+            <div className="vendor-topbar-title" style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+              <span>Business Command Center</span>
+            </div>
+            <div style={{ fontSize: '0.82rem', color: 'var(--text-muted)', marginTop: 2 }}>
               Operational intelligence, sales analytics & fulfillment command for <strong>{user?.businessName}</strong>
             </div>
           </div>
-          <div style={{ display: 'flex', alignItems: 'center', gap: 8, flexWrap: 'wrap' }}>
+
+          <div style={{ display: 'flex', alignItems: 'center', gap: 12, flexWrap: 'wrap' }}>
+            {/* Live Operational Status Pills */}
+            <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+              <span style={{ display: 'inline-flex', alignItems: 'center', gap: 5, fontSize: '0.72rem', padding: '4px 10px', borderRadius: 20, background: 'rgba(16, 185, 129, 0.1)', color: '#059669', border: '1px solid rgba(16, 185, 129, 0.25)', fontWeight: 600 }}>
+                <span style={{ width: 6, height: 6, borderRadius: '50%', background: '#10B981', display: 'inline-block', boxShadow: '0 0 4px #10B981' }} /> Settlement: T+3 Auto
+              </span>
+              <span style={{ display: 'inline-flex', alignItems: 'center', gap: 5, fontSize: '0.72rem', padding: '4px 10px', borderRadius: 20, background: 'rgba(79, 70, 229, 0.1)', color: '#4F46E5', border: '1px solid rgba(79, 70, 229, 0.25)', fontWeight: 600 }}>
+                <span style={{ width: 6, height: 6, borderRadius: '50%', background: '#4F46E5', display: 'inline-block', boxShadow: '0 0 4px #4F46E5' }} /> BlueDart: Linked
+              </span>
+            </div>
+
             <VendorThemeToggle />
+
             <button
               type="button"
               className="btn btn-outline btn-sm"
               onClick={() => navigate('/vendor/analytics')}
+              style={{ fontWeight: 600 }}
             >
               <TrendingUp size={14} /> Analytics
             </button>
@@ -461,6 +518,7 @@ export default function VendorDashboard() {
               type="button"
               className="btn btn-outline btn-sm"
               onClick={() => navigate('/vendor/inventory')}
+              style={{ fontWeight: 600 }}
             >
               <Box size={14} /> Inventory
             </button>
@@ -468,6 +526,7 @@ export default function VendorDashboard() {
               type="button"
               className="btn btn-outline btn-sm"
               onClick={() => navigate('/vendor/store-builder')}
+              style={{ fontWeight: 600 }}
             >
               <Palette size={14} /> Store Builder
             </button>
@@ -475,6 +534,12 @@ export default function VendorDashboard() {
               type="button"
               className="btn btn-primary btn-sm"
               onClick={() => navigate('/vendor/add-product')}
+              style={{
+                background: 'linear-gradient(135deg, #4F46E5 0%, #7C3AED 100%)',
+                border: 'none',
+                boxShadow: '0 2px 8px rgba(79, 70, 229, 0.3)',
+                fontWeight: 700
+              }}
             >
               <PlusCircle size={14} /> Add Product
             </button>
@@ -482,6 +547,92 @@ export default function VendorDashboard() {
         </div>
 
         <div className="vendor-content">
+          {/* ── Onboarding Application Status Banner (Feature 7) ── */}
+          {(appStatus === 'pending' || appStatus === 'under_review') && (
+            <div
+              className="card"
+              style={{
+                padding: '16px 20px',
+                marginBottom: 20,
+                borderRadius: 12,
+                background: 'linear-gradient(135deg, rgba(254, 243, 199, 0.4), rgba(255, 251, 235, 0.95))',
+                border: '1.5px solid #FCD34D',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'space-between',
+                gap: 16,
+                flexWrap: 'wrap'
+              }}
+            >
+              <div style={{ display: 'flex', alignItems: 'center', gap: 14 }}>
+                <div style={{ width: 44, height: 44, borderRadius: 10, background: '#FEF3C7', color: '#B45309', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                  <Clock size={22} />
+                </div>
+                <div>
+                  <div style={{ fontWeight: 800, fontSize: '0.96rem', color: '#92400E', display: 'flex', alignItems: 'center', gap: 8 }}>
+                    <span>Merchant Onboarding Application: {appStatus === 'under_review' ? 'Under Document Verification' : 'Pending Admin Compliance Sign-off'}</span>
+                    <span style={{ fontSize: '0.7rem', padding: '2px 8px', borderRadius: 999, background: '#FEF3C7', color: '#B45309', fontWeight: 800 }}>
+                      {appStatus.toUpperCase()}
+                    </span>
+                  </div>
+                  <div style={{ fontSize: '0.82rem', color: '#78350F', marginTop: 2 }}>
+                    Your GSTIN, PAN, and pickup location credentials are under review by VendorHub administrators. All product management, catalog inspection, and storefront tools are fully accessible for setup.
+                  </div>
+                </div>
+              </div>
+              <div style={{ display: 'flex', gap: 8 }}>
+                <button
+                  type="button"
+                  className="btn btn-outline btn-sm"
+                  onClick={() => setIsCardModalOpen(true)}
+                  style={{ borderColor: '#B45309', color: '#B45309', fontSize: '0.78rem' }}
+                >
+                  <QrCode size={13} /> Store Card & QR
+                </button>
+              </div>
+            </div>
+          )}
+
+          {appStatus === 'rejected' && (
+            <div
+              className="card"
+              style={{
+                padding: '16px 20px',
+                marginBottom: 20,
+                borderRadius: 12,
+                background: 'rgba(254, 226, 226, 0.5)',
+                border: '1.5px solid #FCA5A5',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'space-between',
+                gap: 16,
+                flexWrap: 'wrap'
+              }}
+            >
+              <div style={{ display: 'flex', alignItems: 'center', gap: 14 }}>
+                <div style={{ width: 44, height: 44, borderRadius: 10, background: '#FEE2E2', color: '#DC2626', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                  <AlertTriangle size={22} />
+                </div>
+                <div>
+                  <div style={{ fontWeight: 800, fontSize: '0.96rem', color: '#991B1B' }}>
+                    Merchant Application Needs Revision
+                  </div>
+                  <div style={{ fontSize: '0.82rem', color: '#7F1D1D', marginTop: 2 }}>
+                    Reason: {appData?.rejectionReason || user?.rejectionReason || 'Please verify GSTIN and uploaded documentation.'}
+                  </div>
+                </div>
+              </div>
+              <button
+                type="button"
+                className="btn btn-primary btn-sm"
+                onClick={() => navigate('/vendor/register')}
+                style={{ background: '#DC2626', borderColor: '#DC2626' }}
+              >
+                Update & Resubmit
+              </button>
+            </div>
+          )}
+
           {/* ── Storefront Overview Strip ── */}
           <div
             className="card"
@@ -557,6 +708,14 @@ export default function VendorDashboard() {
             </div>
 
             <div style={{ display: 'flex', alignItems: 'center', gap: 8, flexWrap: 'wrap' }}>
+              <button
+                type="button"
+                className="btn btn-outline btn-sm"
+                onClick={() => setIsCardModalOpen(true)}
+                style={{ display: 'inline-flex', alignItems: 'center', gap: 6, fontWeight: 700 }}
+              >
+                <QrCode size={14} color="var(--primary)" /> Digital Store Card & QR
+              </button>
               <button
                 type="button"
                 className="btn btn-outline btn-sm"
@@ -1470,6 +1629,14 @@ export default function VendorDashboard() {
             </div>
           </div>
         </div>
+      )}
+
+      {/* Digital Business Card & Store QR Modal */}
+      {isCardModalOpen && (
+        <VendorBusinessCardModal
+          vendor={user}
+          onClose={() => setIsCardModalOpen(false)}
+        />
       )}
     </div>
   );

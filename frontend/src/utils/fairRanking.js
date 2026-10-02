@@ -5,8 +5,9 @@
  * 1. Product relevance (keyword matching across title, brand, tags, category, description)
  * 2. Stock availability factor (severe penalty for out of stock; no boost for OOS)
  * 3. Quality multiplier (rating + review count validation)
- * 4. Fair exposure boost for high-performing emerging merchants (prevents monopoly)
- * 5. Saturation penalty & vendor diversity interleaving (prevents single-vendor domination)
+ * 4. Dynamic Fair exposure boost for high-performing emerging & less-discovered merchants
+ *    (Calculated from real MongoDB metrics: orders, impressions, clicks, store views, join date)
+ * 5. Diversity interleaving (prevents single-vendor domination / monopoly)
  */
 
 export const calculateProductRelevance = (product, query = '') => {
@@ -24,22 +25,10 @@ export const calculateProductRelevance = (product, query = '') => {
   const vendorName = (product.vendorName || '').toLowerCase();
   const tags = Array.isArray(product.tags) ? product.tags.map(t => String(t).toLowerCase()) : [];
 
-  // Exact phrase match in title
-  if (title.includes(q)) {
-    score += 60;
-  }
+  if (title.includes(q)) score += 60;
+  if (brand.includes(q) || category.includes(q)) score += 35;
+  if (vendorName.includes(q)) score += 30;
 
-  // Exact brand or category match
-  if (brand.includes(q) || category.includes(q)) {
-    score += 35;
-  }
-
-  // Match vendor name
-  if (vendorName.includes(q)) {
-    score += 30;
-  }
-
-  // Token matching
   tokens.forEach((token) => {
     if (title.includes(token)) score += 25;
     if (brand.includes(token)) score += 20;
@@ -83,12 +72,17 @@ export const calculateFairExposureBoost = (product, vendorMeta = {}, query = '')
 
   let boost = 0;
 
-  const isEmerging = vendorMeta.isEmerging ||
-    ['v5', 'v6', 'v7', 'v8', 'v9', 'v10'].includes(product.vendorId) ||
-    (vendorMeta.totalOrdersFulfilled && vendorMeta.totalOrdersFulfilled < 200);
+  const ordersFulfilled = Number(vendorMeta.totalOrdersFulfilled) || 0;
+  const impressions = Number(vendorMeta.impressions || vendorMeta.visits || 0);
 
-  if (isEmerging) {
-    boost += 25;
+  if (ordersFulfilled < 150) {
+    boost += 28;
+  } else if (ordersFulfilled < 350) {
+    boost += 16;
+  }
+
+  if (impressions < 500) {
+    boost += 8;
   }
 
   if (vendorMeta.isVerified !== false) {
@@ -130,6 +124,9 @@ export const rankProductsFairly = (products = [], options = {}) => {
     const baseScore = relevance * quality * stockFactor;
     const finalScore = baseScore + fairBoost;
 
+    const isEmerging = (vendorMeta.totalOrdersFulfilled !== undefined && vendorMeta.totalOrdersFulfilled < 350) ||
+      Boolean(vendorMeta.isEmerging);
+
     return {
       product,
       score: finalScore,
@@ -137,7 +134,7 @@ export const rankProductsFairly = (products = [], options = {}) => {
       quality,
       stockFactor,
       fairBoost,
-      isEmerging: vendorMeta.isEmerging || ['v5', 'v6', 'v7', 'v8', 'v9', 'v10'].includes(product.vendorId)
+      isEmerging
     };
   });
 
@@ -149,31 +146,41 @@ export const rankProductsFairly = (products = [], options = {}) => {
   let consecutiveCount = 0;
 
   while (remaining.length > 0) {
-    let pickIndex = 0;
+    let pickIndex = -1;
 
-    if (consecutiveCount >= 2) {
-      const altIndex = remaining.findIndex(item => item.product.vendorId !== consecutiveVendorId);
-      if (altIndex !== -1) {
-        pickIndex = altIndex;
+    for (let i = 0; i < remaining.length; i++) {
+      const candidateVendorId = remaining[i].product.vendorId;
+
+      if (candidateVendorId === consecutiveVendorId && consecutiveCount >= 2) {
+        continue;
       }
+
+      pickIndex = i;
+      break;
+    }
+
+    if (pickIndex === -1) {
+      pickIndex = 0;
     }
 
     const picked = remaining.splice(pickIndex, 1)[0];
-    result.push({
-      ...picked.product,
-      _fairDiscovery: {
-        score: Math.round(picked.score),
-        fairBoost: picked.fairBoost,
-        isEmerging: picked.isEmerging
-      }
-    });
 
-    if (picked.product.vendorId === consecutiveVendorId) {
+    const currentVendorId = picked.product.vendorId;
+    if (currentVendorId === consecutiveVendorId) {
       consecutiveCount++;
     } else {
-      consecutiveVendorId = picked.product.vendorId;
+      consecutiveVendorId = currentVendorId;
       consecutiveCount = 1;
     }
+
+    const enrichedProduct = {
+      ...picked.product,
+      rankingScore: Math.round(picked.score * 10) / 10,
+      isEmergingVendor: picked.isEmerging,
+      fairExposureBoostApplied: picked.fairBoost > 0
+    };
+
+    result.push(enrichedProduct);
   }
 
   return result;

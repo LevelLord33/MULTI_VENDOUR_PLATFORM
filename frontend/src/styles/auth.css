@@ -628,3 +628,337 @@
   .auth-form-title { font-size: 1.45rem; }
   .auth-panel-right { padding: 28px 16px; }
 }
+
+/* ── Amazon & Flipkart-Grade Professional E-Commerce Auth Page ── */
+.auth-ecommerce-page {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  padding: 32px 16px 40px;
+  background: #F8FAFC;
+  color: #0F172A;
+  box-sizing: border-box;
+}
+
+.auth-ecommerce-brand {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 24px;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.auth-ecommerce-logo-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.auth-ecommerce-logo-icon {
+  width: 40px;
+  height: 40px;
+  background: linear-gradient(135deg, #4F46E5 0%, #312E81 100%);
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 12px rgba(79, 70, 229, 0.25);
+}
+
+.auth-ecommerce-logo-text {
+  font-size: 1.65rem;
+  font-weight: 800;
+  color: #0F172A;
+  letter-spacing: -0.03em;
+}
+
+.auth-ecommerce-logo-text span {
+  color: #F59E0B;
+}
+
+.auth-ecommerce-card {
+  width: 100%;
+  max-width: 420px;
+  background: #FFFFFF;
+  border: 1px solid #E2E8F0;
+  border-radius: 16px;
+  padding: 32px 28px 26px;
+  box-shadow: 0 4px 20px -2px rgba(15, 23, 42, 0.05), 0 2px 6px -1px rgba(15, 23, 42, 0.03);
+  box-sizing: border-box;
+}
+
+.auth-ecommerce-heading {
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: #0F172A;
+  margin: 0 0 6px 0;
+  letter-spacing: -0.02em;
+}
+
+.auth-ecommerce-subheading {
+  font-size: 0.86rem;
+  color: #64748B;
+  margin: 0 0 20px 0;
+  line-height: 1.45;
+}
+
+/* Official Google Sign-In Button (Amazon / Flipkart standard) */
+.google-auth-btn-official {
+  width: 100%;
+  height: 44px;
+  background: #FFFFFF;
+  border: 1px solid #DADCE0;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  color: #3C4043;
+  font-size: 0.92rem;
+  font-weight: 600;
+  font-family: inherit;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+  box-sizing: border-box;
+}
+
+.google-auth-btn-official:hover {
+  background: #F8FAFD;
+  border-color: #D2E3FC;
+  box-shadow: 0 1px 4px rgba(60, 64, 67, 0.16);
+  color: #202124;
+}
+
+.google-auth-btn-official:active {
+  background: #F1F3F4;
+}
+
+/* Clean Divider */
+.auth-ecommerce-divider {
+  display: flex;
+  align-items: center;
+  margin: 20px 0;
+  color: #94A3B8;
+  font-size: 0.78rem;
+}
+
+.auth-ecommerce-divider::before,
+.auth-ecommerce-divider::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: #E2E8F0;
+}
+
+.auth-ecommerce-divider span {
+  padding: 0 12px;
+  text-transform: lowercase;
+  letter-spacing: 0.02em;
+}
+
+/* Input Fields */
+.auth-ecommerce-field {
+  margin-bottom: 16px;
+}
+
+.auth-ecommerce-label {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.83rem;
+  font-weight: 600;
+  color: #334155;
+  margin-bottom: 6px;
+}
+
+.auth-ecommerce-input {
+  width: 100%;
+  height: 42px;
+  padding: 0 12px;
+  border: 1.5px solid #CBD5E1;
+  border-radius: 8px;
+  font-size: 0.92rem;
+  color: #0F172A;
+  background: #FFFFFF;
+  box-sizing: border-box;
+  outline: none;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.auth-ecommerce-input:focus {
+  border-color: #4F46E5;
+  box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.12);
+}
+
+.auth-ecommerce-input.error {
+  border-color: #EF4444;
+}
+
+.auth-ecommerce-btn-primary {
+  width: 100%;
+  height: 44px;
+  background: #4F46E5;
+  color: #FFFFFF;
+  border: none;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  font-weight: 700;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 8px;
+  transition: background-color 0.15s ease, transform 0.1s ease;
+  box-shadow: 0 2px 6px rgba(79, 70, 229, 0.25);
+}
+
+.auth-ecommerce-btn-primary:hover {
+  background: #4338CA;
+}
+
+.auth-ecommerce-btn-primary:active {
+  transform: scale(0.99);
+}
+
+.auth-ecommerce-legal {
+  font-size: 0.74rem;
+  color: #64748B;
+  line-height: 1.5;
+  margin-top: 16px;
+  text-align: center;
+}
+
+.auth-ecommerce-legal a {
+  color: #4F46E5;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+/* Amazon-style "New to VendorHub" Box */
+.auth-ecommerce-new-user {
+  width: 100%;
+  max-width: 420px;
+  margin-top: 22px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.auth-ecommerce-new-divider {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  margin-bottom: 14px;
+  color: #94A3B8;
+  font-size: 0.78rem;
+}
+
+.auth-ecommerce-new-divider::before,
+.auth-ecommerce-new-divider::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: #E2E8F0;
+}
+
+.auth-ecommerce-new-divider span {
+  padding: 0 10px;
+}
+
+.auth-ecommerce-btn-secondary {
+  width: 100%;
+  height: 42px;
+  background: #FFFFFF;
+  border: 1px solid #CBD5E1;
+  border-radius: 8px;
+  color: #1E293B;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.15s ease;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
+}
+
+.auth-ecommerce-btn-secondary:hover {
+  background: #F8FAFC;
+  border-color: #94A3B8;
+}
+
+/* Discreet Collapsible Demo Drawer */
+.auth-demo-drawer {
+  width: 100%;
+  max-width: 420px;
+  margin-top: 20px;
+  background: #FFFFFF;
+  border: 1px dashed #CBD5E1;
+  border-radius: 12px;
+  overflow: hidden;
+  transition: all 0.2s ease;
+}
+
+.auth-demo-drawer-toggle {
+  width: 100%;
+  padding: 9px 14px;
+  background: transparent;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 0.76rem;
+  font-weight: 600;
+  color: #64748B;
+  cursor: pointer;
+}
+
+.auth-demo-drawer-toggle:hover {
+  color: #4F46E5;
+  background: #F8FAFC;
+}
+
+.auth-demo-drawer-content {
+  padding: 10px 14px 14px;
+  border-top: 1px solid #F1F5F9;
+  background: #FAFAFA;
+}
+
+/* E-Commerce Footer */
+.auth-ecommerce-footer {
+  margin-top: 36px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  color: #64748B;
+  font-size: 0.76rem;
+}
+
+.auth-ecommerce-footer-links {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 16px;
+}
+
+.auth-ecommerce-footer-links a,
+.auth-ecommerce-footer-links button {
+  color: #4F46E5;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 0.76rem;
+  text-decoration: none;
+}
+
+.auth-ecommerce-footer-links a:hover,
+.auth-ecommerce-footer-links button:hover {
+  text-decoration: underline;
+}
+

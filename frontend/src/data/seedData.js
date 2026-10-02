@@ -58,7 +58,8 @@ export const seedVendors = [
     ],
     "returnPolicy": "7 Days Hassle-Free Physical Replacement or Full Refund",
     "warrantyPolicy": "100% Verified Brand Warranty & Tax Invoice Included",
-    "description": "Official verified physical retail store of TechZone Electronics. We stock 100% genuine consumer electronics with same-day warehouse dispatch."
+    "description": "Official verified physical retail store of TechZone Electronics. We stock 100% genuine consumer electronics with same-day warehouse dispatch.",
+    "category": "Electronics & Gadgets"
   },
   {
     "id": "v2",
@@ -96,7 +97,8 @@ export const seedVendors = [
     ],
     "returnPolicy": "7 Days Hassle-Free Physical Replacement or Full Refund",
     "warrantyPolicy": "100% Authentic Fabric & Quality Assurance Guarantee",
-    "description": "StyleHub Fashion brings handpicked designer wear, handcrafted Banarasi silks, and tailored wardrobe essentials from master artisans across India."
+    "description": "StyleHub Fashion brings handpicked designer wear, handcrafted Banarasi silks, and tailored wardrobe essentials from master artisans across India.",
+    "category": "Fashion & Apparel"
   },
   {
     "id": "v3",
@@ -134,7 +136,8 @@ export const seedVendors = [
     ],
     "returnPolicy": "7 Days Replacement for sealed grocery items upon delivery inspection",
     "warrantyPolicy": "FSSAI Certified, 100% Pesticide-Free Laboratory Tested",
-    "description": "FreshBazaar connects health-conscious households with organic farm cooperatives producing A2 cultured ghee, cold-pressed oils, and pure superfoods."
+    "description": "FreshBazaar connects health-conscious households with organic farm cooperatives producing A2 cultured ghee, cold-pressed oils, and pure superfoods.",
+    "category": "Organic Grocery & Staples"
   },
   {
     "id": "v4",
@@ -172,7 +175,8 @@ export const seedVendors = [
     ],
     "returnPolicy": "7 Days Hassle-Free Physical Replacement or Full Refund",
     "warrantyPolicy": "5-Year Structural Replacement Warranty on Heavy Cast Iron",
-    "description": "HomeEssentials Store crafts heirloom-quality kitchenware designed to last generations, combining traditional metallurgy with modern ergonomic standards."
+    "description": "HomeEssentials Store crafts heirloom-quality kitchenware designed to last generations, combining traditional metallurgy with modern ergonomic standards.",
+    "category": "Home & Kitchen Essentials"
   },
   {
     "id": "v5",
@@ -210,7 +214,8 @@ export const seedVendors = [
     ],
     "returnPolicy": "7 Days Physical Replacement for Sports Equipment",
     "warrantyPolicy": "1-Year Official Manufacturer Warranty on all Rackets & Gym Gear",
-    "description": "Apex Sports is an emerging boutique retailer in Hyderabad supplying tournament-grade badminton racquets, Olympic gym dumbbells, and mountain biking gear."
+    "description": "Apex Sports is an emerging boutique retailer in Hyderabad supplying tournament-grade badminton racquets, Olympic gym dumbbells, and mountain biking gear.",
+    "category": "Sports, Fitness & Outdoor"
   },
   {
     "id": "v6",
@@ -247,7 +252,8 @@ export const seedVendors = [
     ],
     "returnPolicy": "7 Days Return on unopened products with intact safety seals",
     "warrantyPolicy": "Dermatologically Tested & Ayush Ministry Certified",
-    "description": "GlowAura Beauty is a Chennai-based clean apothecary formulating pure Kumkumadi facial oils, Kannauj rose water, and organic hair restoration solutions."
+    "description": "GlowAura Beauty is a Chennai-based clean apothecary formulating pure Kumkumadi facial oils, Kannauj rose water, and organic hair restoration solutions.",
+    "category": "Ayurvedic Beauty & Wellness"
   },
   {
     "id": "v7",
@@ -285,7 +291,8 @@ export const seedVendors = [
     ],
     "returnPolicy": "100% Free Replacement for any item damaged during physical transit",
     "warrantyPolicy": "Authentic Handicraft Certificate & Origin Verification Included",
-    "description": "Direct heritage craft collective in Jaipur preserving 500-year-old Blue Pottery techniques, bell-metal casting, and block-printed home furnishings."
+    "description": "Direct heritage craft collective in Jaipur preserving 500-year-old Blue Pottery techniques, bell-metal casting, and block-printed home furnishings.",
+    "category": "Handcrafted Arts & Heritage Decor"
   },
   {
     "id": "v8",
@@ -322,7 +329,8 @@ export const seedVendors = [
     ],
     "returnPolicy": "7 Days Hassle-Free Physical Replacement or Full Refund",
     "warrantyPolicy": "3-Year Solid Hardwood Structural Guarantee",
-    "description": "UrbanDen designs productivity-boosting desktop accessories using sustainably sourced oak wood, heavy-gauge aluminum, and vegan leather."
+    "description": "UrbanDen designs productivity-boosting desktop accessories using sustainably sourced oak wood, heavy-gauge aluminum, and vegan leather.",
+    "category": "Modern Workspaces & Living"
   },
   {
     "id": "v9",
@@ -359,7 +367,8 @@ export const seedVendors = [
     ],
     "returnPolicy": "Guaranteed Healthy Delivery: 48-Hour Live Plant Replacement Guarantee",
     "warrantyPolicy": "Potted in organic nutrient-rich soil mix with care instructions",
-    "description": "GreenLeaf Boutique grows resilient, air-purifying indoor plants packaged with specialized breathable root-protective cartons for safe express delivery."
+    "description": "GreenLeaf Boutique grows resilient, air-purifying indoor plants packaged with specialized breathable root-protective cartons for safe express delivery.",
+    "category": "Live Botanicals & Exotic Foliage"
   },
   {
     "id": "v10",
@@ -397,7 +406,8 @@ export const seedVendors = [
     ],
     "returnPolicy": "7 Days Physical Replacement for Technical Defects",
     "warrantyPolicy": "2-Year Direct Importer Warranty & Official Tax Invoice",
-    "description": "SoundMaster Pro Audio supplies verified studio condenser microphones, reference monitors, and acoustic solutions for podcasters, musicians, and creators."
+    "description": "SoundMaster Pro Audio supplies verified studio condenser microphones, reference monitors, and acoustic solutions for podcasters, musicians, and creators.",
+    "category": "Pro Audio & Studio Sound"
   },
   {
     "id": "v11",
@@ -435,7 +445,8 @@ export const seedVendors = [
     ],
     "returnPolicy": "7 Days Freshness Guarantee - Full Replacement for Damaged Aroma Seals",
     "warrantyPolicy": "100% Certified Organic & FSSAI Lab Tested Batch Reports",
-    "description": "ChaiCulture sources directly from heritage tea estates in Darjeeling, the Brahmaputra Valley, and Malabar spice gardens for unparalleled aroma and authenticity."
+    "description": "ChaiCulture sources directly from heritage tea estates in Darjeeling, the Brahmaputra Valley, and Malabar spice gardens for unparalleled aroma and authenticity.",
+    "category": "Organic Grocery & Staples"
   },
   {
     "id": "v12",
@@ -472,7 +483,8 @@ export const seedVendors = [
     ],
     "returnPolicy": "10 Days Hassle-Free Replacement for Driver or Optical Module Defects",
     "warrantyPolicy": "2 to 5 Years Comprehensive On-Site Warranty with Official Tax Invoice",
-    "description": "Lumina Studio curates architectural-grade smart illumination, CRI 95+ light engines, and high-efficiency smart LED fixtures for modern residences."
+    "description": "Lumina Studio curates architectural-grade smart illumination, CRI 95+ light engines, and high-efficiency smart LED fixtures for modern residences.",
+    "category": "Home & Kitchen Essentials"
   },
   {
     "id": "v13",
@@ -510,7 +522,8 @@ export const seedVendors = [
     ],
     "returnPolicy": "7 Days Replacement for Broken Glass Containers or Seal Tampering",
     "warrantyPolicy": "100% Raw Unpasteurized Guarantee with Nuclear Magnetic Resonance (NMR) Lab Reports",
-    "description": "Himalayan Pure Organics works with Uttarakhand self-help farmer collectives to bring mountain produce directly to discerning households nationwide."
+    "description": "Himalayan Pure Organics works with Uttarakhand self-help farmer collectives to bring mountain produce directly to discerning households nationwide.",
+    "category": "Organic Grocery & Staples"
   },
   {
     "id": "v14",
@@ -547,7 +560,8 @@ export const seedVendors = [
     ],
     "returnPolicy": "15 Days Physical Return or Size Exchange with Complimentary Reverse Pickup",
     "warrantyPolicy": "Lifetime Stitching & Solid Brass Hardware Warranty",
-    "description": "Master leathercrafters in Kanpur building heirloom-grade leather gear that ages gracefully with a rich patina over decades of daily adventures."
+    "description": "Master leathercrafters in Kanpur building heirloom-grade leather gear that ages gracefully with a rich patina over decades of daily adventures.",
+    "category": "Fashion & Apparel"
   },
   {
     "id": "v15",
@@ -585,7 +599,8 @@ export const seedVendors = [
     ],
     "returnPolicy": "10 Days Component Replacement for Manufacturing Flaws or Knurling Imperfections",
     "warrantyPolicy": "5-Year Barbell Shaft Warranty & 2-Year Frame Structural Warranty",
-    "description": "Apex Pro manufactures professional strength training gear engineered to IPF and IWF tolerances for commercial fitness centers and home gyms."
+    "description": "Apex Pro manufactures professional strength training gear engineered to IPF and IWF tolerances for commercial fitness centers and home gyms.",
+    "category": "Sports, Fitness & Outdoor"
   },
   {
     "id": "v16",
@@ -622,7 +637,8 @@ export const seedVendors = [
     ],
     "returnPolicy": "7 Days Return Policy with Silk Mark Tag Untampered",
     "warrantyPolicy": "Official Silk Mark & Handloom Mark Tag Authenticated",
-    "description": "Kaveri Silks preserves centuries-old weaving traditions from master looms in Kanchipuram and Arani with authenticated Silk Mark verification."
+    "description": "Kaveri Silks preserves centuries-old weaving traditions from master looms in Kanchipuram and Arani with authenticated Silk Mark verification.",
+    "category": "Fashion & Apparel"
   },
   {
     "id": "v17",
@@ -660,7 +676,8 @@ export const seedVendors = [
     ],
     "returnPolicy": "7 Days Replacement for Electronic or Pressure Calibration Faults",
     "warrantyPolicy": "1-Year Direct Brand Warranty with Official Indian Tax Invoices",
-    "description": "AutoCraft Pro equips car owners with essential automotive tech, intelligent dashcams, emergency battery packs, and detailing solutions."
+    "description": "AutoCraft Pro equips car owners with essential automotive tech, intelligent dashcams, emergency battery packs, and detailing solutions.",
+    "category": "Electronics & Gadgets"
   },
   {
     "id": "v18",
@@ -698,7 +715,8 @@ export const seedVendors = [
     ],
     "returnPolicy": "7 Days Replacement for Breakage or Seal Damage during transit",
     "warrantyPolicy": "100% Ayurvedic Pharmacopoeia Standards & Dermatologist Clinically Tested",
-    "description": "Doctor-formulated Ayurvedic skin and scalp remedies crafted with classical decoctions, cold-pressed herbs, and natural essential oils."
+    "description": "Doctor-formulated Ayurvedic skin and scalp remedies crafted with classical decoctions, cold-pressed herbs, and natural essential oils.",
+    "category": "Ayurvedic Beauty & Wellness"
   },
   {
     "id": "v19",
@@ -735,7 +753,8 @@ export const seedVendors = [
     ],
     "returnPolicy": "14 Days Hassle-Free Frame Fit Exchange with Reverse Pickup",
     "warrantyPolicy": "1-Year Frame Hinge & Coating Delamination Warranty",
-    "description": "Crestview crafts ultralight beta-titanium and Italian Mazzucchelli acetate spectacles paired with distortion-free optical coatings."
+    "description": "Crestview crafts ultralight beta-titanium and Italian Mazzucchelli acetate spectacles paired with distortion-free optical coatings.",
+    "category": "Fashion & Apparel"
   },
   {
     "id": "v20",
@@ -773,7 +792,1148 @@ export const seedVendors = [
     ],
     "returnPolicy": "7 Days Free Replacement for Glassware Breakage or Calibration Issues",
     "warrantyPolicy": "2-Year Burrs & Mechanical Warranty on Precision Grinders",
-    "description": "Artisanal Brew supplies specialty coffee gear, pour-over equipment, burr grinders, and lead-free crystal barware to connoisseurs across India."
+    "description": "Artisanal Brew supplies specialty coffee gear, pour-over equipment, burr grinders, and lead-free crystal barware to connoisseurs across India.",
+    "category": "Home & Kitchen Essentials"
+  },
+  {
+    "id": "v21",
+    "businessName": "Nexus Gadgets India",
+    "storeSlug": "nexusgadgets",
+    "category": "Electronics & Gadgets",
+    "tagline": "GaN Fast Chargers, ANC Wireless Earbuds, Smart Wearables & Multi-Docks",
+    "ownerName": "Alok Verma",
+    "email": "alok@nexusgadgets.in",
+    "password": "Vendor@123",
+    "mobile": "9845019283",
+    "businessAddress": "45, 100 Feet Road, Indiranagar",
+    "location": "Bengaluru, Karnataka",
+    "joinedDate": "2024-03-15",
+    "avatar": "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=120&h=120&fit=crop",
+    "banner": "https://images.unsplash.com/photo-1518770660439-4636190af475?w=1200&h=300&fit=crop",
+    "themeColor": "#2563EB",
+    "themePreset": "indigo",
+    "storeStatus": "published",
+    "isVerified": true,
+    "gstin": "29AABCN4412K1Z9",
+    "announcement": "⚡ 65W GaN Chargers & Ultra-Low Latency Earbuds with 1-Year Direct Replacement Warranty.",
+    "featuredProductIds": [
+      "p251",
+      "p252",
+      "p253",
+      "p254"
+    ],
+    "storeRating": 4.9,
+    "totalOrdersFulfilled": 1480,
+    "onTimeDispatchRate": "99.4%",
+    "shippingPartners": [
+      "BlueDart Express",
+      "Delhivery Surface",
+      "DTDC Air"
+    ],
+    "returnPolicy": "7 Days Instant Replacement for Technical Defects",
+    "warrantyPolicy": "1-Year Official Brand Warranty with GST Invoice",
+    "description": "Nexus Gadgets curates high-performance charging hubs, mechanical keyboards, and precision audio gear designed for mobile power-users."
+  },
+  {
+    "id": "v22",
+    "businessName": "PixelCore Smart Tech",
+    "storeSlug": "pixelcore",
+    "category": "Electronics & Gadgets",
+    "tagline": "4K Action Cams, High-Resolution Displays, Drone Accessories & Power Banks",
+    "ownerName": "Devendra Joshi",
+    "email": "devendra@pixelcore.in",
+    "password": "Vendor@123",
+    "mobile": "9825091823",
+    "businessAddress": "88, CG Road, Navrangpura",
+    "location": "Ahmedabad, Gujarat",
+    "joinedDate": "2024-04-10",
+    "avatar": "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=120&h=120&fit=crop",
+    "banner": "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?w=1200&h=300&fit=crop",
+    "themeColor": "#0284C7",
+    "themePreset": "sky",
+    "storeStatus": "published",
+    "isVerified": true,
+    "gstin": "24AABCP8832L1Z3",
+    "announcement": "🎥 Free High-Speed 64GB Extreme SD Card with every 4K Action Camera bundle!",
+    "featuredProductIds": [
+      "p255",
+      "p256",
+      "p257",
+      "p258"
+    ],
+    "storeRating": 4.8,
+    "totalOrdersFulfilled": 1190,
+    "onTimeDispatchRate": "98.9%",
+    "shippingPartners": [
+      "BlueDart Express",
+      "Delhivery Surface"
+    ],
+    "returnPolicy": "7 Days Hassle-Free Replacement for Optical or Sensor Faults",
+    "warrantyPolicy": "2-Year Manufacturer Replacement Warranty",
+    "description": "PixelCore supplies professional imaging gear, stabilized gimbals, and high-capacity portable power stations for creators on the move."
+  },
+  {
+    "id": "v23",
+    "businessName": "AuraTech Mobile & Computing",
+    "storeSlug": "auratech",
+    "category": "Electronics & Gadgets",
+    "tagline": "Thermal Laptop Cooling Pads, Magnetic Power Banks & Ergonomic Mice",
+    "ownerName": "Nitin Agarwal",
+    "email": "nitin@auratech.in",
+    "password": "Vendor@123",
+    "mobile": "9849012345",
+    "businessAddress": "12, HITEC City Main Rd, Madhapur",
+    "location": "Hyderabad, Telangana",
+    "joinedDate": "2024-05-02",
+    "avatar": "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=120&h=120&fit=crop",
+    "banner": "https://images.unsplash.com/photo-1519389950473-47ba0277781c?w=1200&h=300&fit=crop",
+    "themeColor": "#4F46E5",
+    "themePreset": "indigo",
+    "storeStatus": "published",
+    "isVerified": true,
+    "gstin": "36AABCA9911M1Z5",
+    "announcement": "💻 High-airflow aluminum laptop cooling stations with whisper-quiet hydraulic fans.",
+    "featuredProductIds": [
+      "p259",
+      "p260",
+      "p261",
+      "p262"
+    ],
+    "storeRating": 4.8,
+    "totalOrdersFulfilled": 1340,
+    "onTimeDispatchRate": "99.1%",
+    "shippingPartners": [
+      "BlueDart Express",
+      "DTDC Air"
+    ],
+    "returnPolicy": "7 Days Free Replacement on all PC & Mobile Peripherals",
+    "warrantyPolicy": "1-Year Comprehensive Replacement Guarantee",
+    "description": "AuraTech engineers thermal accessories, active styluses, and ergonomic computing tools that extend the lifespan of your work hardware."
+  },
+  {
+    "id": "v24",
+    "businessName": "Banarasi Heritage Weaves",
+    "storeSlug": "banarasiheritage",
+    "category": "Fashion & Apparel",
+    "tagline": "Hand-Spun Katan Silk Sarees, Pure Zari Brocades & Ceremonial Dupattas",
+    "ownerName": "Shambhu Nath Mishra",
+    "email": "shambhu@banarasiheritage.in",
+    "password": "Vendor@123",
+    "mobile": "9839019283",
+    "businessAddress": "19, Chowk Silk Market, Thatheri Bazar",
+    "location": "Varanasi, Uttar Pradesh",
+    "joinedDate": "2024-02-18",
+    "avatar": "https://images.unsplash.com/photo-1544717305-2782549b5136?w=120&h=120&fit=crop",
+    "banner": "https://images.unsplash.com/photo-1610030469983-98e550d6193c?w=1200&h=300&fit=crop",
+    "themeColor": "#991B1B",
+    "themePreset": "rose",
+    "storeStatus": "published",
+    "isVerified": true,
+    "gstin": "09AABCB1122N1Z4",
+    "announcement": "🥻 GI-Tagged Varanasi Weaves with Silk Mark India & Handloom Mark Authentication.",
+    "featuredProductIds": [
+      "p263",
+      "p264",
+      "p265",
+      "p266"
+    ],
+    "storeRating": 4.9,
+    "totalOrdersFulfilled": 2100,
+    "onTimeDispatchRate": "99.6%",
+    "shippingPartners": [
+      "BlueDart Express",
+      "Delhivery Surface"
+    ],
+    "returnPolicy": "7 Days Return with Intact Silk Mark Security Tag",
+    "warrantyPolicy": "100% Genuine Mulberry Silk & Certified Silver Electroplated Zari",
+    "description": "Direct master weaver collective in Varanasi producing heirloom bridal Katan silks, Tanchoi brocades, and ceremonial Banarasi dupattas."
+  },
+  {
+    "id": "v25",
+    "businessName": "Vedic Organics & Coldpress",
+    "storeSlug": "vedicorganics",
+    "category": "Organic Grocery & Staples",
+    "tagline": "A2 Gir Cow Bilona Ghee, Wood-Pressed Mustard & Wild Forest Honey",
+    "ownerName": "Ramesh Patel",
+    "email": "ramesh@vedicorganics.in",
+    "password": "Vendor@123",
+    "mobile": "9824012398",
+    "businessAddress": "56, Ring Road, Varachha",
+    "location": "Surat, Gujarat",
+    "joinedDate": "2024-03-01",
+    "avatar": "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=120&h=120&fit=crop",
+    "banner": "https://images.unsplash.com/photo-1542838132-92c53300491e?w=1200&h=300&fit=crop",
+    "themeColor": "#15803D",
+    "themePreset": "emerald",
+    "storeStatus": "published",
+    "isVerified": true,
+    "gstin": "24AABCV7788R1Z2",
+    "announcement": "🌿 Curd-churned bilona ghee made in earthen pots from indigenous Gir cows.",
+    "featuredProductIds": [
+      "p267",
+      "p268",
+      "p269",
+      "p270"
+    ],
+    "storeRating": 4.9,
+    "totalOrdersFulfilled": 1850,
+    "onTimeDispatchRate": "99.5%",
+    "shippingPartners": [
+      "BlueDart Express",
+      "Delhivery Surface"
+    ],
+    "returnPolicy": "7 Days Free Replacement for Broken Jars or Seal Tampering",
+    "warrantyPolicy": "FSSAI & NABL Lab Certified 100% Zero Preservatives",
+    "description": "Vedic Organics manufactures traditional wood-pressed cooking oils and Ayurvedic bilona ghee packed in UV-shielding glass containers."
+  },
+  {
+    "id": "v26",
+    "businessName": "PureHarvest Spices & Millets",
+    "storeSlug": "pureharvest",
+    "category": "Organic Grocery & Staples",
+    "tagline": "Single-Origin Alleppey Cardamom, Wayanad Black Pepper & Heirloom Millets",
+    "ownerName": "Jayanthi Krishnan",
+    "email": "jayanthi@pureharvest.in",
+    "password": "Vendor@123",
+    "mobile": "9842019876",
+    "businessAddress": "14, West Masi Street",
+    "location": "Madurai, Tamil Nadu",
+    "joinedDate": "2024-03-25",
+    "avatar": "https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=120&h=120&fit=crop",
+    "banner": "https://images.unsplash.com/photo-1596040033229-a9821ebd058d?w=1200&h=300&fit=crop",
+    "themeColor": "#CA8A04",
+    "themePreset": "amber",
+    "storeStatus": "published",
+    "isVerified": true,
+    "gstin": "33AABCP5522S1Z6",
+    "announcement": "🌾 Direct farm-gate harvested spices packed in nitrogen-flushed resealable pouches.",
+    "featuredProductIds": [
+      "p271",
+      "p272",
+      "p273",
+      "p274"
+    ],
+    "storeRating": 4.9,
+    "totalOrdersFulfilled": 1620,
+    "onTimeDispatchRate": "99.2%",
+    "shippingPartners": [
+      "Delhivery Surface",
+      "DTDC Air"
+    ],
+    "returnPolicy": "7 Days Freshness Guarantee for Untampered Pouches",
+    "warrantyPolicy": "100% Pesticide Residue-Free Verified by Agmark",
+    "description": "PureHarvest partners with organic spice farmers in the Western Ghats to deliver bold-grade green cardamom, clove, and gluten-free millets."
+  },
+  {
+    "id": "v27",
+    "businessName": "CopperCraft Heirloom Cookware",
+    "storeSlug": "coppercraft",
+    "category": "Home & Kitchen Essentials",
+    "tagline": "Pure Beaten Copper Jugs, Tin-Lined Kadhai & Traditional Bronze Urulis",
+    "ownerName": "Madhavan Pillai",
+    "email": "madhavan@coppercraft.in",
+    "password": "Vendor@123",
+    "mobile": "9846012876",
+    "businessAddress": "77, Kuruppam Road",
+    "location": "Thrissur, Kerala",
+    "joinedDate": "2024-02-14",
+    "avatar": "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=120&h=120&fit=crop",
+    "banner": "https://images.unsplash.com/photo-1616486338812-3dadae4b4ace?w=1200&h=300&fit=crop",
+    "themeColor": "#B45309",
+    "themePreset": "amber",
+    "storeStatus": "published",
+    "isVerified": true,
+    "gstin": "32AABCC4433T1Z7",
+    "announcement": "✨ Hand-hammered 99.2% pure copperware with traditional food-safe tin lining (kalai).",
+    "featuredProductIds": [
+      "p275",
+      "p276",
+      "p277",
+      "p278"
+    ],
+    "storeRating": 4.9,
+    "totalOrdersFulfilled": 1390,
+    "onTimeDispatchRate": "98.8%",
+    "shippingPartners": [
+      "BlueDart Express",
+      "Delhivery Surface"
+    ],
+    "returnPolicy": "10 Days Replacement for Transit Denting or Structural Imperfections",
+    "warrantyPolicy": "5-Year Metal Purity & Structural Guarantee",
+    "description": "Centuries-old artisan coppersmiths in Kerala handcrafting Ayurvedic copper drinkware, brass steamers, and tin-lined bronze cooking pots."
+  },
+  {
+    "id": "v28",
+    "businessName": "ClayRoots Terracotta & Ceramic",
+    "storeSlug": "clayroots",
+    "category": "Home & Kitchen Essentials",
+    "tagline": "Natural Unglazed Clay Biryani Pots, Earthen Water Dispensers & Dinnerware",
+    "ownerName": "Sangeeta Roy",
+    "email": "sangeeta@clayroots.in",
+    "password": "Vendor@123",
+    "mobile": "9822019823",
+    "businessAddress": "32, Senapati Bapat Road",
+    "location": "Pune, Maharashtra",
+    "joinedDate": "2024-04-01",
+    "avatar": "https://images.unsplash.com/photo-1580489944761-15a19d654956?w=120&h=120&fit=crop",
+    "banner": "https://images.unsplash.com/photo-1578749556568-bc2c40e68b61?w=1200&h=300&fit=crop",
+    "themeColor": "#C2410C",
+    "themePreset": "orange",
+    "storeStatus": "published",
+    "isVerified": true,
+    "gstin": "27AABCY8899U1Z3",
+    "announcement": "🏺 100% Lead-Free & Heavy-Metal Free certified earthen cookware.",
+    "featuredProductIds": [
+      "p279",
+      "p280",
+      "p281",
+      "p282"
+    ],
+    "storeRating": 4.8,
+    "totalOrdersFulfilled": 1210,
+    "onTimeDispatchRate": "98.9%",
+    "shippingPartners": [
+      "BlueDart Express",
+      "Delhivery Surface"
+    ],
+    "returnPolicy": "Instant 100% Free Doorstep Replacement for Any Transit Damage",
+    "warrantyPolicy": "Lead-Free Certified & Traditional Kiln-Fired Structural Guarantee",
+    "description": "ClayRoots preserves slow-cooking culinary traditions with hand-turned terracotta pots that retain natural nutrients and alkaline flavors."
+  },
+  {
+    "id": "v29",
+    "businessName": "ProFit Calisthenics & Gym",
+    "storeSlug": "profitcalisthenics",
+    "category": "Sports, Fitness & Outdoor",
+    "tagline": "Birch Gymnastic Rings, Heavy-Duty Dip Bars, Grip Chalk & Resistance Bands",
+    "ownerName": "Maninder Gill",
+    "email": "maninder@profitcalisthenics.in",
+    "password": "Vendor@123",
+    "mobile": "9814019283",
+    "businessAddress": "18, Industrial Area Phase 1",
+    "location": "Chandigarh, Punjab",
+    "joinedDate": "2024-03-10",
+    "avatar": "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=120&h=120&fit=crop",
+    "banner": "https://images.unsplash.com/photo-1517838277536-f5f99be501cd?w=1200&h=300&fit=crop",
+    "themeColor": "#DC2626",
+    "themePreset": "rose",
+    "storeStatus": "published",
+    "isVerified": true,
+    "gstin": "03AABCP6677V1Z5",
+    "announcement": "💪 Heavy-duty 32mm natural Baltic birch gymnastic rings rated for 450kg load.",
+    "featuredProductIds": [
+      "p283",
+      "p284",
+      "p285",
+      "p286"
+    ],
+    "storeRating": 4.9,
+    "totalOrdersFulfilled": 1450,
+    "onTimeDispatchRate": "99.3%",
+    "shippingPartners": [
+      "BlueDart Express",
+      "Delhivery Surface"
+    ],
+    "returnPolicy": "7 Days Free Replacement for Fitness Equipment",
+    "warrantyPolicy": "3-Year Heavy Load Structural Guarantee",
+    "description": "ProFit builds commercial-grade calisthenics rigs, parallettes, and competition-standard gymnastics rings for functional fitness athletes."
+  },
+  {
+    "id": "v30",
+    "businessName": "PeakHimalaya Trekking Gear",
+    "storeSlug": "peakhimalaya",
+    "category": "Sports, Fitness & Outdoor",
+    "tagline": "Ultralight Geodesic Tents, Carbon Trekking Poles & -10°C Down Sleeping Bags",
+    "ownerName": "Tenzing Norbu",
+    "email": "tenzing@peakhimalaya.in",
+    "password": "Vendor@123",
+    "mobile": "9816012876",
+    "businessAddress": "The Mall Road, Near Circuit House",
+    "location": "Manali, Himachal Pradesh",
+    "joinedDate": "2024-02-28",
+    "avatar": "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=120&h=120&fit=crop",
+    "banner": "https://images.unsplash.com/photo-1500382017468-9049fed747ef?w=1200&h=300&fit=crop",
+    "themeColor": "#0284C7",
+    "themePreset": "sky",
+    "storeStatus": "published",
+    "isVerified": true,
+    "gstin": "02AABCP2211W1Z9",
+    "announcement": "🏔️ Field-tested in high-altitude Himalayan expeditions above 14,000 feet.",
+    "featuredProductIds": [
+      "p287",
+      "p288",
+      "p289",
+      "p290"
+    ],
+    "storeRating": 4.9,
+    "totalOrdersFulfilled": 1180,
+    "onTimeDispatchRate": "99.1%",
+    "shippingPartners": [
+      "Delhivery Surface",
+      "BlueDart Express"
+    ],
+    "returnPolicy": "10 Days Physical Replacement for Seam Sealing or Zipper Defects",
+    "warrantyPolicy": "2-Year High-Altitude Expedition Guarantee",
+    "description": "PeakHimalaya manufactures weather-tested mountaineering tents, thermal sleeping bags, and ripstop waterproof rucksacks built for rugged terrains."
+  },
+  {
+    "id": "v31",
+    "businessName": "Velocity Speed Cycles",
+    "storeSlug": "velocitycycles",
+    "category": "Sports, Fitness & Outdoor",
+    "tagline": "Gravel Adventure Bikes, MIPS Aero Helmets & Precision Torque Tools",
+    "ownerName": "Kunal Deshmukh",
+    "email": "kunal@velocitycycles.in",
+    "password": "Vendor@123",
+    "mobile": "9823019876",
+    "businessAddress": "102, FC Road, Shivajinagar",
+    "location": "Pune, Maharashtra",
+    "joinedDate": "2024-04-15",
+    "avatar": "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=120&h=120&fit=crop",
+    "banner": "https://images.unsplash.com/photo-1485965120184-e220f721d03e?w=1200&h=300&fit=crop",
+    "themeColor": "#EA580C",
+    "themePreset": "orange",
+    "storeStatus": "published",
+    "isVerified": true,
+    "gstin": "27AABCV1199X1Z1",
+    "announcement": "🚴 100% Pre-assembled cycle delivery with tuned disc brakes & Shimano gearsets.",
+    "featuredProductIds": [
+      "p291",
+      "p292",
+      "p293",
+      "p294"
+    ],
+    "storeRating": 4.8,
+    "totalOrdersFulfilled": 980,
+    "onTimeDispatchRate": "98.7%",
+    "shippingPartners": [
+      "Delhivery Heavy Freight",
+      "Gati KWE"
+    ],
+    "returnPolicy": "10 Days Component Replacement Guarantee",
+    "warrantyPolicy": "Lifetime Frame Structural Guarantee & 1-Year Component Warranty",
+    "description": "Velocity Cycles provides endurance road bikes, gravel adventurers, and European-certified cycling safety gear to passionate riders."
+  },
+  {
+    "id": "v32",
+    "businessName": "Rasayan Ayur Herbals",
+    "storeSlug": "rasayanayur",
+    "category": "Ayurvedic Beauty & Wellness",
+    "tagline": "Authentic Kumkumadi Tailam, Pure Saffron Elixirs & Triphala Decoctions",
+    "ownerName": "Vaidya Shrikant Sharma",
+    "email": "shrikant@rasayanayur.in",
+    "password": "Vendor@123",
+    "mobile": "9813019823",
+    "businessAddress": "12, Har Ki Pauri Marg",
+    "location": "Haridwar, Uttarakhand",
+    "joinedDate": "2024-02-10",
+    "avatar": "https://images.unsplash.com/photo-1544717305-2782549b5136?w=120&h=120&fit=crop",
+    "banner": "https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?w=1200&h=300&fit=crop",
+    "themeColor": "#7C3AED",
+    "themePreset": "purple",
+    "storeStatus": "published",
+    "isVerified": true,
+    "gstin": "05AABCR9944Y1Z8",
+    "announcement": "🌸 Classical taila formulations simmered in copper cauldrons over 72 continuous hours.",
+    "featuredProductIds": [
+      "p295",
+      "p296",
+      "p297",
+      "p298"
+    ],
+    "storeRating": 4.9,
+    "totalOrdersFulfilled": 1780,
+    "onTimeDispatchRate": "99.5%",
+    "shippingPartners": [
+      "BlueDart Express",
+      "Delhivery Surface"
+    ],
+    "returnPolicy": "7 Days Free Replacement for Damaged Glass Vials",
+    "warrantyPolicy": "AYUSH Certified Classical Ayurvedic Pharmacopoeia Preparation",
+    "description": "Rasayan Ayur manufactures classical Ayurvedic herbal oils, saffron face treatments, and wellness supplements following sacred ancient texts."
+  },
+  {
+    "id": "v33",
+    "businessName": "PureBotanica Clean Skincare",
+    "storeSlug": "purebotanica",
+    "category": "Ayurvedic Beauty & Wellness",
+    "tagline": "Natural Bakuchiol Serums, Cold-Pressed Rosehip & Marine Algae Detox Cleansers",
+    "ownerName": "Divya Nair",
+    "email": "divya@purebotanica.in",
+    "password": "Vendor@123",
+    "mobile": "9845019827",
+    "businessAddress": "22, Lavelle Road",
+    "location": "Bengaluru, Karnataka",
+    "joinedDate": "2024-03-20",
+    "avatar": "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=120&h=120&fit=crop",
+    "banner": "https://images.unsplash.com/photo-1556228720-195a672e8a03?w=1200&h=300&fit=crop",
+    "themeColor": "#059669",
+    "themePreset": "emerald",
+    "storeStatus": "published",
+    "isVerified": true,
+    "gstin": "29AABCP3322Z1Z4",
+    "announcement": "🌿 100% Vegan, Cruelty-Free & Dermatologically Tested on Sensitive Skin.",
+    "featuredProductIds": [
+      "p299",
+      "p300",
+      "p301",
+      "p302"
+    ],
+    "storeRating": 4.9,
+    "totalOrdersFulfilled": 1650,
+    "onTimeDispatchRate": "99.3%",
+    "shippingPartners": [
+      "BlueDart Express",
+      "Delhivery Surface"
+    ],
+    "returnPolicy": "7 Days Return on Unopened Products with Intact Outer Seal",
+    "warrantyPolicy": "Dermatologically Tested & Zero Harsh Chemical Guarantee",
+    "description": "PureBotanica creates high-efficacy clean botanical skincare powered by cold-pressed seed oils, peptide botanicals, and barrier-repair ceramides."
+  },
+  {
+    "id": "v34",
+    "businessName": "KamaShakti Aromatics & Bath",
+    "storeSlug": "kamashakti",
+    "category": "Ayurvedic Beauty & Wellness",
+    "tagline": "Hydro-Distilled Kannauj Mitti Attar, Steam-Distilled Rose Mists & Bath Salts",
+    "ownerName": "Meenal Rastogi",
+    "email": "meenal@kamashakti.in",
+    "password": "Vendor@123",
+    "mobile": "9838012876",
+    "businessAddress": "45, Perfumery Lane, Saraimeera",
+    "location": "Kannauj, Uttar Pradesh",
+    "joinedDate": "2024-04-05",
+    "avatar": "https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=120&h=120&fit=crop",
+    "banner": "https://images.unsplash.com/photo-1540555700478-4be289fbecef?w=1200&h=300&fit=crop",
+    "themeColor": "#DB2777",
+    "themePreset": "rose",
+    "storeStatus": "published",
+    "isVerified": true,
+    "gstin": "09AABCK5566A1Z2",
+    "announcement": "🌹 Traditional deg-bhapka hydro-distilled authentic Kannauj rose water & attar.",
+    "featuredProductIds": [
+      "p303",
+      "p304",
+      "p305",
+      "p306"
+    ],
+    "storeRating": 4.8,
+    "totalOrdersFulfilled": 1290,
+    "onTimeDispatchRate": "99.0%",
+    "shippingPartners": [
+      "BlueDart Express",
+      "Delhivery Surface"
+    ],
+    "returnPolicy": "7 Days Free Replacement for Broken Perfumery Glassware",
+    "warrantyPolicy": "100% Alcohol-Free Pure Botanical Steam Distillate",
+    "description": "Heritage perfumers in the perfume capital of India preserving 1,000-year-old steam copper distillation for pure floral mists and petrichor attars."
+  },
+  {
+    "id": "v35",
+    "businessName": "Dhokra Heritage Metalcraft",
+    "storeSlug": "dhokracraft",
+    "category": "Handcrafted Arts & Heritage Decor",
+    "tagline": "4,000-Year-Old Lost-Wax Bell Metal Sculptures & Tribal Dancing Figurines",
+    "ownerName": "Bipin Murmu",
+    "email": "bipin@dhokracraft.in",
+    "password": "Vendor@123",
+    "mobile": "9826019283",
+    "businessAddress": "Craft Village, Kondagaon",
+    "location": "Bastar, Chhattisgarh",
+    "joinedDate": "2024-03-05",
+    "avatar": "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=120&h=120&fit=crop",
+    "banner": "https://images.unsplash.com/photo-1579783900882-c0d3dad7b119?w=1200&h=300&fit=crop",
+    "themeColor": "#D97706",
+    "themePreset": "amber",
+    "storeStatus": "published",
+    "isVerified": true,
+    "gstin": "22AABCD4455B1Z6",
+    "announcement": "🏺 Ancient non-ferrous lost-wax metal casting certified by Tribal Artisan Welfare Guild.",
+    "featuredProductIds": [
+      "p307",
+      "p308",
+      "p309",
+      "p310"
+    ],
+    "storeRating": 4.9,
+    "totalOrdersFulfilled": 890,
+    "onTimeDispatchRate": "99.4%",
+    "shippingPartners": [
+      "BlueDart Express",
+      "Delhivery Surface"
+    ],
+    "returnPolicy": "100% Free Doorstep Replacement for Any Transit Breakage",
+    "warrantyPolicy": "Certified Authentic Tribal Handicraft with Artisan Identity Certificate",
+    "description": "Preserving the world's oldest lost-wax casting technique from the Indus Valley tradition, handcrafting brass tribal deities and animal motifs."
+  },
+  {
+    "id": "v36",
+    "businessName": "Terracotta Roots Bengal",
+    "storeSlug": "terracottaroots",
+    "category": "Handcrafted Arts & Heritage Decor",
+    "tagline": "GI-Tagged Bankura Terracotta Horses, Relief Wall Tiles & Earthen Windchimes",
+    "ownerName": "Bishwanath Das",
+    "email": "bishwanath@terracottaroots.in",
+    "password": "Vendor@123",
+    "mobile": "9831012876",
+    "businessAddress": "Panchmura Artisan Enclave",
+    "location": "Bankura, West Bengal",
+    "joinedDate": "2024-03-18",
+    "avatar": "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=120&h=120&fit=crop",
+    "banner": "https://images.unsplash.com/photo-1578749556568-bc2c40e68b61?w=1200&h=300&fit=crop",
+    "themeColor": "#B45309",
+    "themePreset": "amber",
+    "storeStatus": "published",
+    "isVerified": true,
+    "gstin": "19AABCT7788C1Z0",
+    "announcement": "🐎 Authentic Bankura GI-tagged terracotta fired in wood-fired earthen kilns.",
+    "featuredProductIds": [
+      "p311",
+      "p312",
+      "p313",
+      "p314"
+    ],
+    "storeRating": 4.9,
+    "totalOrdersFulfilled": 940,
+    "onTimeDispatchRate": "98.8%",
+    "shippingPartners": [
+      "BlueDart Express",
+      "Delhivery Surface"
+    ],
+    "returnPolicy": "Safe Transit Guarantee with Multi-Layer Bubble Encasement",
+    "warrantyPolicy": "Origin Verification Certificate & Traditional Kiln Fired Durability",
+    "description": "Master potters in Bankura shaping the iconic long-necked Panchmura terracotta horses and hand-etched temple architectural panels."
+  },
+  {
+    "id": "v37",
+    "businessName": "Kashmir Loom Crafts",
+    "storeSlug": "kashmirloom",
+    "category": "Handcrafted Arts & Heritage Decor",
+    "tagline": "Hand-Carved Walnut Keepsake Chests, Sozni Embroidery & Paper-Mâché Urns",
+    "ownerName": "Farooq Ahmad Mir",
+    "email": "farooq@kashmirloom.in",
+    "password": "Vendor@123",
+    "mobile": "9819012398",
+    "businessAddress": "72, Polo View Market, Residency Road",
+    "location": "Srinagar, Jammu & Kashmir",
+    "joinedDate": "2024-02-22",
+    "avatar": "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=120&h=120&fit=crop",
+    "banner": "https://images.unsplash.com/photo-1548036328-c9fa89d128fa?w=1200&h=300&fit=crop",
+    "themeColor": "#047857",
+    "themePreset": "emerald",
+    "storeStatus": "published",
+    "isVerified": true,
+    "gstin": "01AABCK2233D1Z4",
+    "announcement": "🌲 Seasoned Kashmiri walnut wood seasoned for 4+ years for zero warping.",
+    "featuredProductIds": [
+      "p315",
+      "p316",
+      "p317",
+      "p318"
+    ],
+    "storeRating": 4.9,
+    "totalOrdersFulfilled": 1140,
+    "onTimeDispatchRate": "99.1%",
+    "shippingPartners": [
+      "BlueDart Express",
+      "Delhivery Surface"
+    ],
+    "returnPolicy": "10 Days Return for Transit Damage or Finish Flaws",
+    "warrantyPolicy": "Lifetime Seasoned Walnut Wood Structural Guarantee",
+    "description": "Intricate Kashmiri jali lattice woodwork, fine Sozni needlepoint embroidery, and gold-leaf painted lacquerware from the valley."
+  },
+  {
+    "id": "v38",
+    "businessName": "Tanjore Heritage Art Gallery",
+    "storeSlug": "tanjoreart",
+    "category": "Handcrafted Arts & Heritage Decor",
+    "tagline": "22-Carat Gold Leaf Embossed Tanjore Paintings & Brass Temple Bell Ensembles",
+    "ownerName": "Ramanathan Chettiar",
+    "email": "ramanathan@tanjoreart.in",
+    "password": "Vendor@123",
+    "mobile": "9841019823",
+    "businessAddress": "52, South Main Street, Near Palace",
+    "location": "Thanjavur, Tamil Nadu",
+    "joinedDate": "2024-01-30",
+    "avatar": "https://images.unsplash.com/photo-1544717305-2782549b5136?w=120&h=120&fit=crop",
+    "banner": "https://images.unsplash.com/photo-1579783900882-c0d3dad7b119?w=1200&h=300&fit=crop",
+    "themeColor": "#CA8A04",
+    "themePreset": "amber",
+    "storeStatus": "published",
+    "isVerified": true,
+    "gstin": "33AABCT9988E1Z8",
+    "announcement": "✨ Certified 22K pure gold foil work encrusted with Jaipur semi-precious gems.",
+    "featuredProductIds": [
+      "p319",
+      "p320",
+      "p321",
+      "p322"
+    ],
+    "storeRating": 4.9,
+    "totalOrdersFulfilled": 870,
+    "onTimeDispatchRate": "99.6%",
+    "shippingPartners": [
+      "BlueDart Express Priority",
+      "DTDC Air"
+    ],
+    "returnPolicy": "Insured Express Courier Dispatch with Wooden Crate Packaging",
+    "warrantyPolicy": "Certificate of Gold Purity & Lifetime Anti-Tarnish Guarantee",
+    "description": "Classical Thanjavur art house crafting authentic relief paintings on teakwood mounts with 22K gold foil and Jaipur gems."
+  },
+  {
+    "id": "v39",
+    "businessName": "ErgoCraft Desk Solutions",
+    "storeSlug": "ergocraft",
+    "category": "Modern Workspaces & Living",
+    "tagline": "Dual-Motor Electric Sit-Stand Smart Desks & Magnetic Cable Management",
+    "ownerName": "Sanjeev Mathur",
+    "email": "sanjeev@ergocraft.in",
+    "password": "Vendor@123",
+    "mobile": "9845012309",
+    "businessAddress": "102, Koramangala 4th Block",
+    "location": "Bengaluru, Karnataka",
+    "joinedDate": "2024-02-15",
+    "avatar": "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=120&h=120&fit=crop",
+    "banner": "https://images.unsplash.com/photo-1497366216548-37526070297c?w=1200&h=300&fit=crop",
+    "themeColor": "#334155",
+    "themePreset": "slate",
+    "storeStatus": "published",
+    "isVerified": true,
+    "gstin": "29AABCE1122F1Z2",
+    "announcement": "🖥️ Anti-collision gyroscope sensor & 4-preset memory digital controller included.",
+    "featuredProductIds": [
+      "p323",
+      "p324",
+      "p325",
+      "p326"
+    ],
+    "storeRating": 4.8,
+    "totalOrdersFulfilled": 1320,
+    "onTimeDispatchRate": "98.9%",
+    "shippingPartners": [
+      "Delhivery Heavy Freight",
+      "BlueDart Express"
+    ],
+    "returnPolicy": "10 Days Component Replacement for Motor or Control Box Faults",
+    "warrantyPolicy": "5-Year Dual-Motor Warranty & 3-Year Solid Frame Structural Warranty",
+    "description": "ErgoCraft engineers whisper-quiet height-adjustable sit-stand desks and ergonomic productivity tools for high-output remote professionals."
+  },
+  {
+    "id": "v40",
+    "businessName": "DeskMatrix Minimalist Labs",
+    "storeSlug": "deskmatrix",
+    "category": "Modern Workspaces & Living",
+    "tagline": "Solid American Walnut Monitor Risers, Merino Wool Desk Pads & Laptop Docks",
+    "ownerName": "Varun Singhal",
+    "email": "varun@deskmatrix.in",
+    "password": "Vendor@123",
+    "mobile": "9811019823",
+    "businessAddress": "45, DLF Phase 4, Galleria Market",
+    "location": "Gurugram, Haryana",
+    "joinedDate": "2024-03-22",
+    "avatar": "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=120&h=120&fit=crop",
+    "banner": "https://images.unsplash.com/photo-1518455027359-f3f8164ba6bd?w=1200&h=300&fit=crop",
+    "themeColor": "#475569",
+    "themePreset": "slate",
+    "storeStatus": "published",
+    "isVerified": true,
+    "gstin": "06AABCD3344G1Z6",
+    "announcement": "🪵 CNC-machined solid North American walnut wood with food-safe oil finish.",
+    "featuredProductIds": [
+      "p327",
+      "p328",
+      "p329",
+      "p330"
+    ],
+    "storeRating": 4.9,
+    "totalOrdersFulfilled": 1470,
+    "onTimeDispatchRate": "99.4%",
+    "shippingPartners": [
+      "BlueDart Express",
+      "Delhivery Surface"
+    ],
+    "returnPolicy": "7 Days Hassle-Free Physical Replacement",
+    "warrantyPolicy": "3-Year Solid Hardwood Structural Guarantee",
+    "description": "DeskMatrix designs minimalist desktop organizers, CNC-cut monitor shelves, and natural wool felt blotters that elevate your WFH aesthetic."
+  },
+  {
+    "id": "v41",
+    "businessName": "ZenWorkspace Studio",
+    "storeSlug": "zenworkspace",
+    "category": "Modern Workspaces & Living",
+    "tagline": "Gas-Spring Articulating Monitor Arms, Acoustic Felt Tiles & Under-Desk Drawers",
+    "ownerName": "Aditya Chopra",
+    "email": "aditya@zenworkspace.in",
+    "password": "Vendor@123",
+    "mobile": "9820019283",
+    "businessAddress": "88, Andheri East, MIDC Central Road",
+    "location": "Mumbai, Maharashtra",
+    "joinedDate": "2024-04-10",
+    "avatar": "https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?w=120&h=120&fit=crop",
+    "banner": "https://images.unsplash.com/photo-1524758631624-e2822e304c36?w=1200&h=300&fit=crop",
+    "themeColor": "#0284C7",
+    "themePreset": "sky",
+    "storeStatus": "published",
+    "isVerified": true,
+    "gstin": "27AABCZ5566H1Z0",
+    "announcement": "🦾 Heavy-duty gas-spring arms supporting ultrawide curved monitors up to 49 inches.",
+    "featuredProductIds": [
+      "p331",
+      "p332",
+      "p333",
+      "p334"
+    ],
+    "storeRating": 4.8,
+    "totalOrdersFulfilled": 1150,
+    "onTimeDispatchRate": "99.0%",
+    "shippingPartners": [
+      "BlueDart Express",
+      "Delhivery Surface"
+    ],
+    "returnPolicy": "7 Days Free Replacement for Spring Tension or Bracket Defects",
+    "warrantyPolicy": "3-Year Mechanical Gas Spring Replacement Warranty",
+    "description": "ZenWorkspace creates modular ergonomics, heavy-duty monitor mounts, and sound-dampening acoustic wall elements for creator studios."
+  },
+  {
+    "id": "v42",
+    "businessName": "ModuLiving Ergonomics",
+    "storeSlug": "moduliving",
+    "category": "Modern Workspaces & Living",
+    "tagline": "Breathable Korean Mesh Task Chairs, 4D Dynamic Armrests & Lumbar Braces",
+    "ownerName": "Karthik Raja",
+    "email": "karthik@moduliving.in",
+    "password": "Vendor@123",
+    "mobile": "9840012876",
+    "businessAddress": "14, OMR IT Highway, Perungudi",
+    "location": "Chennai, Tamil Nadu",
+    "joinedDate": "2024-01-25",
+    "avatar": "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=120&h=120&fit=crop",
+    "banner": "https://images.unsplash.com/photo-1580481077195-c22ae2910793?w=1200&h=300&fit=crop",
+    "themeColor": "#1E293B",
+    "themePreset": "slate",
+    "storeStatus": "published",
+    "isVerified": true,
+    "gstin": "33AABCM7788I1Z4",
+    "announcement": "🪑 Class-4 Korean gas lift cylinders rated for 150kg weight & 100,000 cycle durability.",
+    "featuredProductIds": [
+      "p335",
+      "p336",
+      "p337",
+      "p338"
+    ],
+    "storeRating": 4.8,
+    "totalOrdersFulfilled": 1530,
+    "onTimeDispatchRate": "98.7%",
+    "shippingPartners": [
+      "Delhivery Heavy Freight",
+      "BlueDart Express"
+    ],
+    "returnPolicy": "10 Days Component Replacement for Recline or Hydraulic Issues",
+    "warrantyPolicy": "5-Year Gas Lift & Mechanism Replacement Guarantee",
+    "description": "ModuLiving manufactures orthopedic mesh chairs and active seating that relieves spinal pressure during extended working hours."
+  },
+  {
+    "id": "v43",
+    "businessName": "BonsaiHaven Master Gardens",
+    "storeSlug": "bonsaihaven",
+    "category": "Live Botanicals & Exotic Foliage",
+    "tagline": "15-Year Trained Ficus Bonsai, Glazed Tokoname Pots & Concave Trimmers",
+    "ownerName": "Dr. Arvind Phadke",
+    "email": "arvind@bonsaihaven.in",
+    "password": "Vendor@123",
+    "mobile": "9822019812",
+    "businessAddress": "88, Law College Road, Deccan",
+    "location": "Pune, Maharashtra",
+    "joinedDate": "2024-02-12",
+    "avatar": "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=120&h=120&fit=crop",
+    "banner": "https://images.unsplash.com/photo-1463320726281-696a485928c7?w=1200&h=300&fit=crop",
+    "themeColor": "#166534",
+    "themePreset": "green",
+    "storeStatus": "published",
+    "isVerified": true,
+    "gstin": "27AABCB9900J1Z8",
+    "announcement": "🌳 Acclimatized bonsai trees shipped in specialized wooden protective crates.",
+    "featuredProductIds": [
+      "p339",
+      "p340",
+      "p341",
+      "p342"
+    ],
+    "storeRating": 4.9,
+    "totalOrdersFulfilled": 920,
+    "onTimeDispatchRate": "99.7%",
+    "shippingPartners": [
+      "BlueDart Air Priority",
+      "Delhivery Express"
+    ],
+    "returnPolicy": "48-Hour Live Plant Arrival Guarantee - Instant Replacement if Damaged",
+    "warrantyPolicy": "Potted in Akadama soil blend with personalized care instructions",
+    "description": "Botanical horticulturists shaping living sculptural bonsai trees with 15+ years of wiring, root pruning, and seasonal conditioning."
+  },
+  {
+    "id": "v44",
+    "businessName": "UrbanPlanters & Greenery",
+    "storeSlug": "urbanplanters",
+    "category": "Live Botanicals & Exotic Foliage",
+    "tagline": "Air-Purifying Snake Plants, Self-Watering Ceramic Pots & Organic Soil Mix",
+    "ownerName": "Pooja Batra",
+    "email": "pooja@urbanplanters.in",
+    "password": "Vendor@123",
+    "mobile": "9810012876",
+    "businessAddress": "19, Siri Fort Institutional Area",
+    "location": "New Delhi, Delhi",
+    "joinedDate": "2024-03-08",
+    "avatar": "https://images.unsplash.com/photo-1580489944761-15a19d654956?w=120&h=120&fit=crop",
+    "banner": "https://images.unsplash.com/photo-1545241047-6083a3684587?w=1200&h=300&fit=crop",
+    "themeColor": "#15803D",
+    "themePreset": "emerald",
+    "storeStatus": "published",
+    "isVerified": true,
+    "gstin": "07AABCU1122K1Z2",
+    "announcement": "🌱 NASA-certified indoor air detox plants in mess-free hydro self-watering planters.",
+    "featuredProductIds": [
+      "p343",
+      "p344",
+      "p345",
+      "p346"
+    ],
+    "storeRating": 4.8,
+    "totalOrdersFulfilled": 1610,
+    "onTimeDispatchRate": "99.5%",
+    "shippingPartners": [
+      "BlueDart Air Priority",
+      "Delhivery Express"
+    ],
+    "returnPolicy": "Guaranteed Healthy Delivery with 48-Hour Free Replacement",
+    "warrantyPolicy": "Potted in organic perlite & neem cake fortified soil with active microbes",
+    "description": "UrbanPlanters curates low-maintenance foliage, ZZ plants, and modern self-watering planters designed for modern indoor living."
+  },
+  {
+    "id": "v45",
+    "businessName": "ExoticFoliage Tropicals",
+    "storeSlug": "exoticfoliage",
+    "category": "Live Botanicals & Exotic Foliage",
+    "tagline": "Variegated Monstera Albo, Philodendron Pink Princess & Velvet Anthuriums",
+    "ownerName": "Deepa Nair",
+    "email": "deepa@exoticfoliage.in",
+    "password": "Vendor@123",
+    "mobile": "9847019823",
+    "businessAddress": "12, Kowdiar Main Avenue",
+    "location": "Thiruvananthapuram, Kerala",
+    "joinedDate": "2024-04-12",
+    "avatar": "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=120&h=120&fit=crop",
+    "banner": "https://images.unsplash.com/photo-1463320726281-696a485928c7?w=1200&h=300&fit=crop",
+    "themeColor": "#047857",
+    "themePreset": "emerald",
+    "storeStatus": "published",
+    "isVerified": true,
+    "gstin": "32AABCE3344L1Z6",
+    "announcement": "🌿 Rare high-variegation indoor specimens shipped with breathable root wraps.",
+    "featuredProductIds": [
+      "p347",
+      "p348",
+      "p349",
+      "p350"
+    ],
+    "storeRating": 4.9,
+    "totalOrdersFulfilled": 780,
+    "onTimeDispatchRate": "99.8%",
+    "shippingPartners": [
+      "BlueDart Air Priority"
+    ],
+    "returnPolicy": "48-Hour Live Plant Arrival Guarantee",
+    "warrantyPolicy": "True-to-Type Variegation & Root-Established Guarantee",
+    "description": "Specialized greenhouse nursery in Kerala cultivating collector tropicals, variegated monsteras, and velvet aroids for plant connoisseurs."
+  },
+  {
+    "id": "v46",
+    "businessName": "FloraNest Succulents & Cacti",
+    "storeSlug": "floranest",
+    "category": "Live Botanicals & Exotic Foliage",
+    "tagline": "Hardened Desert Cacti, Rare Haworthias, Lithops Living Rocks & Mineral Grits",
+    "ownerName": "Sanjay Goyal",
+    "email": "sanjay@floranest.in",
+    "password": "Vendor@123",
+    "mobile": "9829012398",
+    "businessAddress": "78, Vaishali Nagar, Queens Road",
+    "location": "Jaipur, Rajasthan",
+    "joinedDate": "2024-03-30",
+    "avatar": "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=120&h=120&fit=crop",
+    "banner": "https://images.unsplash.com/photo-1459411552884-841db9b3cc2a?w=1200&h=300&fit=crop",
+    "themeColor": "#15803D",
+    "themePreset": "green",
+    "storeStatus": "published",
+    "isVerified": true,
+    "gstin": "08AABCF5566M1Z0",
+    "announcement": "🌵 Sun-hardened succulents shipped bare-root for 100% moisture-safe transit.",
+    "featuredProductIds": [
+      "p351",
+      "p352",
+      "p353",
+      "p354"
+    ],
+    "storeRating": 4.8,
+    "totalOrdersFulfilled": 1290,
+    "onTimeDispatchRate": "99.4%",
+    "shippingPartners": [
+      "BlueDart Express",
+      "Delhivery Surface"
+    ],
+    "returnPolicy": "Guaranteed Healthy Arrival or Immediate Free Replacement",
+    "warrantyPolicy": "Sun-hardened root system with 100% rot-free transit guarantee",
+    "description": "FloraNest specializes in rare drought-tolerant succulents, exotic Haworthias, and premium volcanic mineral potting substrates."
+  },
+  {
+    "id": "v47",
+    "businessName": "StudioMonitors India",
+    "storeSlug": "studiomonitors",
+    "category": "Pro Audio & Studio Sound",
+    "tagline": "Bi-Amplified Active Studio Reference Monitors, Acoustic Decouplers & Subwoofers",
+    "ownerName": "Ashwin Shenoy",
+    "email": "ashwin@studiomonitors.in",
+    "password": "Vendor@123",
+    "mobile": "9845019834",
+    "businessAddress": "19, Church Street, Off Brigade Road",
+    "location": "Bengaluru, Karnataka",
+    "joinedDate": "2024-02-05",
+    "avatar": "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=120&h=120&fit=crop",
+    "banner": "https://images.unsplash.com/photo-1598488035139-bdbb2231ce04?w=1200&h=300&fit=crop",
+    "themeColor": "#6B21A8",
+    "themePreset": "purple",
+    "storeStatus": "published",
+    "isVerified": true,
+    "gstin": "29AABCS7788N1Z4",
+    "announcement": "🎧 Authorised Indian Importer of Professional Nearfield Active Studio Monitors.",
+    "featuredProductIds": [
+      "p355",
+      "p356",
+      "p357",
+      "p358"
+    ],
+    "storeRating": 4.9,
+    "totalOrdersFulfilled": 1120,
+    "onTimeDispatchRate": "99.5%",
+    "shippingPartners": [
+      "BlueDart Express Priority",
+      "Delhivery Surface"
+    ],
+    "returnPolicy": "7 Days Physical Replacement for Driver or Amplifier Distortion",
+    "warrantyPolicy": "2-Year Official Brand Warranty with GST Invoice",
+    "description": "StudioMonitors India outfits recording facilities, broadcast suites, and bedroom music producers with flat-response calibrated reference monitors."
+  },
+  {
+    "id": "v48",
+    "businessName": "VocalGear Audio Labs",
+    "storeSlug": "vocalgear",
+    "category": "Pro Audio & Studio Sound",
+    "tagline": "Large-Diaphragm Studio Condenser Mics, Heavy Boom Arms & Pop Filters",
+    "ownerName": "Tanmay Bhattacharya",
+    "email": "tanmay@vocalgear.in",
+    "password": "Vendor@123",
+    "mobile": "9820012398",
+    "businessAddress": "42, Lokhandwala Complex, Andheri West",
+    "location": "Mumbai, Maharashtra",
+    "joinedDate": "2024-03-12",
+    "avatar": "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=120&h=120&fit=crop",
+    "banner": "https://images.unsplash.com/photo-1590602847861-f357a9332bbc?w=1200&h=300&fit=crop",
+    "themeColor": "#7E22CE",
+    "themePreset": "purple",
+    "storeStatus": "published",
+    "isVerified": true,
+    "gstin": "27AABCV9900O1Z8",
+    "announcement": "🎙️ Gold-sputtered Mylar capsules delivering silky highs and warm broadcast tone.",
+    "featuredProductIds": [
+      "p359",
+      "p360",
+      "p361",
+      "p362"
+    ],
+    "storeRating": 4.8,
+    "totalOrdersFulfilled": 1390,
+    "onTimeDispatchRate": "99.2%",
+    "shippingPartners": [
+      "BlueDart Express",
+      "DTDC Air"
+    ],
+    "returnPolicy": "7 Days Free Replacement for Capsule or Electronics Defects",
+    "warrantyPolicy": "2-Year Direct Importer Warranty with Official GST Invoice",
+    "description": "VocalGear supplies podcast studios, voiceover artists, and musicians with gold-sputtered condenser mics and heavy-duty internal spring boom arms."
+  },
+  {
+    "id": "v49",
+    "businessName": "FrequencyPro Acoustic Solutions",
+    "storeSlug": "frequencypro",
+    "category": "Pro Audio & Studio Sound",
+    "tagline": "High-Density Pyramid Acoustic Foam, Corner Bass Traps & Vocal Shields",
+    "ownerName": "Karan Malhotra",
+    "email": "karan@frequencypro.in",
+    "password": "Vendor@123",
+    "mobile": "9811012876",
+    "businessAddress": "56, Okhla Industrial Area Phase 3",
+    "location": "New Delhi, Delhi",
+    "joinedDate": "2024-04-18",
+    "avatar": "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=120&h=120&fit=crop",
+    "banner": "https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?w=1200&h=300&fit=crop",
+    "themeColor": "#4C1D95",
+    "themePreset": "violet",
+    "storeStatus": "published",
+    "isVerified": true,
+    "gstin": "07AABCF1122P1Z2",
+    "announcement": "🔇 Class-1 Fire Retardant 50kg/m³ High-Density Polyurethane Acoustic Foam.",
+    "featuredProductIds": [
+      "p363",
+      "p364",
+      "p365",
+      "p366"
+    ],
+    "storeRating": 4.8,
+    "totalOrdersFulfilled": 1580,
+    "onTimeDispatchRate": "98.9%",
+    "shippingPartners": [
+      "Delhivery Surface",
+      "Gati KWE"
+    ],
+    "returnPolicy": "7 Days Replacement for Compression or Dimensional Flaws",
+    "warrantyPolicy": "NRC 0.85 Certified Acoustic Absorption & Flame Retardant Rating",
+    "description": "FrequencyPro manufactures professional acoustic treatment panels, corner bass traps, and reflection filters to control room reverberation."
+  },
+  {
+    "id": "v50",
+    "businessName": "SoundStudio Interfaces & FX",
+    "storeSlug": "soundstudio",
+    "category": "Pro Audio & Studio Sound",
+    "tagline": "24-Bit/192kHz USB-C Audio Interfaces, Studio Headphone Amps & Mogami Cables",
+    "ownerName": "Joseph Kurien",
+    "email": "joseph@soundstudio.in",
+    "password": "Vendor@123",
+    "mobile": "9846019812",
+    "businessAddress": "89, Marine Drive, Near High Court",
+    "location": "Kochi, Kerala",
+    "joinedDate": "2024-03-01",
+    "avatar": "https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?w=120&h=120&fit=crop",
+    "banner": "https://images.unsplash.com/photo-1598488035139-bdbb2231ce04?w=1200&h=300&fit=crop",
+    "themeColor": "#581C87",
+    "themePreset": "violet",
+    "storeStatus": "published",
+    "isVerified": true,
+    "gstin": "32AABCS3344Q1Z6",
+    "announcement": "🎛️ Ultra-low 2.5ms roundtrip latency & pristine 118dB dynamic range preamps.",
+    "featuredProductIds": [
+      "p367",
+      "p368",
+      "p369",
+      "p370"
+    ],
+    "storeRating": 4.9,
+    "totalOrdersFulfilled": 1420,
+    "onTimeDispatchRate": "99.4%",
+    "shippingPartners": [
+      "BlueDart Express Priority",
+      "DTDC Air"
+    ],
+    "returnPolicy": "7 Days Free Replacement for Preamp or Driver Firmware Issues",
+    "warrantyPolicy": "2-Year Official Manufacturer Warranty with GST Tax Invoice",
+    "description": "SoundStudio supplies verified low-jitter USB-C audio interfaces, zero-latency monitoring mixers, and balanced oxygen-free studio cabling."
   }
 ];
 
@@ -25800,6 +26960,7566 @@ export const seedProducts = [
       "kitchen scale",
       "barista scale"
     ]
+  },
+  {
+    "id": "p251",
+    "sku": "VM-ELEC-P251-NEX",
+    "name": "Nexus Gadgets India Flagship Edition",
+    "category": "Electronics & Gadgets",
+    "brand": "Nexus Gadgets India",
+    "price": 1566,
+    "mrp": 1958,
+    "discountPercent": 20,
+    "stock": 24,
+    "quantity": 17,
+    "barcode": "8901000251123",
+    "lowStockThreshold": 4,
+    "reservedStock": 0,
+    "warehouseLocation": "Aisle D-2",
+    "restockLeadDays": 3,
+    "vendorId": "v21",
+    "vendorSlug": "nexusgadgets",
+    "status": "approved",
+    "images": [
+      "https://images.unsplash.com/photo-1518770660439-4636190af475?w=1200&h=300&fit=crop",
+      "https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?w=600&h=600&fit=crop"
+    ],
+    "description": "Verified authentic Electronics & Gadgets merchandise direct from Nexus Gadgets India. Includes express courier delivery and warranty.",
+    "condition": "Brand New (Verified Stock)",
+    "specifications": {
+      "Origin": "Bengaluru, Karnataka",
+      "Merchant": "Nexus Gadgets India",
+      "Category": "Electronics & Gadgets",
+      "Warranty": "1-Year Direct Brand Warranty",
+      "Verification": "100% Genuine Tax Invoice Included"
+    },
+    "shipping": {
+      "weight": "450 g",
+      "dispatchTime": "Ships within 24 hours",
+      "estimatedDays": "2 - 4 days",
+      "courierPartners": [
+        "BlueDart Express",
+        "Delhivery Surface",
+        "DTDC Air"
+      ],
+      "codAvailable": true,
+      "returnWindowDays": 7
+    },
+    "variants": {
+      "colors": [
+        {
+          "name": "Default",
+          "hex": "#2563EB",
+          "inStock": true
+        }
+      ],
+      "options": [
+        {
+          "label": "Standard Pack",
+          "price": 1566,
+          "inStock": true
+        }
+      ]
+    },
+    "rating": 4.7,
+    "reviewCount": 88
+  },
+  {
+    "id": "p252",
+    "sku": "VM-ELEC-P252-NEX",
+    "name": "Nexus Gadgets India Premium Artisan Choice",
+    "category": "Electronics & Gadgets",
+    "brand": "Nexus Gadgets India",
+    "price": 1555,
+    "mrp": 1944,
+    "discountPercent": 20,
+    "stock": 22,
+    "quantity": 11,
+    "barcode": "8901000252123",
+    "lowStockThreshold": 4,
+    "reservedStock": 0,
+    "warehouseLocation": "Aisle E-3",
+    "restockLeadDays": 3,
+    "vendorId": "v21",
+    "vendorSlug": "nexusgadgets",
+    "status": "approved",
+    "images": [
+      "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=120&h=120&fit=crop",
+      "https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?w=600&h=600&fit=crop"
+    ],
+    "description": "Bestselling Electronics & Gadgets selection crafted with premium standards. Direct brand warranty and tamper-proof packaging.",
+    "condition": "Brand New (Verified Stock)",
+    "specifications": {
+      "Origin": "Bengaluru, Karnataka",
+      "Merchant": "Nexus Gadgets India",
+      "Category": "Electronics & Gadgets",
+      "Warranty": "1-Year Direct Brand Warranty",
+      "Verification": "100% Genuine Tax Invoice Included"
+    },
+    "shipping": {
+      "weight": "450 g",
+      "dispatchTime": "Ships within 24 hours",
+      "estimatedDays": "2 - 4 days",
+      "courierPartners": [
+        "BlueDart Express",
+        "Delhivery Surface",
+        "DTDC Air"
+      ],
+      "codAvailable": true,
+      "returnWindowDays": 7
+    },
+    "variants": {
+      "colors": [
+        {
+          "name": "Default",
+          "hex": "#2563EB",
+          "inStock": true
+        }
+      ],
+      "options": [
+        {
+          "label": "Standard Pack",
+          "price": 1555,
+          "inStock": true
+        }
+      ]
+    },
+    "rating": 5,
+    "reviewCount": 82
+  },
+  {
+    "id": "p253",
+    "sku": "VM-ELEC-P253-NEX",
+    "name": "Nexus Gadgets India Essential Collection Item",
+    "category": "Electronics & Gadgets",
+    "brand": "Nexus Gadgets India",
+    "price": 789,
+    "mrp": 986,
+    "discountPercent": 20,
+    "stock": 24,
+    "quantity": 30,
+    "barcode": "8901000253123",
+    "lowStockThreshold": 4,
+    "reservedStock": 0,
+    "warehouseLocation": "Aisle F-4",
+    "restockLeadDays": 3,
+    "vendorId": "v21",
+    "vendorSlug": "nexusgadgets",
+    "status": "approved",
+    "images": [
+      "https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=600&h=600&fit=crop",
+      "https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?w=600&h=600&fit=crop"
+    ],
+    "description": "High-utility certified product from Nexus Gadgets India. Tested for durability, ergonomics, and physical performance.",
+    "condition": "Brand New (Verified Stock)",
+    "specifications": {
+      "Origin": "Bengaluru, Karnataka",
+      "Merchant": "Nexus Gadgets India",
+      "Category": "Electronics & Gadgets",
+      "Warranty": "1-Year Direct Brand Warranty",
+      "Verification": "100% Genuine Tax Invoice Included"
+    },
+    "shipping": {
+      "weight": "450 g",
+      "dispatchTime": "Ships within 24 hours",
+      "estimatedDays": "2 - 4 days",
+      "courierPartners": [
+        "BlueDart Express",
+        "Delhivery Surface",
+        "DTDC Air"
+      ],
+      "codAvailable": true,
+      "returnWindowDays": 7
+    },
+    "variants": {
+      "colors": [
+        {
+          "name": "Default",
+          "hex": "#2563EB",
+          "inStock": true
+        }
+      ],
+      "options": [
+        {
+          "label": "Standard Pack",
+          "price": 789,
+          "inStock": true
+        }
+      ]
+    },
+    "rating": 5,
+    "reviewCount": 42
+  },
+  {
+    "id": "p254",
+    "sku": "VM-ELEC-P254-NEX",
+    "name": "Nexus Gadgets India Limited Signature Edition",
+    "category": "Electronics & Gadgets",
+    "brand": "Nexus Gadgets India",
+    "price": 6022,
+    "mrp": 7528,
+    "discountPercent": 20,
+    "stock": 28,
+    "quantity": 32,
+    "barcode": "8901000254123",
+    "lowStockThreshold": 4,
+    "reservedStock": 0,
+    "warehouseLocation": "Aisle G-5",
+    "restockLeadDays": 3,
+    "vendorId": "v21",
+    "vendorSlug": "nexusgadgets",
+    "status": "approved",
+    "images": [
+      "https://images.unsplash.com/photo-1572635196237-14b3f281503f?w=600&h=600&fit=crop",
+      "https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?w=600&h=600&fit=crop"
+    ],
+    "description": "Exclusive signature release by Nexus Gadgets India. Insured courier dispatch with verified GST tax invoice.",
+    "condition": "Brand New (Verified Stock)",
+    "specifications": {
+      "Origin": "Bengaluru, Karnataka",
+      "Merchant": "Nexus Gadgets India",
+      "Category": "Electronics & Gadgets",
+      "Warranty": "1-Year Direct Brand Warranty",
+      "Verification": "100% Genuine Tax Invoice Included"
+    },
+    "shipping": {
+      "weight": "450 g",
+      "dispatchTime": "Ships within 24 hours",
+      "estimatedDays": "2 - 4 days",
+      "courierPartners": [
+        "BlueDart Express",
+        "Delhivery Surface",
+        "DTDC Air"
+      ],
+      "codAvailable": true,
+      "returnWindowDays": 7
+    },
+    "variants": {
+      "colors": [
+        {
+          "name": "Default",
+          "hex": "#2563EB",
+          "inStock": true
+        }
+      ],
+      "options": [
+        {
+          "label": "Standard Pack",
+          "price": 6022,
+          "inStock": true
+        }
+      ]
+    },
+    "rating": 4.8,
+    "reviewCount": 68
+  },
+  {
+    "id": "p255",
+    "sku": "VM-ELEC-P255-PIX",
+    "name": "PixelCore Smart Tech Flagship Edition",
+    "category": "Electronics & Gadgets",
+    "brand": "PixelCore Smart Tech",
+    "price": 1786,
+    "mrp": 2233,
+    "discountPercent": 20,
+    "stock": 12,
+    "quantity": 18,
+    "barcode": "8901000255123",
+    "lowStockThreshold": 4,
+    "reservedStock": 0,
+    "warehouseLocation": "Aisle H-1",
+    "restockLeadDays": 3,
+    "vendorId": "v22",
+    "vendorSlug": "pixelcore",
+    "status": "approved",
+    "images": [
+      "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?w=1200&h=300&fit=crop",
+      "https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?w=600&h=600&fit=crop"
+    ],
+    "description": "Verified authentic Electronics & Gadgets merchandise direct from PixelCore Smart Tech. Includes express courier delivery and warranty.",
+    "condition": "Brand New (Verified Stock)",
+    "specifications": {
+      "Origin": "Ahmedabad, Gujarat",
+      "Merchant": "PixelCore Smart Tech",
+      "Category": "Electronics & Gadgets",
+      "Warranty": "1-Year Direct Brand Warranty",
+      "Verification": "100% Genuine Tax Invoice Included"
+    },
+    "shipping": {
+      "weight": "450 g",
+      "dispatchTime": "Ships within 24 hours",
+      "estimatedDays": "2 - 4 days",
+      "courierPartners": [
+        "BlueDart Express",
+        "Delhivery Surface",
+        "DTDC Air"
+      ],
+      "codAvailable": true,
+      "returnWindowDays": 7
+    },
+    "variants": {
+      "colors": [
+        {
+          "name": "Default",
+          "hex": "#0284C7",
+          "inStock": true
+        }
+      ],
+      "options": [
+        {
+          "label": "Standard Pack",
+          "price": 1786,
+          "inStock": true
+        }
+      ]
+    },
+    "rating": 4.7,
+    "reviewCount": 32
+  },
+  {
+    "id": "p256",
+    "sku": "VM-ELEC-P256-PIX",
+    "name": "PixelCore Smart Tech Premium Artisan Choice",
+    "category": "Electronics & Gadgets",
+    "brand": "PixelCore Smart Tech",
+    "price": 2557,
+    "mrp": 3196,
+    "discountPercent": 20,
+    "stock": 19,
+    "quantity": 30,
+    "barcode": "8901000256123",
+    "lowStockThreshold": 4,
+    "reservedStock": 0,
+    "warehouseLocation": "Aisle A-2",
+    "restockLeadDays": 3,
+    "vendorId": "v22",
+    "vendorSlug": "pixelcore",
+    "status": "approved",
+    "images": [
+      "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=120&h=120&fit=crop",
+      "https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?w=600&h=600&fit=crop"
+    ],
+    "description": "Bestselling Electronics & Gadgets selection crafted with premium standards. Direct brand warranty and tamper-proof packaging.",
+    "condition": "Brand New (Verified Stock)",
+    "specifications": {
+      "Origin": "Ahmedabad, Gujarat",
+      "Merchant": "PixelCore Smart Tech",
+      "Category": "Electronics & Gadgets",
+      "Warranty": "1-Year Direct Brand Warranty",
+      "Verification": "100% Genuine Tax Invoice Included"
+    },
+    "shipping": {
+      "weight": "450 g",
+      "dispatchTime": "Ships within 24 hours",
+      "estimatedDays": "2 - 4 days",
+      "courierPartners": [
+        "BlueDart Express",
+        "Delhivery Surface",
+        "DTDC Air"
+      ],
+      "codAvailable": true,
+      "returnWindowDays": 7
+    },
+    "variants": {
+      "colors": [
+        {
+          "name": "Default",
+          "hex": "#0284C7",
+          "inStock": true
+        }
+      ],
+      "options": [
+        {
+          "label": "Standard Pack",
+          "price": 2557,
+          "inStock": true
+        }
+      ]
+    },
+    "rating": 5,
+    "reviewCount": 67
+  },
+  {
+    "id": "p257",
+    "sku": "VM-ELEC-P257-PIX",
+    "name": "PixelCore Smart Tech Essential Collection Item",
+    "category": "Electronics & Gadgets",
+    "brand": "PixelCore Smart Tech",
+    "price": 1441,
+    "mrp": 1801,
+    "discountPercent": 20,
+    "stock": 16,
+    "quantity": 12,
+    "barcode": "8901000257123",
+    "lowStockThreshold": 4,
+    "reservedStock": 0,
+    "warehouseLocation": "Aisle B-3",
+    "restockLeadDays": 3,
+    "vendorId": "v22",
+    "vendorSlug": "pixelcore",
+    "status": "approved",
+    "images": [
+      "https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=600&h=600&fit=crop",
+      "https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?w=600&h=600&fit=crop"
+    ],
+    "description": "High-utility certified product from PixelCore Smart Tech. Tested for durability, ergonomics, and physical performance.",
+    "condition": "Brand New (Verified Stock)",
+    "specifications": {
+      "Origin": "Ahmedabad, Gujarat",
+      "Merchant": "PixelCore Smart Tech",
+      "Category": "Electronics & Gadgets",
+      "Warranty": "1-Year Direct Brand Warranty",
+      "Verification": "100% Genuine Tax Invoice Included"
+    },
+    "shipping": {
+      "weight": "450 g",
+      "dispatchTime": "Ships within 24 hours",
+      "estimatedDays": "2 - 4 days",
+      "courierPartners": [
+        "BlueDart Express",
+        "Delhivery Surface",
+        "DTDC Air"
+      ],
+      "codAvailable": true,
+      "returnWindowDays": 7
+    },
+    "variants": {
+      "colors": [
+        {
+          "name": "Default",
+          "hex": "#0284C7",
+          "inStock": true
+        }
+      ],
+      "options": [
+        {
+          "label": "Standard Pack",
+          "price": 1441,
+          "inStock": true
+        }
+      ]
+    },
+    "rating": 5,
+    "reviewCount": 61
+  },
+  {
+    "id": "p258",
+    "sku": "VM-ELEC-P258-PIX",
+    "name": "PixelCore Smart Tech Limited Signature Edition",
+    "category": "Electronics & Gadgets",
+    "brand": "PixelCore Smart Tech",
+    "price": 4493,
+    "mrp": 5616,
+    "discountPercent": 20,
+    "stock": 14,
+    "quantity": 11,
+    "barcode": "8901000258123",
+    "lowStockThreshold": 4,
+    "reservedStock": 0,
+    "warehouseLocation": "Aisle C-4",
+    "restockLeadDays": 3,
+    "vendorId": "v22",
+    "vendorSlug": "pixelcore",
+    "status": "approved",
+    "images": [
+      "https://images.unsplash.com/photo-1572635196237-14b3f281503f?w=600&h=600&fit=crop",
+      "https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?w=600&h=600&fit=crop"
+    ],
+    "description": "Exclusive signature release by PixelCore Smart Tech. Insured courier dispatch with verified GST tax invoice.",
+    "condition": "Brand New (Verified Stock)",
+    "specifications": {
+      "Origin": "Ahmedabad, Gujarat",
+      "Merchant": "PixelCore Smart Tech",
+      "Category": "Electronics & Gadgets",
+      "Warranty": "1-Year Direct Brand Warranty",
+      "Verification": "100% Genuine Tax Invoice Included"
+    },
+    "shipping": {
+      "weight": "450 g",
+      "dispatchTime": "Ships within 24 hours",
+      "estimatedDays": "2 - 4 days",
+      "courierPartners": [
+        "BlueDart Express",
+        "Delhivery Surface",
+        "DTDC Air"
+      ],
+      "codAvailable": true,
+      "returnWindowDays": 7
+    },
+    "variants": {
+      "colors": [
+        {
+          "name": "Default",
+          "hex": "#0284C7",
+          "inStock": true
+        }
+      ],
+      "options": [
+        {
+          "label": "Standard Pack",
+          "price": 4493,
+          "inStock": true
+        }
+      ]
+    },
+    "rating": 4.7,
+    "reviewCount": 42
+  },
+  {
+    "id": "p259",
+    "sku": "VM-ELEC-P259-AUR",
+    "name": "AuraTech Mobile & Computing Flagship Edition",
+    "category": "Electronics & Gadgets",
+    "brand": "AuraTech Mobile & Computing",
+    "price": 4627,
+    "mrp": 5784,
+    "discountPercent": 20,
+    "stock": 34,
+    "quantity": 26,
+    "barcode": "8901000259123",
+    "lowStockThreshold": 4,
+    "reservedStock": 0,
+    "warehouseLocation": "Aisle D-5",
+    "restockLeadDays": 3,
+    "vendorId": "v23",
+    "vendorSlug": "auratech",
+    "status": "approved",
+    "images": [
+      "https://images.unsplash.com/photo-1519389950473-47ba0277781c?w=1200&h=300&fit=crop",
+      "https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?w=600&h=600&fit=crop"
+    ],
+    "description": "Verified authentic Electronics & Gadgets merchandise direct from AuraTech Mobile & Computing. Includes express courier delivery and warranty.",
+    "condition": "Brand New (Verified Stock)",
+    "specifications": {
+      "Origin": "Hyderabad, Telangana",
+      "Merchant": "AuraTech Mobile & Computing",
+      "Category": "Electronics & Gadgets",
+      "Warranty": "1-Year Direct Brand Warranty",
+      "Verification": "100% Genuine Tax Invoice Included"
+    },
+    "shipping": {
+      "weight": "450 g",
+      "dispatchTime": "Ships within 24 hours",
+      "estimatedDays": "2 - 4 days",
+      "courierPartners": [
+        "BlueDart Express",
+        "Delhivery Surface",
+        "DTDC Air"
+      ],
+      "codAvailable": true,
+      "returnWindowDays": 7
+    },
+    "variants": {
+      "colors": [
+        {
+          "name": "Default",
+          "hex": "#4F46E5",
+          "inStock": true
+        }
+      ],
+      "options": [
+        {
+          "label": "Standard Pack",
+          "price": 4627,
+          "inStock": true
+        }
+      ]
+    },
+    "rating": 5,
+    "reviewCount": 64
+  },
+  {
+    "id": "p260",
+    "sku": "VM-ELEC-P260-AUR",
+    "name": "AuraTech Mobile & Computing Premium Artisan Choice",
+    "category": "Electronics & Gadgets",
+    "brand": "AuraTech Mobile & Computing",
+    "price": 3285,
+    "mrp": 4106,
+    "discountPercent": 20,
+    "stock": 33,
+    "quantity": 22,
+    "barcode": "8901000260123",
+    "lowStockThreshold": 4,
+    "reservedStock": 0,
+    "warehouseLocation": "Aisle E-1",
+    "restockLeadDays": 3,
+    "vendorId": "v23",
+    "vendorSlug": "auratech",
+    "status": "approved",
+    "images": [
+      "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=120&h=120&fit=crop",
+      "https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?w=600&h=600&fit=crop"
+    ],
+    "description": "Bestselling Electronics & Gadgets selection crafted with premium standards. Direct brand warranty and tamper-proof packaging.",
+    "condition": "Brand New (Verified Stock)",
+    "specifications": {
+      "Origin": "Hyderabad, Telangana",
+      "Merchant": "AuraTech Mobile & Computing",
+      "Category": "Electronics & Gadgets",
+      "Warranty": "1-Year Direct Brand Warranty",
+      "Verification": "100% Genuine Tax Invoice Included"
+    },
+    "shipping": {
+      "weight": "450 g",
+      "dispatchTime": "Ships within 24 hours",
+      "estimatedDays": "2 - 4 days",
+      "courierPartners": [
+        "BlueDart Express",
+        "Delhivery Surface",
+        "DTDC Air"
+      ],
+      "codAvailable": true,
+      "returnWindowDays": 7
+    },
+    "variants": {
+      "colors": [
+        {
+          "name": "Default",
+          "hex": "#4F46E5",
+          "inStock": true
+        }
+      ],
+      "options": [
+        {
+          "label": "Standard Pack",
+          "price": 3285,
+          "inStock": true
+        }
+      ]
+    },
+    "rating": 4.8,
+    "reviewCount": 80
+  },
+  {
+    "id": "p261",
+    "sku": "VM-ELEC-P261-AUR",
+    "name": "AuraTech Mobile & Computing Essential Collection Item",
+    "category": "Electronics & Gadgets",
+    "brand": "AuraTech Mobile & Computing",
+    "price": 1688,
+    "mrp": 2110,
+    "discountPercent": 20,
+    "stock": 26,
+    "quantity": 27,
+    "barcode": "8901000261123",
+    "lowStockThreshold": 4,
+    "reservedStock": 0,
+    "warehouseLocation": "Aisle F-2",
+    "restockLeadDays": 3,
+    "vendorId": "v23",
+    "vendorSlug": "auratech",
+    "status": "approved",
+    "images": [
+      "https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=600&h=600&fit=crop",
+      "https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?w=600&h=600&fit=crop"
+    ],
+    "description": "High-utility certified product from AuraTech Mobile & Computing. Tested for durability, ergonomics, and physical performance.",
+    "condition": "Brand New (Verified Stock)",
+    "specifications": {
+      "Origin": "Hyderabad, Telangana",
+      "Merchant": "AuraTech Mobile & Computing",
+      "Category": "Electronics & Gadgets",
+      "Warranty": "1-Year Direct Brand Warranty",
+      "Verification": "100% Genuine Tax Invoice Included"
+    },
+    "shipping": {
+      "weight": "450 g",
+      "dispatchTime": "Ships within 24 hours",
+      "estimatedDays": "2 - 4 days",
+      "courierPartners": [
+        "BlueDart Express",
+        "Delhivery Surface",
+        "DTDC Air"
+      ],
+      "codAvailable": true,
+      "returnWindowDays": 7
+    },
+    "variants": {
+      "colors": [
+        {
+          "name": "Default",
+          "hex": "#4F46E5",
+          "inStock": true
+        }
+      ],
+      "options": [
+        {
+          "label": "Standard Pack",
+          "price": 1688,
+          "inStock": true
+        }
+      ]
+    },
+    "rating": 5,
+    "reviewCount": 71
+  },
+  {
+    "id": "p262",
+    "sku": "VM-ELEC-P262-AUR",
+    "name": "AuraTech Mobile & Computing Limited Signature Edition",
+    "category": "Electronics & Gadgets",
+    "brand": "AuraTech Mobile & Computing",
+    "price": 5040,
+    "mrp": 6300,
+    "discountPercent": 20,
+    "stock": 23,
+    "quantity": 34,
+    "barcode": "8901000262123",
+    "lowStockThreshold": 4,
+    "reservedStock": 0,
+    "warehouseLocation": "Aisle G-3",
+    "restockLeadDays": 3,
+    "vendorId": "v23",
+    "vendorSlug": "auratech",
+    "status": "approved",
+    "images": [
+      "https://images.unsplash.com/photo-1572635196237-14b3f281503f?w=600&h=600&fit=crop",
+      "https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?w=600&h=600&fit=crop"
+    ],
+    "description": "Exclusive signature release by AuraTech Mobile & Computing. Insured courier dispatch with verified GST tax invoice.",
+    "condition": "Brand New (Verified Stock)",
+    "specifications": {
+      "Origin": "Hyderabad, Telangana",
+      "Merchant": "AuraTech Mobile & Computing",
+      "Category": "Electronics & Gadgets",
+      "Warranty": "1-Year Direct Brand Warranty",
+      "Verification": "100% Genuine Tax Invoice Included"
+    },
+    "shipping": {
+      "weight": "450 g",
+      "dispatchTime": "Ships within 24 hours",
+      "estimatedDays": "2 - 4 days",
+      "courierPartners": [
+        "BlueDart Express",
+        "Delhivery Surface",
+        "DTDC Air"
+      ],
+      "codAvailable": true,
+      "returnWindowDays": 7
+    },
+    "variants": {
+      "colors": [
+        {
+          "name": "Default",
+          "hex": "#4F46E5",
+          "inStock": true
+        }
+      ],
+      "options": [
+        {
+          "label": "Standard Pack",
+          "price": 5040,
+          "inStock": true
+        }
+      ]
+    },
+    "rating": 4.8,
+    "reviewCount": 75
+  },
+  {
+    "id": "p263",
+    "sku": "VM-FASH-P263-BAN",
+    "name": "Banarasi Heritage Weaves Flagship Edition",
+    "category": "Fashion & Apparel",
+    "brand": "Banarasi Heritage Weaves",
+    "price": 5069,
+    "mrp": 6336,
+    "discountPercent": 20,
+    "stock": 34,
+    "quantity": 27,
+    "barcode": "8901000263123",
+    "lowStockThreshold": 4,
+    "reservedStock": 0,
+    "warehouseLocation": "Aisle H-4",
+    "restockLeadDays": 3,
+    "vendorId": "v24",
+    "vendorSlug": "banarasiheritage",
+    "status": "approved",
+    "images": [
+      "https://images.unsplash.com/photo-1610030469983-98e550d6193c?w=1200&h=300&fit=crop",
+      "https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?w=600&h=600&fit=crop"
+    ],
+    "description": "Verified authentic Fashion & Apparel merchandise direct from Banarasi Heritage Weaves. Includes express courier delivery and warranty.",
+    "condition": "Brand New (Verified Stock)",
+    "specifications": {
+      "Origin": "Varanasi, Uttar Pradesh",
+      "Merchant": "Banarasi Heritage Weaves",
+      "Category": "Fashion & Apparel",
+      "Warranty": "1-Year Direct Brand Warranty",
+      "Verification": "100% Genuine Tax Invoice Included"
+    },
+    "shipping": {
+      "weight": "450 g",
+      "dispatchTime": "Ships within 24 hours",
+      "estimatedDays": "2 - 4 days",
+      "courierPartners": [
+        "BlueDart Express",
+        "Delhivery Surface",
+        "DTDC Air"
+      ],
+      "codAvailable": true,
+      "returnWindowDays": 7
+    },
+    "variants": {
+      "colors": [
+        {
+          "name": "Default",
+          "hex": "#991B1B",
+          "inStock": true
+        }
+      ],
+      "options": [
+        {
+          "label": "Standard Pack",
+          "price": 5069,
+          "inStock": true
+        }
+      ]
+    },
+    "rating": 4.7,
+    "reviewCount": 78
+  },
+  {
+    "id": "p264",
+    "sku": "VM-FASH-P264-BAN",
+    "name": "Banarasi Heritage Weaves Premium Artisan Choice",
+    "category": "Fashion & Apparel",
+    "brand": "Banarasi Heritage Weaves",
+    "price": 2889,
+    "mrp": 3611,
+    "discountPercent": 20,
+    "stock": 23,
+    "quantity": 30,
+    "barcode": "8901000264123",
+    "lowStockThreshold": 4,
+    "reservedStock": 0,
+    "warehouseLocation": "Aisle A-5",
+    "restockLeadDays": 3,
+    "vendorId": "v24",
+    "vendorSlug": "banarasiheritage",
+    "status": "approved",
+    "images": [
+      "https://images.unsplash.com/photo-1544717305-2782549b5136?w=120&h=120&fit=crop",
+      "https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?w=600&h=600&fit=crop"
+    ],
+    "description": "Bestselling Fashion & Apparel selection crafted with premium standards. Direct brand warranty and tamper-proof packaging.",
+    "condition": "Brand New (Verified Stock)",
+    "specifications": {
+      "Origin": "Varanasi, Uttar Pradesh",
+      "Merchant": "Banarasi Heritage Weaves",
+      "Category": "Fashion & Apparel",
+      "Warranty": "1-Year Direct Brand Warranty",
+      "Verification": "100% Genuine Tax Invoice Included"
+    },
+    "shipping": {
+      "weight": "450 g",
+      "dispatchTime": "Ships within 24 hours",
+      "estimatedDays": "2 - 4 days",
+      "courierPartners": [
+        "BlueDart Express",
+        "Delhivery Surface",
+        "DTDC Air"
+      ],
+      "codAvailable": true,
+      "returnWindowDays": 7
+    },
+    "variants": {
+      "colors": [
+        {
+          "name": "Default",
+          "hex": "#991B1B",
+          "inStock": true
+        }
+      ],
+      "options": [
+        {
+          "label": "Standard Pack",
+          "price": 2889,
+          "inStock": true
+        }
+      ]
+    },
+    "rating": 4.8,
+    "reviewCount": 17
+  },
+  {
+    "id": "p265",
+    "sku": "VM-FASH-P265-BAN",
+    "name": "Banarasi Heritage Weaves Essential Collection Item",
+    "category": "Fashion & Apparel",
+    "brand": "Banarasi Heritage Weaves",
+    "price": 1292,
+    "mrp": 1615,
+    "discountPercent": 20,
+    "stock": 29,
+    "quantity": 12,
+    "barcode": "8901000265123",
+    "lowStockThreshold": 4,
+    "reservedStock": 0,
+    "warehouseLocation": "Aisle B-1",
+    "restockLeadDays": 3,
+    "vendorId": "v24",
+    "vendorSlug": "banarasiheritage",
+    "status": "approved",
+    "images": [
+      "https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=600&h=600&fit=crop",
+      "https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?w=600&h=600&fit=crop"
+    ],
+    "description": "High-utility certified product from Banarasi Heritage Weaves. Tested for durability, ergonomics, and physical performance.",
+    "condition": "Brand New (Verified Stock)",
+    "specifications": {
+      "Origin": "Varanasi, Uttar Pradesh",
+      "Merchant": "Banarasi Heritage Weaves",
+      "Category": "Fashion & Apparel",
+      "Warranty": "1-Year Direct Brand Warranty",
+      "Verification": "100% Genuine Tax Invoice Included"
+    },
+    "shipping": {
+      "weight": "450 g",
+      "dispatchTime": "Ships within 24 hours",
+      "estimatedDays": "2 - 4 days",
+      "courierPartners": [
+        "BlueDart Express",
+        "Delhivery Surface",
+        "DTDC Air"
+      ],
+      "codAvailable": true,
+      "returnWindowDays": 7
+    },
+    "variants": {
+      "colors": [
+        {
+          "name": "Default",
+          "hex": "#991B1B",
+          "inStock": true
+        }
+      ],
+      "options": [
+        {
+          "label": "Standard Pack",
+          "price": 1292,
+          "inStock": true
+        }
+      ]
+    },
+    "rating": 4.6,
+    "reviewCount": 50
+  },
+  {
+    "id": "p266",
+    "sku": "VM-FASH-P266-BAN",
+    "name": "Banarasi Heritage Weaves Limited Signature Edition",
+    "category": "Fashion & Apparel",
+    "brand": "Banarasi Heritage Weaves",
+    "price": 7819,
+    "mrp": 9774,
+    "discountPercent": 20,
+    "stock": 34,
+    "quantity": 13,
+    "barcode": "8901000266123",
+    "lowStockThreshold": 4,
+    "reservedStock": 0,
+    "warehouseLocation": "Aisle C-2",
+    "restockLeadDays": 3,
+    "vendorId": "v24",
+    "vendorSlug": "banarasiheritage",
+    "status": "approved",
+    "images": [
+      "https://images.unsplash.com/photo-1572635196237-14b3f281503f?w=600&h=600&fit=crop",
+      "https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?w=600&h=600&fit=crop"
+    ],
+    "description": "Exclusive signature release by Banarasi Heritage Weaves. Insured courier dispatch with verified GST tax invoice.",
+    "condition": "Brand New (Verified Stock)",
+    "specifications": {
+      "Origin": "Varanasi, Uttar Pradesh",
+      "Merchant": "Banarasi Heritage Weaves",
+      "Category": "Fashion & Apparel",
+      "Warranty": "1-Year Direct Brand Warranty",
+      "Verification": "100% Genuine Tax Invoice Included"
+    },
+    "shipping": {
+      "weight": "450 g",
+      "dispatchTime": "Ships within 24 hours",
+      "estimatedDays": "2 - 4 days",
+      "courierPartners": [
+        "BlueDart Express",
+        "Delhivery Surface",
+        "DTDC Air"
+      ],
+      "codAvailable": true,
+      "returnWindowDays": 7
+    },
+    "variants": {
+      "colors": [
+        {
+          "name": "Default",
+          "hex": "#991B1B",
+          "inStock": true
+        }
+      ],
+      "options": [
+        {
+          "label": "Standard Pack",
+          "price": 7819,
+          "inStock": true
+        }
+      ]
+    },
+    "rating": 5,
+    "reviewCount": 65
+  },
+  {
+    "id": "p267",
+    "sku": "VM-ORGA-P267-VED",
+    "name": "Vedic Organics & Coldpress Flagship Edition",
+    "category": "Organic Grocery & Staples",
+    "brand": "Vedic Organics & Coldpress",
+    "price": 4696,
+    "mrp": 5870,
+    "discountPercent": 20,
+    "stock": 24,
+    "quantity": 28,
+    "barcode": "8901000267123",
+    "lowStockThreshold": 4,
+    "reservedStock": 0,
+    "warehouseLocation": "Aisle D-3",
+    "restockLeadDays": 3,
+    "vendorId": "v25",
+    "vendorSlug": "vedicorganics",
+    "status": "approved",
+    "images": [
+      "https://images.unsplash.com/photo-1542838132-92c53300491e?w=1200&h=300&fit=crop",
+      "https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?w=600&h=600&fit=crop"
+    ],
+    "description": "Verified authentic Organic Grocery & Staples merchandise direct from Vedic Organics & Coldpress. Includes express courier delivery and warranty.",
+    "condition": "Brand New (Verified Stock)",
+    "specifications": {
+      "Origin": "Surat, Gujarat",
+      "Merchant": "Vedic Organics & Coldpress",
+      "Category": "Organic Grocery & Staples",
+      "Warranty": "1-Year Direct Brand Warranty",
+      "Verification": "100% Genuine Tax Invoice Included"
+    },
+    "shipping": {
+      "weight": "450 g",
+      "dispatchTime": "Ships within 24 hours",
+      "estimatedDays": "2 - 4 days",
+      "courierPartners": [
+        "BlueDart Express",
+        "Delhivery Surface",
+        "DTDC Air"
+      ],
+      "codAvailable": true,
+      "returnWindowDays": 7
+    },
+    "variants": {
+      "colors": [
+        {
+          "name": "Default",
+          "hex": "#15803D",
+          "inStock": true
+        }
+      ],
+      "options": [
+        {
+          "label": "Standard Pack",
+          "price": 4696,
+          "inStock": true
+        }
+      ]
+    },
+    "rating": 4.8,
+    "reviewCount": 64
+  },
+  {
+    "id": "p268",
+    "sku": "VM-ORGA-P268-VED",
+    "name": "Vedic Organics & Coldpress Premium Artisan Choice",
+    "category": "Organic Grocery & Staples",
+    "brand": "Vedic Organics & Coldpress",
+    "price": 3227,
+    "mrp": 4034,
+    "discountPercent": 20,
+    "stock": 17,
+    "quantity": 23,
+    "barcode": "8901000268123",
+    "lowStockThreshold": 4,
+    "reservedStock": 0,
+    "warehouseLocation": "Aisle E-4",
+    "restockLeadDays": 3,
+    "vendorId": "v25",
+    "vendorSlug": "vedicorganics",
+    "status": "approved",
+    "images": [
+      "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=120&h=120&fit=crop",
+      "https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?w=600&h=600&fit=crop"
+    ],
+    "description": "Bestselling Organic Grocery & Staples selection crafted with premium standards. Direct brand warranty and tamper-proof packaging.",
+    "condition": "Brand New (Verified Stock)",
+    "specifications": {
+      "Origin": "Surat, Gujarat",
+      "Merchant": "Vedic Organics & Coldpress",
+      "Category": "Organic Grocery & Staples",
+      "Warranty": "1-Year Direct Brand Warranty",
+      "Verification": "100% Genuine Tax Invoice Included"
+    },
+    "shipping": {
+      "weight": "450 g",
+      "dispatchTime": "Ships within 24 hours",
+      "estimatedDays": "2 - 4 days",
+      "courierPartners": [
+        "BlueDart Express",
+        "Delhivery Surface",
+        "DTDC Air"
+      ],
+      "codAvailable": true,
+      "returnWindowDays": 7
+    },
+    "variants": {
+      "colors": [
+        {
+          "name": "Default",
+          "hex": "#15803D",
+          "inStock": true
+        }
+      ],
+      "options": [
+        {
+          "label": "Standard Pack",
+          "price": 3227,
+          "inStock": true
+        }
+      ]
+    },
+    "rating": 4.6,
+    "reviewCount": 81
+  },
+  {
+    "id": "p269",
+    "sku": "VM-ORGA-P269-VED",
+    "name": "Vedic Organics & Coldpress Essential Collection Item",
+    "category": "Organic Grocery & Staples",
+    "brand": "Vedic Organics & Coldpress",
+    "price": 571,
+    "mrp": 714,
+    "discountPercent": 20,
+    "stock": 14,
+    "quantity": 24,
+    "barcode": "8901000269123",
+    "lowStockThreshold": 4,
+    "reservedStock": 0,
+    "warehouseLocation": "Aisle F-5",
+    "restockLeadDays": 3,
+    "vendorId": "v25",
+    "vendorSlug": "vedicorganics",
+    "status": "approved",
+    "images": [
+      "https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=600&h=600&fit=crop",
+      "https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?w=600&h=600&fit=crop"
+    ],
+    "description": "High-utility certified product from Vedic Organics & Coldpress. Tested for durability, ergonomics, and physical performance.",
+    "condition": "Brand New (Verified Stock)",
+    "specifications": {
+      "Origin": "Surat, Gujarat",
+      "Merchant": "Vedic Organics & Coldpress",
+      "Category": "Organic Grocery & Staples",
+      "Warranty": "1-Year Direct Brand Warranty",
+      "Verification": "100% Genuine Tax Invoice Included"
+    },
+    "shipping": {
+      "weight": "450 g",
+      "dispatchTime": "Ships within 24 hours",
+      "estimatedDays": "2 - 4 days",
+      "courierPartners": [
+        "BlueDart Express",
+        "Delhivery Surface",
+        "DTDC Air"
+      ],
+      "codAvailable": true,
+      "returnWindowDays": 7
+    },
+    "variants": {
+      "colors": [
+        {
+          "name": "Default",
+          "hex": "#15803D",
+          "inStock": true
+        }
+      ],
+      "options": [
+        {
+          "label": "Standard Pack",
+          "price": 571,
+          "inStock": true
+        }
+      ]
+    },
+    "rating": 4.6,
+    "reviewCount": 50
+  },
+  {
+    "id": "p270",
+    "sku": "VM-ORGA-P270-VED",
+    "name": "Vedic Organics & Coldpress Limited Signature Edition",
+    "category": "Organic Grocery & Staples",
+    "brand": "Vedic Organics & Coldpress",
+    "price": 7224,
+    "mrp": 9030,
+    "discountPercent": 20,
+    "stock": 21,
+    "quantity": 26,
+    "barcode": "8901000270123",
+    "lowStockThreshold": 4,
+    "reservedStock": 0,
+    "warehouseLocation": "Aisle G-1",
+    "restockLeadDays": 3,
+    "vendorId": "v25",
+    "vendorSlug": "vedicorganics",
+    "status": "approved",
+    "images": [
+      "https://images.unsplash.com/photo-1572635196237-14b3f281503f?w=600&h=600&fit=crop",
+      "https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?w=600&h=600&fit=crop"
+    ],
+    "description": "Exclusive signature release by Vedic Organics & Coldpress. Insured courier dispatch with verified GST tax invoice.",
+    "condition": "Brand New (Verified Stock)",
+    "specifications": {
+      "Origin": "Surat, Gujarat",
+      "Merchant": "Vedic Organics & Coldpress",
+      "Category": "Organic Grocery & Staples",
+      "Warranty": "1-Year Direct Brand Warranty",
+      "Verification": "100% Genuine Tax Invoice Included"
+    },
+    "shipping": {
+      "weight": "450 g",
+      "dispatchTime": "Ships within 24 hours",
+      "estimatedDays": "2 - 4 days",
+      "courierPartners": [
+        "BlueDart Express",
+        "Delhivery Surface",
+        "DTDC Air"
+      ],
+      "codAvailable": true,
+      "returnWindowDays": 7
+    },
+    "variants": {
+      "colors": [
+        {
+          "name": "Default",
+          "hex": "#15803D",
+          "inStock": true
+        }
+      ],
+      "options": [
+        {
+          "label": "Standard Pack",
+          "price": 7224,
+          "inStock": true
+        }
+      ]
+    },
+    "rating": 4.8,
+    "reviewCount": 32
+  },
+  {
+    "id": "p271",
+    "sku": "VM-ORGA-P271-PUR",
+    "name": "PureHarvest Spices & Millets Flagship Edition",
+    "category": "Organic Grocery & Staples",
+    "brand": "PureHarvest Spices & Millets",
+    "price": 4394,
+    "mrp": 5493,
+    "discountPercent": 20,
+    "stock": 29,
+    "quantity": 30,
+    "barcode": "8901000271123",
+    "lowStockThreshold": 4,
+    "reservedStock": 0,
+    "warehouseLocation": "Aisle H-2",
+    "restockLeadDays": 3,
+    "vendorId": "v26",
+    "vendorSlug": "pureharvest",
+    "status": "approved",
+    "images": [
+      "https://images.unsplash.com/photo-1596040033229-a9821ebd058d?w=1200&h=300&fit=crop",
+      "https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?w=600&h=600&fit=crop"
+    ],
+    "description": "Verified authentic Organic Grocery & Staples merchandise direct from PureHarvest Spices & Millets. Includes express courier delivery and warranty.",
+    "condition": "Brand New (Verified Stock)",
+    "specifications": {
+      "Origin": "Madurai, Tamil Nadu",
+      "Merchant": "PureHarvest Spices & Millets",
+      "Category": "Organic Grocery & Staples",
+      "Warranty": "1-Year Direct Brand Warranty",
+      "Verification": "100% Genuine Tax Invoice Included"
+    },
+    "shipping": {
+      "weight": "450 g",
+      "dispatchTime": "Ships within 24 hours",
+      "estimatedDays": "2 - 4 days",
+      "courierPartners": [
+        "BlueDart Express",
+        "Delhivery Surface",
+        "DTDC Air"
+      ],
+      "codAvailable": true,
+      "returnWindowDays": 7
+    },
+    "variants": {
+      "colors": [
+        {
+          "name": "Default",
+          "hex": "#CA8A04",
+          "inStock": true
+        }
+      ],
+      "options": [
+        {
+          "label": "Standard Pack",
+          "price": 4394,
+          "inStock": true
+        }
+      ]
+    },
+    "rating": 4.9,
+    "reviewCount": 65
+  },
+  {
+    "id": "p272",
+    "sku": "VM-ORGA-P272-PUR",
+    "name": "PureHarvest Spices & Millets Premium Artisan Choice",
+    "category": "Organic Grocery & Staples",
+    "brand": "PureHarvest Spices & Millets",
+    "price": 3141,
+    "mrp": 3926,
+    "discountPercent": 20,
+    "stock": 30,
+    "quantity": 12,
+    "barcode": "8901000272123",
+    "lowStockThreshold": 4,
+    "reservedStock": 0,
+    "warehouseLocation": "Aisle A-3",
+    "restockLeadDays": 3,
+    "vendorId": "v26",
+    "vendorSlug": "pureharvest",
+    "status": "approved",
+    "images": [
+      "https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=120&h=120&fit=crop",
+      "https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?w=600&h=600&fit=crop"
+    ],
+    "description": "Bestselling Organic Grocery & Staples selection crafted with premium standards. Direct brand warranty and tamper-proof packaging.",
+    "condition": "Brand New (Verified Stock)",
+    "specifications": {
+      "Origin": "Madurai, Tamil Nadu",
+      "Merchant": "PureHarvest Spices & Millets",
+      "Category": "Organic Grocery & Staples",
+      "Warranty": "1-Year Direct Brand Warranty",
+      "Verification": "100% Genuine Tax Invoice Included"
+    },
+    "shipping": {
+      "weight": "450 g",
+      "dispatchTime": "Ships within 24 hours",
+      "estimatedDays": "2 - 4 days",
+      "courierPartners": [
+        "BlueDart Express",
+        "Delhivery Surface",
+        "DTDC Air"
+      ],
+      "codAvailable": true,
+      "returnWindowDays": 7
+    },
+    "variants": {
+      "colors": [
+        {
+          "name": "Default",
+          "hex": "#CA8A04",
+          "inStock": true
+        }
+      ],
+      "options": [
+        {
+          "label": "Standard Pack",
+          "price": 3141,
+          "inStock": true
+        }
+      ]
+    },
+    "rating": 4.6,
+    "reviewCount": 77
+  },
+  {
+    "id": "p273",
+    "sku": "VM-ORGA-P273-PUR",
+    "name": "PureHarvest Spices & Millets Essential Collection Item",
+    "category": "Organic Grocery & Staples",
+    "brand": "PureHarvest Spices & Millets",
+    "price": 1436,
+    "mrp": 1795,
+    "discountPercent": 20,
+    "stock": 12,
+    "quantity": 27,
+    "barcode": "8901000273123",
+    "lowStockThreshold": 4,
+    "reservedStock": 0,
+    "warehouseLocation": "Aisle B-4",
+    "restockLeadDays": 3,
+    "vendorId": "v26",
+    "vendorSlug": "pureharvest",
+    "status": "approved",
+    "images": [
+      "https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=600&h=600&fit=crop",
+      "https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?w=600&h=600&fit=crop"
+    ],
+    "description": "High-utility certified product from PureHarvest Spices & Millets. Tested for durability, ergonomics, and physical performance.",
+    "condition": "Brand New (Verified Stock)",
+    "specifications": {
+      "Origin": "Madurai, Tamil Nadu",
+      "Merchant": "PureHarvest Spices & Millets",
+      "Category": "Organic Grocery & Staples",
+      "Warranty": "1-Year Direct Brand Warranty",
+      "Verification": "100% Genuine Tax Invoice Included"
+    },
+    "shipping": {
+      "weight": "450 g",
+      "dispatchTime": "Ships within 24 hours",
+      "estimatedDays": "2 - 4 days",
+      "courierPartners": [
+        "BlueDart Express",
+        "Delhivery Surface",
+        "DTDC Air"
+      ],
+      "codAvailable": true,
+      "returnWindowDays": 7
+    },
+    "variants": {
+      "colors": [
+        {
+          "name": "Default",
+          "hex": "#CA8A04",
+          "inStock": true
+        }
+      ],
+      "options": [
+        {
+          "label": "Standard Pack",
+          "price": 1436,
+          "inStock": true
+        }
+      ]
+    },
+    "rating": 4.9,
+    "reviewCount": 47
+  },
+  {
+    "id": "p274",
+    "sku": "VM-ORGA-P274-PUR",
+    "name": "PureHarvest Spices & Millets Limited Signature Edition",
+    "category": "Organic Grocery & Staples",
+    "brand": "PureHarvest Spices & Millets",
+    "price": 7510,
+    "mrp": 9388,
+    "discountPercent": 20,
+    "stock": 19,
+    "quantity": 29,
+    "barcode": "8901000274123",
+    "lowStockThreshold": 4,
+    "reservedStock": 0,
+    "warehouseLocation": "Aisle C-5",
+    "restockLeadDays": 3,
+    "vendorId": "v26",
+    "vendorSlug": "pureharvest",
+    "status": "approved",
+    "images": [
+      "https://images.unsplash.com/photo-1572635196237-14b3f281503f?w=600&h=600&fit=crop",
+      "https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?w=600&h=600&fit=crop"
+    ],
+    "description": "Exclusive signature release by PureHarvest Spices & Millets. Insured courier dispatch with verified GST tax invoice.",
+    "condition": "Brand New (Verified Stock)",
+    "specifications": {
+      "Origin": "Madurai, Tamil Nadu",
+      "Merchant": "PureHarvest Spices & Millets",
+      "Category": "Organic Grocery & Staples",
+      "Warranty": "1-Year Direct Brand Warranty",
+      "Verification": "100% Genuine Tax Invoice Included"
+    },
+    "shipping": {
+      "weight": "450 g",
+      "dispatchTime": "Ships within 24 hours",
+      "estimatedDays": "2 - 4 days",
+      "courierPartners": [
+        "BlueDart Express",
+        "Delhivery Surface",
+        "DTDC Air"
+      ],
+      "codAvailable": true,
+      "returnWindowDays": 7
+    },
+    "variants": {
+      "colors": [
+        {
+          "name": "Default",
+          "hex": "#CA8A04",
+          "inStock": true
+        }
+      ],
+      "options": [
+        {
+          "label": "Standard Pack",
+          "price": 7510,
+          "inStock": true
+        }
+      ]
+    },
+    "rating": 4.6,
+    "reviewCount": 43
+  },
+  {
+    "id": "p275",
+    "sku": "VM-HOME-P275-COP",
+    "name": "CopperCraft Heirloom Cookware Flagship Edition",
+    "category": "Home & Kitchen Essentials",
+    "brand": "CopperCraft Heirloom Cookware",
+    "price": 3589,
+    "mrp": 4486,
+    "discountPercent": 20,
+    "stock": 14,
+    "quantity": 12,
+    "barcode": "8901000275123",
+    "lowStockThreshold": 4,
+    "reservedStock": 0,
+    "warehouseLocation": "Aisle D-1",
+    "restockLeadDays": 3,
+    "vendorId": "v27",
+    "vendorSlug": "coppercraft",
+    "status": "approved",
+    "images": [
+      "https://images.unsplash.com/photo-1616486338812-3dadae4b4ace?w=1200&h=300&fit=crop",
+      "https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?w=600&h=600&fit=crop"
+    ],
+    "description": "Verified authentic Home & Kitchen Essentials merchandise direct from CopperCraft Heirloom Cookware. Includes express courier delivery and warranty.",
+    "condition": "Brand New (Verified Stock)",
+    "specifications": {
+      "Origin": "Thrissur, Kerala",
+      "Merchant": "CopperCraft Heirloom Cookware",
+      "Category": "Home & Kitchen Essentials",
+      "Warranty": "1-Year Direct Brand Warranty",
+      "Verification": "100% Genuine Tax Invoice Included"
+    },
+    "shipping": {
+      "weight": "450 g",
+      "dispatchTime": "Ships within 24 hours",
+      "estimatedDays": "2 - 4 days",
+      "courierPartners": [
+        "BlueDart Express",
+        "Delhivery Surface",
+        "DTDC Air"
+      ],
+      "codAvailable": true,
+      "returnWindowDays": 7
+    },
+    "variants": {
+      "colors": [
+        {
+          "name": "Default",
+          "hex": "#B45309",
+          "inStock": true
+        }
+      ],
+      "options": [
+        {
+          "label": "Standard Pack",
+          "price": 3589,
+          "inStock": true
+        }
+      ]
+    },
+    "rating": 4.7,
+    "reviewCount": 54
+  },
+  {
+    "id": "p276",
+    "sku": "VM-HOME-P276-COP",
+    "name": "CopperCraft Heirloom Cookware Premium Artisan Choice",
+    "category": "Home & Kitchen Essentials",
+    "brand": "CopperCraft Heirloom Cookware",
+    "price": 1209,
+    "mrp": 1511,
+    "discountPercent": 20,
+    "stock": 17,
+    "quantity": 14,
+    "barcode": "8901000276123",
+    "lowStockThreshold": 4,
+    "reservedStock": 0,
+    "warehouseLocation": "Aisle E-2",
+    "restockLeadDays": 3,
+    "vendorId": "v27",
+    "vendorSlug": "coppercraft",
+    "status": "approved",
+    "images": [
+      "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=120&h=120&fit=crop",
+      "https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?w=600&h=600&fit=crop"
+    ],
+    "description": "Bestselling Home & Kitchen Essentials selection crafted with premium standards. Direct brand warranty and tamper-proof packaging.",
+    "condition": "Brand New (Verified Stock)",
+    "specifications": {
+      "Origin": "Thrissur, Kerala",
+      "Merchant": "CopperCraft Heirloom Cookware",
+      "Category": "Home & Kitchen Essentials",
+      "Warranty": "1-Year Direct Brand Warranty",
+      "Verification": "100% Genuine Tax Invoice Included"
+    },
+    "shipping": {
+      "weight": "450 g",
+      "dispatchTime": "Ships within 24 hours",
+      "estimatedDays": "2 - 4 days",
+      "courierPartners": [
+        "BlueDart Express",
+        "Delhivery Surface",
+        "DTDC Air"
+      ],
+      "codAvailable": true,
+      "returnWindowDays": 7
+    },
+    "variants": {
+      "colors": [
+        {
+          "name": "Default",
+          "hex": "#B45309",
+          "inStock": true
+        }
+      ],
+      "options": [
+        {
+          "label": "Standard Pack",
+          "price": 1209,
+          "inStock": true
+        }
+      ]
+    },
+    "rating": 4.8,
+    "reviewCount": 47
+  },
+  {
+    "id": "p277",
+    "sku": "VM-HOME-P277-COP",
+    "name": "CopperCraft Heirloom Cookware Essential Collection Item",
+    "category": "Home & Kitchen Essentials",
+    "brand": "CopperCraft Heirloom Cookware",
+    "price": 1191,
+    "mrp": 1489,
+    "discountPercent": 20,
+    "stock": 23,
+    "quantity": 29,
+    "barcode": "8901000277123",
+    "lowStockThreshold": 4,
+    "reservedStock": 0,
+    "warehouseLocation": "Aisle F-3",
+    "restockLeadDays": 3,
+    "vendorId": "v27",
+    "vendorSlug": "coppercraft",
+    "status": "approved",
+    "images": [
+      "https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=600&h=600&fit=crop",
+      "https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?w=600&h=600&fit=crop"
+    ],
+    "description": "High-utility certified product from CopperCraft Heirloom Cookware. Tested for durability, ergonomics, and physical performance.",
+    "condition": "Brand New (Verified Stock)",
+    "specifications": {
+      "Origin": "Thrissur, Kerala",
+      "Merchant": "CopperCraft Heirloom Cookware",
+      "Category": "Home & Kitchen Essentials",
+      "Warranty": "1-Year Direct Brand Warranty",
+      "Verification": "100% Genuine Tax Invoice Included"
+    },
+    "shipping": {
+      "weight": "450 g",
+      "dispatchTime": "Ships within 24 hours",
+      "estimatedDays": "2 - 4 days",
+      "courierPartners": [
+        "BlueDart Express",
+        "Delhivery Surface",
+        "DTDC Air"
+      ],
+      "codAvailable": true,
+      "returnWindowDays": 7
+    },
+    "variants": {
+      "colors": [
+        {
+          "name": "Default",
+          "hex": "#B45309",
+          "inStock": true
+        }
+      ],
+      "options": [
+        {
+          "label": "Standard Pack",
+          "price": 1191,
+          "inStock": true
+        }
+      ]
+    },
+    "rating": 4.7,
+    "reviewCount": 51
+  },
+  {
+    "id": "p278",
+    "sku": "VM-HOME-P278-COP",
+    "name": "CopperCraft Heirloom Cookware Limited Signature Edition",
+    "category": "Home & Kitchen Essentials",
+    "brand": "CopperCraft Heirloom Cookware",
+    "price": 7253,
+    "mrp": 9066,
+    "discountPercent": 20,
+    "stock": 33,
+    "quantity": 29,
+    "barcode": "8901000278123",
+    "lowStockThreshold": 4,
+    "reservedStock": 0,
+    "warehouseLocation": "Aisle G-4",
+    "restockLeadDays": 3,
+    "vendorId": "v27",
+    "vendorSlug": "coppercraft",
+    "status": "approved",
+    "images": [
+      "https://images.unsplash.com/photo-1572635196237-14b3f281503f?w=600&h=600&fit=crop",
+      "https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?w=600&h=600&fit=crop"
+    ],
+    "description": "Exclusive signature release by CopperCraft Heirloom Cookware. Insured courier dispatch with verified GST tax invoice.",
+    "condition": "Brand New (Verified Stock)",
+    "specifications": {
+      "Origin": "Thrissur, Kerala",
+      "Merchant": "CopperCraft Heirloom Cookware",
+      "Category": "Home & Kitchen Essentials",
+      "Warranty": "1-Year Direct Brand Warranty",
+      "Verification": "100% Genuine Tax Invoice Included"
+    },
+    "shipping": {
+      "weight": "450 g",
+      "dispatchTime": "Ships within 24 hours",
+      "estimatedDays": "2 - 4 days",
+      "courierPartners": [
+        "BlueDart Express",
+        "Delhivery Surface",
+        "DTDC Air"
+      ],
+      "codAvailable": true,
+      "returnWindowDays": 7
+    },
+    "variants": {
+      "colors": [
+        {
+          "name": "Default",
+          "hex": "#B45309",
+          "inStock": true
+        }
+      ],
+      "options": [
+        {
+          "label": "Standard Pack",
+          "price": 7253,
+          "inStock": true
+        }
+      ]
+    },
+    "rating": 4.8,
+    "reviewCount": 91
+  },
+  {
+    "id": "p279",
+    "sku": "VM-HOME-P279-CLA",
+    "name": "ClayRoots Terracotta & Ceramic Flagship Edition",
+    "category": "Home & Kitchen Essentials",
+    "brand": "ClayRoots Terracotta & Ceramic",
+    "price": 1513,
+    "mrp": 1891,
+    "discountPercent": 20,
+    "stock": 12,
+    "quantity": 17,
+    "barcode": "8901000279123",
+    "lowStockThreshold": 4,
+    "reservedStock": 0,
+    "warehouseLocation": "Aisle H-5",
+    "restockLeadDays": 3,
+    "vendorId": "v28",
+    "vendorSlug": "clayroots",
+    "status": "approved",
+    "images": [
+      "https://images.unsplash.com/photo-1578749556568-bc2c40e68b61?w=1200&h=300&fit=crop",
+      "https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?w=600&h=600&fit=crop"
+    ],
+    "description": "Verified authentic Home & Kitchen Essentials merchandise direct from ClayRoots Terracotta & Ceramic. Includes express courier delivery and warranty.",
+    "condition": "Brand New (Verified Stock)",
+    "specifications": {
+      "Origin": "Pune, Maharashtra",
+      "Merchant": "ClayRoots Terracotta & Ceramic",
+      "Category": "Home & Kitchen Essentials",
+      "Warranty": "1-Year Direct Brand Warranty",
+      "Verification": "100% Genuine Tax Invoice Included"
+    },
+    "shipping": {
+      "weight": "450 g",
+      "dispatchTime": "Ships within 24 hours",
+      "estimatedDays": "2 - 4 days",
+      "courierPartners": [
+        "BlueDart Express",
+        "Delhivery Surface",
+        "DTDC Air"
+      ],
+      "codAvailable": true,
+      "returnWindowDays": 7
+    },
+    "variants": {
+      "colors": [
+        {
+          "name": "Default",
+          "hex": "#C2410C",
+          "inStock": true
+        }
+      ],
+      "options": [
+        {
+          "label": "Standard Pack",
+          "price": 1513,
+          "inStock": true
+        }
+      ]
+    },
+    "rating": 4.8,
+    "reviewCount": 66
+  },
+  {
+    "id": "p280",
+    "sku": "VM-HOME-P280-CLA",
+    "name": "ClayRoots Terracotta & Ceramic Premium Artisan Choice",
+    "category": "Home & Kitchen Essentials",
+    "brand": "ClayRoots Terracotta & Ceramic",
+    "price": 3018,
+    "mrp": 3773,
+    "discountPercent": 20,
+    "stock": 29,
+    "quantity": 25,
+    "barcode": "8901000280123",
+    "lowStockThreshold": 4,
+    "reservedStock": 0,
+    "warehouseLocation": "Aisle A-1",
+    "restockLeadDays": 3,
+    "vendorId": "v28",
+    "vendorSlug": "clayroots",
+    "status": "approved",
+    "images": [
+      "https://images.unsplash.com/photo-1580489944761-15a19d654956?w=120&h=120&fit=crop",
+      "https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?w=600&h=600&fit=crop"
+    ],
+    "description": "Bestselling Home & Kitchen Essentials selection crafted with premium standards. Direct brand warranty and tamper-proof packaging.",
+    "condition": "Brand New (Verified Stock)",
+    "specifications": {
+      "Origin": "Pune, Maharashtra",
+      "Merchant": "ClayRoots Terracotta & Ceramic",
+      "Category": "Home & Kitchen Essentials",
+      "Warranty": "1-Year Direct Brand Warranty",
+      "Verification": "100% Genuine Tax Invoice Included"
+    },
+    "shipping": {
+      "weight": "450 g",
+      "dispatchTime": "Ships within 24 hours",
+      "estimatedDays": "2 - 4 days",
+      "courierPartners": [
+        "BlueDart Express",
+        "Delhivery Surface",
+        "DTDC Air"
+      ],
+      "codAvailable": true,
+      "returnWindowDays": 7
+    },
+    "variants": {
+      "colors": [
+        {
+          "name": "Default",
+          "hex": "#C2410C",
+          "inStock": true
+        }
+      ],
+      "options": [
+        {
+          "label": "Standard Pack",
+          "price": 3018,
+          "inStock": true
+        }
+      ]
+    },
+    "rating": 4.7,
+    "reviewCount": 82
+  },
+  {
+    "id": "p281",
+    "sku": "VM-HOME-P281-CLA",
+    "name": "ClayRoots Terracotta & Ceramic Essential Collection Item",
+    "category": "Home & Kitchen Essentials",
+    "brand": "ClayRoots Terracotta & Ceramic",
+    "price": 883,
+    "mrp": 1104,
+    "discountPercent": 20,
+    "stock": 12,
+    "quantity": 19,
+    "barcode": "8901000281123",
+    "lowStockThreshold": 4,
+    "reservedStock": 0,
+    "warehouseLocation": "Aisle B-2",
+    "restockLeadDays": 3,
+    "vendorId": "v28",
+    "vendorSlug": "clayroots",
+    "status": "approved",
+    "images": [
+      "https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=600&h=600&fit=crop",
+      "https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?w=600&h=600&fit=crop"
+    ],
+    "description": "High-utility certified product from ClayRoots Terracotta & Ceramic. Tested for durability, ergonomics, and physical performance.",
+    "condition": "Brand New (Verified Stock)",
+    "specifications": {
+      "Origin": "Pune, Maharashtra",
+      "Merchant": "ClayRoots Terracotta & Ceramic",
+      "Category": "Home & Kitchen Essentials",
+      "Warranty": "1-Year Direct Brand Warranty",
+      "Verification": "100% Genuine Tax Invoice Included"
+    },
+    "shipping": {
+      "weight": "450 g",
+      "dispatchTime": "Ships within 24 hours",
+      "estimatedDays": "2 - 4 days",
+      "courierPartners": [
+        "BlueDart Express",
+        "Delhivery Surface",
+        "DTDC Air"
+      ],
+      "codAvailable": true,
+      "returnWindowDays": 7
+    },
+    "variants": {
+      "colors": [
+        {
+          "name": "Default",
+          "hex": "#C2410C",
+          "inStock": true
+        }
+      ],
+      "options": [
+        {
+          "label": "Standard Pack",
+          "price": 883,
+          "inStock": true
+        }
+      ]
+    },
+    "rating": 4.7,
+    "reviewCount": 15
+  },
+  {
+    "id": "p282",
+    "sku": "VM-HOME-P282-CLA",
+    "name": "ClayRoots Terracotta & Ceramic Limited Signature Edition",
+    "category": "Home & Kitchen Essentials",
+    "brand": "ClayRoots Terracotta & Ceramic",
+    "price": 5584,
+    "mrp": 6980,
+    "discountPercent": 20,
+    "stock": 12,
+    "quantity": 28,
+    "barcode": "8901000282123",
+    "lowStockThreshold": 4,
+    "reservedStock": 0,
+    "warehouseLocation": "Aisle C-3",
+    "restockLeadDays": 3,
+    "vendorId": "v28",
+    "vendorSlug": "clayroots",
+    "status": "approved",
+    "images": [
+      "https://images.unsplash.com/photo-1572635196237-14b3f281503f?w=600&h=600&fit=crop",
+      "https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?w=600&h=600&fit=crop"
+    ],
+    "description": "Exclusive signature release by ClayRoots Terracotta & Ceramic. Insured courier dispatch with verified GST tax invoice.",
+    "condition": "Brand New (Verified Stock)",
+    "specifications": {
+      "Origin": "Pune, Maharashtra",
+      "Merchant": "ClayRoots Terracotta & Ceramic",
+      "Category": "Home & Kitchen Essentials",
+      "Warranty": "1-Year Direct Brand Warranty",
+      "Verification": "100% Genuine Tax Invoice Included"
+    },
+    "shipping": {
+      "weight": "450 g",
+      "dispatchTime": "Ships within 24 hours",
+      "estimatedDays": "2 - 4 days",
+      "courierPartners": [
+        "BlueDart Express",
+        "Delhivery Surface",
+        "DTDC Air"
+      ],
+      "codAvailable": true,
+      "returnWindowDays": 7
+    },
+    "variants": {
+      "colors": [
+        {
+          "name": "Default",
+          "hex": "#C2410C",
+          "inStock": true
+        }
+      ],
+      "options": [
+        {
+          "label": "Standard Pack",
+          "price": 5584,
+          "inStock": true
+        }
+      ]
+    },
+    "rating": 4.8,
+    "reviewCount": 63
+  },
+  {
+    "id": "p283",
+    "sku": "VM-SPOR-P283-PRO",
+    "name": "ProFit Calisthenics & Gym Flagship Edition",
+    "category": "Sports, Fitness & Outdoor",
+    "brand": "ProFit Calisthenics & Gym",
+    "price": 4535,
+    "mrp": 5669,
+    "discountPercent": 20,
+    "stock": 10,
+    "quantity": 29,
+    "barcode": "8901000283123",
+    "lowStockThreshold": 4,
+    "reservedStock": 0,
+    "warehouseLocation": "Aisle D-4",
+    "restockLeadDays": 3,
+    "vendorId": "v29",
+    "vendorSlug": "profitcalisthenics",
+    "status": "approved",
+    "images": [
+      "https://images.unsplash.com/photo-1517838277536-f5f99be501cd?w=1200&h=300&fit=crop",
+      "https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?w=600&h=600&fit=crop"
+    ],
+    "description": "Verified authentic Sports, Fitness & Outdoor merchandise direct from ProFit Calisthenics & Gym. Includes express courier delivery and warranty.",
+    "condition": "Brand New (Verified Stock)",
+    "specifications": {
+      "Origin": "Chandigarh, Punjab",
+      "Merchant": "ProFit Calisthenics & Gym",
+      "Category": "Sports, Fitness & Outdoor",
+      "Warranty": "1-Year Direct Brand Warranty",
+      "Verification": "100% Genuine Tax Invoice Included"
+    },
+    "shipping": {
+      "weight": "450 g",
+      "dispatchTime": "Ships within 24 hours",
+      "estimatedDays": "2 - 4 days",
+      "courierPartners": [
+        "BlueDart Express",
+        "Delhivery Surface",
+        "DTDC Air"
+      ],
+      "codAvailable": true,
+      "returnWindowDays": 7
+    },
+    "variants": {
+      "colors": [
+        {
+          "name": "Default",
+          "hex": "#DC2626",
+          "inStock": true
+        }
+      ],
+      "options": [
+        {
+          "label": "Standard Pack",
+          "price": 4535,
+          "inStock": true
+        }
+      ]
+    },
+    "rating": 4.9,
+    "reviewCount": 89
+  },
+  {
+    "id": "p284",
+    "sku": "VM-SPOR-P284-PRO",
+    "name": "ProFit Calisthenics & Gym Premium Artisan Choice",
+    "category": "Sports, Fitness & Outdoor",
+    "brand": "ProFit Calisthenics & Gym",
+    "price": 2493,
+    "mrp": 3116,
+    "discountPercent": 20,
+    "stock": 15,
+    "quantity": 31,
+    "barcode": "8901000284123",
+    "lowStockThreshold": 4,
+    "reservedStock": 0,
+    "warehouseLocation": "Aisle E-5",
+    "restockLeadDays": 3,
+    "vendorId": "v29",
+    "vendorSlug": "profitcalisthenics",
+    "status": "approved",
+    "images": [
+      "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=120&h=120&fit=crop",
+      "https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?w=600&h=600&fit=crop"
+    ],
+    "description": "Bestselling Sports, Fitness & Outdoor selection crafted with premium standards. Direct brand warranty and tamper-proof packaging.",
+    "condition": "Brand New (Verified Stock)",
+    "specifications": {
+      "Origin": "Chandigarh, Punjab",
+      "Merchant": "ProFit Calisthenics & Gym",
+      "Category": "Sports, Fitness & Outdoor",
+      "Warranty": "1-Year Direct Brand Warranty",
+      "Verification": "100% Genuine Tax Invoice Included"
+    },
+    "shipping": {
+      "weight": "450 g",
+      "dispatchTime": "Ships within 24 hours",
+      "estimatedDays": "2 - 4 days",
+      "courierPartners": [
+        "BlueDart Express",
+        "Delhivery Surface",
+        "DTDC Air"
+      ],
+      "codAvailable": true,
+      "returnWindowDays": 7
+    },
+    "variants": {
+      "colors": [
+        {
+          "name": "Default",
+          "hex": "#DC2626",
+          "inStock": true
+        }
+      ],
+      "options": [
+        {
+          "label": "Standard Pack",
+          "price": 2493,
+          "inStock": true
+        }
+      ]
+    },
+    "rating": 4.7,
+    "reviewCount": 37
+  },
+  {
+    "id": "p285",
+    "sku": "VM-SPOR-P285-PRO",
+    "name": "ProFit Calisthenics & Gym Essential Collection Item",
+    "category": "Sports, Fitness & Outdoor",
+    "brand": "ProFit Calisthenics & Gym",
+    "price": 758,
+    "mrp": 948,
+    "discountPercent": 20,
+    "stock": 27,
+    "quantity": 31,
+    "barcode": "8901000285123",
+    "lowStockThreshold": 4,
+    "reservedStock": 0,
+    "warehouseLocation": "Aisle F-1",
+    "restockLeadDays": 3,
+    "vendorId": "v29",
+    "vendorSlug": "profitcalisthenics",
+    "status": "approved",
+    "images": [
+      "https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=600&h=600&fit=crop",
+      "https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?w=600&h=600&fit=crop"
+    ],
+    "description": "High-utility certified product from ProFit Calisthenics & Gym. Tested for durability, ergonomics, and physical performance.",
+    "condition": "Brand New (Verified Stock)",
+    "specifications": {
+      "Origin": "Chandigarh, Punjab",
+      "Merchant": "ProFit Calisthenics & Gym",
+      "Category": "Sports, Fitness & Outdoor",
+      "Warranty": "1-Year Direct Brand Warranty",
+      "Verification": "100% Genuine Tax Invoice Included"
+    },
+    "shipping": {
+      "weight": "450 g",
+      "dispatchTime": "Ships within 24 hours",
+      "estimatedDays": "2 - 4 days",
+      "courierPartners": [
+        "BlueDart Express",
+        "Delhivery Surface",
+        "DTDC Air"
+      ],
+      "codAvailable": true,
+      "returnWindowDays": 7
+    },
+    "variants": {
+      "colors": [
+        {
+          "name": "Default",
+          "hex": "#DC2626",
+          "inStock": true
+        }
+      ],
+      "options": [
+        {
+          "label": "Standard Pack",
+          "price": 758,
+          "inStock": true
+        }
+      ]
+    },
+    "rating": 4.9,
+    "reviewCount": 82
+  },
+  {
+    "id": "p286",
+    "sku": "VM-SPOR-P286-PRO",
+    "name": "ProFit Calisthenics & Gym Limited Signature Edition",
+    "category": "Sports, Fitness & Outdoor",
+    "brand": "ProFit Calisthenics & Gym",
+    "price": 7724,
+    "mrp": 9655,
+    "discountPercent": 20,
+    "stock": 16,
+    "quantity": 14,
+    "barcode": "8901000286123",
+    "lowStockThreshold": 4,
+    "reservedStock": 0,
+    "warehouseLocation": "Aisle G-2",
+    "restockLeadDays": 3,
+    "vendorId": "v29",
+    "vendorSlug": "profitcalisthenics",
+    "status": "approved",
+    "images": [
+      "https://images.unsplash.com/photo-1572635196237-14b3f281503f?w=600&h=600&fit=crop",
+      "https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?w=600&h=600&fit=crop"
+    ],
+    "description": "Exclusive signature release by ProFit Calisthenics & Gym. Insured courier dispatch with verified GST tax invoice.",
+    "condition": "Brand New (Verified Stock)",
+    "specifications": {
+      "Origin": "Chandigarh, Punjab",
+      "Merchant": "ProFit Calisthenics & Gym",
+      "Category": "Sports, Fitness & Outdoor",
+      "Warranty": "1-Year Direct Brand Warranty",
+      "Verification": "100% Genuine Tax Invoice Included"
+    },
+    "shipping": {
+      "weight": "450 g",
+      "dispatchTime": "Ships within 24 hours",
+      "estimatedDays": "2 - 4 days",
+      "courierPartners": [
+        "BlueDart Express",
+        "Delhivery Surface",
+        "DTDC Air"
+      ],
+      "codAvailable": true,
+      "returnWindowDays": 7
+    },
+    "variants": {
+      "colors": [
+        {
+          "name": "Default",
+          "hex": "#DC2626",
+          "inStock": true
+        }
+      ],
+      "options": [
+        {
+          "label": "Standard Pack",
+          "price": 7724,
+          "inStock": true
+        }
+      ]
+    },
+    "rating": 4.6,
+    "reviewCount": 22
+  },
+  {
+    "id": "p287",
+    "sku": "VM-SPOR-P287-PEA",
+    "name": "PeakHimalaya Trekking Gear Flagship Edition",
+    "category": "Sports, Fitness & Outdoor",
+    "brand": "PeakHimalaya Trekking Gear",
+    "price": 3018,
+    "mrp": 3773,
+    "discountPercent": 20,
+    "stock": 17,
+    "quantity": 25,
+    "barcode": "8901000287123",
+    "lowStockThreshold": 4,
+    "reservedStock": 0,
+    "warehouseLocation": "Aisle H-3",
+    "restockLeadDays": 3,
+    "vendorId": "v30",
+    "vendorSlug": "peakhimalaya",
+    "status": "approved",
+    "images": [
+      "https://images.unsplash.com/photo-1500382017468-9049fed747ef?w=1200&h=300&fit=crop",
+      "https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?w=600&h=600&fit=crop"
+    ],
+    "description": "Verified authentic Sports, Fitness & Outdoor merchandise direct from PeakHimalaya Trekking Gear. Includes express courier delivery and warranty.",
+    "condition": "Brand New (Verified Stock)",
+    "specifications": {
+      "Origin": "Manali, Himachal Pradesh",
+      "Merchant": "PeakHimalaya Trekking Gear",
+      "Category": "Sports, Fitness & Outdoor",
+      "Warranty": "1-Year Direct Brand Warranty",
+      "Verification": "100% Genuine Tax Invoice Included"
+    },
+    "shipping": {
+      "weight": "450 g",
+      "dispatchTime": "Ships within 24 hours",
+      "estimatedDays": "2 - 4 days",
+      "courierPartners": [
+        "BlueDart Express",
+        "Delhivery Surface",
+        "DTDC Air"
+      ],
+      "codAvailable": true,
+      "returnWindowDays": 7
+    },
+    "variants": {
+      "colors": [
+        {
+          "name": "Default",
+          "hex": "#0284C7",
+          "inStock": true
+        }
+      ],
+      "options": [
+        {
+          "label": "Standard Pack",
+          "price": 3018,
+          "inStock": true
+        }
+      ]
+    },
+    "rating": 4.7,
+    "reviewCount": 54
+  },
+  {
+    "id": "p288",
+    "sku": "VM-SPOR-P288-PEA",
+    "name": "PeakHimalaya Trekking Gear Premium Artisan Choice",
+    "category": "Sports, Fitness & Outdoor",
+    "brand": "PeakHimalaya Trekking Gear",
+    "price": 2037,
+    "mrp": 2546,
+    "discountPercent": 20,
+    "stock": 20,
+    "quantity": 15,
+    "barcode": "8901000288123",
+    "lowStockThreshold": 4,
+    "reservedStock": 0,
+    "warehouseLocation": "Aisle A-4",
+    "restockLeadDays": 3,
+    "vendorId": "v30",
+    "vendorSlug": "peakhimalaya",
+    "status": "approved",
+    "images": [
+      "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=120&h=120&fit=crop",
+      "https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?w=600&h=600&fit=crop"
+    ],
+    "description": "Bestselling Sports, Fitness & Outdoor selection crafted with premium standards. Direct brand warranty and tamper-proof packaging.",
+    "condition": "Brand New (Verified Stock)",
+    "specifications": {
+      "Origin": "Manali, Himachal Pradesh",
+      "Merchant": "PeakHimalaya Trekking Gear",
+      "Category": "Sports, Fitness & Outdoor",
+      "Warranty": "1-Year Direct Brand Warranty",
+      "Verification": "100% Genuine Tax Invoice Included"
+    },
+    "shipping": {
+      "weight": "450 g",
+      "dispatchTime": "Ships within 24 hours",
+      "estimatedDays": "2 - 4 days",
+      "courierPartners": [
+        "BlueDart Express",
+        "Delhivery Surface",
+        "DTDC Air"
+      ],
+      "codAvailable": true,
+      "returnWindowDays": 7
+    },
+    "variants": {
+      "colors": [
+        {
+          "name": "Default",
+          "hex": "#0284C7",
+          "inStock": true
+        }
+      ],
+      "options": [
+        {
+          "label": "Standard Pack",
+          "price": 2037,
+          "inStock": true
+        }
+      ]
+    },
+    "rating": 4.8,
+    "reviewCount": 40
+  },
+  {
+    "id": "p289",
+    "sku": "VM-SPOR-P289-PEA",
+    "name": "PeakHimalaya Trekking Gear Essential Collection Item",
+    "category": "Sports, Fitness & Outdoor",
+    "brand": "PeakHimalaya Trekking Gear",
+    "price": 1979,
+    "mrp": 2474,
+    "discountPercent": 20,
+    "stock": 11,
+    "quantity": 28,
+    "barcode": "8901000289123",
+    "lowStockThreshold": 4,
+    "reservedStock": 0,
+    "warehouseLocation": "Aisle B-5",
+    "restockLeadDays": 3,
+    "vendorId": "v30",
+    "vendorSlug": "peakhimalaya",
+    "status": "approved",
+    "images": [
+      "https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=600&h=600&fit=crop",
+      "https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?w=600&h=600&fit=crop"
+    ],
+    "description": "High-utility certified product from PeakHimalaya Trekking Gear. Tested for durability, ergonomics, and physical performance.",
+    "condition": "Brand New (Verified Stock)",
+    "specifications": {
+      "Origin": "Manali, Himachal Pradesh",
+      "Merchant": "PeakHimalaya Trekking Gear",
+      "Category": "Sports, Fitness & Outdoor",
+      "Warranty": "1-Year Direct Brand Warranty",
+      "Verification": "100% Genuine Tax Invoice Included"
+    },
+    "shipping": {
+      "weight": "450 g",
+      "dispatchTime": "Ships within 24 hours",
+      "estimatedDays": "2 - 4 days",
+      "courierPartners": [
+        "BlueDart Express",
+        "Delhivery Surface",
+        "DTDC Air"
+      ],
+      "codAvailable": true,
+      "returnWindowDays": 7
+    },
+    "variants": {
+      "colors": [
+        {
+          "name": "Default",
+          "hex": "#0284C7",
+          "inStock": true
+        }
+      ],
+      "options": [
+        {
+          "label": "Standard Pack",
+          "price": 1979,
+          "inStock": true
+        }
+      ]
+    },
+    "rating": 4.6,
+    "reviewCount": 45
+  },
+  {
+    "id": "p290",
+    "sku": "VM-SPOR-P290-PEA",
+    "name": "PeakHimalaya Trekking Gear Limited Signature Edition",
+    "category": "Sports, Fitness & Outdoor",
+    "brand": "PeakHimalaya Trekking Gear",
+    "price": 4559,
+    "mrp": 5699,
+    "discountPercent": 20,
+    "stock": 12,
+    "quantity": 28,
+    "barcode": "8901000290123",
+    "lowStockThreshold": 4,
+    "reservedStock": 0,
+    "warehouseLocation": "Aisle C-1",
+    "restockLeadDays": 3,
+    "vendorId": "v30",
+    "vendorSlug": "peakhimalaya",
+    "status": "approved",
+    "images": [
+      "https://images.unsplash.com/photo-1572635196237-14b3f281503f?w=600&h=600&fit=crop",
+      "https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?w=600&h=600&fit=crop"
+    ],
+    "description": "Exclusive signature release by PeakHimalaya Trekking Gear. Insured courier dispatch with verified GST tax invoice.",
+    "condition": "Brand New (Verified Stock)",
+    "specifications": {
+      "Origin": "Manali, Himachal Pradesh",
+      "Merchant": "PeakHimalaya Trekking Gear",
+      "Category": "Sports, Fitness & Outdoor",
+      "Warranty": "1-Year Direct Brand Warranty",
+      "Verification": "100% Genuine Tax Invoice Included"
+    },
+    "shipping": {
+      "weight": "450 g",
+      "dispatchTime": "Ships within 24 hours",
+      "estimatedDays": "2 - 4 days",
+      "courierPartners": [
+        "BlueDart Express",
+        "Delhivery Surface",
+        "DTDC Air"
+      ],
+      "codAvailable": true,
+      "returnWindowDays": 7
+    },
+    "variants": {
+      "colors": [
+        {
+          "name": "Default",
+          "hex": "#0284C7",
+          "inStock": true
+        }
+      ],
+      "options": [
+        {
+          "label": "Standard Pack",
+          "price": 4559,
+          "inStock": true
+        }
+      ]
+    },
+    "rating": 4.7,
+    "reviewCount": 40
+  },
+  {
+    "id": "p291",
+    "sku": "VM-SPOR-P291-VEL",
+    "name": "Velocity Speed Cycles Flagship Edition",
+    "category": "Sports, Fitness & Outdoor",
+    "brand": "Velocity Speed Cycles",
+    "price": 4583,
+    "mrp": 5729,
+    "discountPercent": 20,
+    "stock": 34,
+    "quantity": 24,
+    "barcode": "8901000291123",
+    "lowStockThreshold": 4,
+    "reservedStock": 0,
+    "warehouseLocation": "Aisle D-2",
+    "restockLeadDays": 3,
+    "vendorId": "v31",
+    "vendorSlug": "velocitycycles",
+    "status": "approved",
+    "images": [
+      "https://images.unsplash.com/photo-1485965120184-e220f721d03e?w=1200&h=300&fit=crop",
+      "https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?w=600&h=600&fit=crop"
+    ],
+    "description": "Verified authentic Sports, Fitness & Outdoor merchandise direct from Velocity Speed Cycles. Includes express courier delivery and warranty.",
+    "condition": "Brand New (Verified Stock)",
+    "specifications": {
+      "Origin": "Pune, Maharashtra",
+      "Merchant": "Velocity Speed Cycles",
+      "Category": "Sports, Fitness & Outdoor",
+      "Warranty": "1-Year Direct Brand Warranty",
+      "Verification": "100% Genuine Tax Invoice Included"
+    },
+    "shipping": {
+      "weight": "450 g",
+      "dispatchTime": "Ships within 24 hours",
+      "estimatedDays": "2 - 4 days",
+      "courierPartners": [
+        "BlueDart Express",
+        "Delhivery Surface",
+        "DTDC Air"
+      ],
+      "codAvailable": true,
+      "returnWindowDays": 7
+    },
+    "variants": {
+      "colors": [
+        {
+          "name": "Default",
+          "hex": "#EA580C",
+          "inStock": true
+        }
+      ],
+      "options": [
+        {
+          "label": "Standard Pack",
+          "price": 4583,
+          "inStock": true
+        }
+      ]
+    },
+    "rating": 4.9,
+    "reviewCount": 19
+  },
+  {
+    "id": "p292",
+    "sku": "VM-SPOR-P292-VEL",
+    "name": "Velocity Speed Cycles Premium Artisan Choice",
+    "category": "Sports, Fitness & Outdoor",
+    "brand": "Velocity Speed Cycles",
+    "price": 922,
+    "mrp": 1153,
+    "discountPercent": 20,
+    "stock": 27,
+    "quantity": 11,
+    "barcode": "8901000292123",
+    "lowStockThreshold": 4,
+    "reservedStock": 0,
+    "warehouseLocation": "Aisle E-3",
+    "restockLeadDays": 3,
+    "vendorId": "v31",
+    "vendorSlug": "velocitycycles",
+    "status": "approved",
+    "images": [
+      "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=120&h=120&fit=crop",
+      "https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?w=600&h=600&fit=crop"
+    ],
+    "description": "Bestselling Sports, Fitness & Outdoor selection crafted with premium standards. Direct brand warranty and tamper-proof packaging.",
+    "condition": "Brand New (Verified Stock)",
+    "specifications": {
+      "Origin": "Pune, Maharashtra",
+      "Merchant": "Velocity Speed Cycles",
+      "Category": "Sports, Fitness & Outdoor",
+      "Warranty": "1-Year Direct Brand Warranty",
+      "Verification": "100% Genuine Tax Invoice Included"
+    },
+    "shipping": {
+      "weight": "450 g",
+      "dispatchTime": "Ships within 24 hours",
+      "estimatedDays": "2 - 4 days",
+      "courierPartners": [
+        "BlueDart Express",
+        "Delhivery Surface",
+        "DTDC Air"
+      ],
+      "codAvailable": true,
+      "returnWindowDays": 7
+    },
+    "variants": {
+      "colors": [
+        {
+          "name": "Default",
+          "hex": "#EA580C",
+          "inStock": true
+        }
+      ],
+      "options": [
+        {
+          "label": "Standard Pack",
+          "price": 922,
+          "inStock": true
+        }
+      ]
+    },
+    "rating": 4.7,
+    "reviewCount": 67
+  },
+  {
+    "id": "p293",
+    "sku": "VM-SPOR-P293-VEL",
+    "name": "Velocity Speed Cycles Essential Collection Item",
+    "category": "Sports, Fitness & Outdoor",
+    "brand": "Velocity Speed Cycles",
+    "price": 1508,
+    "mrp": 1885,
+    "discountPercent": 20,
+    "stock": 13,
+    "quantity": 19,
+    "barcode": "8901000293123",
+    "lowStockThreshold": 4,
+    "reservedStock": 0,
+    "warehouseLocation": "Aisle F-4",
+    "restockLeadDays": 3,
+    "vendorId": "v31",
+    "vendorSlug": "velocitycycles",
+    "status": "approved",
+    "images": [
+      "https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=600&h=600&fit=crop",
+      "https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?w=600&h=600&fit=crop"
+    ],
+    "description": "High-utility certified product from Velocity Speed Cycles. Tested for durability, ergonomics, and physical performance.",
+    "condition": "Brand New (Verified Stock)",
+    "specifications": {
+      "Origin": "Pune, Maharashtra",
+      "Merchant": "Velocity Speed Cycles",
+      "Category": "Sports, Fitness & Outdoor",
+      "Warranty": "1-Year Direct Brand Warranty",
+      "Verification": "100% Genuine Tax Invoice Included"
+    },
+    "shipping": {
+      "weight": "450 g",
+      "dispatchTime": "Ships within 24 hours",
+      "estimatedDays": "2 - 4 days",
+      "courierPartners": [
+        "BlueDart Express",
+        "Delhivery Surface",
+        "DTDC Air"
+      ],
+      "codAvailable": true,
+      "returnWindowDays": 7
+    },
+    "variants": {
+      "colors": [
+        {
+          "name": "Default",
+          "hex": "#EA580C",
+          "inStock": true
+        }
+      ],
+      "options": [
+        {
+          "label": "Standard Pack",
+          "price": 1508,
+          "inStock": true
+        }
+      ]
+    },
+    "rating": 4.8,
+    "reviewCount": 43
+  },
+  {
+    "id": "p294",
+    "sku": "VM-SPOR-P294-VEL",
+    "name": "Velocity Speed Cycles Limited Signature Edition",
+    "category": "Sports, Fitness & Outdoor",
+    "brand": "Velocity Speed Cycles",
+    "price": 6048,
+    "mrp": 7560,
+    "discountPercent": 20,
+    "stock": 30,
+    "quantity": 25,
+    "barcode": "8901000294123",
+    "lowStockThreshold": 4,
+    "reservedStock": 0,
+    "warehouseLocation": "Aisle G-5",
+    "restockLeadDays": 3,
+    "vendorId": "v31",
+    "vendorSlug": "velocitycycles",
+    "status": "approved",
+    "images": [
+      "https://images.unsplash.com/photo-1572635196237-14b3f281503f?w=600&h=600&fit=crop",
+      "https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?w=600&h=600&fit=crop"
+    ],
+    "description": "Exclusive signature release by Velocity Speed Cycles. Insured courier dispatch with verified GST tax invoice.",
+    "condition": "Brand New (Verified Stock)",
+    "specifications": {
+      "Origin": "Pune, Maharashtra",
+      "Merchant": "Velocity Speed Cycles",
+      "Category": "Sports, Fitness & Outdoor",
+      "Warranty": "1-Year Direct Brand Warranty",
+      "Verification": "100% Genuine Tax Invoice Included"
+    },
+    "shipping": {
+      "weight": "450 g",
+      "dispatchTime": "Ships within 24 hours",
+      "estimatedDays": "2 - 4 days",
+      "courierPartners": [
+        "BlueDart Express",
+        "Delhivery Surface",
+        "DTDC Air"
+      ],
+      "codAvailable": true,
+      "returnWindowDays": 7
+    },
+    "variants": {
+      "colors": [
+        {
+          "name": "Default",
+          "hex": "#EA580C",
+          "inStock": true
+        }
+      ],
+      "options": [
+        {
+          "label": "Standard Pack",
+          "price": 6048,
+          "inStock": true
+        }
+      ]
+    },
+    "rating": 4.7,
+    "reviewCount": 59
+  },
+  {
+    "id": "p295",
+    "sku": "VM-AYUR-P295-RAS",
+    "name": "Rasayan Ayur Herbals Flagship Edition",
+    "category": "Ayurvedic Beauty & Wellness",
+    "brand": "Rasayan Ayur Herbals",
+    "price": 3103,
+    "mrp": 3879,
+    "discountPercent": 20,
+    "stock": 32,
+    "quantity": 27,
+    "barcode": "8901000295123",
+    "lowStockThreshold": 4,
+    "reservedStock": 0,
+    "warehouseLocation": "Aisle H-1",
+    "restockLeadDays": 3,
+    "vendorId": "v32",
+    "vendorSlug": "rasayanayur",
+    "status": "approved",
+    "images": [
+      "https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?w=1200&h=300&fit=crop",
+      "https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?w=600&h=600&fit=crop"
+    ],
+    "description": "Verified authentic Ayurvedic Beauty & Wellness merchandise direct from Rasayan Ayur Herbals. Includes express courier delivery and warranty.",
+    "condition": "Brand New (Verified Stock)",
+    "specifications": {
+      "Origin": "Haridwar, Uttarakhand",
+      "Merchant": "Rasayan Ayur Herbals",
+      "Category": "Ayurvedic Beauty & Wellness",
+      "Warranty": "1-Year Direct Brand Warranty",
+      "Verification": "100% Genuine Tax Invoice Included"
+    },
+    "shipping": {
+      "weight": "450 g",
+      "dispatchTime": "Ships within 24 hours",
+      "estimatedDays": "2 - 4 days",
+      "courierPartners": [
+        "BlueDart Express",
+        "Delhivery Surface",
+        "DTDC Air"
+      ],
+      "codAvailable": true,
+      "returnWindowDays": 7
+    },
+    "variants": {
+      "colors": [
+        {
+          "name": "Default",
+          "hex": "#7C3AED",
+          "inStock": true
+        }
+      ],
+      "options": [
+        {
+          "label": "Standard Pack",
+          "price": 3103,
+          "inStock": true
+        }
+      ]
+    },
+    "rating": 4.8,
+    "reviewCount": 22
+  },
+  {
+    "id": "p296",
+    "sku": "VM-AYUR-P296-RAS",
+    "name": "Rasayan Ayur Herbals Premium Artisan Choice",
+    "category": "Ayurvedic Beauty & Wellness",
+    "brand": "Rasayan Ayur Herbals",
+    "price": 1244,
+    "mrp": 1555,
+    "discountPercent": 20,
+    "stock": 29,
+    "quantity": 24,
+    "barcode": "8901000296123",
+    "lowStockThreshold": 4,
+    "reservedStock": 0,
+    "warehouseLocation": "Aisle A-2",
+    "restockLeadDays": 3,
+    "vendorId": "v32",
+    "vendorSlug": "rasayanayur",
+    "status": "approved",
+    "images": [
+      "https://images.unsplash.com/photo-1544717305-2782549b5136?w=120&h=120&fit=crop",
+      "https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?w=600&h=600&fit=crop"
+    ],
+    "description": "Bestselling Ayurvedic Beauty & Wellness selection crafted with premium standards. Direct brand warranty and tamper-proof packaging.",
+    "condition": "Brand New (Verified Stock)",
+    "specifications": {
+      "Origin": "Haridwar, Uttarakhand",
+      "Merchant": "Rasayan Ayur Herbals",
+      "Category": "Ayurvedic Beauty & Wellness",
+      "Warranty": "1-Year Direct Brand Warranty",
+      "Verification": "100% Genuine Tax Invoice Included"
+    },
+    "shipping": {
+      "weight": "450 g",
+      "dispatchTime": "Ships within 24 hours",
+      "estimatedDays": "2 - 4 days",
+      "courierPartners": [
+        "BlueDart Express",
+        "Delhivery Surface",
+        "DTDC Air"
+      ],
+      "codAvailable": true,
+      "returnWindowDays": 7
+    },
+    "variants": {
+      "colors": [
+        {
+          "name": "Default",
+          "hex": "#7C3AED",
+          "inStock": true
+        }
+      ],
+      "options": [
+        {
+          "label": "Standard Pack",
+          "price": 1244,
+          "inStock": true
+        }
+      ]
+    },
+    "rating": 4.6,
+    "reviewCount": 40
+  },
+  {
+    "id": "p297",
+    "sku": "VM-AYUR-P297-RAS",
+    "name": "Rasayan Ayur Herbals Essential Collection Item",
+    "category": "Ayurvedic Beauty & Wellness",
+    "brand": "Rasayan Ayur Herbals",
+    "price": 1085,
+    "mrp": 1356,
+    "discountPercent": 20,
+    "stock": 26,
+    "quantity": 24,
+    "barcode": "8901000297123",
+    "lowStockThreshold": 4,
+    "reservedStock": 0,
+    "warehouseLocation": "Aisle B-3",
+    "restockLeadDays": 3,
+    "vendorId": "v32",
+    "vendorSlug": "rasayanayur",
+    "status": "approved",
+    "images": [
+      "https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=600&h=600&fit=crop",
+      "https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?w=600&h=600&fit=crop"
+    ],
+    "description": "High-utility certified product from Rasayan Ayur Herbals. Tested for durability, ergonomics, and physical performance.",
+    "condition": "Brand New (Verified Stock)",
+    "specifications": {
+      "Origin": "Haridwar, Uttarakhand",
+      "Merchant": "Rasayan Ayur Herbals",
+      "Category": "Ayurvedic Beauty & Wellness",
+      "Warranty": "1-Year Direct Brand Warranty",
+      "Verification": "100% Genuine Tax Invoice Included"
+    },
+    "shipping": {
+      "weight": "450 g",
+      "dispatchTime": "Ships within 24 hours",
+      "estimatedDays": "2 - 4 days",
+      "courierPartners": [
+        "BlueDart Express",
+        "Delhivery Surface",
+        "DTDC Air"
+      ],
+      "codAvailable": true,
+      "returnWindowDays": 7
+    },
+    "variants": {
+      "colors": [
+        {
+          "name": "Default",
+          "hex": "#7C3AED",
+          "inStock": true
+        }
+      ],
+      "options": [
+        {
+          "label": "Standard Pack",
+          "price": 1085,
+          "inStock": true
+        }
+      ]
+    },
+    "rating": 4.8,
+    "reviewCount": 47
+  },
+  {
+    "id": "p298",
+    "sku": "VM-AYUR-P298-RAS",
+    "name": "Rasayan Ayur Herbals Limited Signature Edition",
+    "category": "Ayurvedic Beauty & Wellness",
+    "brand": "Rasayan Ayur Herbals",
+    "price": 6511,
+    "mrp": 8139,
+    "discountPercent": 20,
+    "stock": 24,
+    "quantity": 19,
+    "barcode": "8901000298123",
+    "lowStockThreshold": 4,
+    "reservedStock": 0,
+    "warehouseLocation": "Aisle C-4",
+    "restockLeadDays": 3,
+    "vendorId": "v32",
+    "vendorSlug": "rasayanayur",
+    "status": "approved",
+    "images": [
+      "https://images.unsplash.com/photo-1572635196237-14b3f281503f?w=600&h=600&fit=crop",
+      "https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?w=600&h=600&fit=crop"
+    ],
+    "description": "Exclusive signature release by Rasayan Ayur Herbals. Insured courier dispatch with verified GST tax invoice.",
+    "condition": "Brand New (Verified Stock)",
+    "specifications": {
+      "Origin": "Haridwar, Uttarakhand",
+      "Merchant": "Rasayan Ayur Herbals",
+      "Category": "Ayurvedic Beauty & Wellness",
+      "Warranty": "1-Year Direct Brand Warranty",
+      "Verification": "100% Genuine Tax Invoice Included"
+    },
+    "shipping": {
+      "weight": "450 g",
+      "dispatchTime": "Ships within 24 hours",
+      "estimatedDays": "2 - 4 days",
+      "courierPartners": [
+        "BlueDart Express",
+        "Delhivery Surface",
+        "DTDC Air"
+      ],
+      "codAvailable": true,
+      "returnWindowDays": 7
+    },
+    "variants": {
+      "colors": [
+        {
+          "name": "Default",
+          "hex": "#7C3AED",
+          "inStock": true
+        }
+      ],
+      "options": [
+        {
+          "label": "Standard Pack",
+          "price": 6511,
+          "inStock": true
+        }
+      ]
+    },
+    "rating": 4.7,
+    "reviewCount": 37
+  },
+  {
+    "id": "p299",
+    "sku": "VM-AYUR-P299-PUR",
+    "name": "PureBotanica Clean Skincare Flagship Edition",
+    "category": "Ayurvedic Beauty & Wellness",
+    "brand": "PureBotanica Clean Skincare",
+    "price": 2004,
+    "mrp": 2505,
+    "discountPercent": 20,
+    "stock": 27,
+    "quantity": 24,
+    "barcode": "8901000299123",
+    "lowStockThreshold": 4,
+    "reservedStock": 0,
+    "warehouseLocation": "Aisle D-5",
+    "restockLeadDays": 3,
+    "vendorId": "v33",
+    "vendorSlug": "purebotanica",
+    "status": "approved",
+    "images": [
+      "https://images.unsplash.com/photo-1556228720-195a672e8a03?w=1200&h=300&fit=crop",
+      "https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?w=600&h=600&fit=crop"
+    ],
+    "description": "Verified authentic Ayurvedic Beauty & Wellness merchandise direct from PureBotanica Clean Skincare. Includes express courier delivery and warranty.",
+    "condition": "Brand New (Verified Stock)",
+    "specifications": {
+      "Origin": "Bengaluru, Karnataka",
+      "Merchant": "PureBotanica Clean Skincare",
+      "Category": "Ayurvedic Beauty & Wellness",
+      "Warranty": "1-Year Direct Brand Warranty",
+      "Verification": "100% Genuine Tax Invoice Included"
+    },
+    "shipping": {
+      "weight": "450 g",
+      "dispatchTime": "Ships within 24 hours",
+      "estimatedDays": "2 - 4 days",
+      "courierPartners": [
+        "BlueDart Express",
+        "Delhivery Surface",
+        "DTDC Air"
+      ],
+      "codAvailable": true,
+      "returnWindowDays": 7
+    },
+    "variants": {
+      "colors": [
+        {
+          "name": "Default",
+          "hex": "#059669",
+          "inStock": true
+        }
+      ],
+      "options": [
+        {
+          "label": "Standard Pack",
+          "price": 2004,
+          "inStock": true
+        }
+      ]
+    },
+    "rating": 5,
+    "reviewCount": 24
+  },
+  {
+    "id": "p300",
+    "sku": "VM-AYUR-P300-PUR",
+    "name": "PureBotanica Clean Skincare Premium Artisan Choice",
+    "category": "Ayurvedic Beauty & Wellness",
+    "brand": "PureBotanica Clean Skincare",
+    "price": 1453,
+    "mrp": 1816,
+    "discountPercent": 20,
+    "stock": 29,
+    "quantity": 34,
+    "barcode": "8901000300123",
+    "lowStockThreshold": 4,
+    "reservedStock": 0,
+    "warehouseLocation": "Aisle E-1",
+    "restockLeadDays": 3,
+    "vendorId": "v33",
+    "vendorSlug": "purebotanica",
+    "status": "approved",
+    "images": [
+      "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=120&h=120&fit=crop",
+      "https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?w=600&h=600&fit=crop"
+    ],
+    "description": "Bestselling Ayurvedic Beauty & Wellness selection crafted with premium standards. Direct brand warranty and tamper-proof packaging.",
+    "condition": "Brand New (Verified Stock)",
+    "specifications": {
+      "Origin": "Bengaluru, Karnataka",
+      "Merchant": "PureBotanica Clean Skincare",
+      "Category": "Ayurvedic Beauty & Wellness",
+      "Warranty": "1-Year Direct Brand Warranty",
+      "Verification": "100% Genuine Tax Invoice Included"
+    },
+    "shipping": {
+      "weight": "450 g",
+      "dispatchTime": "Ships within 24 hours",
+      "estimatedDays": "2 - 4 days",
+      "courierPartners": [
+        "BlueDart Express",
+        "Delhivery Surface",
+        "DTDC Air"
+      ],
+      "codAvailable": true,
+      "returnWindowDays": 7
+    },
+    "variants": {
+      "colors": [
+        {
+          "name": "Default",
+          "hex": "#059669",
+          "inStock": true
+        }
+      ],
+      "options": [
+        {
+          "label": "Standard Pack",
+          "price": 1453,
+          "inStock": true
+        }
+      ]
+    },
+    "rating": 4.9,
+    "reviewCount": 53
+  },
+  {
+    "id": "p301",
+    "sku": "VM-AYUR-P301-PUR",
+    "name": "PureBotanica Clean Skincare Essential Collection Item",
+    "category": "Ayurvedic Beauty & Wellness",
+    "brand": "PureBotanica Clean Skincare",
+    "price": 1601,
+    "mrp": 2001,
+    "discountPercent": 20,
+    "stock": 21,
+    "quantity": 30,
+    "barcode": "8901000301123",
+    "lowStockThreshold": 4,
+    "reservedStock": 0,
+    "warehouseLocation": "Aisle F-2",
+    "restockLeadDays": 3,
+    "vendorId": "v33",
+    "vendorSlug": "purebotanica",
+    "status": "approved",
+    "images": [
+      "https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=600&h=600&fit=crop",
+      "https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?w=600&h=600&fit=crop"
+    ],
+    "description": "High-utility certified product from PureBotanica Clean Skincare. Tested for durability, ergonomics, and physical performance.",
+    "condition": "Brand New (Verified Stock)",
+    "specifications": {
+      "Origin": "Bengaluru, Karnataka",
+      "Merchant": "PureBotanica Clean Skincare",
+      "Category": "Ayurvedic Beauty & Wellness",
+      "Warranty": "1-Year Direct Brand Warranty",
+      "Verification": "100% Genuine Tax Invoice Included"
+    },
+    "shipping": {
+      "weight": "450 g",
+      "dispatchTime": "Ships within 24 hours",
+      "estimatedDays": "2 - 4 days",
+      "courierPartners": [
+        "BlueDart Express",
+        "Delhivery Surface",
+        "DTDC Air"
+      ],
+      "codAvailable": true,
+      "returnWindowDays": 7
+    },
+    "variants": {
+      "colors": [
+        {
+          "name": "Default",
+          "hex": "#059669",
+          "inStock": true
+        }
+      ],
+      "options": [
+        {
+          "label": "Standard Pack",
+          "price": 1601,
+          "inStock": true
+        }
+      ]
+    },
+    "rating": 4.7,
+    "reviewCount": 93
+  },
+  {
+    "id": "p302",
+    "sku": "VM-AYUR-P302-PUR",
+    "name": "PureBotanica Clean Skincare Limited Signature Edition",
+    "category": "Ayurvedic Beauty & Wellness",
+    "brand": "PureBotanica Clean Skincare",
+    "price": 4553,
+    "mrp": 5691,
+    "discountPercent": 20,
+    "stock": 12,
+    "quantity": 13,
+    "barcode": "8901000302123",
+    "lowStockThreshold": 4,
+    "reservedStock": 0,
+    "warehouseLocation": "Aisle G-3",
+    "restockLeadDays": 3,
+    "vendorId": "v33",
+    "vendorSlug": "purebotanica",
+    "status": "approved",
+    "images": [
+      "https://images.unsplash.com/photo-1572635196237-14b3f281503f?w=600&h=600&fit=crop",
+      "https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?w=600&h=600&fit=crop"
+    ],
+    "description": "Exclusive signature release by PureBotanica Clean Skincare. Insured courier dispatch with verified GST tax invoice.",
+    "condition": "Brand New (Verified Stock)",
+    "specifications": {
+      "Origin": "Bengaluru, Karnataka",
+      "Merchant": "PureBotanica Clean Skincare",
+      "Category": "Ayurvedic Beauty & Wellness",
+      "Warranty": "1-Year Direct Brand Warranty",
+      "Verification": "100% Genuine Tax Invoice Included"
+    },
+    "shipping": {
+      "weight": "450 g",
+      "dispatchTime": "Ships within 24 hours",
+      "estimatedDays": "2 - 4 days",
+      "courierPartners": [
+        "BlueDart Express",
+        "Delhivery Surface",
+        "DTDC Air"
+      ],
+      "codAvailable": true,
+      "returnWindowDays": 7
+    },
+    "variants": {
+      "colors": [
+        {
+          "name": "Default",
+          "hex": "#059669",
+          "inStock": true
+        }
+      ],
+      "options": [
+        {
+          "label": "Standard Pack",
+          "price": 4553,
+          "inStock": true
+        }
+      ]
+    },
+    "rating": 4.6,
+    "reviewCount": 50
+  },
+  {
+    "id": "p303",
+    "sku": "VM-AYUR-P303-KAM",
+    "name": "KamaShakti Aromatics & Bath Flagship Edition",
+    "category": "Ayurvedic Beauty & Wellness",
+    "brand": "KamaShakti Aromatics & Bath",
+    "price": 4711,
+    "mrp": 5889,
+    "discountPercent": 20,
+    "stock": 26,
+    "quantity": 24,
+    "barcode": "8901000303123",
+    "lowStockThreshold": 4,
+    "reservedStock": 0,
+    "warehouseLocation": "Aisle H-4",
+    "restockLeadDays": 3,
+    "vendorId": "v34",
+    "vendorSlug": "kamashakti",
+    "status": "approved",
+    "images": [
+      "https://images.unsplash.com/photo-1540555700478-4be289fbecef?w=1200&h=300&fit=crop",
+      "https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?w=600&h=600&fit=crop"
+    ],
+    "description": "Verified authentic Ayurvedic Beauty & Wellness merchandise direct from KamaShakti Aromatics & Bath. Includes express courier delivery and warranty.",
+    "condition": "Brand New (Verified Stock)",
+    "specifications": {
+      "Origin": "Kannauj, Uttar Pradesh",
+      "Merchant": "KamaShakti Aromatics & Bath",
+      "Category": "Ayurvedic Beauty & Wellness",
+      "Warranty": "1-Year Direct Brand Warranty",
+      "Verification": "100% Genuine Tax Invoice Included"
+    },
+    "shipping": {
+      "weight": "450 g",
+      "dispatchTime": "Ships within 24 hours",
+      "estimatedDays": "2 - 4 days",
+      "courierPartners": [
+        "BlueDart Express",
+        "Delhivery Surface",
+        "DTDC Air"
+      ],
+      "codAvailable": true,
+      "returnWindowDays": 7
+    },
+    "variants": {
+      "colors": [
+        {
+          "name": "Default",
+          "hex": "#DB2777",
+          "inStock": true
+        }
+      ],
+      "options": [
+        {
+          "label": "Standard Pack",
+          "price": 4711,
+          "inStock": true
+        }
+      ]
+    },
+    "rating": 4.8,
+    "reviewCount": 91
+  },
+  {
+    "id": "p304",
+    "sku": "VM-AYUR-P304-KAM",
+    "name": "KamaShakti Aromatics & Bath Premium Artisan Choice",
+    "category": "Ayurvedic Beauty & Wellness",
+    "brand": "KamaShakti Aromatics & Bath",
+    "price": 3151,
+    "mrp": 3939,
+    "discountPercent": 20,
+    "stock": 28,
+    "quantity": 10,
+    "barcode": "8901000304123",
+    "lowStockThreshold": 4,
+    "reservedStock": 0,
+    "warehouseLocation": "Aisle A-5",
+    "restockLeadDays": 3,
+    "vendorId": "v34",
+    "vendorSlug": "kamashakti",
+    "status": "approved",
+    "images": [
+      "https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=120&h=120&fit=crop",
+      "https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?w=600&h=600&fit=crop"
+    ],
+    "description": "Bestselling Ayurvedic Beauty & Wellness selection crafted with premium standards. Direct brand warranty and tamper-proof packaging.",
+    "condition": "Brand New (Verified Stock)",
+    "specifications": {
+      "Origin": "Kannauj, Uttar Pradesh",
+      "Merchant": "KamaShakti Aromatics & Bath",
+      "Category": "Ayurvedic Beauty & Wellness",
+      "Warranty": "1-Year Direct Brand Warranty",
+      "Verification": "100% Genuine Tax Invoice Included"
+    },
+    "shipping": {
+      "weight": "450 g",
+      "dispatchTime": "Ships within 24 hours",
+      "estimatedDays": "2 - 4 days",
+      "courierPartners": [
+        "BlueDart Express",
+        "Delhivery Surface",
+        "DTDC Air"
+      ],
+      "codAvailable": true,
+      "returnWindowDays": 7
+    },
+    "variants": {
+      "colors": [
+        {
+          "name": "Default",
+          "hex": "#DB2777",
+          "inStock": true
+        }
+      ],
+      "options": [
+        {
+          "label": "Standard Pack",
+          "price": 3151,
+          "inStock": true
+        }
+      ]
+    },
+    "rating": 4.8,
+    "reviewCount": 53
+  },
+  {
+    "id": "p305",
+    "sku": "VM-AYUR-P305-KAM",
+    "name": "KamaShakti Aromatics & Bath Essential Collection Item",
+    "category": "Ayurvedic Beauty & Wellness",
+    "brand": "KamaShakti Aromatics & Bath",
+    "price": 963,
+    "mrp": 1204,
+    "discountPercent": 20,
+    "stock": 21,
+    "quantity": 30,
+    "barcode": "8901000305123",
+    "lowStockThreshold": 4,
+    "reservedStock": 0,
+    "warehouseLocation": "Aisle B-1",
+    "restockLeadDays": 3,
+    "vendorId": "v34",
+    "vendorSlug": "kamashakti",
+    "status": "approved",
+    "images": [
+      "https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=600&h=600&fit=crop",
+      "https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?w=600&h=600&fit=crop"
+    ],
+    "description": "High-utility certified product from KamaShakti Aromatics & Bath. Tested for durability, ergonomics, and physical performance.",
+    "condition": "Brand New (Verified Stock)",
+    "specifications": {
+      "Origin": "Kannauj, Uttar Pradesh",
+      "Merchant": "KamaShakti Aromatics & Bath",
+      "Category": "Ayurvedic Beauty & Wellness",
+      "Warranty": "1-Year Direct Brand Warranty",
+      "Verification": "100% Genuine Tax Invoice Included"
+    },
+    "shipping": {
+      "weight": "450 g",
+      "dispatchTime": "Ships within 24 hours",
+      "estimatedDays": "2 - 4 days",
+      "courierPartners": [
+        "BlueDart Express",
+        "Delhivery Surface",
+        "DTDC Air"
+      ],
+      "codAvailable": true,
+      "returnWindowDays": 7
+    },
+    "variants": {
+      "colors": [
+        {
+          "name": "Default",
+          "hex": "#DB2777",
+          "inStock": true
+        }
+      ],
+      "options": [
+        {
+          "label": "Standard Pack",
+          "price": 963,
+          "inStock": true
+        }
+      ]
+    },
+    "rating": 4.6,
+    "reviewCount": 22
+  },
+  {
+    "id": "p306",
+    "sku": "VM-AYUR-P306-KAM",
+    "name": "KamaShakti Aromatics & Bath Limited Signature Edition",
+    "category": "Ayurvedic Beauty & Wellness",
+    "brand": "KamaShakti Aromatics & Bath",
+    "price": 7160,
+    "mrp": 8950,
+    "discountPercent": 20,
+    "stock": 11,
+    "quantity": 31,
+    "barcode": "8901000306123",
+    "lowStockThreshold": 4,
+    "reservedStock": 0,
+    "warehouseLocation": "Aisle C-2",
+    "restockLeadDays": 3,
+    "vendorId": "v34",
+    "vendorSlug": "kamashakti",
+    "status": "approved",
+    "images": [
+      "https://images.unsplash.com/photo-1572635196237-14b3f281503f?w=600&h=600&fit=crop",
+      "https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?w=600&h=600&fit=crop"
+    ],
+    "description": "Exclusive signature release by KamaShakti Aromatics & Bath. Insured courier dispatch with verified GST tax invoice.",
+    "condition": "Brand New (Verified Stock)",
+    "specifications": {
+      "Origin": "Kannauj, Uttar Pradesh",
+      "Merchant": "KamaShakti Aromatics & Bath",
+      "Category": "Ayurvedic Beauty & Wellness",
+      "Warranty": "1-Year Direct Brand Warranty",
+      "Verification": "100% Genuine Tax Invoice Included"
+    },
+    "shipping": {
+      "weight": "450 g",
+      "dispatchTime": "Ships within 24 hours",
+      "estimatedDays": "2 - 4 days",
+      "courierPartners": [
+        "BlueDart Express",
+        "Delhivery Surface",
+        "DTDC Air"
+      ],
+      "codAvailable": true,
+      "returnWindowDays": 7
+    },
+    "variants": {
+      "colors": [
+        {
+          "name": "Default",
+          "hex": "#DB2777",
+          "inStock": true
+        }
+      ],
+      "options": [
+        {
+          "label": "Standard Pack",
+          "price": 7160,
+          "inStock": true
+        }
+      ]
+    },
+    "rating": 4.8,
+    "reviewCount": 30
+  },
+  {
+    "id": "p307",
+    "sku": "VM-HAND-P307-DHO",
+    "name": "Dhokra Heritage Metalcraft Flagship Edition",
+    "category": "Handcrafted Arts & Heritage Decor",
+    "brand": "Dhokra Heritage Metalcraft",
+    "price": 1483,
+    "mrp": 1854,
+    "discountPercent": 20,
+    "stock": 22,
+    "quantity": 16,
+    "barcode": "8901000307123",
+    "lowStockThreshold": 4,
+    "reservedStock": 0,
+    "warehouseLocation": "Aisle D-3",
+    "restockLeadDays": 3,
+    "vendorId": "v35",
+    "vendorSlug": "dhokracraft",
+    "status": "approved",
+    "images": [
+      "https://images.unsplash.com/photo-1579783900882-c0d3dad7b119?w=1200&h=300&fit=crop",
+      "https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?w=600&h=600&fit=crop"
+    ],
+    "description": "Verified authentic Handcrafted Arts & Heritage Decor merchandise direct from Dhokra Heritage Metalcraft. Includes express courier delivery and warranty.",
+    "condition": "Brand New (Verified Stock)",
+    "specifications": {
+      "Origin": "Bastar, Chhattisgarh",
+      "Merchant": "Dhokra Heritage Metalcraft",
+      "Category": "Handcrafted Arts & Heritage Decor",
+      "Warranty": "1-Year Direct Brand Warranty",
+      "Verification": "100% Genuine Tax Invoice Included"
+    },
+    "shipping": {
+      "weight": "450 g",
+      "dispatchTime": "Ships within 24 hours",
+      "estimatedDays": "2 - 4 days",
+      "courierPartners": [
+        "BlueDart Express",
+        "Delhivery Surface",
+        "DTDC Air"
+      ],
+      "codAvailable": true,
+      "returnWindowDays": 7
+    },
+    "variants": {
+      "colors": [
+        {
+          "name": "Default",
+          "hex": "#D97706",
+          "inStock": true
+        }
+      ],
+      "options": [
+        {
+          "label": "Standard Pack",
+          "price": 1483,
+          "inStock": true
+        }
+      ]
+    },
+    "rating": 4.7,
+    "reviewCount": 79
+  },
+  {
+    "id": "p308",
+    "sku": "VM-HAND-P308-DHO",
+    "name": "Dhokra Heritage Metalcraft Premium Artisan Choice",
+    "category": "Handcrafted Arts & Heritage Decor",
+    "brand": "Dhokra Heritage Metalcraft",
+    "price": 1274,
+    "mrp": 1593,
+    "discountPercent": 20,
+    "stock": 11,
+    "quantity": 18,
+    "barcode": "8901000308123",
+    "lowStockThreshold": 4,
+    "reservedStock": 0,
+    "warehouseLocation": "Aisle E-4",
+    "restockLeadDays": 3,
+    "vendorId": "v35",
+    "vendorSlug": "dhokracraft",
+    "status": "approved",
+    "images": [
+      "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=120&h=120&fit=crop",
+      "https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?w=600&h=600&fit=crop"
+    ],
+    "description": "Bestselling Handcrafted Arts & Heritage Decor selection crafted with premium standards. Direct brand warranty and tamper-proof packaging.",
+    "condition": "Brand New (Verified Stock)",
+    "specifications": {
+      "Origin": "Bastar, Chhattisgarh",
+      "Merchant": "Dhokra Heritage Metalcraft",
+      "Category": "Handcrafted Arts & Heritage Decor",
+      "Warranty": "1-Year Direct Brand Warranty",
+      "Verification": "100% Genuine Tax Invoice Included"
+    },
+    "shipping": {
+      "weight": "450 g",
+      "dispatchTime": "Ships within 24 hours",
+      "estimatedDays": "2 - 4 days",
+      "courierPartners": [
+        "BlueDart Express",
+        "Delhivery Surface",
+        "DTDC Air"
+      ],
+      "codAvailable": true,
+      "returnWindowDays": 7
+    },
+    "variants": {
+      "colors": [
+        {
+          "name": "Default",
+          "hex": "#D97706",
+          "inStock": true
+        }
+      ],
+      "options": [
+        {
+          "label": "Standard Pack",
+          "price": 1274,
+          "inStock": true
+        }
+      ]
+    },
+    "rating": 4.7,
+    "reviewCount": 86
+  },
+  {
+    "id": "p309",
+    "sku": "VM-HAND-P309-DHO",
+    "name": "Dhokra Heritage Metalcraft Essential Collection Item",
+    "category": "Handcrafted Arts & Heritage Decor",
+    "brand": "Dhokra Heritage Metalcraft",
+    "price": 741,
+    "mrp": 926,
+    "discountPercent": 20,
+    "stock": 17,
+    "quantity": 13,
+    "barcode": "8901000309123",
+    "lowStockThreshold": 4,
+    "reservedStock": 0,
+    "warehouseLocation": "Aisle F-5",
+    "restockLeadDays": 3,
+    "vendorId": "v35",
+    "vendorSlug": "dhokracraft",
+    "status": "approved",
+    "images": [
+      "https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=600&h=600&fit=crop",
+      "https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?w=600&h=600&fit=crop"
+    ],
+    "description": "High-utility certified product from Dhokra Heritage Metalcraft. Tested for durability, ergonomics, and physical performance.",
+    "condition": "Brand New (Verified Stock)",
+    "specifications": {
+      "Origin": "Bastar, Chhattisgarh",
+      "Merchant": "Dhokra Heritage Metalcraft",
+      "Category": "Handcrafted Arts & Heritage Decor",
+      "Warranty": "1-Year Direct Brand Warranty",
+      "Verification": "100% Genuine Tax Invoice Included"
+    },
+    "shipping": {
+      "weight": "450 g",
+      "dispatchTime": "Ships within 24 hours",
+      "estimatedDays": "2 - 4 days",
+      "courierPartners": [
+        "BlueDart Express",
+        "Delhivery Surface",
+        "DTDC Air"
+      ],
+      "codAvailable": true,
+      "returnWindowDays": 7
+    },
+    "variants": {
+      "colors": [
+        {
+          "name": "Default",
+          "hex": "#D97706",
+          "inStock": true
+        }
+      ],
+      "options": [
+        {
+          "label": "Standard Pack",
+          "price": 741,
+          "inStock": true
+        }
+      ]
+    },
+    "rating": 4.9,
+    "reviewCount": 54
+  },
+  {
+    "id": "p310",
+    "sku": "VM-HAND-P310-DHO",
+    "name": "Dhokra Heritage Metalcraft Limited Signature Edition",
+    "category": "Handcrafted Arts & Heritage Decor",
+    "brand": "Dhokra Heritage Metalcraft",
+    "price": 8220,
+    "mrp": 10275,
+    "discountPercent": 20,
+    "stock": 27,
+    "quantity": 11,
+    "barcode": "8901000310123",
+    "lowStockThreshold": 4,
+    "reservedStock": 0,
+    "warehouseLocation": "Aisle G-1",
+    "restockLeadDays": 3,
+    "vendorId": "v35",
+    "vendorSlug": "dhokracraft",
+    "status": "approved",
+    "images": [
+      "https://images.unsplash.com/photo-1572635196237-14b3f281503f?w=600&h=600&fit=crop",
+      "https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?w=600&h=600&fit=crop"
+    ],
+    "description": "Exclusive signature release by Dhokra Heritage Metalcraft. Insured courier dispatch with verified GST tax invoice.",
+    "condition": "Brand New (Verified Stock)",
+    "specifications": {
+      "Origin": "Bastar, Chhattisgarh",
+      "Merchant": "Dhokra Heritage Metalcraft",
+      "Category": "Handcrafted Arts & Heritage Decor",
+      "Warranty": "1-Year Direct Brand Warranty",
+      "Verification": "100% Genuine Tax Invoice Included"
+    },
+    "shipping": {
+      "weight": "450 g",
+      "dispatchTime": "Ships within 24 hours",
+      "estimatedDays": "2 - 4 days",
+      "courierPartners": [
+        "BlueDart Express",
+        "Delhivery Surface",
+        "DTDC Air"
+      ],
+      "codAvailable": true,
+      "returnWindowDays": 7
+    },
+    "variants": {
+      "colors": [
+        {
+          "name": "Default",
+          "hex": "#D97706",
+          "inStock": true
+        }
+      ],
+      "options": [
+        {
+          "label": "Standard Pack",
+          "price": 8220,
+          "inStock": true
+        }
+      ]
+    },
+    "rating": 4.9,
+    "reviewCount": 82
+  },
+  {
+    "id": "p311",
+    "sku": "VM-HAND-P311-TER",
+    "name": "Terracotta Roots Bengal Flagship Edition",
+    "category": "Handcrafted Arts & Heritage Decor",
+    "brand": "Terracotta Roots Bengal",
+    "price": 1901,
+    "mrp": 2376,
+    "discountPercent": 20,
+    "stock": 33,
+    "quantity": 22,
+    "barcode": "8901000311123",
+    "lowStockThreshold": 4,
+    "reservedStock": 0,
+    "warehouseLocation": "Aisle H-2",
+    "restockLeadDays": 3,
+    "vendorId": "v36",
+    "vendorSlug": "terracottaroots",
+    "status": "approved",
+    "images": [
+      "https://images.unsplash.com/photo-1578749556568-bc2c40e68b61?w=1200&h=300&fit=crop",
+      "https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?w=600&h=600&fit=crop"
+    ],
+    "description": "Verified authentic Handcrafted Arts & Heritage Decor merchandise direct from Terracotta Roots Bengal. Includes express courier delivery and warranty.",
+    "condition": "Brand New (Verified Stock)",
+    "specifications": {
+      "Origin": "Bankura, West Bengal",
+      "Merchant": "Terracotta Roots Bengal",
+      "Category": "Handcrafted Arts & Heritage Decor",
+      "Warranty": "1-Year Direct Brand Warranty",
+      "Verification": "100% Genuine Tax Invoice Included"
+    },
+    "shipping": {
+      "weight": "450 g",
+      "dispatchTime": "Ships within 24 hours",
+      "estimatedDays": "2 - 4 days",
+      "courierPartners": [
+        "BlueDart Express",
+        "Delhivery Surface",
+        "DTDC Air"
+      ],
+      "codAvailable": true,
+      "returnWindowDays": 7
+    },
+    "variants": {
+      "colors": [
+        {
+          "name": "Default",
+          "hex": "#B45309",
+          "inStock": true
+        }
+      ],
+      "options": [
+        {
+          "label": "Standard Pack",
+          "price": 1901,
+          "inStock": true
+        }
+      ]
+    },
+    "rating": 4.7,
+    "reviewCount": 49
+  },
+  {
+    "id": "p312",
+    "sku": "VM-HAND-P312-TER",
+    "name": "Terracotta Roots Bengal Premium Artisan Choice",
+    "category": "Handcrafted Arts & Heritage Decor",
+    "brand": "Terracotta Roots Bengal",
+    "price": 1701,
+    "mrp": 2126,
+    "discountPercent": 20,
+    "stock": 10,
+    "quantity": 24,
+    "barcode": "8901000312123",
+    "lowStockThreshold": 4,
+    "reservedStock": 0,
+    "warehouseLocation": "Aisle A-3",
+    "restockLeadDays": 3,
+    "vendorId": "v36",
+    "vendorSlug": "terracottaroots",
+    "status": "approved",
+    "images": [
+      "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=120&h=120&fit=crop",
+      "https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?w=600&h=600&fit=crop"
+    ],
+    "description": "Bestselling Handcrafted Arts & Heritage Decor selection crafted with premium standards. Direct brand warranty and tamper-proof packaging.",
+    "condition": "Brand New (Verified Stock)",
+    "specifications": {
+      "Origin": "Bankura, West Bengal",
+      "Merchant": "Terracotta Roots Bengal",
+      "Category": "Handcrafted Arts & Heritage Decor",
+      "Warranty": "1-Year Direct Brand Warranty",
+      "Verification": "100% Genuine Tax Invoice Included"
+    },
+    "shipping": {
+      "weight": "450 g",
+      "dispatchTime": "Ships within 24 hours",
+      "estimatedDays": "2 - 4 days",
+      "courierPartners": [
+        "BlueDart Express",
+        "Delhivery Surface",
+        "DTDC Air"
+      ],
+      "codAvailable": true,
+      "returnWindowDays": 7
+    },
+    "variants": {
+      "colors": [
+        {
+          "name": "Default",
+          "hex": "#B45309",
+          "inStock": true
+        }
+      ],
+      "options": [
+        {
+          "label": "Standard Pack",
+          "price": 1701,
+          "inStock": true
+        }
+      ]
+    },
+    "rating": 4.9,
+    "reviewCount": 88
+  },
+  {
+    "id": "p313",
+    "sku": "VM-HAND-P313-TER",
+    "name": "Terracotta Roots Bengal Essential Collection Item",
+    "category": "Handcrafted Arts & Heritage Decor",
+    "brand": "Terracotta Roots Bengal",
+    "price": 1963,
+    "mrp": 2454,
+    "discountPercent": 20,
+    "stock": 14,
+    "quantity": 33,
+    "barcode": "8901000313123",
+    "lowStockThreshold": 4,
+    "reservedStock": 0,
+    "warehouseLocation": "Aisle B-4",
+    "restockLeadDays": 3,
+    "vendorId": "v36",
+    "vendorSlug": "terracottaroots",
+    "status": "approved",
+    "images": [
+      "https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=600&h=600&fit=crop",
+      "https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?w=600&h=600&fit=crop"
+    ],
+    "description": "High-utility certified product from Terracotta Roots Bengal. Tested for durability, ergonomics, and physical performance.",
+    "condition": "Brand New (Verified Stock)",
+    "specifications": {
+      "Origin": "Bankura, West Bengal",
+      "Merchant": "Terracotta Roots Bengal",
+      "Category": "Handcrafted Arts & Heritage Decor",
+      "Warranty": "1-Year Direct Brand Warranty",
+      "Verification": "100% Genuine Tax Invoice Included"
+    },
+    "shipping": {
+      "weight": "450 g",
+      "dispatchTime": "Ships within 24 hours",
+      "estimatedDays": "2 - 4 days",
+      "courierPartners": [
+        "BlueDart Express",
+        "Delhivery Surface",
+        "DTDC Air"
+      ],
+      "codAvailable": true,
+      "returnWindowDays": 7
+    },
+    "variants": {
+      "colors": [
+        {
+          "name": "Default",
+          "hex": "#B45309",
+          "inStock": true
+        }
+      ],
+      "options": [
+        {
+          "label": "Standard Pack",
+          "price": 1963,
+          "inStock": true
+        }
+      ]
+    },
+    "rating": 4.9,
+    "reviewCount": 64
+  },
+  {
+    "id": "p314",
+    "sku": "VM-HAND-P314-TER",
+    "name": "Terracotta Roots Bengal Limited Signature Edition",
+    "category": "Handcrafted Arts & Heritage Decor",
+    "brand": "Terracotta Roots Bengal",
+    "price": 3709,
+    "mrp": 4636,
+    "discountPercent": 20,
+    "stock": 15,
+    "quantity": 18,
+    "barcode": "8901000314123",
+    "lowStockThreshold": 4,
+    "reservedStock": 0,
+    "warehouseLocation": "Aisle C-5",
+    "restockLeadDays": 3,
+    "vendorId": "v36",
+    "vendorSlug": "terracottaroots",
+    "status": "approved",
+    "images": [
+      "https://images.unsplash.com/photo-1572635196237-14b3f281503f?w=600&h=600&fit=crop",
+      "https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?w=600&h=600&fit=crop"
+    ],
+    "description": "Exclusive signature release by Terracotta Roots Bengal. Insured courier dispatch with verified GST tax invoice.",
+    "condition": "Brand New (Verified Stock)",
+    "specifications": {
+      "Origin": "Bankura, West Bengal",
+      "Merchant": "Terracotta Roots Bengal",
+      "Category": "Handcrafted Arts & Heritage Decor",
+      "Warranty": "1-Year Direct Brand Warranty",
+      "Verification": "100% Genuine Tax Invoice Included"
+    },
+    "shipping": {
+      "weight": "450 g",
+      "dispatchTime": "Ships within 24 hours",
+      "estimatedDays": "2 - 4 days",
+      "courierPartners": [
+        "BlueDart Express",
+        "Delhivery Surface",
+        "DTDC Air"
+      ],
+      "codAvailable": true,
+      "returnWindowDays": 7
+    },
+    "variants": {
+      "colors": [
+        {
+          "name": "Default",
+          "hex": "#B45309",
+          "inStock": true
+        }
+      ],
+      "options": [
+        {
+          "label": "Standard Pack",
+          "price": 3709,
+          "inStock": true
+        }
+      ]
+    },
+    "rating": 4.6,
+    "reviewCount": 22
+  },
+  {
+    "id": "p315",
+    "sku": "VM-HAND-P315-KAS",
+    "name": "Kashmir Loom Crafts Flagship Edition",
+    "category": "Handcrafted Arts & Heritage Decor",
+    "brand": "Kashmir Loom Crafts",
+    "price": 3844,
+    "mrp": 4805,
+    "discountPercent": 20,
+    "stock": 33,
+    "quantity": 10,
+    "barcode": "8901000315123",
+    "lowStockThreshold": 4,
+    "reservedStock": 0,
+    "warehouseLocation": "Aisle D-1",
+    "restockLeadDays": 3,
+    "vendorId": "v37",
+    "vendorSlug": "kashmirloom",
+    "status": "approved",
+    "images": [
+      "https://images.unsplash.com/photo-1548036328-c9fa89d128fa?w=1200&h=300&fit=crop",
+      "https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?w=600&h=600&fit=crop"
+    ],
+    "description": "Verified authentic Handcrafted Arts & Heritage Decor merchandise direct from Kashmir Loom Crafts. Includes express courier delivery and warranty.",
+    "condition": "Brand New (Verified Stock)",
+    "specifications": {
+      "Origin": "Srinagar, Jammu & Kashmir",
+      "Merchant": "Kashmir Loom Crafts",
+      "Category": "Handcrafted Arts & Heritage Decor",
+      "Warranty": "1-Year Direct Brand Warranty",
+      "Verification": "100% Genuine Tax Invoice Included"
+    },
+    "shipping": {
+      "weight": "450 g",
+      "dispatchTime": "Ships within 24 hours",
+      "estimatedDays": "2 - 4 days",
+      "courierPartners": [
+        "BlueDart Express",
+        "Delhivery Surface",
+        "DTDC Air"
+      ],
+      "codAvailable": true,
+      "returnWindowDays": 7
+    },
+    "variants": {
+      "colors": [
+        {
+          "name": "Default",
+          "hex": "#047857",
+          "inStock": true
+        }
+      ],
+      "options": [
+        {
+          "label": "Standard Pack",
+          "price": 3844,
+          "inStock": true
+        }
+      ]
+    },
+    "rating": 4.7,
+    "reviewCount": 83
+  },
+  {
+    "id": "p316",
+    "sku": "VM-HAND-P316-KAS",
+    "name": "Kashmir Loom Crafts Premium Artisan Choice",
+    "category": "Handcrafted Arts & Heritage Decor",
+    "brand": "Kashmir Loom Crafts",
+    "price": 1444,
+    "mrp": 1805,
+    "discountPercent": 20,
+    "stock": 22,
+    "quantity": 14,
+    "barcode": "8901000316123",
+    "lowStockThreshold": 4,
+    "reservedStock": 0,
+    "warehouseLocation": "Aisle E-2",
+    "restockLeadDays": 3,
+    "vendorId": "v37",
+    "vendorSlug": "kashmirloom",
+    "status": "approved",
+    "images": [
+      "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=120&h=120&fit=crop",
+      "https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?w=600&h=600&fit=crop"
+    ],
+    "description": "Bestselling Handcrafted Arts & Heritage Decor selection crafted with premium standards. Direct brand warranty and tamper-proof packaging.",
+    "condition": "Brand New (Verified Stock)",
+    "specifications": {
+      "Origin": "Srinagar, Jammu & Kashmir",
+      "Merchant": "Kashmir Loom Crafts",
+      "Category": "Handcrafted Arts & Heritage Decor",
+      "Warranty": "1-Year Direct Brand Warranty",
+      "Verification": "100% Genuine Tax Invoice Included"
+    },
+    "shipping": {
+      "weight": "450 g",
+      "dispatchTime": "Ships within 24 hours",
+      "estimatedDays": "2 - 4 days",
+      "courierPartners": [
+        "BlueDart Express",
+        "Delhivery Surface",
+        "DTDC Air"
+      ],
+      "codAvailable": true,
+      "returnWindowDays": 7
+    },
+    "variants": {
+      "colors": [
+        {
+          "name": "Default",
+          "hex": "#047857",
+          "inStock": true
+        }
+      ],
+      "options": [
+        {
+          "label": "Standard Pack",
+          "price": 1444,
+          "inStock": true
+        }
+      ]
+    },
+    "rating": 4.7,
+    "reviewCount": 90
+  },
+  {
+    "id": "p317",
+    "sku": "VM-HAND-P317-KAS",
+    "name": "Kashmir Loom Crafts Essential Collection Item",
+    "category": "Handcrafted Arts & Heritage Decor",
+    "brand": "Kashmir Loom Crafts",
+    "price": 1065,
+    "mrp": 1331,
+    "discountPercent": 20,
+    "stock": 12,
+    "quantity": 16,
+    "barcode": "8901000317123",
+    "lowStockThreshold": 4,
+    "reservedStock": 0,
+    "warehouseLocation": "Aisle F-3",
+    "restockLeadDays": 3,
+    "vendorId": "v37",
+    "vendorSlug": "kashmirloom",
+    "status": "approved",
+    "images": [
+      "https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=600&h=600&fit=crop",
+      "https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?w=600&h=600&fit=crop"
+    ],
+    "description": "High-utility certified product from Kashmir Loom Crafts. Tested for durability, ergonomics, and physical performance.",
+    "condition": "Brand New (Verified Stock)",
+    "specifications": {
+      "Origin": "Srinagar, Jammu & Kashmir",
+      "Merchant": "Kashmir Loom Crafts",
+      "Category": "Handcrafted Arts & Heritage Decor",
+      "Warranty": "1-Year Direct Brand Warranty",
+      "Verification": "100% Genuine Tax Invoice Included"
+    },
+    "shipping": {
+      "weight": "450 g",
+      "dispatchTime": "Ships within 24 hours",
+      "estimatedDays": "2 - 4 days",
+      "courierPartners": [
+        "BlueDart Express",
+        "Delhivery Surface",
+        "DTDC Air"
+      ],
+      "codAvailable": true,
+      "returnWindowDays": 7
+    },
+    "variants": {
+      "colors": [
+        {
+          "name": "Default",
+          "hex": "#047857",
+          "inStock": true
+        }
+      ],
+      "options": [
+        {
+          "label": "Standard Pack",
+          "price": 1065,
+          "inStock": true
+        }
+      ]
+    },
+    "rating": 4.8,
+    "reviewCount": 87
+  },
+  {
+    "id": "p318",
+    "sku": "VM-HAND-P318-KAS",
+    "name": "Kashmir Loom Crafts Limited Signature Edition",
+    "category": "Handcrafted Arts & Heritage Decor",
+    "brand": "Kashmir Loom Crafts",
+    "price": 4053,
+    "mrp": 5066,
+    "discountPercent": 20,
+    "stock": 20,
+    "quantity": 28,
+    "barcode": "8901000318123",
+    "lowStockThreshold": 4,
+    "reservedStock": 0,
+    "warehouseLocation": "Aisle G-4",
+    "restockLeadDays": 3,
+    "vendorId": "v37",
+    "vendorSlug": "kashmirloom",
+    "status": "approved",
+    "images": [
+      "https://images.unsplash.com/photo-1572635196237-14b3f281503f?w=600&h=600&fit=crop",
+      "https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?w=600&h=600&fit=crop"
+    ],
+    "description": "Exclusive signature release by Kashmir Loom Crafts. Insured courier dispatch with verified GST tax invoice.",
+    "condition": "Brand New (Verified Stock)",
+    "specifications": {
+      "Origin": "Srinagar, Jammu & Kashmir",
+      "Merchant": "Kashmir Loom Crafts",
+      "Category": "Handcrafted Arts & Heritage Decor",
+      "Warranty": "1-Year Direct Brand Warranty",
+      "Verification": "100% Genuine Tax Invoice Included"
+    },
+    "shipping": {
+      "weight": "450 g",
+      "dispatchTime": "Ships within 24 hours",
+      "estimatedDays": "2 - 4 days",
+      "courierPartners": [
+        "BlueDart Express",
+        "Delhivery Surface",
+        "DTDC Air"
+      ],
+      "codAvailable": true,
+      "returnWindowDays": 7
+    },
+    "variants": {
+      "colors": [
+        {
+          "name": "Default",
+          "hex": "#047857",
+          "inStock": true
+        }
+      ],
+      "options": [
+        {
+          "label": "Standard Pack",
+          "price": 4053,
+          "inStock": true
+        }
+      ]
+    },
+    "rating": 4.7,
+    "reviewCount": 50
+  },
+  {
+    "id": "p319",
+    "sku": "VM-HAND-P319-TAN",
+    "name": "Tanjore Heritage Art Gallery Flagship Edition",
+    "category": "Handcrafted Arts & Heritage Decor",
+    "brand": "Tanjore Heritage Art Gallery",
+    "price": 4114,
+    "mrp": 5143,
+    "discountPercent": 20,
+    "stock": 15,
+    "quantity": 31,
+    "barcode": "8901000319123",
+    "lowStockThreshold": 4,
+    "reservedStock": 0,
+    "warehouseLocation": "Aisle H-5",
+    "restockLeadDays": 3,
+    "vendorId": "v38",
+    "vendorSlug": "tanjoreart",
+    "status": "approved",
+    "images": [
+      "https://images.unsplash.com/photo-1579783900882-c0d3dad7b119?w=1200&h=300&fit=crop",
+      "https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?w=600&h=600&fit=crop"
+    ],
+    "description": "Verified authentic Handcrafted Arts & Heritage Decor merchandise direct from Tanjore Heritage Art Gallery. Includes express courier delivery and warranty.",
+    "condition": "Brand New (Verified Stock)",
+    "specifications": {
+      "Origin": "Thanjavur, Tamil Nadu",
+      "Merchant": "Tanjore Heritage Art Gallery",
+      "Category": "Handcrafted Arts & Heritage Decor",
+      "Warranty": "1-Year Direct Brand Warranty",
+      "Verification": "100% Genuine Tax Invoice Included"
+    },
+    "shipping": {
+      "weight": "450 g",
+      "dispatchTime": "Ships within 24 hours",
+      "estimatedDays": "2 - 4 days",
+      "courierPartners": [
+        "BlueDart Express",
+        "Delhivery Surface",
+        "DTDC Air"
+      ],
+      "codAvailable": true,
+      "returnWindowDays": 7
+    },
+    "variants": {
+      "colors": [
+        {
+          "name": "Default",
+          "hex": "#CA8A04",
+          "inStock": true
+        }
+      ],
+      "options": [
+        {
+          "label": "Standard Pack",
+          "price": 4114,
+          "inStock": true
+        }
+      ]
+    },
+    "rating": 4.7,
+    "reviewCount": 24
+  },
+  {
+    "id": "p320",
+    "sku": "VM-HAND-P320-TAN",
+    "name": "Tanjore Heritage Art Gallery Premium Artisan Choice",
+    "category": "Handcrafted Arts & Heritage Decor",
+    "brand": "Tanjore Heritage Art Gallery",
+    "price": 1062,
+    "mrp": 1328,
+    "discountPercent": 20,
+    "stock": 26,
+    "quantity": 23,
+    "barcode": "8901000320123",
+    "lowStockThreshold": 4,
+    "reservedStock": 0,
+    "warehouseLocation": "Aisle A-1",
+    "restockLeadDays": 3,
+    "vendorId": "v38",
+    "vendorSlug": "tanjoreart",
+    "status": "approved",
+    "images": [
+      "https://images.unsplash.com/photo-1544717305-2782549b5136?w=120&h=120&fit=crop",
+      "https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?w=600&h=600&fit=crop"
+    ],
+    "description": "Bestselling Handcrafted Arts & Heritage Decor selection crafted with premium standards. Direct brand warranty and tamper-proof packaging.",
+    "condition": "Brand New (Verified Stock)",
+    "specifications": {
+      "Origin": "Thanjavur, Tamil Nadu",
+      "Merchant": "Tanjore Heritage Art Gallery",
+      "Category": "Handcrafted Arts & Heritage Decor",
+      "Warranty": "1-Year Direct Brand Warranty",
+      "Verification": "100% Genuine Tax Invoice Included"
+    },
+    "shipping": {
+      "weight": "450 g",
+      "dispatchTime": "Ships within 24 hours",
+      "estimatedDays": "2 - 4 days",
+      "courierPartners": [
+        "BlueDart Express",
+        "Delhivery Surface",
+        "DTDC Air"
+      ],
+      "codAvailable": true,
+      "returnWindowDays": 7
+    },
+    "variants": {
+      "colors": [
+        {
+          "name": "Default",
+          "hex": "#CA8A04",
+          "inStock": true
+        }
+      ],
+      "options": [
+        {
+          "label": "Standard Pack",
+          "price": 1062,
+          "inStock": true
+        }
+      ]
+    },
+    "rating": 4.9,
+    "reviewCount": 24
+  },
+  {
+    "id": "p321",
+    "sku": "VM-HAND-P321-TAN",
+    "name": "Tanjore Heritage Art Gallery Essential Collection Item",
+    "category": "Handcrafted Arts & Heritage Decor",
+    "brand": "Tanjore Heritage Art Gallery",
+    "price": 1574,
+    "mrp": 1968,
+    "discountPercent": 20,
+    "stock": 24,
+    "quantity": 31,
+    "barcode": "8901000321123",
+    "lowStockThreshold": 4,
+    "reservedStock": 0,
+    "warehouseLocation": "Aisle B-2",
+    "restockLeadDays": 3,
+    "vendorId": "v38",
+    "vendorSlug": "tanjoreart",
+    "status": "approved",
+    "images": [
+      "https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=600&h=600&fit=crop",
+      "https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?w=600&h=600&fit=crop"
+    ],
+    "description": "High-utility certified product from Tanjore Heritage Art Gallery. Tested for durability, ergonomics, and physical performance.",
+    "condition": "Brand New (Verified Stock)",
+    "specifications": {
+      "Origin": "Thanjavur, Tamil Nadu",
+      "Merchant": "Tanjore Heritage Art Gallery",
+      "Category": "Handcrafted Arts & Heritage Decor",
+      "Warranty": "1-Year Direct Brand Warranty",
+      "Verification": "100% Genuine Tax Invoice Included"
+    },
+    "shipping": {
+      "weight": "450 g",
+      "dispatchTime": "Ships within 24 hours",
+      "estimatedDays": "2 - 4 days",
+      "courierPartners": [
+        "BlueDart Express",
+        "Delhivery Surface",
+        "DTDC Air"
+      ],
+      "codAvailable": true,
+      "returnWindowDays": 7
+    },
+    "variants": {
+      "colors": [
+        {
+          "name": "Default",
+          "hex": "#CA8A04",
+          "inStock": true
+        }
+      ],
+      "options": [
+        {
+          "label": "Standard Pack",
+          "price": 1574,
+          "inStock": true
+        }
+      ]
+    },
+    "rating": 4.7,
+    "reviewCount": 80
+  },
+  {
+    "id": "p322",
+    "sku": "VM-HAND-P322-TAN",
+    "name": "Tanjore Heritage Art Gallery Limited Signature Edition",
+    "category": "Handcrafted Arts & Heritage Decor",
+    "brand": "Tanjore Heritage Art Gallery",
+    "price": 5012,
+    "mrp": 6265,
+    "discountPercent": 20,
+    "stock": 30,
+    "quantity": 22,
+    "barcode": "8901000322123",
+    "lowStockThreshold": 4,
+    "reservedStock": 0,
+    "warehouseLocation": "Aisle C-3",
+    "restockLeadDays": 3,
+    "vendorId": "v38",
+    "vendorSlug": "tanjoreart",
+    "status": "approved",
+    "images": [
+      "https://images.unsplash.com/photo-1572635196237-14b3f281503f?w=600&h=600&fit=crop",
+      "https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?w=600&h=600&fit=crop"
+    ],
+    "description": "Exclusive signature release by Tanjore Heritage Art Gallery. Insured courier dispatch with verified GST tax invoice.",
+    "condition": "Brand New (Verified Stock)",
+    "specifications": {
+      "Origin": "Thanjavur, Tamil Nadu",
+      "Merchant": "Tanjore Heritage Art Gallery",
+      "Category": "Handcrafted Arts & Heritage Decor",
+      "Warranty": "1-Year Direct Brand Warranty",
+      "Verification": "100% Genuine Tax Invoice Included"
+    },
+    "shipping": {
+      "weight": "450 g",
+      "dispatchTime": "Ships within 24 hours",
+      "estimatedDays": "2 - 4 days",
+      "courierPartners": [
+        "BlueDart Express",
+        "Delhivery Surface",
+        "DTDC Air"
+      ],
+      "codAvailable": true,
+      "returnWindowDays": 7
+    },
+    "variants": {
+      "colors": [
+        {
+          "name": "Default",
+          "hex": "#CA8A04",
+          "inStock": true
+        }
+      ],
+      "options": [
+        {
+          "label": "Standard Pack",
+          "price": 5012,
+          "inStock": true
+        }
+      ]
+    },
+    "rating": 4.9,
+    "reviewCount": 50
+  },
+  {
+    "id": "p323",
+    "sku": "VM-MODE-P323-ERG",
+    "name": "ErgoCraft Desk Solutions Flagship Edition",
+    "category": "Modern Workspaces & Living",
+    "brand": "ErgoCraft Desk Solutions",
+    "price": 4194,
+    "mrp": 5243,
+    "discountPercent": 20,
+    "stock": 29,
+    "quantity": 34,
+    "barcode": "8901000323123",
+    "lowStockThreshold": 4,
+    "reservedStock": 0,
+    "warehouseLocation": "Aisle D-4",
+    "restockLeadDays": 3,
+    "vendorId": "v39",
+    "vendorSlug": "ergocraft",
+    "status": "approved",
+    "images": [
+      "https://images.unsplash.com/photo-1497366216548-37526070297c?w=1200&h=300&fit=crop",
+      "https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?w=600&h=600&fit=crop"
+    ],
+    "description": "Verified authentic Modern Workspaces & Living merchandise direct from ErgoCraft Desk Solutions. Includes express courier delivery and warranty.",
+    "condition": "Brand New (Verified Stock)",
+    "specifications": {
+      "Origin": "Bengaluru, Karnataka",
+      "Merchant": "ErgoCraft Desk Solutions",
+      "Category": "Modern Workspaces & Living",
+      "Warranty": "1-Year Direct Brand Warranty",
+      "Verification": "100% Genuine Tax Invoice Included"
+    },
+    "shipping": {
+      "weight": "450 g",
+      "dispatchTime": "Ships within 24 hours",
+      "estimatedDays": "2 - 4 days",
+      "courierPartners": [
+        "BlueDart Express",
+        "Delhivery Surface",
+        "DTDC Air"
+      ],
+      "codAvailable": true,
+      "returnWindowDays": 7
+    },
+    "variants": {
+      "colors": [
+        {
+          "name": "Default",
+          "hex": "#334155",
+          "inStock": true
+        }
+      ],
+      "options": [
+        {
+          "label": "Standard Pack",
+          "price": 4194,
+          "inStock": true
+        }
+      ]
+    },
+    "rating": 4.9,
+    "reviewCount": 61
+  },
+  {
+    "id": "p324",
+    "sku": "VM-MODE-P324-ERG",
+    "name": "ErgoCraft Desk Solutions Premium Artisan Choice",
+    "category": "Modern Workspaces & Living",
+    "brand": "ErgoCraft Desk Solutions",
+    "price": 2408,
+    "mrp": 3010,
+    "discountPercent": 20,
+    "stock": 34,
+    "quantity": 34,
+    "barcode": "8901000324123",
+    "lowStockThreshold": 4,
+    "reservedStock": 0,
+    "warehouseLocation": "Aisle E-5",
+    "restockLeadDays": 3,
+    "vendorId": "v39",
+    "vendorSlug": "ergocraft",
+    "status": "approved",
+    "images": [
+      "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=120&h=120&fit=crop",
+      "https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?w=600&h=600&fit=crop"
+    ],
+    "description": "Bestselling Modern Workspaces & Living selection crafted with premium standards. Direct brand warranty and tamper-proof packaging.",
+    "condition": "Brand New (Verified Stock)",
+    "specifications": {
+      "Origin": "Bengaluru, Karnataka",
+      "Merchant": "ErgoCraft Desk Solutions",
+      "Category": "Modern Workspaces & Living",
+      "Warranty": "1-Year Direct Brand Warranty",
+      "Verification": "100% Genuine Tax Invoice Included"
+    },
+    "shipping": {
+      "weight": "450 g",
+      "dispatchTime": "Ships within 24 hours",
+      "estimatedDays": "2 - 4 days",
+      "courierPartners": [
+        "BlueDart Express",
+        "Delhivery Surface",
+        "DTDC Air"
+      ],
+      "codAvailable": true,
+      "returnWindowDays": 7
+    },
+    "variants": {
+      "colors": [
+        {
+          "name": "Default",
+          "hex": "#334155",
+          "inStock": true
+        }
+      ],
+      "options": [
+        {
+          "label": "Standard Pack",
+          "price": 2408,
+          "inStock": true
+        }
+      ]
+    },
+    "rating": 4.6,
+    "reviewCount": 73
+  },
+  {
+    "id": "p325",
+    "sku": "VM-MODE-P325-ERG",
+    "name": "ErgoCraft Desk Solutions Essential Collection Item",
+    "category": "Modern Workspaces & Living",
+    "brand": "ErgoCraft Desk Solutions",
+    "price": 1619,
+    "mrp": 2024,
+    "discountPercent": 20,
+    "stock": 32,
+    "quantity": 30,
+    "barcode": "8901000325123",
+    "lowStockThreshold": 4,
+    "reservedStock": 0,
+    "warehouseLocation": "Aisle F-1",
+    "restockLeadDays": 3,
+    "vendorId": "v39",
+    "vendorSlug": "ergocraft",
+    "status": "approved",
+    "images": [
+      "https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=600&h=600&fit=crop",
+      "https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?w=600&h=600&fit=crop"
+    ],
+    "description": "High-utility certified product from ErgoCraft Desk Solutions. Tested for durability, ergonomics, and physical performance.",
+    "condition": "Brand New (Verified Stock)",
+    "specifications": {
+      "Origin": "Bengaluru, Karnataka",
+      "Merchant": "ErgoCraft Desk Solutions",
+      "Category": "Modern Workspaces & Living",
+      "Warranty": "1-Year Direct Brand Warranty",
+      "Verification": "100% Genuine Tax Invoice Included"
+    },
+    "shipping": {
+      "weight": "450 g",
+      "dispatchTime": "Ships within 24 hours",
+      "estimatedDays": "2 - 4 days",
+      "courierPartners": [
+        "BlueDart Express",
+        "Delhivery Surface",
+        "DTDC Air"
+      ],
+      "codAvailable": true,
+      "returnWindowDays": 7
+    },
+    "variants": {
+      "colors": [
+        {
+          "name": "Default",
+          "hex": "#334155",
+          "inStock": true
+        }
+      ],
+      "options": [
+        {
+          "label": "Standard Pack",
+          "price": 1619,
+          "inStock": true
+        }
+      ]
+    },
+    "rating": 4.9,
+    "reviewCount": 26
+  },
+  {
+    "id": "p326",
+    "sku": "VM-MODE-P326-ERG",
+    "name": "ErgoCraft Desk Solutions Limited Signature Edition",
+    "category": "Modern Workspaces & Living",
+    "brand": "ErgoCraft Desk Solutions",
+    "price": 6586,
+    "mrp": 8233,
+    "discountPercent": 20,
+    "stock": 11,
+    "quantity": 14,
+    "barcode": "8901000326123",
+    "lowStockThreshold": 4,
+    "reservedStock": 0,
+    "warehouseLocation": "Aisle G-2",
+    "restockLeadDays": 3,
+    "vendorId": "v39",
+    "vendorSlug": "ergocraft",
+    "status": "approved",
+    "images": [
+      "https://images.unsplash.com/photo-1572635196237-14b3f281503f?w=600&h=600&fit=crop",
+      "https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?w=600&h=600&fit=crop"
+    ],
+    "description": "Exclusive signature release by ErgoCraft Desk Solutions. Insured courier dispatch with verified GST tax invoice.",
+    "condition": "Brand New (Verified Stock)",
+    "specifications": {
+      "Origin": "Bengaluru, Karnataka",
+      "Merchant": "ErgoCraft Desk Solutions",
+      "Category": "Modern Workspaces & Living",
+      "Warranty": "1-Year Direct Brand Warranty",
+      "Verification": "100% Genuine Tax Invoice Included"
+    },
+    "shipping": {
+      "weight": "450 g",
+      "dispatchTime": "Ships within 24 hours",
+      "estimatedDays": "2 - 4 days",
+      "courierPartners": [
+        "BlueDart Express",
+        "Delhivery Surface",
+        "DTDC Air"
+      ],
+      "codAvailable": true,
+      "returnWindowDays": 7
+    },
+    "variants": {
+      "colors": [
+        {
+          "name": "Default",
+          "hex": "#334155",
+          "inStock": true
+        }
+      ],
+      "options": [
+        {
+          "label": "Standard Pack",
+          "price": 6586,
+          "inStock": true
+        }
+      ]
+    },
+    "rating": 4.8,
+    "reviewCount": 88
+  },
+  {
+    "id": "p327",
+    "sku": "VM-MODE-P327-DES",
+    "name": "DeskMatrix Minimalist Labs Flagship Edition",
+    "category": "Modern Workspaces & Living",
+    "brand": "DeskMatrix Minimalist Labs",
+    "price": 2584,
+    "mrp": 3230,
+    "discountPercent": 20,
+    "stock": 34,
+    "quantity": 23,
+    "barcode": "8901000327123",
+    "lowStockThreshold": 4,
+    "reservedStock": 0,
+    "warehouseLocation": "Aisle H-3",
+    "restockLeadDays": 3,
+    "vendorId": "v40",
+    "vendorSlug": "deskmatrix",
+    "status": "approved",
+    "images": [
+      "https://images.unsplash.com/photo-1518455027359-f3f8164ba6bd?w=1200&h=300&fit=crop",
+      "https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?w=600&h=600&fit=crop"
+    ],
+    "description": "Verified authentic Modern Workspaces & Living merchandise direct from DeskMatrix Minimalist Labs. Includes express courier delivery and warranty.",
+    "condition": "Brand New (Verified Stock)",
+    "specifications": {
+      "Origin": "Gurugram, Haryana",
+      "Merchant": "DeskMatrix Minimalist Labs",
+      "Category": "Modern Workspaces & Living",
+      "Warranty": "1-Year Direct Brand Warranty",
+      "Verification": "100% Genuine Tax Invoice Included"
+    },
+    "shipping": {
+      "weight": "450 g",
+      "dispatchTime": "Ships within 24 hours",
+      "estimatedDays": "2 - 4 days",
+      "courierPartners": [
+        "BlueDart Express",
+        "Delhivery Surface",
+        "DTDC Air"
+      ],
+      "codAvailable": true,
+      "returnWindowDays": 7
+    },
+    "variants": {
+      "colors": [
+        {
+          "name": "Default",
+          "hex": "#475569",
+          "inStock": true
+        }
+      ],
+      "options": [
+        {
+          "label": "Standard Pack",
+          "price": 2584,
+          "inStock": true
+        }
+      ]
+    },
+    "rating": 5,
+    "reviewCount": 62
+  },
+  {
+    "id": "p328",
+    "sku": "VM-MODE-P328-DES",
+    "name": "DeskMatrix Minimalist Labs Premium Artisan Choice",
+    "category": "Modern Workspaces & Living",
+    "brand": "DeskMatrix Minimalist Labs",
+    "price": 1568,
+    "mrp": 1960,
+    "discountPercent": 20,
+    "stock": 34,
+    "quantity": 12,
+    "barcode": "8901000328123",
+    "lowStockThreshold": 4,
+    "reservedStock": 0,
+    "warehouseLocation": "Aisle A-4",
+    "restockLeadDays": 3,
+    "vendorId": "v40",
+    "vendorSlug": "deskmatrix",
+    "status": "approved",
+    "images": [
+      "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=120&h=120&fit=crop",
+      "https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?w=600&h=600&fit=crop"
+    ],
+    "description": "Bestselling Modern Workspaces & Living selection crafted with premium standards. Direct brand warranty and tamper-proof packaging.",
+    "condition": "Brand New (Verified Stock)",
+    "specifications": {
+      "Origin": "Gurugram, Haryana",
+      "Merchant": "DeskMatrix Minimalist Labs",
+      "Category": "Modern Workspaces & Living",
+      "Warranty": "1-Year Direct Brand Warranty",
+      "Verification": "100% Genuine Tax Invoice Included"
+    },
+    "shipping": {
+      "weight": "450 g",
+      "dispatchTime": "Ships within 24 hours",
+      "estimatedDays": "2 - 4 days",
+      "courierPartners": [
+        "BlueDart Express",
+        "Delhivery Surface",
+        "DTDC Air"
+      ],
+      "codAvailable": true,
+      "returnWindowDays": 7
+    },
+    "variants": {
+      "colors": [
+        {
+          "name": "Default",
+          "hex": "#475569",
+          "inStock": true
+        }
+      ],
+      "options": [
+        {
+          "label": "Standard Pack",
+          "price": 1568,
+          "inStock": true
+        }
+      ]
+    },
+    "rating": 4.9,
+    "reviewCount": 38
+  },
+  {
+    "id": "p329",
+    "sku": "VM-MODE-P329-DES",
+    "name": "DeskMatrix Minimalist Labs Essential Collection Item",
+    "category": "Modern Workspaces & Living",
+    "brand": "DeskMatrix Minimalist Labs",
+    "price": 590,
+    "mrp": 738,
+    "discountPercent": 20,
+    "stock": 18,
+    "quantity": 24,
+    "barcode": "8901000329123",
+    "lowStockThreshold": 4,
+    "reservedStock": 0,
+    "warehouseLocation": "Aisle B-5",
+    "restockLeadDays": 3,
+    "vendorId": "v40",
+    "vendorSlug": "deskmatrix",
+    "status": "approved",
+    "images": [
+      "https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=600&h=600&fit=crop",
+      "https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?w=600&h=600&fit=crop"
+    ],
+    "description": "High-utility certified product from DeskMatrix Minimalist Labs. Tested for durability, ergonomics, and physical performance.",
+    "condition": "Brand New (Verified Stock)",
+    "specifications": {
+      "Origin": "Gurugram, Haryana",
+      "Merchant": "DeskMatrix Minimalist Labs",
+      "Category": "Modern Workspaces & Living",
+      "Warranty": "1-Year Direct Brand Warranty",
+      "Verification": "100% Genuine Tax Invoice Included"
+    },
+    "shipping": {
+      "weight": "450 g",
+      "dispatchTime": "Ships within 24 hours",
+      "estimatedDays": "2 - 4 days",
+      "courierPartners": [
+        "BlueDart Express",
+        "Delhivery Surface",
+        "DTDC Air"
+      ],
+      "codAvailable": true,
+      "returnWindowDays": 7
+    },
+    "variants": {
+      "colors": [
+        {
+          "name": "Default",
+          "hex": "#475569",
+          "inStock": true
+        }
+      ],
+      "options": [
+        {
+          "label": "Standard Pack",
+          "price": 590,
+          "inStock": true
+        }
+      ]
+    },
+    "rating": 4.9,
+    "reviewCount": 87
+  },
+  {
+    "id": "p330",
+    "sku": "VM-MODE-P330-DES",
+    "name": "DeskMatrix Minimalist Labs Limited Signature Edition",
+    "category": "Modern Workspaces & Living",
+    "brand": "DeskMatrix Minimalist Labs",
+    "price": 3901,
+    "mrp": 4876,
+    "discountPercent": 20,
+    "stock": 33,
+    "quantity": 25,
+    "barcode": "8901000330123",
+    "lowStockThreshold": 4,
+    "reservedStock": 0,
+    "warehouseLocation": "Aisle C-1",
+    "restockLeadDays": 3,
+    "vendorId": "v40",
+    "vendorSlug": "deskmatrix",
+    "status": "approved",
+    "images": [
+      "https://images.unsplash.com/photo-1572635196237-14b3f281503f?w=600&h=600&fit=crop",
+      "https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?w=600&h=600&fit=crop"
+    ],
+    "description": "Exclusive signature release by DeskMatrix Minimalist Labs. Insured courier dispatch with verified GST tax invoice.",
+    "condition": "Brand New (Verified Stock)",
+    "specifications": {
+      "Origin": "Gurugram, Haryana",
+      "Merchant": "DeskMatrix Minimalist Labs",
+      "Category": "Modern Workspaces & Living",
+      "Warranty": "1-Year Direct Brand Warranty",
+      "Verification": "100% Genuine Tax Invoice Included"
+    },
+    "shipping": {
+      "weight": "450 g",
+      "dispatchTime": "Ships within 24 hours",
+      "estimatedDays": "2 - 4 days",
+      "courierPartners": [
+        "BlueDart Express",
+        "Delhivery Surface",
+        "DTDC Air"
+      ],
+      "codAvailable": true,
+      "returnWindowDays": 7
+    },
+    "variants": {
+      "colors": [
+        {
+          "name": "Default",
+          "hex": "#475569",
+          "inStock": true
+        }
+      ],
+      "options": [
+        {
+          "label": "Standard Pack",
+          "price": 3901,
+          "inStock": true
+        }
+      ]
+    },
+    "rating": 5,
+    "reviewCount": 19
+  },
+  {
+    "id": "p331",
+    "sku": "VM-MODE-P331-ZEN",
+    "name": "ZenWorkspace Studio Flagship Edition",
+    "category": "Modern Workspaces & Living",
+    "brand": "ZenWorkspace Studio",
+    "price": 1584,
+    "mrp": 1980,
+    "discountPercent": 20,
+    "stock": 14,
+    "quantity": 24,
+    "barcode": "8901000331123",
+    "lowStockThreshold": 4,
+    "reservedStock": 0,
+    "warehouseLocation": "Aisle D-2",
+    "restockLeadDays": 3,
+    "vendorId": "v41",
+    "vendorSlug": "zenworkspace",
+    "status": "approved",
+    "images": [
+      "https://images.unsplash.com/photo-1524758631624-e2822e304c36?w=1200&h=300&fit=crop",
+      "https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?w=600&h=600&fit=crop"
+    ],
+    "description": "Verified authentic Modern Workspaces & Living merchandise direct from ZenWorkspace Studio. Includes express courier delivery and warranty.",
+    "condition": "Brand New (Verified Stock)",
+    "specifications": {
+      "Origin": "Mumbai, Maharashtra",
+      "Merchant": "ZenWorkspace Studio",
+      "Category": "Modern Workspaces & Living",
+      "Warranty": "1-Year Direct Brand Warranty",
+      "Verification": "100% Genuine Tax Invoice Included"
+    },
+    "shipping": {
+      "weight": "450 g",
+      "dispatchTime": "Ships within 24 hours",
+      "estimatedDays": "2 - 4 days",
+      "courierPartners": [
+        "BlueDart Express",
+        "Delhivery Surface",
+        "DTDC Air"
+      ],
+      "codAvailable": true,
+      "returnWindowDays": 7
+    },
+    "variants": {
+      "colors": [
+        {
+          "name": "Default",
+          "hex": "#0284C7",
+          "inStock": true
+        }
+      ],
+      "options": [
+        {
+          "label": "Standard Pack",
+          "price": 1584,
+          "inStock": true
+        }
+      ]
+    },
+    "rating": 4.6,
+    "reviewCount": 91
+  },
+  {
+    "id": "p332",
+    "sku": "VM-MODE-P332-ZEN",
+    "name": "ZenWorkspace Studio Premium Artisan Choice",
+    "category": "Modern Workspaces & Living",
+    "brand": "ZenWorkspace Studio",
+    "price": 2409,
+    "mrp": 3011,
+    "discountPercent": 20,
+    "stock": 31,
+    "quantity": 18,
+    "barcode": "8901000332123",
+    "lowStockThreshold": 4,
+    "reservedStock": 0,
+    "warehouseLocation": "Aisle E-3",
+    "restockLeadDays": 3,
+    "vendorId": "v41",
+    "vendorSlug": "zenworkspace",
+    "status": "approved",
+    "images": [
+      "https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?w=120&h=120&fit=crop",
+      "https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?w=600&h=600&fit=crop"
+    ],
+    "description": "Bestselling Modern Workspaces & Living selection crafted with premium standards. Direct brand warranty and tamper-proof packaging.",
+    "condition": "Brand New (Verified Stock)",
+    "specifications": {
+      "Origin": "Mumbai, Maharashtra",
+      "Merchant": "ZenWorkspace Studio",
+      "Category": "Modern Workspaces & Living",
+      "Warranty": "1-Year Direct Brand Warranty",
+      "Verification": "100% Genuine Tax Invoice Included"
+    },
+    "shipping": {
+      "weight": "450 g",
+      "dispatchTime": "Ships within 24 hours",
+      "estimatedDays": "2 - 4 days",
+      "courierPartners": [
+        "BlueDart Express",
+        "Delhivery Surface",
+        "DTDC Air"
+      ],
+      "codAvailable": true,
+      "returnWindowDays": 7
+    },
+    "variants": {
+      "colors": [
+        {
+          "name": "Default",
+          "hex": "#0284C7",
+          "inStock": true
+        }
+      ],
+      "options": [
+        {
+          "label": "Standard Pack",
+          "price": 2409,
+          "inStock": true
+        }
+      ]
+    },
+    "rating": 4.9,
+    "reviewCount": 59
+  },
+  {
+    "id": "p333",
+    "sku": "VM-MODE-P333-ZEN",
+    "name": "ZenWorkspace Studio Essential Collection Item",
+    "category": "Modern Workspaces & Living",
+    "brand": "ZenWorkspace Studio",
+    "price": 956,
+    "mrp": 1195,
+    "discountPercent": 20,
+    "stock": 29,
+    "quantity": 33,
+    "barcode": "8901000333123",
+    "lowStockThreshold": 4,
+    "reservedStock": 0,
+    "warehouseLocation": "Aisle F-4",
+    "restockLeadDays": 3,
+    "vendorId": "v41",
+    "vendorSlug": "zenworkspace",
+    "status": "approved",
+    "images": [
+      "https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=600&h=600&fit=crop",
+      "https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?w=600&h=600&fit=crop"
+    ],
+    "description": "High-utility certified product from ZenWorkspace Studio. Tested for durability, ergonomics, and physical performance.",
+    "condition": "Brand New (Verified Stock)",
+    "specifications": {
+      "Origin": "Mumbai, Maharashtra",
+      "Merchant": "ZenWorkspace Studio",
+      "Category": "Modern Workspaces & Living",
+      "Warranty": "1-Year Direct Brand Warranty",
+      "Verification": "100% Genuine Tax Invoice Included"
+    },
+    "shipping": {
+      "weight": "450 g",
+      "dispatchTime": "Ships within 24 hours",
+      "estimatedDays": "2 - 4 days",
+      "courierPartners": [
+        "BlueDart Express",
+        "Delhivery Surface",
+        "DTDC Air"
+      ],
+      "codAvailable": true,
+      "returnWindowDays": 7
+    },
+    "variants": {
+      "colors": [
+        {
+          "name": "Default",
+          "hex": "#0284C7",
+          "inStock": true
+        }
+      ],
+      "options": [
+        {
+          "label": "Standard Pack",
+          "price": 956,
+          "inStock": true
+        }
+      ]
+    },
+    "rating": 4.9,
+    "reviewCount": 20
+  },
+  {
+    "id": "p334",
+    "sku": "VM-MODE-P334-ZEN",
+    "name": "ZenWorkspace Studio Limited Signature Edition",
+    "category": "Modern Workspaces & Living",
+    "brand": "ZenWorkspace Studio",
+    "price": 6821,
+    "mrp": 8526,
+    "discountPercent": 20,
+    "stock": 13,
+    "quantity": 15,
+    "barcode": "8901000334123",
+    "lowStockThreshold": 4,
+    "reservedStock": 0,
+    "warehouseLocation": "Aisle G-5",
+    "restockLeadDays": 3,
+    "vendorId": "v41",
+    "vendorSlug": "zenworkspace",
+    "status": "approved",
+    "images": [
+      "https://images.unsplash.com/photo-1572635196237-14b3f281503f?w=600&h=600&fit=crop",
+      "https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?w=600&h=600&fit=crop"
+    ],
+    "description": "Exclusive signature release by ZenWorkspace Studio. Insured courier dispatch with verified GST tax invoice.",
+    "condition": "Brand New (Verified Stock)",
+    "specifications": {
+      "Origin": "Mumbai, Maharashtra",
+      "Merchant": "ZenWorkspace Studio",
+      "Category": "Modern Workspaces & Living",
+      "Warranty": "1-Year Direct Brand Warranty",
+      "Verification": "100% Genuine Tax Invoice Included"
+    },
+    "shipping": {
+      "weight": "450 g",
+      "dispatchTime": "Ships within 24 hours",
+      "estimatedDays": "2 - 4 days",
+      "courierPartners": [
+        "BlueDart Express",
+        "Delhivery Surface",
+        "DTDC Air"
+      ],
+      "codAvailable": true,
+      "returnWindowDays": 7
+    },
+    "variants": {
+      "colors": [
+        {
+          "name": "Default",
+          "hex": "#0284C7",
+          "inStock": true
+        }
+      ],
+      "options": [
+        {
+          "label": "Standard Pack",
+          "price": 6821,
+          "inStock": true
+        }
+      ]
+    },
+    "rating": 4.8,
+    "reviewCount": 49
+  },
+  {
+    "id": "p335",
+    "sku": "VM-MODE-P335-MOD",
+    "name": "ModuLiving Ergonomics Flagship Edition",
+    "category": "Modern Workspaces & Living",
+    "brand": "ModuLiving Ergonomics",
+    "price": 2856,
+    "mrp": 3570,
+    "discountPercent": 20,
+    "stock": 14,
+    "quantity": 23,
+    "barcode": "8901000335123",
+    "lowStockThreshold": 4,
+    "reservedStock": 0,
+    "warehouseLocation": "Aisle H-1",
+    "restockLeadDays": 3,
+    "vendorId": "v42",
+    "vendorSlug": "moduliving",
+    "status": "approved",
+    "images": [
+      "https://images.unsplash.com/photo-1580481077195-c22ae2910793?w=1200&h=300&fit=crop",
+      "https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?w=600&h=600&fit=crop"
+    ],
+    "description": "Verified authentic Modern Workspaces & Living merchandise direct from ModuLiving Ergonomics. Includes express courier delivery and warranty.",
+    "condition": "Brand New (Verified Stock)",
+    "specifications": {
+      "Origin": "Chennai, Tamil Nadu",
+      "Merchant": "ModuLiving Ergonomics",
+      "Category": "Modern Workspaces & Living",
+      "Warranty": "1-Year Direct Brand Warranty",
+      "Verification": "100% Genuine Tax Invoice Included"
+    },
+    "shipping": {
+      "weight": "450 g",
+      "dispatchTime": "Ships within 24 hours",
+      "estimatedDays": "2 - 4 days",
+      "courierPartners": [
+        "BlueDart Express",
+        "Delhivery Surface",
+        "DTDC Air"
+      ],
+      "codAvailable": true,
+      "returnWindowDays": 7
+    },
+    "variants": {
+      "colors": [
+        {
+          "name": "Default",
+          "hex": "#1E293B",
+          "inStock": true
+        }
+      ],
+      "options": [
+        {
+          "label": "Standard Pack",
+          "price": 2856,
+          "inStock": true
+        }
+      ]
+    },
+    "rating": 4.8,
+    "reviewCount": 77
+  },
+  {
+    "id": "p336",
+    "sku": "VM-MODE-P336-MOD",
+    "name": "ModuLiving Ergonomics Premium Artisan Choice",
+    "category": "Modern Workspaces & Living",
+    "brand": "ModuLiving Ergonomics",
+    "price": 3141,
+    "mrp": 3926,
+    "discountPercent": 20,
+    "stock": 19,
+    "quantity": 16,
+    "barcode": "8901000336123",
+    "lowStockThreshold": 4,
+    "reservedStock": 0,
+    "warehouseLocation": "Aisle A-2",
+    "restockLeadDays": 3,
+    "vendorId": "v42",
+    "vendorSlug": "moduliving",
+    "status": "approved",
+    "images": [
+      "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=120&h=120&fit=crop",
+      "https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?w=600&h=600&fit=crop"
+    ],
+    "description": "Bestselling Modern Workspaces & Living selection crafted with premium standards. Direct brand warranty and tamper-proof packaging.",
+    "condition": "Brand New (Verified Stock)",
+    "specifications": {
+      "Origin": "Chennai, Tamil Nadu",
+      "Merchant": "ModuLiving Ergonomics",
+      "Category": "Modern Workspaces & Living",
+      "Warranty": "1-Year Direct Brand Warranty",
+      "Verification": "100% Genuine Tax Invoice Included"
+    },
+    "shipping": {
+      "weight": "450 g",
+      "dispatchTime": "Ships within 24 hours",
+      "estimatedDays": "2 - 4 days",
+      "courierPartners": [
+        "BlueDart Express",
+        "Delhivery Surface",
+        "DTDC Air"
+      ],
+      "codAvailable": true,
+      "returnWindowDays": 7
+    },
+    "variants": {
+      "colors": [
+        {
+          "name": "Default",
+          "hex": "#1E293B",
+          "inStock": true
+        }
+      ],
+      "options": [
+        {
+          "label": "Standard Pack",
+          "price": 3141,
+          "inStock": true
+        }
+      ]
+    },
+    "rating": 4.7,
+    "reviewCount": 86
+  },
+  {
+    "id": "p337",
+    "sku": "VM-MODE-P337-MOD",
+    "name": "ModuLiving Ergonomics Essential Collection Item",
+    "category": "Modern Workspaces & Living",
+    "brand": "ModuLiving Ergonomics",
+    "price": 1176,
+    "mrp": 1470,
+    "discountPercent": 20,
+    "stock": 29,
+    "quantity": 12,
+    "barcode": "8901000337123",
+    "lowStockThreshold": 4,
+    "reservedStock": 0,
+    "warehouseLocation": "Aisle B-3",
+    "restockLeadDays": 3,
+    "vendorId": "v42",
+    "vendorSlug": "moduliving",
+    "status": "approved",
+    "images": [
+      "https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=600&h=600&fit=crop",
+      "https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?w=600&h=600&fit=crop"
+    ],
+    "description": "High-utility certified product from ModuLiving Ergonomics. Tested for durability, ergonomics, and physical performance.",
+    "condition": "Brand New (Verified Stock)",
+    "specifications": {
+      "Origin": "Chennai, Tamil Nadu",
+      "Merchant": "ModuLiving Ergonomics",
+      "Category": "Modern Workspaces & Living",
+      "Warranty": "1-Year Direct Brand Warranty",
+      "Verification": "100% Genuine Tax Invoice Included"
+    },
+    "shipping": {
+      "weight": "450 g",
+      "dispatchTime": "Ships within 24 hours",
+      "estimatedDays": "2 - 4 days",
+      "courierPartners": [
+        "BlueDart Express",
+        "Delhivery Surface",
+        "DTDC Air"
+      ],
+      "codAvailable": true,
+      "returnWindowDays": 7
+    },
+    "variants": {
+      "colors": [
+        {
+          "name": "Default",
+          "hex": "#1E293B",
+          "inStock": true
+        }
+      ],
+      "options": [
+        {
+          "label": "Standard Pack",
+          "price": 1176,
+          "inStock": true
+        }
+      ]
+    },
+    "rating": 4.7,
+    "reviewCount": 39
+  },
+  {
+    "id": "p338",
+    "sku": "VM-MODE-P338-MOD",
+    "name": "ModuLiving Ergonomics Limited Signature Edition",
+    "category": "Modern Workspaces & Living",
+    "brand": "ModuLiving Ergonomics",
+    "price": 4504,
+    "mrp": 5630,
+    "discountPercent": 20,
+    "stock": 31,
+    "quantity": 13,
+    "barcode": "8901000338123",
+    "lowStockThreshold": 4,
+    "reservedStock": 0,
+    "warehouseLocation": "Aisle C-4",
+    "restockLeadDays": 3,
+    "vendorId": "v42",
+    "vendorSlug": "moduliving",
+    "status": "approved",
+    "images": [
+      "https://images.unsplash.com/photo-1572635196237-14b3f281503f?w=600&h=600&fit=crop",
+      "https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?w=600&h=600&fit=crop"
+    ],
+    "description": "Exclusive signature release by ModuLiving Ergonomics. Insured courier dispatch with verified GST tax invoice.",
+    "condition": "Brand New (Verified Stock)",
+    "specifications": {
+      "Origin": "Chennai, Tamil Nadu",
+      "Merchant": "ModuLiving Ergonomics",
+      "Category": "Modern Workspaces & Living",
+      "Warranty": "1-Year Direct Brand Warranty",
+      "Verification": "100% Genuine Tax Invoice Included"
+    },
+    "shipping": {
+      "weight": "450 g",
+      "dispatchTime": "Ships within 24 hours",
+      "estimatedDays": "2 - 4 days",
+      "courierPartners": [
+        "BlueDart Express",
+        "Delhivery Surface",
+        "DTDC Air"
+      ],
+      "codAvailable": true,
+      "returnWindowDays": 7
+    },
+    "variants": {
+      "colors": [
+        {
+          "name": "Default",
+          "hex": "#1E293B",
+          "inStock": true
+        }
+      ],
+      "options": [
+        {
+          "label": "Standard Pack",
+          "price": 4504,
+          "inStock": true
+        }
+      ]
+    },
+    "rating": 4.6,
+    "reviewCount": 35
+  },
+  {
+    "id": "p339",
+    "sku": "VM-LIVE-P339-BON",
+    "name": "BonsaiHaven Master Gardens Flagship Edition",
+    "category": "Live Botanicals & Exotic Foliage",
+    "brand": "BonsaiHaven Master Gardens",
+    "price": 2719,
+    "mrp": 3399,
+    "discountPercent": 20,
+    "stock": 34,
+    "quantity": 26,
+    "barcode": "8901000339123",
+    "lowStockThreshold": 4,
+    "reservedStock": 0,
+    "warehouseLocation": "Aisle D-5",
+    "restockLeadDays": 3,
+    "vendorId": "v43",
+    "vendorSlug": "bonsaihaven",
+    "status": "approved",
+    "images": [
+      "https://images.unsplash.com/photo-1463320726281-696a485928c7?w=1200&h=300&fit=crop",
+      "https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?w=600&h=600&fit=crop"
+    ],
+    "description": "Verified authentic Live Botanicals & Exotic Foliage merchandise direct from BonsaiHaven Master Gardens. Includes express courier delivery and warranty.",
+    "condition": "Brand New (Verified Stock)",
+    "specifications": {
+      "Origin": "Pune, Maharashtra",
+      "Merchant": "BonsaiHaven Master Gardens",
+      "Category": "Live Botanicals & Exotic Foliage",
+      "Warranty": "1-Year Direct Brand Warranty",
+      "Verification": "100% Genuine Tax Invoice Included"
+    },
+    "shipping": {
+      "weight": "450 g",
+      "dispatchTime": "Ships within 24 hours",
+      "estimatedDays": "2 - 4 days",
+      "courierPartners": [
+        "BlueDart Express",
+        "Delhivery Surface",
+        "DTDC Air"
+      ],
+      "codAvailable": true,
+      "returnWindowDays": 7
+    },
+    "variants": {
+      "colors": [
+        {
+          "name": "Default",
+          "hex": "#166534",
+          "inStock": true
+        }
+      ],
+      "options": [
+        {
+          "label": "Standard Pack",
+          "price": 2719,
+          "inStock": true
+        }
+      ]
+    },
+    "rating": 4.7,
+    "reviewCount": 90
+  },
+  {
+    "id": "p340",
+    "sku": "VM-LIVE-P340-BON",
+    "name": "BonsaiHaven Master Gardens Premium Artisan Choice",
+    "category": "Live Botanicals & Exotic Foliage",
+    "brand": "BonsaiHaven Master Gardens",
+    "price": 3254,
+    "mrp": 4068,
+    "discountPercent": 20,
+    "stock": 26,
+    "quantity": 18,
+    "barcode": "8901000340123",
+    "lowStockThreshold": 4,
+    "reservedStock": 0,
+    "warehouseLocation": "Aisle E-1",
+    "restockLeadDays": 3,
+    "vendorId": "v43",
+    "vendorSlug": "bonsaihaven",
+    "status": "approved",
+    "images": [
+      "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=120&h=120&fit=crop",
+      "https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?w=600&h=600&fit=crop"
+    ],
+    "description": "Bestselling Live Botanicals & Exotic Foliage selection crafted with premium standards. Direct brand warranty and tamper-proof packaging.",
+    "condition": "Brand New (Verified Stock)",
+    "specifications": {
+      "Origin": "Pune, Maharashtra",
+      "Merchant": "BonsaiHaven Master Gardens",
+      "Category": "Live Botanicals & Exotic Foliage",
+      "Warranty": "1-Year Direct Brand Warranty",
+      "Verification": "100% Genuine Tax Invoice Included"
+    },
+    "shipping": {
+      "weight": "450 g",
+      "dispatchTime": "Ships within 24 hours",
+      "estimatedDays": "2 - 4 days",
+      "courierPartners": [
+        "BlueDart Express",
+        "Delhivery Surface",
+        "DTDC Air"
+      ],
+      "codAvailable": true,
+      "returnWindowDays": 7
+    },
+    "variants": {
+      "colors": [
+        {
+          "name": "Default",
+          "hex": "#166534",
+          "inStock": true
+        }
+      ],
+      "options": [
+        {
+          "label": "Standard Pack",
+          "price": 3254,
+          "inStock": true
+        }
+      ]
+    },
+    "rating": 5,
+    "reviewCount": 83
+  },
+  {
+    "id": "p341",
+    "sku": "VM-LIVE-P341-BON",
+    "name": "BonsaiHaven Master Gardens Essential Collection Item",
+    "category": "Live Botanicals & Exotic Foliage",
+    "brand": "BonsaiHaven Master Gardens",
+    "price": 1759,
+    "mrp": 2199,
+    "discountPercent": 20,
+    "stock": 13,
+    "quantity": 23,
+    "barcode": "8901000341123",
+    "lowStockThreshold": 4,
+    "reservedStock": 0,
+    "warehouseLocation": "Aisle F-2",
+    "restockLeadDays": 3,
+    "vendorId": "v43",
+    "vendorSlug": "bonsaihaven",
+    "status": "approved",
+    "images": [
+      "https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=600&h=600&fit=crop",
+      "https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?w=600&h=600&fit=crop"
+    ],
+    "description": "High-utility certified product from BonsaiHaven Master Gardens. Tested for durability, ergonomics, and physical performance.",
+    "condition": "Brand New (Verified Stock)",
+    "specifications": {
+      "Origin": "Pune, Maharashtra",
+      "Merchant": "BonsaiHaven Master Gardens",
+      "Category": "Live Botanicals & Exotic Foliage",
+      "Warranty": "1-Year Direct Brand Warranty",
+      "Verification": "100% Genuine Tax Invoice Included"
+    },
+    "shipping": {
+      "weight": "450 g",
+      "dispatchTime": "Ships within 24 hours",
+      "estimatedDays": "2 - 4 days",
+      "courierPartners": [
+        "BlueDart Express",
+        "Delhivery Surface",
+        "DTDC Air"
+      ],
+      "codAvailable": true,
+      "returnWindowDays": 7
+    },
+    "variants": {
+      "colors": [
+        {
+          "name": "Default",
+          "hex": "#166534",
+          "inStock": true
+        }
+      ],
+      "options": [
+        {
+          "label": "Standard Pack",
+          "price": 1759,
+          "inStock": true
+        }
+      ]
+    },
+    "rating": 4.7,
+    "reviewCount": 51
+  },
+  {
+    "id": "p342",
+    "sku": "VM-LIVE-P342-BON",
+    "name": "BonsaiHaven Master Gardens Limited Signature Edition",
+    "category": "Live Botanicals & Exotic Foliage",
+    "brand": "BonsaiHaven Master Gardens",
+    "price": 6056,
+    "mrp": 7570,
+    "discountPercent": 20,
+    "stock": 11,
+    "quantity": 32,
+    "barcode": "8901000342123",
+    "lowStockThreshold": 4,
+    "reservedStock": 0,
+    "warehouseLocation": "Aisle G-3",
+    "restockLeadDays": 3,
+    "vendorId": "v43",
+    "vendorSlug": "bonsaihaven",
+    "status": "approved",
+    "images": [
+      "https://images.unsplash.com/photo-1572635196237-14b3f281503f?w=600&h=600&fit=crop",
+      "https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?w=600&h=600&fit=crop"
+    ],
+    "description": "Exclusive signature release by BonsaiHaven Master Gardens. Insured courier dispatch with verified GST tax invoice.",
+    "condition": "Brand New (Verified Stock)",
+    "specifications": {
+      "Origin": "Pune, Maharashtra",
+      "Merchant": "BonsaiHaven Master Gardens",
+      "Category": "Live Botanicals & Exotic Foliage",
+      "Warranty": "1-Year Direct Brand Warranty",
+      "Verification": "100% Genuine Tax Invoice Included"
+    },
+    "shipping": {
+      "weight": "450 g",
+      "dispatchTime": "Ships within 24 hours",
+      "estimatedDays": "2 - 4 days",
+      "courierPartners": [
+        "BlueDart Express",
+        "Delhivery Surface",
+        "DTDC Air"
+      ],
+      "codAvailable": true,
+      "returnWindowDays": 7
+    },
+    "variants": {
+      "colors": [
+        {
+          "name": "Default",
+          "hex": "#166534",
+          "inStock": true
+        }
+      ],
+      "options": [
+        {
+          "label": "Standard Pack",
+          "price": 6056,
+          "inStock": true
+        }
+      ]
+    },
+    "rating": 5,
+    "reviewCount": 42
+  },
+  {
+    "id": "p343",
+    "sku": "VM-LIVE-P343-URB",
+    "name": "UrbanPlanters & Greenery Flagship Edition",
+    "category": "Live Botanicals & Exotic Foliage",
+    "brand": "UrbanPlanters & Greenery",
+    "price": 3471,
+    "mrp": 4339,
+    "discountPercent": 20,
+    "stock": 26,
+    "quantity": 25,
+    "barcode": "8901000343123",
+    "lowStockThreshold": 4,
+    "reservedStock": 0,
+    "warehouseLocation": "Aisle H-4",
+    "restockLeadDays": 3,
+    "vendorId": "v44",
+    "vendorSlug": "urbanplanters",
+    "status": "approved",
+    "images": [
+      "https://images.unsplash.com/photo-1545241047-6083a3684587?w=1200&h=300&fit=crop",
+      "https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?w=600&h=600&fit=crop"
+    ],
+    "description": "Verified authentic Live Botanicals & Exotic Foliage merchandise direct from UrbanPlanters & Greenery. Includes express courier delivery and warranty.",
+    "condition": "Brand New (Verified Stock)",
+    "specifications": {
+      "Origin": "New Delhi, Delhi",
+      "Merchant": "UrbanPlanters & Greenery",
+      "Category": "Live Botanicals & Exotic Foliage",
+      "Warranty": "1-Year Direct Brand Warranty",
+      "Verification": "100% Genuine Tax Invoice Included"
+    },
+    "shipping": {
+      "weight": "450 g",
+      "dispatchTime": "Ships within 24 hours",
+      "estimatedDays": "2 - 4 days",
+      "courierPartners": [
+        "BlueDart Express",
+        "Delhivery Surface",
+        "DTDC Air"
+      ],
+      "codAvailable": true,
+      "returnWindowDays": 7
+    },
+    "variants": {
+      "colors": [
+        {
+          "name": "Default",
+          "hex": "#15803D",
+          "inStock": true
+        }
+      ],
+      "options": [
+        {
+          "label": "Standard Pack",
+          "price": 3471,
+          "inStock": true
+        }
+      ]
+    },
+    "rating": 4.7,
+    "reviewCount": 60
+  },
+  {
+    "id": "p344",
+    "sku": "VM-LIVE-P344-URB",
+    "name": "UrbanPlanters & Greenery Premium Artisan Choice",
+    "category": "Live Botanicals & Exotic Foliage",
+    "brand": "UrbanPlanters & Greenery",
+    "price": 1043,
+    "mrp": 1304,
+    "discountPercent": 20,
+    "stock": 20,
+    "quantity": 16,
+    "barcode": "8901000344123",
+    "lowStockThreshold": 4,
+    "reservedStock": 0,
+    "warehouseLocation": "Aisle A-5",
+    "restockLeadDays": 3,
+    "vendorId": "v44",
+    "vendorSlug": "urbanplanters",
+    "status": "approved",
+    "images": [
+      "https://images.unsplash.com/photo-1580489944761-15a19d654956?w=120&h=120&fit=crop",
+      "https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?w=600&h=600&fit=crop"
+    ],
+    "description": "Bestselling Live Botanicals & Exotic Foliage selection crafted with premium standards. Direct brand warranty and tamper-proof packaging.",
+    "condition": "Brand New (Verified Stock)",
+    "specifications": {
+      "Origin": "New Delhi, Delhi",
+      "Merchant": "UrbanPlanters & Greenery",
+      "Category": "Live Botanicals & Exotic Foliage",
+      "Warranty": "1-Year Direct Brand Warranty",
+      "Verification": "100% Genuine Tax Invoice Included"
+    },
+    "shipping": {
+      "weight": "450 g",
+      "dispatchTime": "Ships within 24 hours",
+      "estimatedDays": "2 - 4 days",
+      "courierPartners": [
+        "BlueDart Express",
+        "Delhivery Surface",
+        "DTDC Air"
+      ],
+      "codAvailable": true,
+      "returnWindowDays": 7
+    },
+    "variants": {
+      "colors": [
+        {
+          "name": "Default",
+          "hex": "#15803D",
+          "inStock": true
+        }
+      ],
+      "options": [
+        {
+          "label": "Standard Pack",
+          "price": 1043,
+          "inStock": true
+        }
+      ]
+    },
+    "rating": 4.7,
+    "reviewCount": 18
+  },
+  {
+    "id": "p345",
+    "sku": "VM-LIVE-P345-URB",
+    "name": "UrbanPlanters & Greenery Essential Collection Item",
+    "category": "Live Botanicals & Exotic Foliage",
+    "brand": "UrbanPlanters & Greenery",
+    "price": 941,
+    "mrp": 1176,
+    "discountPercent": 20,
+    "stock": 12,
+    "quantity": 21,
+    "barcode": "8901000345123",
+    "lowStockThreshold": 4,
+    "reservedStock": 0,
+    "warehouseLocation": "Aisle B-1",
+    "restockLeadDays": 3,
+    "vendorId": "v44",
+    "vendorSlug": "urbanplanters",
+    "status": "approved",
+    "images": [
+      "https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=600&h=600&fit=crop",
+      "https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?w=600&h=600&fit=crop"
+    ],
+    "description": "High-utility certified product from UrbanPlanters & Greenery. Tested for durability, ergonomics, and physical performance.",
+    "condition": "Brand New (Verified Stock)",
+    "specifications": {
+      "Origin": "New Delhi, Delhi",
+      "Merchant": "UrbanPlanters & Greenery",
+      "Category": "Live Botanicals & Exotic Foliage",
+      "Warranty": "1-Year Direct Brand Warranty",
+      "Verification": "100% Genuine Tax Invoice Included"
+    },
+    "shipping": {
+      "weight": "450 g",
+      "dispatchTime": "Ships within 24 hours",
+      "estimatedDays": "2 - 4 days",
+      "courierPartners": [
+        "BlueDart Express",
+        "Delhivery Surface",
+        "DTDC Air"
+      ],
+      "codAvailable": true,
+      "returnWindowDays": 7
+    },
+    "variants": {
+      "colors": [
+        {
+          "name": "Default",
+          "hex": "#15803D",
+          "inStock": true
+        }
+      ],
+      "options": [
+        {
+          "label": "Standard Pack",
+          "price": 941,
+          "inStock": true
+        }
+      ]
+    },
+    "rating": 4.9,
+    "reviewCount": 89
+  },
+  {
+    "id": "p346",
+    "sku": "VM-LIVE-P346-URB",
+    "name": "UrbanPlanters & Greenery Limited Signature Edition",
+    "category": "Live Botanicals & Exotic Foliage",
+    "brand": "UrbanPlanters & Greenery",
+    "price": 8111,
+    "mrp": 10139,
+    "discountPercent": 20,
+    "stock": 21,
+    "quantity": 22,
+    "barcode": "8901000346123",
+    "lowStockThreshold": 4,
+    "reservedStock": 0,
+    "warehouseLocation": "Aisle C-2",
+    "restockLeadDays": 3,
+    "vendorId": "v44",
+    "vendorSlug": "urbanplanters",
+    "status": "approved",
+    "images": [
+      "https://images.unsplash.com/photo-1572635196237-14b3f281503f?w=600&h=600&fit=crop",
+      "https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?w=600&h=600&fit=crop"
+    ],
+    "description": "Exclusive signature release by UrbanPlanters & Greenery. Insured courier dispatch with verified GST tax invoice.",
+    "condition": "Brand New (Verified Stock)",
+    "specifications": {
+      "Origin": "New Delhi, Delhi",
+      "Merchant": "UrbanPlanters & Greenery",
+      "Category": "Live Botanicals & Exotic Foliage",
+      "Warranty": "1-Year Direct Brand Warranty",
+      "Verification": "100% Genuine Tax Invoice Included"
+    },
+    "shipping": {
+      "weight": "450 g",
+      "dispatchTime": "Ships within 24 hours",
+      "estimatedDays": "2 - 4 days",
+      "courierPartners": [
+        "BlueDart Express",
+        "Delhivery Surface",
+        "DTDC Air"
+      ],
+      "codAvailable": true,
+      "returnWindowDays": 7
+    },
+    "variants": {
+      "colors": [
+        {
+          "name": "Default",
+          "hex": "#15803D",
+          "inStock": true
+        }
+      ],
+      "options": [
+        {
+          "label": "Standard Pack",
+          "price": 8111,
+          "inStock": true
+        }
+      ]
+    },
+    "rating": 4.7,
+    "reviewCount": 65
+  },
+  {
+    "id": "p347",
+    "sku": "VM-LIVE-P347-EXO",
+    "name": "ExoticFoliage Tropicals Flagship Edition",
+    "category": "Live Botanicals & Exotic Foliage",
+    "brand": "ExoticFoliage Tropicals",
+    "price": 1335,
+    "mrp": 1669,
+    "discountPercent": 20,
+    "stock": 14,
+    "quantity": 14,
+    "barcode": "8901000347123",
+    "lowStockThreshold": 4,
+    "reservedStock": 0,
+    "warehouseLocation": "Aisle D-3",
+    "restockLeadDays": 3,
+    "vendorId": "v45",
+    "vendorSlug": "exoticfoliage",
+    "status": "approved",
+    "images": [
+      "https://images.unsplash.com/photo-1463320726281-696a485928c7?w=1200&h=300&fit=crop",
+      "https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?w=600&h=600&fit=crop"
+    ],
+    "description": "Verified authentic Live Botanicals & Exotic Foliage merchandise direct from ExoticFoliage Tropicals. Includes express courier delivery and warranty.",
+    "condition": "Brand New (Verified Stock)",
+    "specifications": {
+      "Origin": "Thiruvananthapuram, Kerala",
+      "Merchant": "ExoticFoliage Tropicals",
+      "Category": "Live Botanicals & Exotic Foliage",
+      "Warranty": "1-Year Direct Brand Warranty",
+      "Verification": "100% Genuine Tax Invoice Included"
+    },
+    "shipping": {
+      "weight": "450 g",
+      "dispatchTime": "Ships within 24 hours",
+      "estimatedDays": "2 - 4 days",
+      "courierPartners": [
+        "BlueDart Express",
+        "Delhivery Surface",
+        "DTDC Air"
+      ],
+      "codAvailable": true,
+      "returnWindowDays": 7
+    },
+    "variants": {
+      "colors": [
+        {
+          "name": "Default",
+          "hex": "#047857",
+          "inStock": true
+        }
+      ],
+      "options": [
+        {
+          "label": "Standard Pack",
+          "price": 1335,
+          "inStock": true
+        }
+      ]
+    },
+    "rating": 4.9,
+    "reviewCount": 77
+  },
+  {
+    "id": "p348",
+    "sku": "VM-LIVE-P348-EXO",
+    "name": "ExoticFoliage Tropicals Premium Artisan Choice",
+    "category": "Live Botanicals & Exotic Foliage",
+    "brand": "ExoticFoliage Tropicals",
+    "price": 1439,
+    "mrp": 1799,
+    "discountPercent": 20,
+    "stock": 15,
+    "quantity": 18,
+    "barcode": "8901000348123",
+    "lowStockThreshold": 4,
+    "reservedStock": 0,
+    "warehouseLocation": "Aisle E-4",
+    "restockLeadDays": 3,
+    "vendorId": "v45",
+    "vendorSlug": "exoticfoliage",
+    "status": "approved",
+    "images": [
+      "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=120&h=120&fit=crop",
+      "https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?w=600&h=600&fit=crop"
+    ],
+    "description": "Bestselling Live Botanicals & Exotic Foliage selection crafted with premium standards. Direct brand warranty and tamper-proof packaging.",
+    "condition": "Brand New (Verified Stock)",
+    "specifications": {
+      "Origin": "Thiruvananthapuram, Kerala",
+      "Merchant": "ExoticFoliage Tropicals",
+      "Category": "Live Botanicals & Exotic Foliage",
+      "Warranty": "1-Year Direct Brand Warranty",
+      "Verification": "100% Genuine Tax Invoice Included"
+    },
+    "shipping": {
+      "weight": "450 g",
+      "dispatchTime": "Ships within 24 hours",
+      "estimatedDays": "2 - 4 days",
+      "courierPartners": [
+        "BlueDart Express",
+        "Delhivery Surface",
+        "DTDC Air"
+      ],
+      "codAvailable": true,
+      "returnWindowDays": 7
+    },
+    "variants": {
+      "colors": [
+        {
+          "name": "Default",
+          "hex": "#047857",
+          "inStock": true
+        }
+      ],
+      "options": [
+        {
+          "label": "Standard Pack",
+          "price": 1439,
+          "inStock": true
+        }
+      ]
+    },
+    "rating": 4.8,
+    "reviewCount": 56
+  },
+  {
+    "id": "p349",
+    "sku": "VM-LIVE-P349-EXO",
+    "name": "ExoticFoliage Tropicals Essential Collection Item",
+    "category": "Live Botanicals & Exotic Foliage",
+    "brand": "ExoticFoliage Tropicals",
+    "price": 1902,
+    "mrp": 2378,
+    "discountPercent": 20,
+    "stock": 22,
+    "quantity": 12,
+    "barcode": "8901000349123",
+    "lowStockThreshold": 4,
+    "reservedStock": 0,
+    "warehouseLocation": "Aisle F-5",
+    "restockLeadDays": 3,
+    "vendorId": "v45",
+    "vendorSlug": "exoticfoliage",
+    "status": "approved",
+    "images": [
+      "https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=600&h=600&fit=crop",
+      "https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?w=600&h=600&fit=crop"
+    ],
+    "description": "High-utility certified product from ExoticFoliage Tropicals. Tested for durability, ergonomics, and physical performance.",
+    "condition": "Brand New (Verified Stock)",
+    "specifications": {
+      "Origin": "Thiruvananthapuram, Kerala",
+      "Merchant": "ExoticFoliage Tropicals",
+      "Category": "Live Botanicals & Exotic Foliage",
+      "Warranty": "1-Year Direct Brand Warranty",
+      "Verification": "100% Genuine Tax Invoice Included"
+    },
+    "shipping": {
+      "weight": "450 g",
+      "dispatchTime": "Ships within 24 hours",
+      "estimatedDays": "2 - 4 days",
+      "courierPartners": [
+        "BlueDart Express",
+        "Delhivery Surface",
+        "DTDC Air"
+      ],
+      "codAvailable": true,
+      "returnWindowDays": 7
+    },
+    "variants": {
+      "colors": [
+        {
+          "name": "Default",
+          "hex": "#047857",
+          "inStock": true
+        }
+      ],
+      "options": [
+        {
+          "label": "Standard Pack",
+          "price": 1902,
+          "inStock": true
+        }
+      ]
+    },
+    "rating": 4.9,
+    "reviewCount": 59
+  },
+  {
+    "id": "p350",
+    "sku": "VM-LIVE-P350-EXO",
+    "name": "ExoticFoliage Tropicals Limited Signature Edition",
+    "category": "Live Botanicals & Exotic Foliage",
+    "brand": "ExoticFoliage Tropicals",
+    "price": 5570,
+    "mrp": 6963,
+    "discountPercent": 20,
+    "stock": 34,
+    "quantity": 15,
+    "barcode": "8901000350123",
+    "lowStockThreshold": 4,
+    "reservedStock": 0,
+    "warehouseLocation": "Aisle G-1",
+    "restockLeadDays": 3,
+    "vendorId": "v45",
+    "vendorSlug": "exoticfoliage",
+    "status": "approved",
+    "images": [
+      "https://images.unsplash.com/photo-1572635196237-14b3f281503f?w=600&h=600&fit=crop",
+      "https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?w=600&h=600&fit=crop"
+    ],
+    "description": "Exclusive signature release by ExoticFoliage Tropicals. Insured courier dispatch with verified GST tax invoice.",
+    "condition": "Brand New (Verified Stock)",
+    "specifications": {
+      "Origin": "Thiruvananthapuram, Kerala",
+      "Merchant": "ExoticFoliage Tropicals",
+      "Category": "Live Botanicals & Exotic Foliage",
+      "Warranty": "1-Year Direct Brand Warranty",
+      "Verification": "100% Genuine Tax Invoice Included"
+    },
+    "shipping": {
+      "weight": "450 g",
+      "dispatchTime": "Ships within 24 hours",
+      "estimatedDays": "2 - 4 days",
+      "courierPartners": [
+        "BlueDart Express",
+        "Delhivery Surface",
+        "DTDC Air"
+      ],
+      "codAvailable": true,
+      "returnWindowDays": 7
+    },
+    "variants": {
+      "colors": [
+        {
+          "name": "Default",
+          "hex": "#047857",
+          "inStock": true
+        }
+      ],
+      "options": [
+        {
+          "label": "Standard Pack",
+          "price": 5570,
+          "inStock": true
+        }
+      ]
+    },
+    "rating": 4.9,
+    "reviewCount": 19
+  },
+  {
+    "id": "p351",
+    "sku": "VM-LIVE-P351-FLO",
+    "name": "FloraNest Succulents & Cacti Flagship Edition",
+    "category": "Live Botanicals & Exotic Foliage",
+    "brand": "FloraNest Succulents & Cacti",
+    "price": 4879,
+    "mrp": 6099,
+    "discountPercent": 20,
+    "stock": 18,
+    "quantity": 25,
+    "barcode": "8901000351123",
+    "lowStockThreshold": 4,
+    "reservedStock": 0,
+    "warehouseLocation": "Aisle H-2",
+    "restockLeadDays": 3,
+    "vendorId": "v46",
+    "vendorSlug": "floranest",
+    "status": "approved",
+    "images": [
+      "https://images.unsplash.com/photo-1459411552884-841db9b3cc2a?w=1200&h=300&fit=crop",
+      "https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?w=600&h=600&fit=crop"
+    ],
+    "description": "Verified authentic Live Botanicals & Exotic Foliage merchandise direct from FloraNest Succulents & Cacti. Includes express courier delivery and warranty.",
+    "condition": "Brand New (Verified Stock)",
+    "specifications": {
+      "Origin": "Jaipur, Rajasthan",
+      "Merchant": "FloraNest Succulents & Cacti",
+      "Category": "Live Botanicals & Exotic Foliage",
+      "Warranty": "1-Year Direct Brand Warranty",
+      "Verification": "100% Genuine Tax Invoice Included"
+    },
+    "shipping": {
+      "weight": "450 g",
+      "dispatchTime": "Ships within 24 hours",
+      "estimatedDays": "2 - 4 days",
+      "courierPartners": [
+        "BlueDart Express",
+        "Delhivery Surface",
+        "DTDC Air"
+      ],
+      "codAvailable": true,
+      "returnWindowDays": 7
+    },
+    "variants": {
+      "colors": [
+        {
+          "name": "Default",
+          "hex": "#15803D",
+          "inStock": true
+        }
+      ],
+      "options": [
+        {
+          "label": "Standard Pack",
+          "price": 4879,
+          "inStock": true
+        }
+      ]
+    },
+    "rating": 4.8,
+    "reviewCount": 61
+  },
+  {
+    "id": "p352",
+    "sku": "VM-LIVE-P352-FLO",
+    "name": "FloraNest Succulents & Cacti Premium Artisan Choice",
+    "category": "Live Botanicals & Exotic Foliage",
+    "brand": "FloraNest Succulents & Cacti",
+    "price": 2736,
+    "mrp": 3420,
+    "discountPercent": 20,
+    "stock": 23,
+    "quantity": 31,
+    "barcode": "8901000352123",
+    "lowStockThreshold": 4,
+    "reservedStock": 0,
+    "warehouseLocation": "Aisle A-3",
+    "restockLeadDays": 3,
+    "vendorId": "v46",
+    "vendorSlug": "floranest",
+    "status": "approved",
+    "images": [
+      "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=120&h=120&fit=crop",
+      "https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?w=600&h=600&fit=crop"
+    ],
+    "description": "Bestselling Live Botanicals & Exotic Foliage selection crafted with premium standards. Direct brand warranty and tamper-proof packaging.",
+    "condition": "Brand New (Verified Stock)",
+    "specifications": {
+      "Origin": "Jaipur, Rajasthan",
+      "Merchant": "FloraNest Succulents & Cacti",
+      "Category": "Live Botanicals & Exotic Foliage",
+      "Warranty": "1-Year Direct Brand Warranty",
+      "Verification": "100% Genuine Tax Invoice Included"
+    },
+    "shipping": {
+      "weight": "450 g",
+      "dispatchTime": "Ships within 24 hours",
+      "estimatedDays": "2 - 4 days",
+      "courierPartners": [
+        "BlueDart Express",
+        "Delhivery Surface",
+        "DTDC Air"
+      ],
+      "codAvailable": true,
+      "returnWindowDays": 7
+    },
+    "variants": {
+      "colors": [
+        {
+          "name": "Default",
+          "hex": "#15803D",
+          "inStock": true
+        }
+      ],
+      "options": [
+        {
+          "label": "Standard Pack",
+          "price": 2736,
+          "inStock": true
+        }
+      ]
+    },
+    "rating": 4.9,
+    "reviewCount": 77
+  },
+  {
+    "id": "p353",
+    "sku": "VM-LIVE-P353-FLO",
+    "name": "FloraNest Succulents & Cacti Essential Collection Item",
+    "category": "Live Botanicals & Exotic Foliage",
+    "brand": "FloraNest Succulents & Cacti",
+    "price": 1709,
+    "mrp": 2136,
+    "discountPercent": 20,
+    "stock": 22,
+    "quantity": 30,
+    "barcode": "8901000353123",
+    "lowStockThreshold": 4,
+    "reservedStock": 0,
+    "warehouseLocation": "Aisle B-4",
+    "restockLeadDays": 3,
+    "vendorId": "v46",
+    "vendorSlug": "floranest",
+    "status": "approved",
+    "images": [
+      "https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=600&h=600&fit=crop",
+      "https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?w=600&h=600&fit=crop"
+    ],
+    "description": "High-utility certified product from FloraNest Succulents & Cacti. Tested for durability, ergonomics, and physical performance.",
+    "condition": "Brand New (Verified Stock)",
+    "specifications": {
+      "Origin": "Jaipur, Rajasthan",
+      "Merchant": "FloraNest Succulents & Cacti",
+      "Category": "Live Botanicals & Exotic Foliage",
+      "Warranty": "1-Year Direct Brand Warranty",
+      "Verification": "100% Genuine Tax Invoice Included"
+    },
+    "shipping": {
+      "weight": "450 g",
+      "dispatchTime": "Ships within 24 hours",
+      "estimatedDays": "2 - 4 days",
+      "courierPartners": [
+        "BlueDart Express",
+        "Delhivery Surface",
+        "DTDC Air"
+      ],
+      "codAvailable": true,
+      "returnWindowDays": 7
+    },
+    "variants": {
+      "colors": [
+        {
+          "name": "Default",
+          "hex": "#15803D",
+          "inStock": true
+        }
+      ],
+      "options": [
+        {
+          "label": "Standard Pack",
+          "price": 1709,
+          "inStock": true
+        }
+      ]
+    },
+    "rating": 4.9,
+    "reviewCount": 58
+  },
+  {
+    "id": "p354",
+    "sku": "VM-LIVE-P354-FLO",
+    "name": "FloraNest Succulents & Cacti Limited Signature Edition",
+    "category": "Live Botanicals & Exotic Foliage",
+    "brand": "FloraNest Succulents & Cacti",
+    "price": 7942,
+    "mrp": 9928,
+    "discountPercent": 20,
+    "stock": 18,
+    "quantity": 18,
+    "barcode": "8901000354123",
+    "lowStockThreshold": 4,
+    "reservedStock": 0,
+    "warehouseLocation": "Aisle C-5",
+    "restockLeadDays": 3,
+    "vendorId": "v46",
+    "vendorSlug": "floranest",
+    "status": "approved",
+    "images": [
+      "https://images.unsplash.com/photo-1572635196237-14b3f281503f?w=600&h=600&fit=crop",
+      "https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?w=600&h=600&fit=crop"
+    ],
+    "description": "Exclusive signature release by FloraNest Succulents & Cacti. Insured courier dispatch with verified GST tax invoice.",
+    "condition": "Brand New (Verified Stock)",
+    "specifications": {
+      "Origin": "Jaipur, Rajasthan",
+      "Merchant": "FloraNest Succulents & Cacti",
+      "Category": "Live Botanicals & Exotic Foliage",
+      "Warranty": "1-Year Direct Brand Warranty",
+      "Verification": "100% Genuine Tax Invoice Included"
+    },
+    "shipping": {
+      "weight": "450 g",
+      "dispatchTime": "Ships within 24 hours",
+      "estimatedDays": "2 - 4 days",
+      "courierPartners": [
+        "BlueDart Express",
+        "Delhivery Surface",
+        "DTDC Air"
+      ],
+      "codAvailable": true,
+      "returnWindowDays": 7
+    },
+    "variants": {
+      "colors": [
+        {
+          "name": "Default",
+          "hex": "#15803D",
+          "inStock": true
+        }
+      ],
+      "options": [
+        {
+          "label": "Standard Pack",
+          "price": 7942,
+          "inStock": true
+        }
+      ]
+    },
+    "rating": 4.6,
+    "reviewCount": 60
+  },
+  {
+    "id": "p355",
+    "sku": "VM-PRO -P355-STU",
+    "name": "StudioMonitors India Flagship Edition",
+    "category": "Pro Audio & Studio Sound",
+    "brand": "StudioMonitors India",
+    "price": 2276,
+    "mrp": 2845,
+    "discountPercent": 20,
+    "stock": 18,
+    "quantity": 10,
+    "barcode": "8901000355123",
+    "lowStockThreshold": 4,
+    "reservedStock": 0,
+    "warehouseLocation": "Aisle D-1",
+    "restockLeadDays": 3,
+    "vendorId": "v47",
+    "vendorSlug": "studiomonitors",
+    "status": "approved",
+    "images": [
+      "https://images.unsplash.com/photo-1598488035139-bdbb2231ce04?w=1200&h=300&fit=crop",
+      "https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?w=600&h=600&fit=crop"
+    ],
+    "description": "Verified authentic Pro Audio & Studio Sound merchandise direct from StudioMonitors India. Includes express courier delivery and warranty.",
+    "condition": "Brand New (Verified Stock)",
+    "specifications": {
+      "Origin": "Bengaluru, Karnataka",
+      "Merchant": "StudioMonitors India",
+      "Category": "Pro Audio & Studio Sound",
+      "Warranty": "1-Year Direct Brand Warranty",
+      "Verification": "100% Genuine Tax Invoice Included"
+    },
+    "shipping": {
+      "weight": "450 g",
+      "dispatchTime": "Ships within 24 hours",
+      "estimatedDays": "2 - 4 days",
+      "courierPartners": [
+        "BlueDart Express",
+        "Delhivery Surface",
+        "DTDC Air"
+      ],
+      "codAvailable": true,
+      "returnWindowDays": 7
+    },
+    "variants": {
+      "colors": [
+        {
+          "name": "Default",
+          "hex": "#6B21A8",
+          "inStock": true
+        }
+      ],
+      "options": [
+        {
+          "label": "Standard Pack",
+          "price": 2276,
+          "inStock": true
+        }
+      ]
+    },
+    "rating": 4.7,
+    "reviewCount": 50
+  },
+  {
+    "id": "p356",
+    "sku": "VM-PRO -P356-STU",
+    "name": "StudioMonitors India Premium Artisan Choice",
+    "category": "Pro Audio & Studio Sound",
+    "brand": "StudioMonitors India",
+    "price": 2674,
+    "mrp": 3343,
+    "discountPercent": 20,
+    "stock": 34,
+    "quantity": 32,
+    "barcode": "8901000356123",
+    "lowStockThreshold": 4,
+    "reservedStock": 0,
+    "warehouseLocation": "Aisle E-2",
+    "restockLeadDays": 3,
+    "vendorId": "v47",
+    "vendorSlug": "studiomonitors",
+    "status": "approved",
+    "images": [
+      "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=120&h=120&fit=crop",
+      "https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?w=600&h=600&fit=crop"
+    ],
+    "description": "Bestselling Pro Audio & Studio Sound selection crafted with premium standards. Direct brand warranty and tamper-proof packaging.",
+    "condition": "Brand New (Verified Stock)",
+    "specifications": {
+      "Origin": "Bengaluru, Karnataka",
+      "Merchant": "StudioMonitors India",
+      "Category": "Pro Audio & Studio Sound",
+      "Warranty": "1-Year Direct Brand Warranty",
+      "Verification": "100% Genuine Tax Invoice Included"
+    },
+    "shipping": {
+      "weight": "450 g",
+      "dispatchTime": "Ships within 24 hours",
+      "estimatedDays": "2 - 4 days",
+      "courierPartners": [
+        "BlueDart Express",
+        "Delhivery Surface",
+        "DTDC Air"
+      ],
+      "codAvailable": true,
+      "returnWindowDays": 7
+    },
+    "variants": {
+      "colors": [
+        {
+          "name": "Default",
+          "hex": "#6B21A8",
+          "inStock": true
+        }
+      ],
+      "options": [
+        {
+          "label": "Standard Pack",
+          "price": 2674,
+          "inStock": true
+        }
+      ]
+    },
+    "rating": 4.6,
+    "reviewCount": 69
+  },
+  {
+    "id": "p357",
+    "sku": "VM-PRO -P357-STU",
+    "name": "StudioMonitors India Essential Collection Item",
+    "category": "Pro Audio & Studio Sound",
+    "brand": "StudioMonitors India",
+    "price": 1217,
+    "mrp": 1521,
+    "discountPercent": 20,
+    "stock": 24,
+    "quantity": 20,
+    "barcode": "8901000357123",
+    "lowStockThreshold": 4,
+    "reservedStock": 0,
+    "warehouseLocation": "Aisle F-3",
+    "restockLeadDays": 3,
+    "vendorId": "v47",
+    "vendorSlug": "studiomonitors",
+    "status": "approved",
+    "images": [
+      "https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=600&h=600&fit=crop",
+      "https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?w=600&h=600&fit=crop"
+    ],
+    "description": "High-utility certified product from StudioMonitors India. Tested for durability, ergonomics, and physical performance.",
+    "condition": "Brand New (Verified Stock)",
+    "specifications": {
+      "Origin": "Bengaluru, Karnataka",
+      "Merchant": "StudioMonitors India",
+      "Category": "Pro Audio & Studio Sound",
+      "Warranty": "1-Year Direct Brand Warranty",
+      "Verification": "100% Genuine Tax Invoice Included"
+    },
+    "shipping": {
+      "weight": "450 g",
+      "dispatchTime": "Ships within 24 hours",
+      "estimatedDays": "2 - 4 days",
+      "courierPartners": [
+        "BlueDart Express",
+        "Delhivery Surface",
+        "DTDC Air"
+      ],
+      "codAvailable": true,
+      "returnWindowDays": 7
+    },
+    "variants": {
+      "colors": [
+        {
+          "name": "Default",
+          "hex": "#6B21A8",
+          "inStock": true
+        }
+      ],
+      "options": [
+        {
+          "label": "Standard Pack",
+          "price": 1217,
+          "inStock": true
+        }
+      ]
+    },
+    "rating": 4.6,
+    "reviewCount": 79
+  },
+  {
+    "id": "p358",
+    "sku": "VM-PRO -P358-STU",
+    "name": "StudioMonitors India Limited Signature Edition",
+    "category": "Pro Audio & Studio Sound",
+    "brand": "StudioMonitors India",
+    "price": 6127,
+    "mrp": 7659,
+    "discountPercent": 20,
+    "stock": 23,
+    "quantity": 11,
+    "barcode": "8901000358123",
+    "lowStockThreshold": 4,
+    "reservedStock": 0,
+    "warehouseLocation": "Aisle G-4",
+    "restockLeadDays": 3,
+    "vendorId": "v47",
+    "vendorSlug": "studiomonitors",
+    "status": "approved",
+    "images": [
+      "https://images.unsplash.com/photo-1572635196237-14b3f281503f?w=600&h=600&fit=crop",
+      "https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?w=600&h=600&fit=crop"
+    ],
+    "description": "Exclusive signature release by StudioMonitors India. Insured courier dispatch with verified GST tax invoice.",
+    "condition": "Brand New (Verified Stock)",
+    "specifications": {
+      "Origin": "Bengaluru, Karnataka",
+      "Merchant": "StudioMonitors India",
+      "Category": "Pro Audio & Studio Sound",
+      "Warranty": "1-Year Direct Brand Warranty",
+      "Verification": "100% Genuine Tax Invoice Included"
+    },
+    "shipping": {
+      "weight": "450 g",
+      "dispatchTime": "Ships within 24 hours",
+      "estimatedDays": "2 - 4 days",
+      "courierPartners": [
+        "BlueDart Express",
+        "Delhivery Surface",
+        "DTDC Air"
+      ],
+      "codAvailable": true,
+      "returnWindowDays": 7
+    },
+    "variants": {
+      "colors": [
+        {
+          "name": "Default",
+          "hex": "#6B21A8",
+          "inStock": true
+        }
+      ],
+      "options": [
+        {
+          "label": "Standard Pack",
+          "price": 6127,
+          "inStock": true
+        }
+      ]
+    },
+    "rating": 4.7,
+    "reviewCount": 32
+  },
+  {
+    "id": "p359",
+    "sku": "VM-PRO -P359-VOC",
+    "name": "VocalGear Audio Labs Flagship Edition",
+    "category": "Pro Audio & Studio Sound",
+    "brand": "VocalGear Audio Labs",
+    "price": 2445,
+    "mrp": 3056,
+    "discountPercent": 20,
+    "stock": 11,
+    "quantity": 23,
+    "barcode": "8901000359123",
+    "lowStockThreshold": 4,
+    "reservedStock": 0,
+    "warehouseLocation": "Aisle H-5",
+    "restockLeadDays": 3,
+    "vendorId": "v48",
+    "vendorSlug": "vocalgear",
+    "status": "approved",
+    "images": [
+      "https://images.unsplash.com/photo-1590602847861-f357a9332bbc?w=1200&h=300&fit=crop",
+      "https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?w=600&h=600&fit=crop"
+    ],
+    "description": "Verified authentic Pro Audio & Studio Sound merchandise direct from VocalGear Audio Labs. Includes express courier delivery and warranty.",
+    "condition": "Brand New (Verified Stock)",
+    "specifications": {
+      "Origin": "Mumbai, Maharashtra",
+      "Merchant": "VocalGear Audio Labs",
+      "Category": "Pro Audio & Studio Sound",
+      "Warranty": "1-Year Direct Brand Warranty",
+      "Verification": "100% Genuine Tax Invoice Included"
+    },
+    "shipping": {
+      "weight": "450 g",
+      "dispatchTime": "Ships within 24 hours",
+      "estimatedDays": "2 - 4 days",
+      "courierPartners": [
+        "BlueDart Express",
+        "Delhivery Surface",
+        "DTDC Air"
+      ],
+      "codAvailable": true,
+      "returnWindowDays": 7
+    },
+    "variants": {
+      "colors": [
+        {
+          "name": "Default",
+          "hex": "#7E22CE",
+          "inStock": true
+        }
+      ],
+      "options": [
+        {
+          "label": "Standard Pack",
+          "price": 2445,
+          "inStock": true
+        }
+      ]
+    },
+    "rating": 4.7,
+    "reviewCount": 50
+  },
+  {
+    "id": "p360",
+    "sku": "VM-PRO -P360-VOC",
+    "name": "VocalGear Audio Labs Premium Artisan Choice",
+    "category": "Pro Audio & Studio Sound",
+    "brand": "VocalGear Audio Labs",
+    "price": 1239,
+    "mrp": 1549,
+    "discountPercent": 20,
+    "stock": 19,
+    "quantity": 27,
+    "barcode": "8901000360123",
+    "lowStockThreshold": 4,
+    "reservedStock": 0,
+    "warehouseLocation": "Aisle A-1",
+    "restockLeadDays": 3,
+    "vendorId": "v48",
+    "vendorSlug": "vocalgear",
+    "status": "approved",
+    "images": [
+      "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=120&h=120&fit=crop",
+      "https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?w=600&h=600&fit=crop"
+    ],
+    "description": "Bestselling Pro Audio & Studio Sound selection crafted with premium standards. Direct brand warranty and tamper-proof packaging.",
+    "condition": "Brand New (Verified Stock)",
+    "specifications": {
+      "Origin": "Mumbai, Maharashtra",
+      "Merchant": "VocalGear Audio Labs",
+      "Category": "Pro Audio & Studio Sound",
+      "Warranty": "1-Year Direct Brand Warranty",
+      "Verification": "100% Genuine Tax Invoice Included"
+    },
+    "shipping": {
+      "weight": "450 g",
+      "dispatchTime": "Ships within 24 hours",
+      "estimatedDays": "2 - 4 days",
+      "courierPartners": [
+        "BlueDart Express",
+        "Delhivery Surface",
+        "DTDC Air"
+      ],
+      "codAvailable": true,
+      "returnWindowDays": 7
+    },
+    "variants": {
+      "colors": [
+        {
+          "name": "Default",
+          "hex": "#7E22CE",
+          "inStock": true
+        }
+      ],
+      "options": [
+        {
+          "label": "Standard Pack",
+          "price": 1239,
+          "inStock": true
+        }
+      ]
+    },
+    "rating": 4.7,
+    "reviewCount": 34
+  },
+  {
+    "id": "p361",
+    "sku": "VM-PRO -P361-VOC",
+    "name": "VocalGear Audio Labs Essential Collection Item",
+    "category": "Pro Audio & Studio Sound",
+    "brand": "VocalGear Audio Labs",
+    "price": 1247,
+    "mrp": 1559,
+    "discountPercent": 20,
+    "stock": 20,
+    "quantity": 26,
+    "barcode": "8901000361123",
+    "lowStockThreshold": 4,
+    "reservedStock": 0,
+    "warehouseLocation": "Aisle B-2",
+    "restockLeadDays": 3,
+    "vendorId": "v48",
+    "vendorSlug": "vocalgear",
+    "status": "approved",
+    "images": [
+      "https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=600&h=600&fit=crop",
+      "https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?w=600&h=600&fit=crop"
+    ],
+    "description": "High-utility certified product from VocalGear Audio Labs. Tested for durability, ergonomics, and physical performance.",
+    "condition": "Brand New (Verified Stock)",
+    "specifications": {
+      "Origin": "Mumbai, Maharashtra",
+      "Merchant": "VocalGear Audio Labs",
+      "Category": "Pro Audio & Studio Sound",
+      "Warranty": "1-Year Direct Brand Warranty",
+      "Verification": "100% Genuine Tax Invoice Included"
+    },
+    "shipping": {
+      "weight": "450 g",
+      "dispatchTime": "Ships within 24 hours",
+      "estimatedDays": "2 - 4 days",
+      "courierPartners": [
+        "BlueDart Express",
+        "Delhivery Surface",
+        "DTDC Air"
+      ],
+      "codAvailable": true,
+      "returnWindowDays": 7
+    },
+    "variants": {
+      "colors": [
+        {
+          "name": "Default",
+          "hex": "#7E22CE",
+          "inStock": true
+        }
+      ],
+      "options": [
+        {
+          "label": "Standard Pack",
+          "price": 1247,
+          "inStock": true
+        }
+      ]
+    },
+    "rating": 4.8,
+    "reviewCount": 73
+  },
+  {
+    "id": "p362",
+    "sku": "VM-PRO -P362-VOC",
+    "name": "VocalGear Audio Labs Limited Signature Edition",
+    "category": "Pro Audio & Studio Sound",
+    "brand": "VocalGear Audio Labs",
+    "price": 3181,
+    "mrp": 3976,
+    "discountPercent": 20,
+    "stock": 27,
+    "quantity": 15,
+    "barcode": "8901000362123",
+    "lowStockThreshold": 4,
+    "reservedStock": 0,
+    "warehouseLocation": "Aisle C-3",
+    "restockLeadDays": 3,
+    "vendorId": "v48",
+    "vendorSlug": "vocalgear",
+    "status": "approved",
+    "images": [
+      "https://images.unsplash.com/photo-1572635196237-14b3f281503f?w=600&h=600&fit=crop",
+      "https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?w=600&h=600&fit=crop"
+    ],
+    "description": "Exclusive signature release by VocalGear Audio Labs. Insured courier dispatch with verified GST tax invoice.",
+    "condition": "Brand New (Verified Stock)",
+    "specifications": {
+      "Origin": "Mumbai, Maharashtra",
+      "Merchant": "VocalGear Audio Labs",
+      "Category": "Pro Audio & Studio Sound",
+      "Warranty": "1-Year Direct Brand Warranty",
+      "Verification": "100% Genuine Tax Invoice Included"
+    },
+    "shipping": {
+      "weight": "450 g",
+      "dispatchTime": "Ships within 24 hours",
+      "estimatedDays": "2 - 4 days",
+      "courierPartners": [
+        "BlueDart Express",
+        "Delhivery Surface",
+        "DTDC Air"
+      ],
+      "codAvailable": true,
+      "returnWindowDays": 7
+    },
+    "variants": {
+      "colors": [
+        {
+          "name": "Default",
+          "hex": "#7E22CE",
+          "inStock": true
+        }
+      ],
+      "options": [
+        {
+          "label": "Standard Pack",
+          "price": 3181,
+          "inStock": true
+        }
+      ]
+    },
+    "rating": 4.8,
+    "reviewCount": 20
+  },
+  {
+    "id": "p363",
+    "sku": "VM-PRO -P363-FRE",
+    "name": "FrequencyPro Acoustic Solutions Flagship Edition",
+    "category": "Pro Audio & Studio Sound",
+    "brand": "FrequencyPro Acoustic Solutions",
+    "price": 3079,
+    "mrp": 3849,
+    "discountPercent": 20,
+    "stock": 18,
+    "quantity": 28,
+    "barcode": "8901000363123",
+    "lowStockThreshold": 4,
+    "reservedStock": 0,
+    "warehouseLocation": "Aisle D-4",
+    "restockLeadDays": 3,
+    "vendorId": "v49",
+    "vendorSlug": "frequencypro",
+    "status": "approved",
+    "images": [
+      "https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?w=1200&h=300&fit=crop",
+      "https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?w=600&h=600&fit=crop"
+    ],
+    "description": "Verified authentic Pro Audio & Studio Sound merchandise direct from FrequencyPro Acoustic Solutions. Includes express courier delivery and warranty.",
+    "condition": "Brand New (Verified Stock)",
+    "specifications": {
+      "Origin": "New Delhi, Delhi",
+      "Merchant": "FrequencyPro Acoustic Solutions",
+      "Category": "Pro Audio & Studio Sound",
+      "Warranty": "1-Year Direct Brand Warranty",
+      "Verification": "100% Genuine Tax Invoice Included"
+    },
+    "shipping": {
+      "weight": "450 g",
+      "dispatchTime": "Ships within 24 hours",
+      "estimatedDays": "2 - 4 days",
+      "courierPartners": [
+        "BlueDart Express",
+        "Delhivery Surface",
+        "DTDC Air"
+      ],
+      "codAvailable": true,
+      "returnWindowDays": 7
+    },
+    "variants": {
+      "colors": [
+        {
+          "name": "Default",
+          "hex": "#4C1D95",
+          "inStock": true
+        }
+      ],
+      "options": [
+        {
+          "label": "Standard Pack",
+          "price": 3079,
+          "inStock": true
+        }
+      ]
+    },
+    "rating": 4.9,
+    "reviewCount": 88
+  },
+  {
+    "id": "p364",
+    "sku": "VM-PRO -P364-FRE",
+    "name": "FrequencyPro Acoustic Solutions Premium Artisan Choice",
+    "category": "Pro Audio & Studio Sound",
+    "brand": "FrequencyPro Acoustic Solutions",
+    "price": 1656,
+    "mrp": 2070,
+    "discountPercent": 20,
+    "stock": 12,
+    "quantity": 16,
+    "barcode": "8901000364123",
+    "lowStockThreshold": 4,
+    "reservedStock": 0,
+    "warehouseLocation": "Aisle E-5",
+    "restockLeadDays": 3,
+    "vendorId": "v49",
+    "vendorSlug": "frequencypro",
+    "status": "approved",
+    "images": [
+      "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=120&h=120&fit=crop",
+      "https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?w=600&h=600&fit=crop"
+    ],
+    "description": "Bestselling Pro Audio & Studio Sound selection crafted with premium standards. Direct brand warranty and tamper-proof packaging.",
+    "condition": "Brand New (Verified Stock)",
+    "specifications": {
+      "Origin": "New Delhi, Delhi",
+      "Merchant": "FrequencyPro Acoustic Solutions",
+      "Category": "Pro Audio & Studio Sound",
+      "Warranty": "1-Year Direct Brand Warranty",
+      "Verification": "100% Genuine Tax Invoice Included"
+    },
+    "shipping": {
+      "weight": "450 g",
+      "dispatchTime": "Ships within 24 hours",
+      "estimatedDays": "2 - 4 days",
+      "courierPartners": [
+        "BlueDart Express",
+        "Delhivery Surface",
+        "DTDC Air"
+      ],
+      "codAvailable": true,
+      "returnWindowDays": 7
+    },
+    "variants": {
+      "colors": [
+        {
+          "name": "Default",
+          "hex": "#4C1D95",
+          "inStock": true
+        }
+      ],
+      "options": [
+        {
+          "label": "Standard Pack",
+          "price": 1656,
+          "inStock": true
+        }
+      ]
+    },
+    "rating": 4.6,
+    "reviewCount": 56
+  },
+  {
+    "id": "p365",
+    "sku": "VM-PRO -P365-FRE",
+    "name": "FrequencyPro Acoustic Solutions Essential Collection Item",
+    "category": "Pro Audio & Studio Sound",
+    "brand": "FrequencyPro Acoustic Solutions",
+    "price": 1971,
+    "mrp": 2464,
+    "discountPercent": 20,
+    "stock": 15,
+    "quantity": 26,
+    "barcode": "8901000365123",
+    "lowStockThreshold": 4,
+    "reservedStock": 0,
+    "warehouseLocation": "Aisle F-1",
+    "restockLeadDays": 3,
+    "vendorId": "v49",
+    "vendorSlug": "frequencypro",
+    "status": "approved",
+    "images": [
+      "https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=600&h=600&fit=crop",
+      "https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?w=600&h=600&fit=crop"
+    ],
+    "description": "High-utility certified product from FrequencyPro Acoustic Solutions. Tested for durability, ergonomics, and physical performance.",
+    "condition": "Brand New (Verified Stock)",
+    "specifications": {
+      "Origin": "New Delhi, Delhi",
+      "Merchant": "FrequencyPro Acoustic Solutions",
+      "Category": "Pro Audio & Studio Sound",
+      "Warranty": "1-Year Direct Brand Warranty",
+      "Verification": "100% Genuine Tax Invoice Included"
+    },
+    "shipping": {
+      "weight": "450 g",
+      "dispatchTime": "Ships within 24 hours",
+      "estimatedDays": "2 - 4 days",
+      "courierPartners": [
+        "BlueDart Express",
+        "Delhivery Surface",
+        "DTDC Air"
+      ],
+      "codAvailable": true,
+      "returnWindowDays": 7
+    },
+    "variants": {
+      "colors": [
+        {
+          "name": "Default",
+          "hex": "#4C1D95",
+          "inStock": true
+        }
+      ],
+      "options": [
+        {
+          "label": "Standard Pack",
+          "price": 1971,
+          "inStock": true
+        }
+      ]
+    },
+    "rating": 4.8,
+    "reviewCount": 60
+  },
+  {
+    "id": "p366",
+    "sku": "VM-PRO -P366-FRE",
+    "name": "FrequencyPro Acoustic Solutions Limited Signature Edition",
+    "category": "Pro Audio & Studio Sound",
+    "brand": "FrequencyPro Acoustic Solutions",
+    "price": 8373,
+    "mrp": 10466,
+    "discountPercent": 20,
+    "stock": 12,
+    "quantity": 14,
+    "barcode": "8901000366123",
+    "lowStockThreshold": 4,
+    "reservedStock": 0,
+    "warehouseLocation": "Aisle G-2",
+    "restockLeadDays": 3,
+    "vendorId": "v49",
+    "vendorSlug": "frequencypro",
+    "status": "approved",
+    "images": [
+      "https://images.unsplash.com/photo-1572635196237-14b3f281503f?w=600&h=600&fit=crop",
+      "https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?w=600&h=600&fit=crop"
+    ],
+    "description": "Exclusive signature release by FrequencyPro Acoustic Solutions. Insured courier dispatch with verified GST tax invoice.",
+    "condition": "Brand New (Verified Stock)",
+    "specifications": {
+      "Origin": "New Delhi, Delhi",
+      "Merchant": "FrequencyPro Acoustic Solutions",
+      "Category": "Pro Audio & Studio Sound",
+      "Warranty": "1-Year Direct Brand Warranty",
+      "Verification": "100% Genuine Tax Invoice Included"
+    },
+    "shipping": {
+      "weight": "450 g",
+      "dispatchTime": "Ships within 24 hours",
+      "estimatedDays": "2 - 4 days",
+      "courierPartners": [
+        "BlueDart Express",
+        "Delhivery Surface",
+        "DTDC Air"
+      ],
+      "codAvailable": true,
+      "returnWindowDays": 7
+    },
+    "variants": {
+      "colors": [
+        {
+          "name": "Default",
+          "hex": "#4C1D95",
+          "inStock": true
+        }
+      ],
+      "options": [
+        {
+          "label": "Standard Pack",
+          "price": 8373,
+          "inStock": true
+        }
+      ]
+    },
+    "rating": 4.9,
+    "reviewCount": 39
+  },
+  {
+    "id": "p367",
+    "sku": "VM-PRO -P367-SOU",
+    "name": "SoundStudio Interfaces & FX Flagship Edition",
+    "category": "Pro Audio & Studio Sound",
+    "brand": "SoundStudio Interfaces & FX",
+    "price": 3069,
+    "mrp": 3836,
+    "discountPercent": 20,
+    "stock": 33,
+    "quantity": 18,
+    "barcode": "8901000367123",
+    "lowStockThreshold": 4,
+    "reservedStock": 0,
+    "warehouseLocation": "Aisle H-3",
+    "restockLeadDays": 3,
+    "vendorId": "v50",
+    "vendorSlug": "soundstudio",
+    "status": "approved",
+    "images": [
+      "https://images.unsplash.com/photo-1598488035139-bdbb2231ce04?w=1200&h=300&fit=crop",
+      "https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?w=600&h=600&fit=crop"
+    ],
+    "description": "Verified authentic Pro Audio & Studio Sound merchandise direct from SoundStudio Interfaces & FX. Includes express courier delivery and warranty.",
+    "condition": "Brand New (Verified Stock)",
+    "specifications": {
+      "Origin": "Kochi, Kerala",
+      "Merchant": "SoundStudio Interfaces & FX",
+      "Category": "Pro Audio & Studio Sound",
+      "Warranty": "1-Year Direct Brand Warranty",
+      "Verification": "100% Genuine Tax Invoice Included"
+    },
+    "shipping": {
+      "weight": "450 g",
+      "dispatchTime": "Ships within 24 hours",
+      "estimatedDays": "2 - 4 days",
+      "courierPartners": [
+        "BlueDart Express",
+        "Delhivery Surface",
+        "DTDC Air"
+      ],
+      "codAvailable": true,
+      "returnWindowDays": 7
+    },
+    "variants": {
+      "colors": [
+        {
+          "name": "Default",
+          "hex": "#581C87",
+          "inStock": true
+        }
+      ],
+      "options": [
+        {
+          "label": "Standard Pack",
+          "price": 3069,
+          "inStock": true
+        }
+      ]
+    },
+    "rating": 5,
+    "reviewCount": 37
+  },
+  {
+    "id": "p368",
+    "sku": "VM-PRO -P368-SOU",
+    "name": "SoundStudio Interfaces & FX Premium Artisan Choice",
+    "category": "Pro Audio & Studio Sound",
+    "brand": "SoundStudio Interfaces & FX",
+    "price": 1995,
+    "mrp": 2494,
+    "discountPercent": 20,
+    "stock": 24,
+    "quantity": 11,
+    "barcode": "8901000368123",
+    "lowStockThreshold": 4,
+    "reservedStock": 0,
+    "warehouseLocation": "Aisle A-4",
+    "restockLeadDays": 3,
+    "vendorId": "v50",
+    "vendorSlug": "soundstudio",
+    "status": "approved",
+    "images": [
+      "https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?w=120&h=120&fit=crop",
+      "https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?w=600&h=600&fit=crop"
+    ],
+    "description": "Bestselling Pro Audio & Studio Sound selection crafted with premium standards. Direct brand warranty and tamper-proof packaging.",
+    "condition": "Brand New (Verified Stock)",
+    "specifications": {
+      "Origin": "Kochi, Kerala",
+      "Merchant": "SoundStudio Interfaces & FX",
+      "Category": "Pro Audio & Studio Sound",
+      "Warranty": "1-Year Direct Brand Warranty",
+      "Verification": "100% Genuine Tax Invoice Included"
+    },
+    "shipping": {
+      "weight": "450 g",
+      "dispatchTime": "Ships within 24 hours",
+      "estimatedDays": "2 - 4 days",
+      "courierPartners": [
+        "BlueDart Express",
+        "Delhivery Surface",
+        "DTDC Air"
+      ],
+      "codAvailable": true,
+      "returnWindowDays": 7
+    },
+    "variants": {
+      "colors": [
+        {
+          "name": "Default",
+          "hex": "#581C87",
+          "inStock": true
+        }
+      ],
+      "options": [
+        {
+          "label": "Standard Pack",
+          "price": 1995,
+          "inStock": true
+        }
+      ]
+    },
+    "rating": 5,
+    "reviewCount": 31
+  },
+  {
+    "id": "p369",
+    "sku": "VM-PRO -P369-SOU",
+    "name": "SoundStudio Interfaces & FX Essential Collection Item",
+    "category": "Pro Audio & Studio Sound",
+    "brand": "SoundStudio Interfaces & FX",
+    "price": 709,
+    "mrp": 886,
+    "discountPercent": 20,
+    "stock": 30,
+    "quantity": 13,
+    "barcode": "8901000369123",
+    "lowStockThreshold": 4,
+    "reservedStock": 0,
+    "warehouseLocation": "Aisle B-5",
+    "restockLeadDays": 3,
+    "vendorId": "v50",
+    "vendorSlug": "soundstudio",
+    "status": "approved",
+    "images": [
+      "https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=600&h=600&fit=crop",
+      "https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?w=600&h=600&fit=crop"
+    ],
+    "description": "High-utility certified product from SoundStudio Interfaces & FX. Tested for durability, ergonomics, and physical performance.",
+    "condition": "Brand New (Verified Stock)",
+    "specifications": {
+      "Origin": "Kochi, Kerala",
+      "Merchant": "SoundStudio Interfaces & FX",
+      "Category": "Pro Audio & Studio Sound",
+      "Warranty": "1-Year Direct Brand Warranty",
+      "Verification": "100% Genuine Tax Invoice Included"
+    },
+    "shipping": {
+      "weight": "450 g",
+      "dispatchTime": "Ships within 24 hours",
+      "estimatedDays": "2 - 4 days",
+      "courierPartners": [
+        "BlueDart Express",
+        "Delhivery Surface",
+        "DTDC Air"
+      ],
+      "codAvailable": true,
+      "returnWindowDays": 7
+    },
+    "variants": {
+      "colors": [
+        {
+          "name": "Default",
+          "hex": "#581C87",
+          "inStock": true
+        }
+      ],
+      "options": [
+        {
+          "label": "Standard Pack",
+          "price": 709,
+          "inStock": true
+        }
+      ]
+    },
+    "rating": 5,
+    "reviewCount": 51
+  },
+  {
+    "id": "p370",
+    "sku": "VM-PRO -P370-SOU",
+    "name": "SoundStudio Interfaces & FX Limited Signature Edition",
+    "category": "Pro Audio & Studio Sound",
+    "brand": "SoundStudio Interfaces & FX",
+    "price": 7118,
+    "mrp": 8898,
+    "discountPercent": 20,
+    "stock": 27,
+    "quantity": 10,
+    "barcode": "8901000370123",
+    "lowStockThreshold": 4,
+    "reservedStock": 0,
+    "warehouseLocation": "Aisle C-1",
+    "restockLeadDays": 3,
+    "vendorId": "v50",
+    "vendorSlug": "soundstudio",
+    "status": "approved",
+    "images": [
+      "https://images.unsplash.com/photo-1572635196237-14b3f281503f?w=600&h=600&fit=crop",
+      "https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?w=600&h=600&fit=crop"
+    ],
+    "description": "Exclusive signature release by SoundStudio Interfaces & FX. Insured courier dispatch with verified GST tax invoice.",
+    "condition": "Brand New (Verified Stock)",
+    "specifications": {
+      "Origin": "Kochi, Kerala",
+      "Merchant": "SoundStudio Interfaces & FX",
+      "Category": "Pro Audio & Studio Sound",
+      "Warranty": "1-Year Direct Brand Warranty",
+      "Verification": "100% Genuine Tax Invoice Included"
+    },
+    "shipping": {
+      "weight": "450 g",
+      "dispatchTime": "Ships within 24 hours",
+      "estimatedDays": "2 - 4 days",
+      "courierPartners": [
+        "BlueDart Express",
+        "Delhivery Surface",
+        "DTDC Air"
+      ],
+      "codAvailable": true,
+      "returnWindowDays": 7
+    },
+    "variants": {
+      "colors": [
+        {
+          "name": "Default",
+          "hex": "#581C87",
+          "inStock": true
+        }
+      ],
+      "options": [
+        {
+          "label": "Standard Pack",
+          "price": 7118,
+          "inStock": true
+        }
+      ]
+    },
+    "rating": 4.7,
+    "reviewCount": 46
   }
 ];
 

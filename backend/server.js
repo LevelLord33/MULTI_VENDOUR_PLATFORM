@@ -13,6 +13,12 @@ import analyticsRoutes from './routes/analyticsRoutes.js';
 import storeRoutes from './routes/storeRoutes.js';
 import inventoryRoutes from './routes/inventoryRoutes.js';
 import seedRoutes, { autoSeedDatabaseIfEmpty } from './routes/seedRoutes.js';
+import notificationRoutes from './routes/notificationRoutes.js';
+import bundleRoutes from './routes/bundleRoutes.js';
+import vendorApplicationRoutes from './routes/vendorApplicationRoutes.js';
+import paymentRoutes from './routes/paymentRoutes.js';
+import subscriptionRoutes from './routes/subscriptionRoutes.js';
+import invoiceRoutes from './routes/invoiceRoutes.js';
 
 import path from 'path';
 import { fileURLToPath } from 'url';
@@ -131,6 +137,11 @@ app.get('/api/docs', (req, res) => {
         { method: 'GET', path: '/api/orders', desc: 'List user orders and OTPs', auth: true },
         { method: 'PATCH', path: '/api/orders/:id/status', desc: 'Update courier dispatch & delivery SLA', auth: true },
       ],
+      payment: [
+        { method: 'POST', path: '/api/payment/razorpay/create-order', desc: 'Create Razorpay gateway order for checkout' },
+        { method: 'POST', path: '/api/payment/razorpay/verify', desc: 'Verify HMAC-SHA256 signature and finalize order' },
+        { method: 'GET', path: '/api/payment/razorpay/config', desc: 'Retrieve public Razorpay configuration' },
+      ],
       disputes: [
         { method: 'POST', path: '/api/disputes', desc: 'Open escrow dispute with unboxing video / evidence', auth: true },
         { method: 'POST', path: '/api/disputes/:id/resolve', desc: 'Admin dispute arbitration & escrow disbursement', auth: true, role: 'admin' },
@@ -162,6 +173,12 @@ app.use('/api/chatbot', chatbotRoutes);
 app.use('/api/analytics', analyticsRoutes);
 app.use('/api/stores', storeRoutes);
 app.use('/api/inventory', inventoryRoutes);
+app.use('/api/notifications', notificationRoutes);
+app.use('/api/bundles', bundleRoutes);
+app.use('/api/vendor-applications', vendorApplicationRoutes);
+app.use('/api/payment', paymentRoutes);
+app.use('/api/subscriptions', subscriptionRoutes);
+app.use('/api/invoices', invoiceRoutes);
 app.use('/api/seed', seedRoutes);
 
 // Global Error Handler
@@ -199,3 +216,4 @@ if (process.env.NODE_ENV !== 'test') {
 
 export { app, httpServer, io };
 export default app;
+// Verified MongoDB Atlas connection reloaded

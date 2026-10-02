@@ -4,6 +4,7 @@ import Product from '../models/Product.js';
 import Promotion from '../models/Promotion.js';
 import { seedVendors, seedProducts } from '../data/seedData.js';
 import { INITIAL_SEED_PROMOTIONS } from '../routes/seedRoutes.js';
+import { checkDeliveryCoverage, calculateDistanceKm, getCoordinatesForLocation } from '../utils/geoUtils.js';
 
 const isDbConnected = () => mongoose.connection.readyState === 1;
 
@@ -24,16 +25,16 @@ const STORE_CATEGORIES = [
 ];
 
 const VENDOR_CATEGORY_MAP = {
-  v1: 'Electronics',
-  v2: 'Fashion',
-  v3: 'Grocery',
-  v4: 'Home & Living',
-  v5: 'Sports',
-  v6: 'Beauty',
-  v7: 'Home & Living',
-  v8: 'Home & Living',
-  v9: 'Home & Living',
-  v10: 'Electronics'
+  v1: 'Electronics & Gadgets',
+  v2: 'Fashion & Apparel',
+  v3: 'Organic Grocery & Staples',
+  v4: 'Home & Kitchen Essentials',
+  v5: 'Sports, Fitness & Outdoor',
+  v6: 'Ayurvedic Beauty & Wellness',
+  v7: 'Handcrafted Arts & Heritage Decor',
+  v8: 'Modern Workspaces & Living',
+  v9: 'Live Botanicals & Exotic Foliage',
+  v10: 'Pro Audio & Studio Sound'
 };
 
 /**
@@ -70,10 +71,24 @@ export const getStores = async (req, res) => {
       featured,
       verifiedOnly,
       emergingOnly,
-      sortBy = 'popular', // 'popular' | 'rating' | 'orders' | 'newest'
+      deliversOnly,
+      nearbyOnly,
+      minRating,
+      customerLat,
+      customerLng,
+      customerCity,
+      customerPincode,
+      sortBy = 'popular', // 'popular' | 'rating' | 'orders' | 'nearest' | 'name' | 'smart_discovery'
       page = 1,
       limit = 24
     } = req.query;
+
+    const customerLoc = {
+      latitude: customerLat ? Number(customerLat) : null,
+      longitude: customerLng ? Number(customerLng) : null,
+      city: customerCity || location || city || '',
+      pincode: customerPincode || ''
+    };
 
     let vendors = [];
     if (isDbConnected()) {
@@ -102,11 +117,14 @@ export const getStores = async (req, res) => {
       allProducts = seedProducts;
     }
 
-    // Map each vendor with enriched data
+    // Map each vendor with enriched data including delivery coverage & dynamic emerging status
     let enrichedStores = vendors.map((vendor) => {
       const vProducts = allProducts.filter((p) => p.vendorId === vendor.id);
       const storeCat = inferStoreCategory(vendor, vProducts);
-      const isEmergingVendor = Boolean(vendor.isEmerging || ['v5', 'v6', 'v7', 'v8', 'v9', 'v10'].includes(vendor.id) || (vendor.totalOrdersFulfilled && vendor.totalOrdersFulfilled < 200));
+      const ordersFulfilled = Number(vendor.totalOrdersFulfilled) || 0;
+      const isEmergingVendor = Boolean(vendor.isEmerging || ordersFulfilled < 350);
+
+      const deliveryCoverage = checkDeliveryCoverage(vendor, customerLoc);
 
       return {
         id: vendor.id,
@@ -115,22 +133,29 @@ export const getStores = async (req, res) => {
         tagline: vendor.tagline || 'Verified Physical Storefront on Vendor Hub',
         ownerName: vendor.ownerName || vendor.name,
         location: vendor.location || vendor.businessAddress || 'India',
+        businessAddress: vendor.businessAddress || '',
         businessType: vendor.businessType || 'Private Limited',
         avatar: vendor.avatar || `https://ui-avatars.com/api/?name=${encodeURIComponent(vendor.businessName || 'Store')}&background=4F46E5&color=fff`,
         banner: vendor.banner || 'https://images.unsplash.com/photo-1550009158-9ebf69173e03?w=1200&h=300&fit=crop',
         themeColor: vendor.themeColor || '#4F46E5',
+        themePreset: vendor.themePreset || 'indigo',
         isVerified: vendor.isVerified !== false,
         isEmerging: isEmergingVendor,
         gstin: vendor.gstin || '07AABCT1234F1Z8',
         storeRating: vendor.storeRating || 4.8,
-        totalOrdersFulfilled: vendor.totalOrdersFulfilled || 1240,
+        totalOrdersFulfilled: ordersFulfilled,
+        followersCount: vendor.followersCount || 0,
+        deliveryRadiusKm: Number(vendor.deliveryRadiusKm) || 25,
+        deliveryScope: vendor.deliveryScope || 'pan_india',
+        deliveryCoverage,
         onTimeDispatchRate: vendor.onTimeDispatchRate || '98.8%',
         announcement: vendor.announcement || '⚡ Same-Day Courier Dispatch & Direct Brand Warranty!',
         returnPolicy: vendor.returnPolicy || '7 Days Hassle-Free Physical Replacement or Full Refund',
         warrantyPolicy: vendor.warrantyPolicy || '100% Verified Brand Warranty & Tax Invoice Included',
+        description: vendor.description || '',
         category: storeCat,
         totalProducts: vProducts.length,
-        isFeatured: vendor.totalOrdersFulfilled >= 1000 || vendor.isVerified,
+        isFeatured: ordersFulfilled >= 1000 || vendor.isVerified,
         sampleProducts: vProducts.slice(0, 4).map((p) => ({
           id: p.id,
           name: p.name || p.title,
@@ -189,6 +214,21 @@ export const getStores = async (req, res) => {
       enrichedStores = enrichedStores.filter((s) => s.isEmerging);
     }
 
+    if (deliversOnly === 'true' || deliversOnly === true) {
+      enrichedStores = enrichedStores.filter((s) => s.deliveryCoverage?.delivers);
+    }
+
+    if (nearbyOnly === 'true' || nearbyOnly === true) {
+      enrichedStores = enrichedStores.filter(
+        (s) => s.deliveryCoverage?.distanceKm !== null && s.deliveryCoverage?.distanceKm <= s.deliveryRadiusKm
+      );
+    }
+
+    if (minRating) {
+      const minR = Number(minRating);
+      enrichedStores = enrichedStores.filter((s) => s.storeRating >= minR);
+    }
+
     // ── Apply Sorting ──
     if (sortBy === 'rating') {
       enrichedStores.sort((a, b) => b.storeRating - a.storeRating);
@@ -196,6 +236,21 @@ export const getStores = async (req, res) => {
       enrichedStores.sort((a, b) => b.totalOrdersFulfilled - a.totalOrdersFulfilled);
     } else if (sortBy === 'name') {
       enrichedStores.sort((a, b) => a.businessName.localeCompare(b.businessName));
+    } else if (sortBy === 'nearest') {
+      enrichedStores.sort((a, b) => {
+        const distA = a.deliveryCoverage?.distanceKm ?? 99999;
+        const distB = b.deliveryCoverage?.distanceKm ?? 99999;
+        return distA - distB;
+      });
+    } else if (sortBy === 'smart_discovery') {
+      // Dynamic Fair Exposure Discovery sort
+      enrichedStores.sort((a, b) => {
+        const emergingBonusA = a.isEmerging ? 25 : 0;
+        const emergingBonusB = b.isEmerging ? 25 : 0;
+        const scoreA = (a.isVerified ? 15 : 0) + a.storeRating * 15 + emergingBonusA + Math.min(a.totalOrdersFulfilled * 0.05, 40);
+        const scoreB = (b.isVerified ? 15 : 0) + b.storeRating * 15 + emergingBonusB + Math.min(b.totalOrdersFulfilled * 0.05, 40);
+        return scoreB - scoreA;
+      });
     } else {
       // Default: 'popular' (combination of verified, orders, and rating)
       enrichedStores.sort((a, b) => {

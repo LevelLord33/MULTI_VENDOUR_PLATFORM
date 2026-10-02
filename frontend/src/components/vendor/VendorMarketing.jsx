@@ -5,11 +5,12 @@ import { useProducts } from '../../contexts/ProductContext';
 import { useMarketing } from '../../contexts/MarketingContext';
 import { useToast } from '../../contexts/ToastContext';
 import { VendorSidebar, VendorThemeToggle } from './VendorDashboard';
+import { api } from '../../services/api';
 import {
   Megaphone, Tag, Sparkles, Percent, Ticket, Image as ImageIcon,
   CheckCircle2, Plus, Trash2, Pause, Play, Copy, ExternalLink,
   Calendar, Check, AlertCircle, ShoppingBag, Eye, DollarSign,
-  TrendingUp, Award, Layers, ArrowUpRight, RefreshCw, X, ShieldCheck
+  TrendingUp, Award, Layers, ArrowUpRight, RefreshCw, X, ShieldCheck, Package
 } from 'lucide-react';
 import '../../styles/vendor.css';
 
@@ -52,10 +53,35 @@ export default function VendorMarketing() {
     getFeaturedProducts
   } = useMarketing();
   const { addToast } = useToast();
-  const navigate = useNavigate();
-
-  const [activeTab, setActiveTab] = useState('overview'); // 'overview' | 'coupons' | 'campaigns' | 'banners' | 'featured'
+  const [activeTab, setActiveTab] = useState('overview'); // 'overview' | 'coupons' | 'bundles' | 'campaigns' | 'banners' | 'featured'
   const [copiedCode, setCopiedCode] = useState(null);
+
+  // Bundles State
+  const [bundles, setBundles] = useState([]);
+  const [isBundleModalOpen, setIsBundleModalOpen] = useState(false);
+  const [bundleForm, setBundleForm] = useState({
+    title: '',
+    description: '',
+    discountType: 'percentage',
+    discountValue: 15,
+    selectedProductIds: []
+  });
+
+  const fetchBundles = useCallback(async () => {
+    if (!user?.id) return;
+    try {
+      const res = await api.getBundles({ vendorId: user.id });
+      if (res?.success && Array.isArray(res.bundles)) {
+        setBundles(res.bundles);
+      }
+    } catch (err) {
+      console.warn('Failed to fetch bundles:', err?.message);
+    }
+  }, [user?.id]);
+
+  useEffect(() => {
+    fetchBundles();
+  }, [fetchBundles]);
 
   // Coupon Creation Form Modal
   const [isCouponModalOpen, setIsCouponModalOpen] = useState(false);
@@ -244,6 +270,7 @@ export default function VendorMarketing() {
             {[
               { id: 'overview', label: 'Overview & Performance', icon: <TrendingUp size={16} /> },
               { id: 'coupons', label: `Coupons & Vouchers (${vendorPromotions.filter(p => p.type === 'coupon').length})`, icon: <Ticket size={16} /> },
+              { id: 'bundles', label: `Combo Bundles (${bundles.length})`, icon: <Package size={16} /> },
               { id: 'campaigns', label: `Discount Campaigns (${activeCampaigns.length})`, icon: <Percent size={16} /> },
               { id: 'banners', label: `Store Banners (${activeBanners.length})`, icon: <ImageIcon size={16} /> },
               { id: 'featured', label: `Featured Collection (${pinnedProductIds.length})`, icon: <Award size={16} /> },
@@ -648,6 +675,170 @@ export default function VendorMarketing() {
                     </div>
                   ))}
               </div>
+            </div>
+          )}
+
+          {/* ═════════════════ 2B. PRODUCT BUNDLES TAB ═════════════════ */}
+          {activeTab === 'bundles' && (
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 24 }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                <div>
+                  <h3 style={{ margin: 0, fontSize: '1.2rem' }}>Product Combo Bundles & Deals</h3>
+                  <p style={{ margin: '4px 0 0', fontSize: '0.85rem', color: 'var(--text-secondary)' }}>
+                    Bundle high-synergy products together with special discounts to boost average order value.
+                  </p>
+                </div>
+                <button
+                  type="button"
+                  className="btn btn-primary"
+                  onClick={() => {
+                    setBundleForm({
+                      title: '',
+                      description: '',
+                      discountType: 'percentage',
+                      discountValue: 15,
+                      selectedProductIds: vendorProducts.slice(0, 2).map((p) => p.id)
+                    });
+                    setIsBundleModalOpen(true);
+                  }}
+                  style={{ background: brandColor, borderColor: brandColor }}
+                >
+                  <Plus size={16} /> Create Combo Bundle
+                </button>
+              </div>
+
+              {bundles.length === 0 ? (
+                <div className="card" style={{ padding: 48, textAlign: 'center' }}>
+                  <Package size={48} color="var(--primary)" style={{ margin: '0 auto 16px' }} />
+                  <h4 style={{ margin: '0 0 8px', fontSize: '1.1rem' }}>No Combo Bundles Created Yet</h4>
+                  <p style={{ color: 'var(--text-muted)', fontSize: '0.9rem', maxWidth: 440, margin: '0 auto 20px' }}>
+                    Create paired product deals with discounts. Bundles appear directly on product pages and your public storefront.
+                  </p>
+                  <button
+                    type="button"
+                    className="btn btn-primary btn-sm"
+                    onClick={() => {
+                      setBundleForm({
+                        title: '',
+                        description: '',
+                        discountType: 'percentage',
+                        discountValue: 15,
+                        selectedProductIds: vendorProducts.slice(0, 2).map((p) => p.id)
+                      });
+                      setIsBundleModalOpen(true);
+                    }}
+                  >
+                    <Plus size={14} /> Create First Bundle
+                  </button>
+                </div>
+              ) : (
+                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(360px, 1fr))', gap: 20 }}>
+                  {bundles.map((bundle) => {
+                    const savings = (bundle.originalPrice || 0) - (bundle.bundlePrice || 0);
+                    const isActive = bundle.status === 'active';
+
+                    return (
+                      <div
+                        key={bundle._id || bundle.id}
+                        className="card"
+                        style={{ padding: 20, display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}
+                      >
+                        <div>
+                          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 12 }}>
+                            <div>
+                              <h4 style={{ margin: '0 0 4px', fontSize: '1.05rem', fontWeight: 800 }}>
+                                {bundle.title}
+                              </h4>
+                              <span style={{
+                                fontSize: '0.72rem',
+                                fontWeight: 700,
+                                padding: '2px 8px',
+                                borderRadius: 6,
+                                background: isActive ? '#D1FAE5' : '#FEF3C7',
+                                color: isActive ? '#065F46' : '#92400E'
+                              }}>
+                                {isActive ? '● Live on Store' : '○ Draft'}
+                              </span>
+                            </div>
+                            <span style={{ fontSize: '0.8rem', fontWeight: 800, background: '#10B981', color: '#fff', padding: '3px 8px', borderRadius: 6 }}>
+                              {bundle.discountPercentage}% OFF
+                            </span>
+                          </div>
+
+                          <p style={{ fontSize: '0.82rem', color: 'var(--text-muted)', margin: '0 0 16px' }}>
+                            {bundle.description || 'Exclusive bundle offer'}
+                          </p>
+
+                          {/* Items included */}
+                          <div style={{ display: 'flex', gap: 8, alignItems: 'center', marginBottom: 16 }}>
+                            {bundle.items?.map((it, idx) => (
+                              <div key={idx} style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+                                <img
+                                  src={it.image || 'https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=100'}
+                                  alt={it.name}
+                                  style={{ width: 44, height: 44, borderRadius: 8, objectFit: 'cover', border: '1px solid var(--border)' }}
+                                />
+                                {idx < bundle.items.length - 1 && (
+                                  <span style={{ fontWeight: 800, color: 'var(--primary)' }}>+</span>
+                                )}
+                              </div>
+                            ))}
+                          </div>
+                        </div>
+
+                        <div style={{ borderTop: '1px solid var(--border)', paddingTop: 14 }}>
+                          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', marginBottom: 12 }}>
+                            <div>
+                              <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>Bundle Price</div>
+                              <div style={{ fontSize: '1.25rem', fontWeight: 800, color: 'var(--primary)' }}>
+                                ₹{bundle.bundlePrice?.toLocaleString('en-IN')}
+                                <span style={{ fontSize: '0.82rem', color: 'var(--text-muted)', textDecoration: 'line-through', marginLeft: 6 }}>
+                                  ₹{bundle.originalPrice?.toLocaleString('en-IN')}
+                                </span>
+                              </div>
+                            </div>
+                            {savings > 0 && (
+                              <div style={{ fontSize: '0.78rem', color: '#10B981', fontWeight: 700 }}>
+                                Buyer Saves ₹{savings.toLocaleString('en-IN')}
+                              </div>
+                            )}
+                          </div>
+
+                          <div style={{ display: 'flex', gap: 8, justifyContent: 'flex-end' }}>
+                            <button
+                              type="button"
+                              className="btn btn-outline btn-sm"
+                              onClick={async () => {
+                                const newStatus = isActive ? 'draft' : 'active';
+                                await api.updateBundle(bundle._id || bundle.id, { status: newStatus });
+                                addToast(`Bundle set to ${newStatus}`, 'info');
+                                fetchBundles();
+                              }}
+                            >
+                              {isActive ? <Pause size={13} /> : <Play size={13} />}
+                              <span>{isActive ? 'Pause' : 'Activate'}</span>
+                            </button>
+                            <button
+                              type="button"
+                              className="btn btn-outline btn-sm"
+                              style={{ color: '#EF4444', borderColor: '#FCA5A5' }}
+                              onClick={async () => {
+                                if (window.confirm(`Delete bundle "${bundle.title}"?`)) {
+                                  await api.deleteBundle(bundle._id || bundle.id);
+                                  addToast('Bundle deleted', 'info');
+                                  fetchBundles();
+                                }
+                              }}
+                            >
+                              <Trash2 size={13} />
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+              )}
             </div>
           )}
 
@@ -1232,7 +1423,218 @@ export default function VendorMarketing() {
                   className="btn btn-primary"
                   style={{ background: brandColor, borderColor: brandColor }}
                 >
-                  Publish Store Banner
+                  Save & Publish Banner
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
+
+      {/* Create Product Bundle Modal */}
+      {isBundleModalOpen && (
+        <div className="modal-overlay" onClick={() => setIsBundleModalOpen(false)}>
+          <div className="modal-card" onClick={(e) => e.stopPropagation()} style={{ maxWidth: 540 }}>
+            <div className="modal-header">
+              <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+                <Package size={20} color="var(--primary)" />
+                <h3 style={{ margin: 0, fontSize: '1.15rem' }}>Create Product Combo Bundle</h3>
+              </div>
+              <button
+                type="button"
+                className="btn-icon"
+                onClick={() => setIsBundleModalOpen(false)}
+              >
+                <X size={18} />
+              </button>
+            </div>
+
+            <form
+              onSubmit={async (e) => {
+                e.preventDefault();
+                if (bundleForm.selectedProductIds.length < 2) {
+                  addToast('Please select at least 2 products to create a combo bundle', 'danger');
+                  return;
+                }
+
+                const selectedProducts = vendorProducts.filter((p) => bundleForm.selectedProductIds.includes(p.id));
+                const origPrice = selectedProducts.reduce((sum, p) => sum + (p.price || 0), 0);
+
+                let bundlePrice = origPrice;
+                let discountPct = 0;
+                if (bundleForm.discountType === 'percentage') {
+                  discountPct = Number(bundleForm.discountValue) || 10;
+                  bundlePrice = Math.round(origPrice * (1 - discountPct / 100));
+                } else {
+                  const fixedAmt = Number(bundleForm.discountValue) || 100;
+                  bundlePrice = Math.max(0, origPrice - fixedAmt);
+                  discountPct = origPrice > 0 ? Math.round((fixedAmt / origPrice) * 100) : 0;
+                }
+
+                const payload = {
+                  vendorId: user.id,
+                  title: bundleForm.title.trim(),
+                  description: bundleForm.description.trim(),
+                  items: selectedProducts.map((p) => ({
+                    productId: p.id,
+                    name: p.name,
+                    price: p.price,
+                    image: p.images?.[0] || p.image || '',
+                    quantity: 1
+                  })),
+                  originalPrice: origPrice,
+                  bundlePrice: bundlePrice,
+                  discountPercentage: discountPct,
+                  discountType: bundleForm.discountType,
+                  discountValue: Number(bundleForm.discountValue),
+                  status: 'active'
+                };
+
+                const res = await api.createBundle(payload);
+                if (res?.success) {
+                  addToast('Bundle created and published to storefront!', 'success');
+                  setIsBundleModalOpen(false);
+                  fetchBundles();
+                } else {
+                  addToast('Failed to create bundle', 'danger');
+                }
+              }}
+              style={{ display: 'flex', flexDirection: 'column', gap: 14 }}
+            >
+              <div>
+                <label style={{ display: 'block', fontSize: '0.8rem', fontWeight: 600, marginBottom: 4 }}>
+                  Bundle Title:
+                </label>
+                <input
+                  type="text"
+                  className="form-control"
+                  required
+                  placeholder="e.g. Creator Audio + Pop Filter Starter Kit"
+                  value={bundleForm.title}
+                  onChange={(e) => setBundleForm({ ...bundleForm, title: e.target.value })}
+                />
+              </div>
+
+              <div>
+                <label style={{ display: 'block', fontSize: '0.8rem', fontWeight: 600, marginBottom: 4 }}>
+                  Description / Value Proposition:
+                </label>
+                <textarea
+                  className="form-control"
+                  rows={2}
+                  placeholder="Explain why these items work perfectly together..."
+                  value={bundleForm.description}
+                  onChange={(e) => setBundleForm({ ...bundleForm, description: e.target.value })}
+                />
+              </div>
+
+              <div>
+                <label style={{ display: 'block', fontSize: '0.8rem', fontWeight: 600, marginBottom: 6 }}>
+                  Select Products to Include ({bundleForm.selectedProductIds.length} selected):
+                </label>
+                <div style={{ maxHeight: 180, overflowY: 'auto', border: '1px solid var(--border)', borderRadius: 8, padding: 8, display: 'flex', flexDirection: 'column', gap: 6 }}>
+                  {vendorProducts.map((prod) => {
+                    const isChecked = bundleForm.selectedProductIds.includes(prod.id);
+                    return (
+                      <label
+                        key={prod.id}
+                        style={{
+                          display: 'flex',
+                          alignItems: 'center',
+                          gap: 10,
+                          padding: '6px 8px',
+                          borderRadius: 6,
+                          background: isChecked ? '#EEF2FF' : 'transparent',
+                          cursor: 'pointer',
+                          fontSize: '0.82rem'
+                        }}
+                      >
+                        <input
+                          type="checkbox"
+                          checked={isChecked}
+                          onChange={(e) => {
+                            const newIds = e.target.checked
+                              ? [...bundleForm.selectedProductIds, prod.id]
+                              : bundleForm.selectedProductIds.filter((id) => id !== prod.id);
+                            setBundleForm({ ...bundleForm, selectedProductIds: newIds });
+                          }}
+                          style={{ accentColor: brandColor }}
+                        />
+                        <img
+                          src={prod.images?.[0] || prod.image || ''}
+                          alt={prod.name}
+                          style={{ width: 32, height: 32, borderRadius: 4, objectFit: 'cover' }}
+                        />
+                        <span style={{ flex: 1, fontWeight: isChecked ? 700 : 500 }}>{prod.name}</span>
+                        <span style={{ fontWeight: 700, color: 'var(--primary)' }}>₹{prod.price?.toLocaleString('en-IN')}</span>
+                      </label>
+                    );
+                  })}
+                </div>
+              </div>
+
+              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12 }}>
+                <div>
+                  <label style={{ display: 'block', fontSize: '0.8rem', fontWeight: 600, marginBottom: 4 }}>
+                    Discount Type:
+                  </label>
+                  <select
+                    className="form-control"
+                    value={bundleForm.discountType}
+                    onChange={(e) => setBundleForm({ ...bundleForm, discountType: e.target.value })}
+                  >
+                    <option value="percentage">Percentage (%)</option>
+                    <option value="fixed">Fixed Currency (₹)</option>
+                  </select>
+                </div>
+                <div>
+                  <label style={{ display: 'block', fontSize: '0.8rem', fontWeight: 600, marginBottom: 4 }}>
+                    Discount Value:
+                  </label>
+                  <input
+                    type="number"
+                    min="1"
+                    className="form-control"
+                    value={bundleForm.discountValue}
+                    onChange={(e) => setBundleForm({ ...bundleForm, discountValue: e.target.value })}
+                  />
+                </div>
+              </div>
+
+              {/* Price Preview */}
+              {bundleForm.selectedProductIds.length >= 2 && (() => {
+                const sel = vendorProducts.filter((p) => bundleForm.selectedProductIds.includes(p.id));
+                const orig = sel.reduce((acc, p) => acc + (p.price || 0), 0);
+                const val = Number(bundleForm.discountValue) || 0;
+                const bundlePr = bundleForm.discountType === 'percentage'
+                  ? Math.round(orig * (1 - val / 100))
+                  : Math.max(0, orig - val);
+                const saved = orig - bundlePr;
+
+                return (
+                  <div style={{ background: 'var(--surface-2)', padding: 12, borderRadius: 8, fontSize: '0.82rem' }}>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 4 }}>
+                      <span>Items Total (Original):</span>
+                      <strong style={{ textDecoration: 'line-through' }}>₹{orig.toLocaleString('en-IN')}</strong>
+                    </div>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', color: '#10B981', fontWeight: 700, marginBottom: 4 }}>
+                      <span>Customer Savings:</span>
+                      <span>-₹{saved.toLocaleString('en-IN')}</span>
+                    </div>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '1rem', fontWeight: 800, color: 'var(--primary)', borderTop: '1px solid var(--border)', paddingTop: 6 }}>
+                      <span>Combo Price:</span>
+                      <span>₹{bundlePr.toLocaleString('en-IN')}</span>
+                    </div>
+                  </div>
+                );
+              })()}
+
+              <div style={{ display: 'flex', justifyContent: 'flex-end', gap: 10, marginTop: 8 }}>
+                <button type="button" className="btn btn-outline" onClick={() => setIsBundleModalOpen(false)}>
+                  Cancel
+                </button>
+                <button type="submit" className="btn btn-primary" style={{ background: brandColor, borderColor: brandColor }}>
+                  Publish Bundle
                 </button>
               </div>
             </form>

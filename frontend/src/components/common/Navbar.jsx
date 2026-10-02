@@ -10,14 +10,15 @@ import { useChatbot } from '../../contexts/ChatbotContext';
 import {
   ShoppingBag, ShoppingCart, User, LogOut, Package,
   ChevronDown, Search, LayoutDashboard, Store, Shield, ArrowRightLeft,
-  Globe, Check, Sun, Moon, Palette, MessageSquare, Bot, Home, Code2
+  Globe, Check, Sun, Moon, Palette, MessageSquare, Bot, Home, Code2, Heart, Bell
 } from 'lucide-react';
+import NotificationBell from './NotificationBell';
 import ApiAndArchitectureModal from './ApiAndArchitectureModal';
 import '../../styles/marketplace.css';
 
 export default function Navbar({ searchQuery, onSearchChange }) {
   // 1. useContext hooks
-  const { user, logout } = useAuth();
+  const { user, logout, wishlist = [] } = useAuth();
   const { cartCount } = useCart();
   const { compareCount } = useComparison();
   const { unreadCustomerCount, unreadVendorCount } = useMessages();
@@ -108,54 +109,173 @@ export default function Navbar({ searchQuery, onSearchChange }) {
           </div>
           <div className="portal-topstrip-right">
             <span className="portal-label">Portals:</span>
-            <button
-              className="portal-chip"
-              onClick={() => navigateTo('/')}
-              title="Return to Platform Home"
-            >
-              🏠 {t('home', 'Home')}
-            </button>
-            <button
-              className={`portal-chip ${user?.type === 'customer' ? 'active' : ''}`}
-              onClick={() => navigateTo('/shop')}
-              title="Browse & buy products in the customer shop"
-            >
-              🛍️ {t('customerShop', 'Customer Shop')}
-            </button>
-            <button
-              className="portal-chip"
-              onClick={() => navigateTo('/stores')}
-              title="Explore verified physical stores and merchant storefronts"
-            >
-              🏬 {t('exploreStores', 'Explore Stores')}
-            </button>
-            <button
-              className={`portal-chip ${user?.type === 'vendor' ? 'active' : ''}`}
-              onClick={() => navigateTo(user?.type === 'vendor' ? '/vendor/dashboard' : '/vendor/login')}
-              title="Manage store & list products as a vendor"
-            >
-              🏪 {t('vendorPortal', 'Vendor Portal')}
-            </button>
-            <button
-              className={`portal-chip ${user?.type === 'admin' ? 'active' : ''}`}
-              onClick={() => navigateTo(user?.type === 'admin' ? '/admin/dashboard' : '/admin/login')}
-              title="Review & approve products as platform admin"
-            >
-              🛡️ {t('adminPortal', 'Admin Portal')}
-            </button>
-            <button
-              className="portal-chip"
-              onClick={() => setShowApiModal(true)}
-              style={{
-                background: 'linear-gradient(135deg, rgba(16, 185, 129, 0.2) 0%, rgba(5, 150, 105, 0.25) 100%)',
-                color: '#10b981',
-                borderColor: '#10b981',
-                fontWeight: 700
-              }}
-              title="Open Live API Console & Architecture/Resume Defense"
-            >
-              ⚡ API & Resume Defense
-            </button>
+
+            {/* Customer Only Portals */}
+            {user?.type === 'customer' && (
+              <>
+                <button
+                  className="portal-chip"
+                  onClick={() => navigateTo('/')}
+                  title="Return to Platform Home"
+                >
+                  🏠 {t('home', 'Home')}
+                </button>
+                <button
+                  className="portal-chip active"
+                  onClick={() => navigateTo('/shop')}
+                  title="Browse & buy products in the customer shop"
+                >
+                  🛍️ {t('customerShop', 'Customer Shop')}
+                </button>
+                <button
+                  className="portal-chip"
+                  onClick={() => navigateTo('/stores')}
+                  title="Explore verified physical stores and merchant storefronts"
+                >
+                  🏬 {t('exploreStores', 'Explore Stores')}
+                </button>
+                <button
+                  className="portal-chip"
+                  onClick={() => navigateTo('/assistant')}
+                  title="Open HubBot AI Shopping Assistant"
+                  style={{
+                    background: 'linear-gradient(135deg, rgba(79, 70, 229, 0.15) 0%, rgba(124, 58, 237, 0.2) 100%)',
+                    color: 'var(--primary)',
+                    borderColor: 'var(--primary)',
+                    fontWeight: 700
+                  }}
+                >
+                  🤖 {t('hubAssistant', 'Hub Assistant')}
+                </button>
+              </>
+            )}
+
+            {/* Vendor Only Portals */}
+            {user?.type === 'vendor' && (
+              <>
+                <button
+                  className="portal-chip"
+                  onClick={() => navigateTo('/')}
+                  title="Return to Platform Home"
+                >
+                  🏠 {t('home', 'Home')}
+                </button>
+                <button
+                  className="portal-chip active"
+                  onClick={() => navigateTo('/vendor/dashboard')}
+                  title="Vendor Operations & Merchant Dashboard"
+                >
+                  🏪 {t('vendorPortal', 'Vendor Portal')}
+                </button>
+                <button
+                  className="portal-chip"
+                  onClick={() => navigateTo('/stores')}
+                  title="Explore verified stores"
+                >
+                  🏬 {t('exploreStores', 'Explore Stores')}
+                </button>
+                <button
+                  className="portal-chip"
+                  onClick={() => navigateTo('/vendor/assistant')}
+                  title="Open HubBot Vendor Operations Assistant"
+                  style={{
+                    background: 'linear-gradient(135deg, rgba(79, 70, 229, 0.15) 0%, rgba(124, 58, 237, 0.2) 100%)',
+                    color: 'var(--primary)',
+                    borderColor: 'var(--primary)',
+                    fontWeight: 700
+                  }}
+                >
+                  🤖 {t('hubAssistant', 'Hub Assistant')}
+                </button>
+              </>
+            )}
+
+            {/* Admin Only Portals */}
+            {user?.type === 'admin' && (
+              <>
+                <button
+                  className="portal-chip"
+                  onClick={() => navigateTo('/')}
+                  title="Return to Platform Home"
+                >
+                  🏠 {t('home', 'Home')}
+                </button>
+                <button
+                  className="portal-chip active"
+                  onClick={() => navigateTo('/admin/dashboard')}
+                  title="Admin Platform Governance & Approvals"
+                >
+                  🛡️ {t('adminPortal', 'Admin Portal')}
+                </button>
+                <button
+                  className="portal-chip"
+                  onClick={() => navigateTo('/stores')}
+                  title="Explore Marketplace Stores"
+                >
+                  🏬 {t('exploreStores', 'Explore Stores')}
+                </button>
+                <button
+                  className="portal-chip"
+                  onClick={() => setShowApiModal(true)}
+                  style={{
+                    background: 'linear-gradient(135deg, rgba(16, 185, 129, 0.2) 0%, rgba(5, 150, 105, 0.25) 100%)',
+                    color: '#10b981',
+                    borderColor: '#10b981',
+                    fontWeight: 700
+                  }}
+                  title="Open Live API Console & Architecture Defense"
+                >
+                  ⚡ API Architecture
+                </button>
+              </>
+            )}
+
+            {/* Guest / Visitor Portals */}
+            {!user && (
+              <>
+                <button
+                  className="portal-chip"
+                  onClick={() => navigateTo('/')}
+                  title="Return to Platform Home"
+                >
+                  🏠 {t('home', 'Home')}
+                </button>
+                <button
+                  className="portal-chip"
+                  onClick={() => navigateTo('/shop')}
+                  title="Browse & buy products in the customer shop"
+                >
+                  🛍️ {t('customerShop', 'Customer Shop')}
+                </button>
+                <button
+                  className="portal-chip"
+                  onClick={() => navigateTo('/stores')}
+                  title="Explore verified physical stores and merchant storefronts"
+                >
+                  🏬 {t('exploreStores', 'Explore Stores')}
+                </button>
+                <button
+                  className="portal-chip"
+                  onClick={() => navigateTo('/vendor/login')}
+                  title="Sell on Vendor Hub — Merchant Login"
+                >
+                  🏪 {t('vendorPortal', 'Vendor Portal')}
+                </button>
+                <button
+                  className="portal-chip"
+                  onClick={() => navigateTo('/assistant')}
+                  title="Open HubBot AI Shopping Assistant"
+                  style={{
+                    background: 'linear-gradient(135deg, rgba(79, 70, 229, 0.15) 0%, rgba(124, 58, 237, 0.2) 100%)',
+                    color: 'var(--primary)',
+                    borderColor: 'var(--primary)',
+                    fontWeight: 700
+                  }}
+                >
+                  🤖 {t('hubAssistant', 'Hub Assistant')}
+                </button>
+              </>
+            )}
           </div>
         </div>
       </div>
@@ -169,13 +289,13 @@ export default function Navbar({ searchQuery, onSearchChange }) {
           <span className="navbar-brand-name">Vendor<span>Hub</span></span>
         </Link>
 
-        {/* Search — customer only */}
-        {user?.type === 'customer' && (
+        {/* Search — customer & guest shoppers */}
+        {(!user || user?.type === 'customer') && (
           <div className="navbar-search">
             <Search size={16} className="navbar-search-icon" />
             <input
               type="text"
-              placeholder={t('searchPlaceholder', 'Search products, brands, categories...')}
+              placeholder={t('searchPlaceholder', 'Search verified stores, products, brands...')}
               value={searchQuery || ''}
               onChange={(e) => onSearchChange && onSearchChange(e.target.value)}
             />
@@ -255,23 +375,34 @@ export default function Navbar({ searchQuery, onSearchChange }) {
             <Bot size={20} />
           </button>
 
-          {user?.type === 'customer' && (
+          {/* Notification Center & PWA Bell */}
+          <NotificationBell />
+
+          {(!user || user?.type === 'customer') && (
             <>
+              <button className="nav-icon-btn" onClick={() => navigateTo('/shop/wishlist')} title={t('wishlist', 'Saved Wishlist')}>
+                <Heart size={19} />
+                {wishlist.length > 0 && <span className="nav-badge" style={{ background: '#EC4899' }}>{wishlist.length}</span>}
+              </button>
               <button className="nav-icon-btn" onClick={() => navigateTo('/shop/compare')} title={t('compare', 'Compare')}>
                 <ArrowRightLeft size={19} />
                 {compareCount > 0 && <span className="nav-badge" style={{ background: 'var(--primary)' }}>{compareCount}</span>}
               </button>
-              <button className="nav-icon-btn" onClick={() => navigateTo('/shop/messages')} title={t('messages', 'Messages')}>
-                <MessageSquare size={19} />
-                {unreadCustomerCount > 0 && <span className="nav-badge" style={{ background: 'var(--primary)' }}>{unreadCustomerCount}</span>}
-              </button>
+              {user?.type === 'customer' && (
+                <button className="nav-icon-btn" onClick={() => navigateTo('/shop/messages')} title={t('messages', 'Messages')}>
+                  <MessageSquare size={19} />
+                  {unreadCustomerCount > 0 && <span className="nav-badge" style={{ background: 'var(--primary)' }}>{unreadCustomerCount}</span>}
+                </button>
+              )}
               <button className="nav-icon-btn" onClick={() => navigateTo('/shop/cart')} title={t('cart', 'Cart')}>
                 <ShoppingCart size={20} />
                 {cartCount > 0 && <span className="nav-badge">{cartCount}</span>}
               </button>
-              <button className="nav-icon-btn" onClick={() => navigateTo('/shop/orders')} title={t('orders', 'Orders')}>
-                <Package size={20} />
-              </button>
+              {user?.type === 'customer' && (
+                <button className="nav-icon-btn" onClick={() => navigateTo('/shop/orders')} title={t('orders', 'Orders')}>
+                  <Package size={20} />
+                </button>
+              )}
             </>
           )}
 
@@ -302,11 +433,17 @@ export default function Navbar({ searchQuery, onSearchChange }) {
                       <button className="nav-dropdown-item" onClick={() => navigateTo('/shop/messages')}>
                         <MessageSquare size={16} /> {t('messages', 'Messages & Inquiries')} {unreadCustomerCount > 0 ? `(${unreadCustomerCount})` : ''}
                       </button>
+                      <button className="nav-dropdown-item" onClick={() => navigateTo('/shop/wishlist')}>
+                        <Heart size={16} color="#EC4899" /> {t('wishlist', 'Saved Wishlist')} {wishlist.length > 0 ? `(${wishlist.length})` : ''}
+                      </button>
                       <button className="nav-dropdown-item" onClick={() => navigateTo('/shop/orders')}>
                         <Package size={16} /> {t('orders', 'My Orders & Tracking')}
                       </button>
                       <button className="nav-dropdown-item" onClick={() => navigateTo('/shop/compare')}>
                         <ArrowRightLeft size={16} /> {t('compare', 'Compare Products')} {compareCount > 0 ? `(${compareCount})` : ''}
+                      </button>
+                      <button className="nav-dropdown-item" onClick={() => navigateTo('/shop/subscriptions')}>
+                        <Bell size={16} color="var(--primary)" /> Subscribed Vendors & Alerts
                       </button>
                       <button className="nav-dropdown-item" onClick={() => navigateTo('/stores')}>
                         <Store size={16} color="var(--primary)" /> {t('exploreStores', 'Explore Stores & Brands')}
@@ -328,36 +465,47 @@ export default function Navbar({ searchQuery, onSearchChange }) {
                       <button className="nav-dropdown-item" onClick={() => navigateTo('/vendor/store-builder')}>
                         <Palette size={16} color="var(--primary)" /> Store Builder
                       </button>
+                      <button className="nav-dropdown-item" onClick={() => navigateTo(`/store/${user?.storeSlug || user?.id || 'techzone'}`)}>
+                        <Store size={16} color="var(--primary)" /> View My Storefront
+                      </button>
+                      <button className="nav-dropdown-item" onClick={() => navigateTo('/vendor/assistant')}>
+                        <Bot size={16} color="var(--primary)" /> Vendor AI Assistant
+                      </button>
+                      <div className="divider" />
+                      <button className="nav-dropdown-item" onClick={() => navigateTo('/')}>
+                        <Home size={16} /> {t('home', 'Platform Home')}
+                      </button>
+                      <button className="nav-dropdown-item" onClick={() => navigateTo('/shop')}>
+                        <ShoppingBag size={16} color="var(--primary)" /> View Marketplace Shop
+                      </button>
                     </>
                   )}
 
                   {user.type === 'admin' && (
-                    <button className="nav-dropdown-item" onClick={() => navigateTo('/admin/dashboard')}>
-                      <LayoutDashboard size={16} /> Admin Dashboard
-                    </button>
+                    <>
+                      <button className="nav-dropdown-item" onClick={() => navigateTo('/admin/dashboard')}>
+                        <LayoutDashboard size={16} /> Admin Dashboard
+                      </button>
+                      <button className="nav-dropdown-item" onClick={() => { setShowApiModal(true); setDropOpen(false); }}>
+                        <Code2 size={16} color="#10B981" /> System Architecture & APIs
+                      </button>
+                      <div className="divider" />
+                      <button className="nav-dropdown-item" onClick={() => navigateTo('/')}>
+                        <Home size={16} /> {t('home', 'Platform Home')}
+                      </button>
+                      <button className="nav-dropdown-item" onClick={() => navigateTo('/shop')}>
+                        <ShoppingBag size={16} color="var(--primary)" /> View Marketplace Shop
+                      </button>
+                    </>
                   )}
 
-                  <div className="divider" />
-                  <button className="nav-dropdown-item" onClick={() => navigateTo('/')}>
-                    <Home size={16} /> {t('home', 'Platform Home')}
-                  </button>
-                  <div style={{ padding: '6px 16px 2px', fontSize: '0.7rem', color: 'var(--text-muted)', fontWeight: 700, textTransform: 'uppercase' }}>
-                    Switch Portal
-                  </div>
-                  {user.type !== 'customer' && (
-                    <button className="nav-dropdown-item" onClick={() => navigateTo('/shop')}>
-                      <ShoppingBag size={16} color="var(--primary)" /> {t('customerShop', 'Customer Shop')}
-                    </button>
-                  )}
-                  {user.type !== 'vendor' && (
-                    <button className="nav-dropdown-item" onClick={() => navigateTo('/vendor/login')}>
-                      <Store size={16} color="#D97706" /> {t('vendorPortal', 'Vendor Portal')}
-                    </button>
-                  )}
-                  {user.type !== 'admin' && (
-                    <button className="nav-dropdown-item" onClick={() => navigateTo('/admin/login')}>
-                      <Shield size={16} color="#DC2626" /> {t('adminPortal', 'Admin Portal')}
-                    </button>
+                  {user.type === 'customer' && (
+                    <>
+                      <div className="divider" />
+                      <button className="nav-dropdown-item" onClick={() => navigateTo('/')}>
+                        <Home size={16} /> {t('home', 'Platform Home')}
+                      </button>
+                    </>
                   )}
 
                   <div className="divider" />

@@ -13,8 +13,10 @@ import {
   ShoppingCart, MapPin, Store, CheckCircle, Package, Tag, ChevronRight,
   Plus, Minus, ShieldCheck, Truck, RotateCcw, HelpCircle, Star, Copy, Check,
   MessageSquare, Gift, AlertTriangle, Sparkles, Send, Award, Clock, ArrowRightLeft,
-  Share2
+  Share2, Heart, CheckCircle2, UserCheck, UserPlus
 } from 'lucide-react';
+import { checkDeliveryCoverage } from '../../utils/geoUtils';
+import { api } from '../../services/api';
 import '../../styles/marketplace.css';
 
 export default function ProductDetail() {
@@ -23,8 +25,16 @@ export default function ProductDetail() {
 
   // 1. Context hooks
   const { getProductById, getApprovedProducts, addProductReview, addProductInquiry } = useProducts();
-  const { addToCart } = useCart();
-  const { getVendorById, user } = useAuth();
+  const { addToCart, addBundleToCart } = useCart();
+  const {
+    getVendorById,
+    user,
+    wishlist = [],
+    toggleWishlist,
+    followedVendors = [],
+    toggleFollowVendor,
+    customerLocation
+  } = useAuth();
   const { addToast } = useToast();
   const { toggleCompare, isInCompare } = useComparison();
   const { recordProductView, recentProducts } = useRecentlyAccessed();
@@ -58,6 +68,30 @@ export default function ProductDetail() {
   const [showReviewForm, setShowReviewForm] = useState(false);
   const [showContactModal, setShowContactModal] = useState(false);
   const [showShareModal, setShowShareModal] = useState(false);
+  const [bundles, setBundles] = useState([]);
+
+  // Fetch combo bundles for this product/vendor
+  useEffect(() => {
+    if (product?.id) {
+      api.getBundles({ productId: product.id, status: 'active' }).then((res) => {
+        if (res?.success && Array.isArray(res.bundles)) {
+          setBundles(res.bundles);
+        }
+      }).catch(() => {});
+    }
+  }, [product?.id]);
+
+  const isProductSaved = Array.isArray(wishlist) && wishlist.includes(product?.id);
+
+  const handleToggleWishlist = async () => {
+    if (!product) return;
+    const res = await toggleWishlist(product.id);
+    if (res?.isWishlisted) {
+      addToast(`Saved "${product.name}" to your wishlist!`, 'success');
+    } else {
+      addToast(`Removed "${product.name}" from wishlist`, 'info');
+    }
+  };
 
   // Synchronize variants when product changes
   useEffect(() => {
@@ -744,6 +778,23 @@ export default function ProductDetail() {
               >
                 Buy Now (₹{totalCalculatedPrice.toLocaleString('en-IN')})
               </button>
+              <button
+                type="button"
+                className="btn btn-outline btn-lg"
+                onClick={handleToggleWishlist}
+                title={isProductSaved ? 'Remove from wishlist' : 'Save to wishlist'}
+                style={{
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  gap: 8,
+                  fontWeight: 700,
+                  color: isProductSaved ? '#EC4899' : undefined,
+                  borderColor: isProductSaved ? '#EC4899' : undefined
+                }}
+              >
+                <Heart size={18} fill={isProductSaved ? '#EC4899' : 'none'} color={isProductSaved ? '#EC4899' : 'currentColor'} />
+                <span>{isProductSaved ? 'Saved' : 'Wishlist'}</span>
+              </button>
               {product && (
                 <button
                   type="button"
@@ -762,7 +813,7 @@ export default function ProductDetail() {
                   title="Compare with products from different vendors"
                 >
                   <ArrowRightLeft size={18} />
-                  {isInCompare(product.id) ? 'Comparing (Click to Remove)' : 'Compare with Other Sellers'}
+                  {isInCompare(product.id) ? 'Comparing' : 'Compare'}
                 </button>
               )}
               <button
@@ -820,68 +871,241 @@ export default function ProductDetail() {
             </div>
 
             {/* Sold by Physical Vendor Storefront Card */}
-            {vendor && (
-              <div>
-                <h4 style={{ marginBottom: 10, fontSize: '0.9rem', color: 'var(--text-secondary)', textTransform: 'uppercase', letterSpacing: '0.04em' }}>
-                  Sold by Verified Retailer
-                </h4>
+            {vendor && (() => {
+              const isFollowing = Array.isArray(followedVendors) && followedVendors.includes(vendor.id);
+              const coverage = checkDeliveryCoverage(vendor, customerLocation);
+
+              const handleToggleFollow = async (e) => {
+                e.stopPropagation();
+                const res = await toggleFollowVendor(vendor.id);
+                if (res?.isFollowing) {
+                  addToast(`You are now following ${vendor.businessName}!`, 'success');
+                } else {
+                  addToast(`Unfollowed ${vendor.businessName}`, 'info');
+                }
+              };
+
+              return (
+                <div>
+                  <h4 style={{ marginBottom: 10, fontSize: '0.9rem', color: 'var(--text-secondary)', textTransform: 'uppercase', letterSpacing: '0.04em' }}>
+                    Sold by Verified Retailer
+                  </h4>
+                  <div
+                    className="vendor-info-card"
+                    onClick={() => navigate(`/shop/vendor/${vendor.id}`)}
+                    style={{ cursor: 'pointer', transition: 'var(--transition)' }}
+                    onMouseOver={(e) => e.currentTarget.style.boxShadow = 'var(--shadow-md)'}
+                    onMouseOut={(e) => e.currentTarget.style.boxShadow = 'none'}
+                  >
+                    <img
+                      src={vendor.avatar}
+                      alt={vendor.businessName}
+                      className="vendor-info-avatar"
+                      onError={(e) => { e.target.src = `https://ui-avatars.com/api/?name=${encodeURIComponent(vendor.businessName)}&background=4F46E5&color=fff`; }}
+                    />
+                    <div style={{ flex: 1 }}>
+                      <div style={{ display: 'flex', alignItems: 'center', gap: 6, flexWrap: 'wrap' }}>
+                        <span className="vendor-info-name">{vendor.businessName}</span>
+                        <Award size={15} color="#D97706" title="Verified Storefront" />
+                        {(vendor.totalOrdersFulfilled < 350 || vendor.isEmerging) && (
+                          <span style={{ fontSize: '0.66rem', fontWeight: 800, padding: '2px 8px', borderRadius: 999, background: '#FEF3C7', color: '#B45309', display: 'inline-flex', alignItems: 'center', gap: 3 }}>
+                            <Sparkles size={10} /> Emerging Merchant
+                          </span>
+                        )}
+                      </div>
+                      <div className="vendor-info-loc">
+                        <MapPin size={12} style={{ display: 'inline', marginRight: 4 }} />
+                        {vendor.location || vendor.city || 'Pan-India'} • <span style={{ fontWeight: 600 }}>{vendor.businessType || 'Verified Merchant'}</span>
+                      </div>
+                      
+                      {/* Delivery radius indicator */}
+                      <div style={{ marginTop: 4 }}>
+                        {coverage?.delivers ? (
+                          <span style={{ fontSize: '0.74rem', background: '#DCFCE7', color: '#166534', padding: '2px 7px', borderRadius: 5, fontWeight: 700, display: 'inline-flex', alignItems: 'center', gap: 4 }}>
+                            <CheckCircle2 size={12} /> Delivers to your area ({coverage.targetCity}) within {vendor.deliveryRadiusKm || 25} km
+                          </span>
+                        ) : (
+                          <span style={{ fontSize: '0.74rem', background: 'var(--surface-2)', color: 'var(--text-muted)', padding: '2px 7px', borderRadius: 5, fontWeight: 600 }}>
+                            📍 Radius: {vendor.deliveryRadiusKm || 25} km · Standard courier shipping available
+                          </span>
+                        )}
+                      </div>
+
+                      <div style={{ display: 'flex', gap: 12, marginTop: 6, fontSize: '0.75rem', color: 'var(--text-muted)', flexWrap: 'wrap' }}>
+                        <span>★ {vendor.storeRating || 4.8} Store Rating</span>
+                        <span>•</span>
+                        <span>{vendor.followersCount || 15} Followers</span>
+                        <span>•</span>
+                        <span style={{ color: 'var(--success)' }}>{vendor.onTimeDispatchRate || '99%'} On-Time Dispatch</span>
+                      </div>
+                    </div>
+                    <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
+                      <button
+                        type="button"
+                        className="btn btn-outline btn-sm"
+                        onClick={handleToggleFollow}
+                        style={{
+                          display: 'inline-flex',
+                          alignItems: 'center',
+                          gap: 5,
+                          background: isFollowing ? 'var(--primary)' : 'transparent',
+                          color: isFollowing ? '#fff' : 'var(--primary)',
+                          borderColor: 'var(--primary)',
+                          fontWeight: 700
+                        }}
+                      >
+                        {isFollowing ? <UserCheck size={13} /> : <UserPlus size={13} />}
+                        {isFollowing ? 'Following' : 'Follow Store'}
+                      </button>
+                      <button
+                        type="button"
+                        className="btn btn-outline btn-sm"
+                        onClick={(e) => { e.stopPropagation(); setShowContactModal(true); }}
+                        style={{ display: 'inline-flex', alignItems: 'center', gap: 5 }}
+                      >
+                        <MessageSquare size={13} /> Message
+                      </button>
+                      <button
+                        type="button"
+                        className="btn btn-primary btn-sm"
+                        onClick={(e) => { e.stopPropagation(); navigate(`/store/${vendor.storeSlug || vendor.id}`); }}
+                      >
+                        Visit Store →
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              );
+            })()}
+          </div>
+        </div>
+
+        {/* ── PRODUCT BUNDLES / COMBO OFFERS (Feature 5) ── */}
+        {bundles.length > 0 && (
+          <div style={{
+            marginTop: 36,
+            background: 'linear-gradient(135deg, rgba(99, 102, 241, 0.04) 0%, rgba(236, 72, 153, 0.05) 100%)',
+            border: '2px solid rgba(99, 102, 241, 0.2)',
+            borderRadius: 16,
+            padding: 24
+          }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 16 }}>
+              <div style={{
+                background: 'linear-gradient(135deg, #6366F1 0%, #EC4899 100%)',
+                color: '#fff',
+                padding: '4px 10px',
+                borderRadius: 8,
+                fontSize: '0.8rem',
+                fontWeight: 800,
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: 5
+              }}>
+                <Sparkles size={14} /> COMBO DEAL
+              </div>
+              <h3 style={{ margin: 0, fontSize: '1.2rem', fontWeight: 800, color: 'var(--text-main)' }}>
+                Frequently Bought Together
+              </h3>
+            </div>
+
+            {bundles.map((bundle) => {
+              const savings = (bundle.originalPrice || 0) - (bundle.bundlePrice || 0);
+              return (
                 <div
-                  className="vendor-info-card"
-                  onClick={() => navigate(`/shop/vendor/${vendor.id}`)}
-                  style={{ cursor: 'pointer', transition: 'var(--transition)' }}
-                  onMouseOver={(e) => e.currentTarget.style.boxShadow = 'var(--shadow-md)'}
-                  onMouseOut={(e) => e.currentTarget.style.boxShadow = 'none'}
+                  key={bundle._id || bundle.id}
+                  style={{
+                    background: 'var(--surface)',
+                    border: '1px solid var(--border)',
+                    borderRadius: 14,
+                    padding: 20,
+                    marginBottom: 16,
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'space-between',
+                    flexWrap: 'wrap',
+                    gap: 20
+                  }}
                 >
-                  <img
-                    src={vendor.avatar}
-                    alt={vendor.businessName}
-                    className="vendor-info-avatar"
-                    onError={(e) => { e.target.src = `https://ui-avatars.com/api/?name=${encodeURIComponent(vendor.businessName)}&background=4F46E5&color=fff`; }}
-                  />
-                  <div style={{ flex: 1 }}>
-                    <div style={{ display: 'flex', alignItems: 'center', gap: 6, flexWrap: 'wrap' }}>
-                      <span className="vendor-info-name">{vendor.businessName}</span>
-                      <Award size={15} color="#D97706" title="Verified Storefront" />
-                      {['v5', 'v6', 'v7', 'v8', 'v9', 'v10'].includes(vendor.id) && (
-                        <span style={{ fontSize: '0.66rem', fontWeight: 800, padding: '2px 8px', borderRadius: 999, background: '#FEF3C7', color: '#B45309', display: 'inline-flex', alignItems: 'center', gap: 3 }}>
-                          <Sparkles size={10} /> Emerging Merchant
+                  <div style={{ display: 'flex', alignItems: 'center', gap: 16, flexWrap: 'wrap' }}>
+                    {bundle.items.map((item, idx) => (
+                      <div key={idx} style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+                        <div style={{
+                          width: 80,
+                          height: 80,
+                          borderRadius: 10,
+                          border: '1px solid var(--border)',
+                          overflow: 'hidden',
+                          background: '#f9fafb'
+                        }}>
+                          <img
+                            src={item.image || 'https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=200'}
+                            alt={item.name}
+                            style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                          />
+                        </div>
+                        <div style={{ maxWidth: 140 }}>
+                          <div style={{ fontSize: '0.82rem', fontWeight: 700, color: 'var(--text-main)', lineHeight: 1.2 }}>
+                            {item.name}
+                          </div>
+                          <div style={{ fontSize: '0.78rem', color: 'var(--text-muted)', marginTop: 2 }}>
+                            ₹{item.price?.toLocaleString('en-IN')}
+                          </div>
+                        </div>
+                        {idx < bundle.items.length - 1 && (
+                          <span style={{ fontSize: '1.4rem', fontWeight: 700, color: 'var(--primary)', margin: '0 4px' }}>
+                            +
+                          </span>
+                        )}
+                      </div>
+                    ))}
+                  </div>
+
+                  <div style={{ textAlign: 'right', minWidth: 200 }}>
+                    <div style={{ fontSize: '0.85rem', color: 'var(--text-muted)' }}>
+                      Total Combo Price:
+                    </div>
+                    <div style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'flex-end', gap: 8, marginTop: 2 }}>
+                      <span style={{ fontSize: '1.4rem', fontWeight: 900, color: 'var(--primary)' }}>
+                        ₹{bundle.bundlePrice?.toLocaleString('en-IN')}
+                      </span>
+                      {bundle.originalPrice > bundle.bundlePrice && (
+                        <span style={{ fontSize: '0.9rem', color: 'var(--text-muted)', textDecoration: 'line-through' }}>
+                          ₹{bundle.originalPrice?.toLocaleString('en-IN')}
                         </span>
                       )}
                     </div>
-                    <div className="vendor-info-loc">
-                      <MapPin size={12} style={{ display: 'inline', marginRight: 4 }} />
-                      {vendor.location} • <span style={{ fontWeight: 600 }}>{vendor.businessType || 'Verified Merchant'}</span>
-                    </div>
-                    <div style={{ display: 'flex', gap: 12, marginTop: 4, fontSize: '0.75rem', color: 'var(--text-muted)', flexWrap: 'wrap' }}>
-                      <span>★ {vendor.storeRating || 4.8} Store Rating</span>
-                      <span>•</span>
-                      <span>{vendor.totalOrdersFulfilled || 250}+ Fulfilled</span>
-                      <span>•</span>
-                      <span style={{ color: 'var(--success)' }}>{vendor.onTimeDispatchRate || '99%'} On-Time Dispatch</span>
-                    </div>
-                  </div>
-                  <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
+                    {savings > 0 && (
+                      <div style={{ fontSize: '0.78rem', fontWeight: 700, color: '#10B981', marginTop: 2 }}>
+                        You save ₹{savings.toLocaleString('en-IN')} ({bundle.discountPercentage || Math.round((savings / bundle.originalPrice) * 100)}% OFF)
+                      </div>
+                    )}
                     <button
                       type="button"
-                      className="btn btn-outline btn-sm"
-                      onClick={(e) => { e.stopPropagation(); setShowContactModal(true); }}
-                      style={{ display: 'inline-flex', alignItems: 'center', gap: 5 }}
+                      className="btn btn-primary"
+                      onClick={() => {
+                        const res = addBundleToCart(bundle);
+                        if (res?.success) {
+                          addToast(`Combo "${bundle.title}" added to cart with savings!`, 'success');
+                        }
+                      }}
+                      style={{
+                        marginTop: 10,
+                        padding: '8px 18px',
+                        fontSize: '0.85rem',
+                        fontWeight: 700,
+                        display: 'inline-flex',
+                        alignItems: 'center',
+                        gap: 6
+                      }}
                     >
-                      <MessageSquare size={13} /> Message Merchant
-                    </button>
-                    <button
-                      type="button"
-                      className="btn btn-primary btn-sm"
-                      onClick={(e) => { e.stopPropagation(); navigate(`/store/${vendor.storeSlug || vendor.id}`); }}
-                    >
-                      Visit Official Storefront →
+                      <ShoppingCart size={15} /> Add Combo to Cart
                     </button>
                   </div>
                 </div>
-              </div>
-            )}
+              );
+            })}
           </div>
-        </div>
+        )}
 
         {/* ── TABBED DETAILS SECTION (Specs, Shipping, Reviews, Q&A) ── */}
         <div style={{ marginTop: 48, background: 'var(--surface)', border: '1px solid var(--border)', borderRadius: 'var(--radius-lg)', overflow: 'hidden' }}>

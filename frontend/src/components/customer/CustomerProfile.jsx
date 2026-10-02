@@ -101,6 +101,34 @@ export default function CustomerProfile() {
                 </div>
               ))}
             </div>
+
+            {/* Quick Links */}
+            <div style={{ marginTop: 28, paddingTop: 20, borderTop: '1px solid var(--border)', display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: 12 }}>
+              <button
+                type="button"
+                className="btn btn-outline btn-sm"
+                onClick={() => window.location.href = '/shop/subscriptions'}
+                style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8, padding: '10px 14px' }}
+              >
+                🔔 Subscribed Vendors & Preferences
+              </button>
+              <button
+                type="button"
+                className="btn btn-outline btn-sm"
+                onClick={() => window.location.href = '/shop/orders'}
+                style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8, padding: '10px 14px' }}
+              >
+                📦 My Orders & Tracking
+              </button>
+              <button
+                type="button"
+                className="btn btn-outline btn-sm"
+                onClick={() => window.location.href = '/shop/wishlist'}
+                style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8, padding: '10px 14px' }}
+              >
+                💖 Saved Wishlist
+              </button>
+            </div>
           </div>
         </div>
       </div>

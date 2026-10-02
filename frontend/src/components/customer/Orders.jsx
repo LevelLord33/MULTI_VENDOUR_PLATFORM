@@ -9,11 +9,12 @@ import { useLanguage } from '../../contexts/LanguageContext';
 import DisputeModal from './DisputeModal';
 import DisputeHistoryModal from './DisputeHistoryModal';
 import ContactVendorModal from './ContactVendorModal';
+import InvoiceModal from '../common/InvoiceModal';
 import Navbar from '../common/Navbar';
 import {
   Clock, CheckCircle, Truck, ShoppingBag, Package, MapPin,
   RotateCcw, MessageSquare, Star, Copy, Check, ChevronDown, ChevronUp,
-  AlertTriangle, ShieldCheck, HelpCircle, X, QrCode, Banknote, CreditCard, Key
+  AlertTriangle, ShieldCheck, HelpCircle, X, QrCode, Banknote, CreditCard, Key, FileText
 } from 'lucide-react';
 import '../../styles/marketplace.css';
 
@@ -38,6 +39,7 @@ export default function Orders() {
   // 2. useState hooks
   const [expandedOrderId, setExpandedOrderId] = useState(null);
   const [copiedTracking, setCopiedTracking] = useState(null);
+  const [invoiceOrderId, setInvoiceOrderId] = useState(null);
 
   // Dispute modals state
   const { disputes, getDisputeForOrder } = useDisputes();
@@ -425,6 +427,17 @@ export default function Orders() {
                           ₹{order.total?.toLocaleString('en-IN')}
                         </div>
                       </div>
+
+                      <button
+                        type="button"
+                        className="btn btn-outline btn-sm"
+                        onClick={() => setInvoiceOrderId(order.id)}
+                        style={{ display: 'flex', alignItems: 'center', gap: 6, padding: '8px 14px' }}
+                        title="Download or Print GST Tax Invoice"
+                      >
+                        <FileText size={14} />
+                        <span>GST Invoice</span>
+                      </button>
 
                       <button
                         type="button"
@@ -1060,6 +1073,14 @@ export default function Orders() {
             id: contactItem?.vendorId || contactOrder?.items?.[0]?.vendorId || 'v1',
             businessName: contactItem?.vendorName || contactOrder?.items?.[0]?.vendorName || 'Verified Merchant'
           }}
+        />
+      )}
+
+      {/* Downloadable / Printable GST Tax Invoice Modal */}
+      {invoiceOrderId && (
+        <InvoiceModal
+          orderId={invoiceOrderId}
+          onClose={() => setInvoiceOrderId(null)}
         />
       )}
 

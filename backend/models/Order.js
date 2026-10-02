@@ -111,7 +111,10 @@ const orderSchema = new mongoose.Schema(
       upiRef: String,
       cardLast4: String,
       cardNetwork: String,
-      paidAt: String
+      paidAt: String,
+      razorpay_order_id: String,
+      razorpay_payment_id: String,
+      razorpay_signature: String
     },
     shipmentTimeline: [timelineEventSchema],
     returnRequest: { type: returnRequestSchema, default: null },

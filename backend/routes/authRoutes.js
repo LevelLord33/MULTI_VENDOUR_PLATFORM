@@ -10,6 +10,12 @@ import {
   checkSlugAvailability,
   updateCustomer,
   updateVendorStore,
+  getWishlist,
+  addToWishlist,
+  removeFromWishlist,
+  getFollowedVendors,
+  followVendor,
+  unfollowVendor,
   seedAuth
 } from '../controllers/authController.js';
 import { requireAuth } from '../middleware/auth.js';
@@ -32,6 +38,16 @@ router.get('/check-slug/:slug', checkSlugAvailability);
 // Updates
 router.put('/customer/:id', requireAuth, updateCustomer);
 router.put('/vendor/:id/store', requireAuth, updateVendorStore);
+
+// Wishlist (Customer)
+router.get('/wishlist', requireAuth, getWishlist);
+router.post('/wishlist/:productId', requireAuth, addToWishlist);
+router.delete('/wishlist/:productId', requireAuth, removeFromWishlist);
+
+// Follow / Unfollow Vendors (Customer)
+router.get('/following', requireAuth, getFollowedVendors);
+router.post('/follow/:vendorId', requireAuth, followVendor);
+router.delete('/follow/:vendorId', requireAuth, unfollowVendor);
 
 // Seed
 router.post('/seed', seedAuth);

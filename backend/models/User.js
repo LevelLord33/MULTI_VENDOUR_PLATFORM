@@ -17,7 +17,7 @@ const userSchema = new mongoose.Schema(
       trim: true,
       index: true
     },
-    password: { type: String, required: true },
+    password: { type: String, required: false, default: '' },
     name: { type: String },
     fullName: { type: String },
     mobile: { type: String, default: '' },
@@ -29,15 +29,30 @@ const userSchema = new mongoose.Schema(
     city: { type: String, default: '' },
     state: { type: String, default: '' },
     pincode: { type: String, default: '' },
+    wishlist: [{ type: String }],
+    followedVendors: [{ type: String }],
+
+    // Coordinates (Customer or Vendor)
+    latitude: { type: Number, default: null },
+    longitude: { type: Number, default: null },
 
     // Vendor Specific Storefront Fields
     businessName: { type: String },
+    businessType: { type: String, default: 'Private Limited' },
     category: { type: String, default: '' },
     storeSlug: { type: String, sparse: true, index: true },
     tagline: { type: String, default: '' },
     ownerName: { type: String, default: '' },
     businessAddress: { type: String, default: '' },
     location: { type: String, default: '' },
+    deliveryRadiusKm: { type: Number, default: 25 },
+    deliveryScope: {
+      type: String,
+      enum: ['local', 'city', 'pan_india'],
+      default: 'pan_india'
+    },
+    serviceablePincodes: [{ type: String }],
+    followersCount: { type: Number, default: 0 },
     banner: { type: String, default: '' },
     themeColor: { type: String, default: '#4F46E5' },
     themePreset: { type: String, default: 'indigo' },
@@ -56,7 +71,17 @@ const userSchema = new mongoose.Schema(
     shippingPartners: [{ type: String }],
     returnPolicy: { type: String, default: '7 Days Hassle-Free Physical Replacement or Full Refund' },
     warrantyPolicy: { type: String, default: '100% Verified Brand Warranty & Tax Invoice Included' },
-    description: { type: String, default: '' }
+    description: { type: String, default: '' },
+
+    // Vendor Onboarding / Application Workflow Status
+    vendorApplicationStatus: {
+      type: String,
+      enum: ['none', 'pending', 'under_review', 'approved', 'rejected'],
+      default: 'approved'
+    },
+    vendorApplicationId: { type: String, default: '' },
+    rejectionReason: { type: String, default: '' },
+    applicationData: { type: mongoose.Schema.Types.Mixed, default: null }
   },
   {
     timestamps: true,

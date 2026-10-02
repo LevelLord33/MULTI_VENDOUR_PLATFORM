@@ -12,12 +12,14 @@ import { SocketProvider } from './contexts/SocketContext';
 import { LanguageProvider } from './contexts/LanguageContext';
 import { ThemeProvider } from './contexts/ThemeContext';
 import { RecentlyAccessedProvider } from './contexts/RecentlyAccessedContext';
+import { NotificationProvider } from './contexts/NotificationContext';
 import ProtectedRoute from './components/common/ProtectedRoute';
 import ScrollToTop from './components/common/ScrollToTop';
 import CustomerChatbot from './components/chatbot/CustomerChatbot';
 
 // Pages
 import LandingPage from './pages/LandingPage';
+import HubAssistantPage from './pages/HubAssistantPage';
 
 // Customer
 import CustomerAuth from './components/customer/CustomerAuth';
@@ -30,10 +32,13 @@ import Cart from './components/customer/Cart';
 import Orders from './components/customer/Orders';
 import CustomerProfile from './components/customer/CustomerProfile';
 import CustomerMessages from './components/customer/CustomerMessages';
+import Wishlist from './components/customer/Wishlist';
+import CustomerSubscriptions from './components/customer/CustomerSubscriptions';
 
 // Vendor
 import VendorAuth from './components/vendor/VendorAuth';
 import VendorDashboard from './components/vendor/VendorDashboard';
+import VendorSubscribers from './components/vendor/VendorSubscribers';
 import VendorAnalytics from './components/vendor/VendorAnalytics';
 import SmartInventory from './components/vendor/SmartInventory';
 import VendorInbox from './components/vendor/VendorInbox';
@@ -59,38 +64,42 @@ export default function App() {
           <AuthProvider>
             <ToastProvider>
               <SocketProvider>
-                <ProductProvider>
-                <CartProvider>
-                  <ComparisonProvider>
-                    <DisputeProvider>
-                      <MarketingProvider>
-                        <MessageProvider>
-                          <ChatbotProvider>
-                            <RecentlyAccessedProvider>
-                              <Routes>
-                    {/* ── Public ── */}
-                    <Route path="/" element={<LandingPage />} />
-                    <Route path="/login" element={<CustomerAuth initialMode="login" />} />
-                    <Route path="/register" element={<CustomerAuth initialMode="register" />} />
-                    <Route path="/signup" element={<CustomerAuth initialMode="register" />} />
-                    <Route path="/vendor/login" element={<VendorAuth initialMode="login" />} />
-                    <Route path="/vendor/register" element={<VendorAuth initialMode="register" />} />
-                    <Route path="/vendor/signup" element={<VendorAuth initialMode="register" />} />
-                    <Route path="/admin/login" element={<AdminLogin />} />
-                    <Route path="/store/:slug" element={<VendorProfile />} />
-                    <Route path="/stores" element={<StoreDirectory />} />
-                    <Route path="/shop/stores" element={<StoreDirectory />} />
+                <NotificationProvider>
+                  <ProductProvider>
+                  <CartProvider>
+                    <ComparisonProvider>
+                      <DisputeProvider>
+                        <MarketingProvider>
+                          <MessageProvider>
+                            <ChatbotProvider>
+                              <RecentlyAccessedProvider>
+                                <Routes>
+                      {/* ── Public ── */}
+                      <Route path="/" element={<LandingPage />} />
+                      <Route path="/login" element={<CustomerAuth initialMode="login" />} />
+                      <Route path="/register" element={<CustomerAuth initialMode="register" />} />
+                      <Route path="/signup" element={<CustomerAuth initialMode="register" />} />
+                      <Route path="/vendor/login" element={<VendorAuth initialMode="login" />} />
+                      <Route path="/vendor/register" element={<VendorAuth initialMode="register" />} />
+                      <Route path="/vendor/signup" element={<VendorAuth initialMode="register" />} />
+                      <Route path="/admin/login" element={<AdminLogin />} />
+                      <Route path="/store/:slug" element={<VendorProfile />} />
+                      <Route path="/stores" element={<StoreDirectory />} />
+                      <Route path="/shop/stores" element={<StoreDirectory />} />
+                      <Route path="/assistant" element={<HubAssistantPage />} />
+                      <Route path="/hub-assistant" element={<HubAssistantPage />} />
 
-                    {/* ── Customer / Marketplace (Publicly Browseable) ── */}
-                    <Route path="/shop" element={<ProductListing />} />
-                    <Route path="/shop/product/:id" element={<ProductDetail />} />
-                    <Route path="/shop/compare" element={<ProductComparison />} />
-                    <Route path="/shop/vendor/:id" element={<VendorProfile />} />
-                    <Route path="/shop/cart" element={
-                      <ProtectedRoute allowedType="customer" redirectTo="/login">
-                        <Cart />
-                      </ProtectedRoute>
-                    } />
+                      {/* ── Customer / Marketplace (Publicly Browseable) ── */}
+                      <Route path="/shop" element={<ProductListing />} />
+                      <Route path="/shop/product/:id" element={<ProductDetail />} />
+                      <Route path="/shop/compare" element={<ProductComparison />} />
+                      <Route path="/shop/vendor/:id" element={<VendorProfile />} />
+                      <Route path="/shop/wishlist" element={<Wishlist />} />
+                      <Route path="/shop/cart" element={
+                        <ProtectedRoute allowedType="customer" redirectTo="/login">
+                          <Cart />
+                        </ProtectedRoute>
+                      } />
                     <Route path="/shop/orders" element={
                       <ProtectedRoute allowedType="customer" redirectTo="/login">
                         <Orders />
@@ -104,6 +113,11 @@ export default function App() {
                     <Route path="/shop/profile" element={
                       <ProtectedRoute allowedType="customer" redirectTo="/login">
                         <CustomerProfile />
+                      </ProtectedRoute>
+                    } />
+                    <Route path="/shop/subscriptions" element={
+                      <ProtectedRoute allowedType="customer" redirectTo="/login">
+                        <CustomerSubscriptions />
                       </ProtectedRoute>
                     } />
 
@@ -138,6 +152,11 @@ export default function App() {
                         <VendorMarketing />
                       </ProtectedRoute>
                     } />
+                    <Route path="/vendor/subscribers" element={
+                      <ProtectedRoute allowedType="vendor" redirectTo="/vendor/login">
+                        <VendorSubscribers />
+                      </ProtectedRoute>
+                    } />
                     <Route path="/vendor/store-builder" element={
                       <ProtectedRoute allowedType="vendor" redirectTo="/vendor/login">
                         <StoreBuilder />
@@ -161,6 +180,11 @@ export default function App() {
                     <Route path="/vendor/add-product" element={
                       <ProtectedRoute allowedType="vendor" redirectTo="/vendor/login">
                         <AddProduct />
+                      </ProtectedRoute>
+                    } />
+                    <Route path="/vendor/assistant" element={
+                      <ProtectedRoute allowedType="vendor" redirectTo="/vendor/login">
+                        <HubAssistantPage defaultRole="vendor" />
                       </ProtectedRoute>
                     } />
 
@@ -208,6 +232,7 @@ export default function App() {
                   </ComparisonProvider>
                 </CartProvider>
                 </ProductProvider>
+                </NotificationProvider>
               </SocketProvider>
             </ToastProvider>
           </AuthProvider>

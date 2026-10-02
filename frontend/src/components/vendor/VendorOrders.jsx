@@ -4,9 +4,10 @@ import { useAuth } from '../../contexts/AuthContext';
 import { useCart } from '../../contexts/CartContext';
 import { useToast } from '../../contexts/ToastContext';
 import { VendorSidebar, VendorThemeToggle } from './VendorDashboard';
+import InvoiceModal from '../common/InvoiceModal';
 import {
   Package, Truck, CheckCircle, Clock, MapPin, Search,
-  RotateCcw, ShieldCheck, Send, Check, X, AlertTriangle, Eye
+  RotateCcw, ShieldCheck, Send, Check, X, AlertTriangle, Eye, FileText
 } from 'lucide-react';
 import '../../styles/vendor.css';
 
@@ -21,6 +22,7 @@ export default function VendorOrders() {
   const [filterStatus, setFilterStatus] = useState('All');
   const [searchQuery, setSearchQuery] = useState('');
   const [dispatchModalOrder, setDispatchModalOrder] = useState(null);
+  const [invoiceOrderId, setInvoiceOrderId] = useState(null);
   const [courierName, setCourierName] = useState('BlueDart Express');
   const [waybillTracking, setWaybillTracking] = useState('');
   const [dispatchNote, setDispatchNote] = useState('Package safely dispatched from merchant warehouse.');
@@ -399,6 +401,16 @@ export default function VendorOrders() {
 
                     {/* Vendor Fulfillment Action Buttons */}
                     <div style={{ marginTop: 14, paddingTop: 14, borderTop: '1px solid var(--border)', display: 'flex', justifyContent: 'flex-end', gap: 10, flexWrap: 'wrap' }}>
+                      <button
+                        type="button"
+                        className="btn btn-outline btn-sm"
+                        onClick={() => setInvoiceOrderId(order.id)}
+                        style={{ display: 'inline-flex', alignItems: 'center', gap: 5 }}
+                        title="Download or Print GST Tax Invoice"
+                      >
+                        <FileText size={14} /> GST Tax Invoice
+                      </button>
+
                       {order.status === 'Placed' && (
                         <button
                           type="button"
@@ -587,6 +599,14 @@ export default function VendorOrders() {
             </form>
           </div>
         </div>
+      )}
+
+      {/* GST Tax Invoice Modal */}
+      {invoiceOrderId && (
+        <InvoiceModal
+          orderId={invoiceOrderId}
+          onClose={() => setInvoiceOrderId(null)}
+        />
       )}
     </div>
   );

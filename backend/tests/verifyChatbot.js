@@ -187,6 +187,107 @@ async function runTests() {
     );
   }
 
+  // 13. Vendor Intent: Greeting & Operations Co-Pilot
+  {
+    const { req, res, getResult } = mockReqRes({ message: 'Hello HubBot!', userRole: 'vendor', userId: 'v1' });
+    await processChatbotMessage(req, res);
+    const result = getResult();
+    assert(
+      result.status === 200 &&
+      result.data.role === 'vendor' &&
+      result.data.intent === 'vendor_greeting' &&
+      result.data.reply?.includes('Vendor Operations Co-Pilot'),
+      'processChatbotMessage boots Vendor Co-Pilot when userRole is vendor'
+    );
+  }
+
+  // 14. Vendor Intent: Add Product & Listing Checklist
+  {
+    const { req, res, getResult } = mockReqRes({ message: 'How do I add a product and what are the HSN requirements?', userRole: 'vendor', userId: 'v1' });
+    await processChatbotMessage(req, res);
+    const result = getResult();
+    assert(
+      result.status === 200 &&
+      result.data.intent === 'vendor_add_product' &&
+      result.data.reply?.includes('GST slab') &&
+      Array.isArray(result.data.actionCards) &&
+      result.data.actionCards.length > 0,
+      'processChatbotMessage handles vendor product listing checklist'
+    );
+  }
+
+  // 15. Vendor Intent: Order Dispatch & Waybill
+  {
+    const { req, res, getResult } = mockReqRes({ message: 'How do I dispatch orders and assign Delhivery courier waybill?', userRole: 'vendor', userId: 'v1' });
+    await processChatbotMessage(req, res);
+    const result = getResult();
+    assert(
+      result.status === 200 &&
+      result.data.intent === 'vendor_orders_dispatch' &&
+      result.data.reply?.includes('Delhivery') &&
+      result.data.actionCards?.length > 0,
+      'processChatbotMessage handles vendor fulfillment & waybill guidance'
+    );
+  }
+
+  // 16. Vendor Intent: Subscriptions & Commission Tiers
+  {
+    const { req, res, getResult } = mockReqRes({ message: 'What are the vendor subscription plans and commission rates?', userRole: 'vendor', userId: 'v1' });
+    await processChatbotMessage(req, res);
+    const result = getResult();
+    assert(
+      result.status === 200 &&
+      result.data.intent === 'vendor_subscriptions' &&
+      result.data.reply?.includes('Growth Plan') &&
+      result.data.reply?.includes('Pro Merchant'),
+      'processChatbotMessage details vendor subscription tiers and commission'
+    );
+  }
+
+  // 17. Vendor Intent: Payouts & Settlement
+  {
+    const { req, res, getResult } = mockReqRes({ message: 'When will I receive payout and how does settlement work?', userRole: 'vendor', userId: 'v1' });
+    await processChatbotMessage(req, res);
+    const result = getResult();
+    assert(
+      result.status === 200 &&
+      result.data.intent === 'vendor_payouts' &&
+      result.data.reply?.includes('T+3'),
+      'processChatbotMessage details T+3 bank settlement and commission formula'
+    );
+  }
+
+  // 18. Vendor Intent: Disputes & Return Defense
+  {
+    const { req, res, getResult } = mockReqRes({ message: 'A customer raised a return dispute claim for broken item', userRole: 'vendor', userId: 'v1' });
+    await processChatbotMessage(req, res);
+    const result = getResult();
+    assert(
+      result.status === 200 &&
+      result.data.intent === 'vendor_disputes' &&
+      result.data.reply?.includes('48-Hour Response Window'),
+      'processChatbotMessage provides merchant dispute defense guidance'
+    );
+  }
+
+  // 19. Role-filtered FAQs
+  {
+    const req = { query: { role: 'vendor' } };
+    let responseData = null;
+    let responseStatus = 200;
+    const res = {
+      status(code) { responseStatus = code; return this; },
+      json(data) { responseData = data; return this; }
+    };
+    await getChatbotFaqs(req, res);
+    assert(
+      responseStatus === 200 &&
+      responseData.success &&
+      responseData.faqs.some(f => f.targetRole === 'vendor'),
+      'getChatbotFaqs supports role-filtered vendor FAQs'
+    );
+  }
+
   console.log(`\n🎉 Results: ${passed}/${total} chatbot verification tests passed!\n`);
   if (passed !== total) {
     process.exit(1);

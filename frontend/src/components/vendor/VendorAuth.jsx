@@ -1,8 +1,14 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../../contexts/AuthContext';
 import { useToast } from '../../contexts/ToastContext';
-import { Store, Eye, EyeOff, ArrowLeft, TrendingUp, Users, Package, ShoppingBag, Shield, LogIn, UserPlus } from 'lucide-react';
+import { api } from '../../services/api';
+import {
+  Store, Eye, EyeOff, ArrowLeft, TrendingUp, Users, Package,
+  ShoppingBag, Shield, LogIn, UserPlus, FileCheck, CheckCircle2,
+  Building, MapPin, Truck, Award, HelpCircle, ChevronDown, ChevronUp
+} from 'lucide-react';
+import GoogleAuthModal from '../common/GoogleAuthModal';
 import '../../styles/auth.css';
 
 export default function VendorAuth({ initialMode }) {
@@ -12,37 +18,151 @@ export default function VendorAuth({ initialMode }) {
     if (location.pathname.includes('register') || location.pathname.includes('signup')) return 'register';
     return 'login';
   });
+  const [appType, setAppType] = useState('full'); // 'quick' | 'full'
   const [showPass, setShowPass] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [showGoogleModal, setShowGoogleModal] = useState(false);
+  const [showDemoDrawer, setShowDemoDrawer] = useState(false);
+  const googleBtnRef = useRef(null);
+  const googleClientId = import.meta.env.VITE_GOOGLE_CLIENT_ID || localStorage.getItem('vh_google_client_id');
   const [errors, setErrors] = useState({});
   const [form, setForm] = useState({
-    businessName: '', ownerName: '', email: '', mobile: '', password: '',
-    businessAddress: '', location: '',
+    businessName: '',
+    ownerName: '',
+    email: '',
+    mobile: '',
+    password: '',
+    businessAddress: '',
+    location: '',
+    category: 'Electronics',
+    businessType: 'Sole Proprietorship',
+    gstin: '',
+    panNumber: '',
+    deliveryRadiusKm: 30,
+    deliveryScope: 'pan_india',
+    pincode: '110020',
+    accountNumber: '',
+    ifscCode: '',
+    docGstUrl: '',
+    docPanUrl: ''
   });
 
   const { login, registerVendor, oauthLogin } = useAuth();
   const { addToast } = useToast();
   const navigate = useNavigate();
 
-  const handleVendorGoogleOAuth = async () => {
+  const handleVendorGoogleOAuth = () => {
+    if (window.google?.accounts?.oauth2 && googleClientId) {
+      try {
+        const client = window.google.accounts.oauth2.initTokenClient({
+          client_id: googleClientId,
+          scope: 'email profile openid',
+          callback: async (tokenResponse) => {
+            if (tokenResponse?.access_token) {
+              setLoading(true);
+              try {
+                const userInfoRes = await fetch('https://www.googleapis.com/oauth2/v3/userinfo', {
+                  headers: { Authorization: `Bearer ${tokenResponse.access_token}` }
+                });
+                const profile = await userInfoRes.json();
+                await handleVendorGoogleSuccess({
+                  provider: 'google',
+                  email: profile.email,
+                  name: profile.name,
+                  avatar: profile.picture,
+                  googleId: profile.sub,
+                  token: tokenResponse.access_token,
+                  role: 'vendor'
+                });
+              } catch (e) {
+                console.warn('UserInfo fetch error:', e);
+                setShowGoogleModal(true);
+              } finally {
+                setLoading(false);
+              }
+            }
+          },
+          error_callback: (err) => {
+            console.warn('Google TokenClient popup notice:', err);
+            setShowGoogleModal(true);
+          }
+        });
+        client.requestAccessToken({ prompt: 'select_account' });
+        return;
+      } catch (err) {
+        console.warn('Google TokenClient initialization notice:', err);
+      }
+    }
+    setShowGoogleModal(true);
+  };
+
+  const handleVendorGoogleSuccess = async (googleProfile) => {
     setLoading(true);
-    const mockVendorProfile = {
-      provider: 'google',
-      email: 'rajesh@techzone.in',
-      name: 'Rajesh Kumar (TechZone)',
-      avatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=80&h=80&fit=crop',
-      googleId: 'google_vendor_882910',
-      role: 'vendor'
-    };
-    const res = await oauthLogin(mockVendorProfile);
+    const res = await oauthLogin({ ...googleProfile, role: 'vendor' });
     setLoading(false);
     if (res?.success) {
-      addToast('Vendor authenticated via Google OAuth 2.0!', 'success');
+      addToast(`Welcome, ${googleProfile.name || 'Merchant'}! Signed in with Google.`, 'success');
       navigate('/vendor/dashboard');
+      return { success: true };
     } else {
-      addToast('Google OAuth failed.', 'error');
+      addToast(res?.message || 'Google authentication failed.', 'error');
+      return { success: false, message: res?.message };
     }
   };
+
+  // Pre-initialize Google Identity Services One-Tap / ID SDK if configured
+  useEffect(() => {
+    if (!googleClientId) return;
+
+    let mounted = true;
+    const interval = setInterval(() => {
+      if (window.google?.accounts?.id && mounted) {
+        clearInterval(interval);
+        try {
+          window.google.accounts.id.initialize({
+            client_id: googleClientId,
+            callback: async (response) => {
+              if (response?.credential) {
+                try {
+                  const base64Url = response.credential.split('.')[1];
+                  const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+                  const jsonPayload = decodeURIComponent(
+                    atob(base64)
+                      .split('')
+                      .map((c) => '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2))
+                      .join('')
+                  );
+                  const payload = JSON.parse(jsonPayload);
+                  handleVendorGoogleSuccess({
+                    provider: 'google',
+                    email: payload.email,
+                    name: payload.name,
+                    avatar: payload.picture,
+                    googleId: payload.sub,
+                    credential: response.credential,
+                    role: 'vendor'
+                  });
+                } catch {
+                  handleVendorGoogleSuccess({
+                    provider: 'google',
+                    credential: response.credential,
+                    role: 'vendor'
+                  });
+                }
+              }
+            }
+          });
+        } catch (e) {
+          console.warn('Google GSI initialize notice:', e);
+        }
+      }
+    }, 200);
+
+    return () => {
+      mounted = false;
+      clearInterval(interval);
+    };
+  }, [googleClientId]);
 
   useEffect(() => {
     if (initialMode) {
@@ -55,8 +175,9 @@ export default function VendorAuth({ initialMode }) {
   }, [location.pathname, initialMode]);
 
   const handleChange = (e) => {
-    setForm((prev) => ({ ...prev, [e.target.name]: e.target.value }));
-    setErrors((prev) => ({ ...prev, [e.target.name]: '' }));
+    const { name, value } = e.target;
+    setForm((prev) => ({ ...prev, [name]: value }));
+    setErrors((prev) => ({ ...prev, [name]: '' }));
   };
 
   const validate = () => {
@@ -67,31 +188,84 @@ export default function VendorAuth({ initialMode }) {
     if (mode === 'register') {
       if (!form.businessName) errs.businessName = 'Business name required';
       if (!form.ownerName) errs.ownerName = 'Owner name required';
-      if (!form.mobile || form.mobile.length < 10) errs.mobile = 'Valid mobile required';
+      if (!form.mobile || form.mobile.length < 10) errs.mobile = 'Valid 10-digit mobile required';
       if (!form.businessAddress) errs.businessAddress = 'Business address required';
       if (!form.location) errs.location = 'Location required';
+      if (appType === 'full') {
+        if (!form.gstin) errs.gstin = 'GSTIN required for verification';
+        if (!form.panNumber) errs.panNumber = 'PAN required';
+      }
     }
     return errs;
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (mode === 'login' && (!form.email.trim() || !form.password)) {
+      setShowGoogleModal(true);
+      return;
+    }
     const errs = validate();
     if (Object.keys(errs).length) { setErrors(errs); return; }
     setLoading(true);
     await new Promise((r) => setTimeout(r, 600));
+
     let result;
     if (mode === 'login') {
       result = await login('vendor', form.email, form.password);
     } else {
-      result = await registerVendor(form);
+      const regPayload = {
+        ...form,
+        vendorApplicationStatus: appType === 'full' ? 'pending' : 'approved',
+        isVerified: appType !== 'full',
+        deliveryRadiusKm: Number(form.deliveryRadiusKm) || 25,
+        documents: [
+          {
+            type: 'GST Certificate',
+            title: 'Form GST REG-06 Certificate',
+            url: form.docGstUrl || 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?w=600&h=400&fit=crop'
+          },
+          {
+            type: 'PAN Card',
+            title: 'Business PAN Entity Card',
+            url: form.docPanUrl || 'https://images.unsplash.com/photo-1554224155-6726b3ff858f?w=600&h=400&fit=crop'
+          }
+        ],
+        bankDetails: {
+          accountNumber: form.accountNumber || '918273645019',
+          ifscCode: form.ifscCode || 'HDFC0001234'
+        }
+      };
+
+      result = await registerVendor(regPayload);
+
+      // Submit application record to backend as well
+      if (appType === 'full') {
+        try {
+          await api.submitVendorApplication({
+            ...regPayload,
+            vendorId: result?.user?.id || 'v' + Date.now(),
+            city: form.location.split(',')[0]?.trim() || form.location,
+            state: form.location.split(',')[1]?.trim() || 'Delhi'
+          });
+        } catch (appErr) {
+          console.warn('Backend application submit note:', appErr);
+        }
+      }
     }
     setLoading(false);
+
     if (result.success) {
-      addToast(mode === 'login' ? 'Welcome back, Vendor!' : 'Vendor store registered and logged in successfully!', 'success');
+      if (mode === 'login') {
+        addToast('Welcome back, Vendor!', 'success');
+      } else if (appType === 'full') {
+        addToast('Merchant application submitted for verification! Admin review in progress.', 'success');
+      } else {
+        addToast('Vendor store registered and logged in successfully!', 'success');
+      }
       navigate('/vendor/dashboard');
     } else {
-      addToast(result.message, 'error');
+      addToast(result.message || 'Operation failed', 'error');
     }
   };
 
@@ -110,6 +284,17 @@ export default function VendorAuth({ initialMode }) {
       password: 'Vendor@123',
       businessAddress: 'Unit 12B, Okhla Industrial Area Phase III',
       location: 'New Delhi, Delhi',
+      category: 'Electronics',
+      businessType: 'Private Limited',
+      gstin: `07AABCA${randomId}K1Z2`,
+      panNumber: `AABCA${randomId}K`,
+      deliveryRadiusKm: 35,
+      deliveryScope: 'pan_india',
+      pincode: '110020',
+      accountNumber: '918273645019',
+      ifscCode: 'HDFC0001234',
+      docGstUrl: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?w=600&h=400&fit=crop',
+      docPanUrl: 'https://images.unsplash.com/photo-1554224155-6726b3ff858f?w=600&h=400&fit=crop'
     });
     setErrors({});
   };
@@ -176,27 +361,12 @@ export default function VendorAuth({ initialMode }) {
             {mode === 'login' ? 'Access your merchant dashboard & live inventory' : 'Start selling verified products on VendorHub today'}
           </p>
 
-          {/* Google OAuth 2.0 Button */}
+          {/* Google OAuth Button */}
           <button
             type="button"
             onClick={handleVendorGoogleOAuth}
-            className="btn btn-outline btn-full"
-            style={{
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              gap: 10,
-              padding: '11px',
-              borderRadius: 12,
-              fontWeight: 700,
-              fontSize: '0.9rem',
-              background: '#fff',
-              color: '#374151',
-              border: '1.5px solid var(--border)',
-              boxShadow: '0 1px 3px rgba(0,0,0,0.08)',
-              marginBottom: 16,
-              cursor: 'pointer'
-            }}
+            className="google-auth-btn-official"
+            disabled={loading}
           >
             <svg width="18" height="18" viewBox="0 0 24 24">
               <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
@@ -204,7 +374,7 @@ export default function VendorAuth({ initialMode }) {
               <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l2.85-2.22.81-.63z"/>
               <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z"/>
             </svg>
-            Continue with Google (Merchant OAuth 2.0)
+            <span>Continue with Google</span>
           </button>
 
           <div style={{ display: 'flex', alignItems: 'center', margin: '14px 0 16px', color: 'var(--text-muted)', fontSize: '0.78rem' }}>
@@ -214,56 +384,120 @@ export default function VendorAuth({ initialMode }) {
           </div>
 
           {mode === 'login' ? (
-            <div style={{ marginBottom: 18, background: 'var(--surface-2, #F8FAFC)', border: '1px solid var(--border)', borderRadius: 12, padding: '12px' }}>
-              <div style={{ fontSize: '0.75rem', fontWeight: 800, color: 'var(--text-primary)', marginBottom: 8, display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                <span>⚡ Verified Vendor Accounts (1-Click Fill)</span>
-                <span style={{ color: '#7C3AED', fontSize: '0.7rem' }}>Pass: Vendor@123</span>
-              </div>
-              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(130px, 1fr))', gap: 6 }}>
-                {[
-                  { name: 'TechZone', email: 'rajesh@techzone.in', cat: 'Electronics' },
-                  { name: 'StyleHub', email: 'priya@stylehub.in', cat: 'Fashion' },
-                  { name: 'FreshBazaar', email: 'vikram@freshbazaar.in', cat: 'Grocery' },
-                  { name: 'ChaiCulture', email: 'vikram@chaiculture.in', cat: 'Gourmet Tea & Spices' },
-                  { name: 'Lumina Lighting', email: 'sneha@lumina.in', cat: 'Smart Lighting' },
-                  { name: 'Himalayan Pure', email: 'rahul@himalayanpure.in', cat: 'Organic Honey & Ghee' },
-                  { name: 'Aethelgard', email: 'kabir@aethelgard.in', cat: 'Leather Works' },
-                  { name: 'Apex Fitness', email: 'harpreet@apexfitness.in', cat: 'Gym & Barbells' },
-                  { name: 'Kaveri Silks', email: 'meenakshi@kaverisilks.in', cat: 'Kanchipuram Silks' },
-                  { name: 'AutoCraft Pro', email: 'gaurav@autocraft.in', cat: '4K Dash Cams & Auto' }
-                ].map((v) => (
-                  <button
-                    key={v.email}
-                    type="button"
-                    onClick={() => {
-                      setForm({ ...form, email: v.email, password: 'Vendor@123' });
-                      setErrors({});
-                    }}
-                    style={{
-                      background: form.email === v.email ? 'rgba(124, 58, 237, 0.15)' : 'white',
-                      border: `1.5px solid ${form.email === v.email ? '#7C3AED' : 'var(--border)'}`,
-                      borderRadius: 8,
-                      padding: '6px 8px',
-                      textAlign: 'left',
-                      cursor: 'pointer',
-                      fontSize: '0.72rem'
-                    }}
-                  >
-                    <div style={{ fontWeight: 800, color: form.email === v.email ? '#7C3AED' : 'var(--text-primary)' }}>{v.name}</div>
-                    <div style={{ color: 'var(--text-muted)', fontSize: '0.65rem' }}>{v.cat}</div>
-                  </button>
-                ))}
-              </div>
+            <div className="auth-demo-drawer" style={{ marginBottom: 18, marginTop: 0 }}>
+              <button
+                type="button"
+                className="auth-demo-drawer-toggle"
+                onClick={() => setShowDemoDrawer(!showDemoDrawer)}
+              >
+                <span>⚡ Demo Merchant Accounts (Click to view test stores)</span>
+                {showDemoDrawer ? <ChevronUp size={14} /> : <ChevronDown size={14} />}
+              </button>
+              {showDemoDrawer && (
+                <div className="auth-demo-drawer-content">
+                  <div style={{ fontSize: '0.72rem', color: '#64748B', marginBottom: 8 }}>
+                    Click any test merchant to auto-fill credentials (Pass: Vendor@123):
+                  </div>
+                  <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(120px, 1fr))', gap: 6 }}>
+                    {[
+                      { name: 'TechZone', email: 'rajesh@techzone.in', cat: 'Electronics' },
+                      { name: 'StyleHub', email: 'priya@stylehub.in', cat: 'Fashion' },
+                      { name: 'FreshBazaar', email: 'vikram@freshbazaar.in', cat: 'Grocery' },
+                      { name: 'ChaiCulture', email: 'vikram@chaiculture.in', cat: 'Gourmet Tea' },
+                      { name: 'Lumina Lighting', email: 'sneha@lumina.in', cat: 'Smart Lighting' },
+                      { name: 'Himalayan Pure', email: 'rahul@himalayanpure.in', cat: 'Organic Honey' }
+                    ].map((v) => (
+                      <button
+                        key={v.email}
+                        type="button"
+                        onClick={() => {
+                          setForm({ ...form, email: v.email, password: 'Vendor@123' });
+                          setErrors({});
+                          addToast(`Filled credentials for ${v.name}`, 'info');
+                        }}
+                        style={{
+                          background: form.email === v.email ? '#F5F3FF' : '#FFFFFF',
+                          border: `1px solid ${form.email === v.email ? '#7C3AED' : '#E2E8F0'}`,
+                          borderRadius: 6,
+                          padding: '6px 8px',
+                          textAlign: 'left',
+                          cursor: 'pointer'
+                        }}
+                      >
+                        <div style={{ fontWeight: 700, fontSize: '0.74rem', color: '#1E293B' }}>{v.name}</div>
+                        <div style={{ fontSize: '0.65rem', color: '#64748B' }}>{v.cat}</div>
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              )}
             </div>
           ) : (
-            <button
-              type="button"
-              className="auth-demo-btn"
-              style={{ borderColor: 'var(--success, #16A34A)', color: 'var(--success, #16A34A)', background: 'rgba(22, 163, 74, 0.08)', marginBottom: 16 }}
-              onClick={fillDemoRegister}
-            >
-              🧪 Auto-fill Sample Store Registration
-            </button>
+            <div style={{ marginBottom: 16 }}>
+              {/* Application type switcher */}
+              <div style={{ display: 'flex', gap: 6, background: 'var(--surface-2, #F8FAFC)', padding: 4, borderRadius: 10, border: '1px solid var(--border)', marginBottom: 12 }}>
+                <button
+                  type="button"
+                  onClick={() => setAppType('full')}
+                  style={{
+                    flex: 1,
+                    padding: '7px 10px',
+                    borderRadius: 8,
+                    border: 'none',
+                    fontSize: '0.76rem',
+                    fontWeight: 700,
+                    cursor: 'pointer',
+                    background: appType === 'full' ? '#7C3AED' : 'transparent',
+                    color: appType === 'full' ? 'white' : 'var(--text-muted)',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    gap: 6
+                  }}
+                >
+                  <FileCheck size={14} /> Full Onboarding Application (GST & PAN)
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setAppType('quick')}
+                  style={{
+                    flex: 1,
+                    padding: '7px 10px',
+                    borderRadius: 8,
+                    border: 'none',
+                    fontSize: '0.76rem',
+                    fontWeight: 700,
+                    cursor: 'pointer',
+                    background: appType === 'quick' ? '#7C3AED' : 'transparent',
+                    color: appType === 'quick' ? 'white' : 'var(--text-muted)',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    gap: 6
+                  }}
+                >
+                  ⚡ Quick Demo Store
+                </button>
+              </div>
+
+              <button
+                type="button"
+                className="auth-demo-btn"
+                style={{
+                  width: '100%',
+                  borderColor: 'var(--success, #16A34A)',
+                  color: 'var(--success, #16A34A)',
+                  background: 'rgba(22, 163, 74, 0.08)',
+                  padding: '9px 12px',
+                  borderRadius: 10,
+                  fontSize: '0.78rem',
+                  fontWeight: 700
+                }}
+                onClick={fillDemoRegister}
+              >
+                🧪 1-Click Auto-Fill Full Merchant Application (Compliant GST + Docs)
+              </button>
+            </div>
           )}
 
           <form className="auth-form" onSubmit={handleSubmit}>
@@ -321,15 +555,95 @@ export default function VendorAuth({ initialMode }) {
             {mode === 'register' && (
               <>
                 <div className="form-group">
-                  <label className="form-label">Business Address</label>
-                  <input className={`form-input ${errors.businessAddress ? 'error' : ''}`} name="businessAddress" placeholder="Street, Area" value={form.businessAddress} onChange={handleChange} />
+                  <label className="form-label">Business Pickup Address</label>
+                  <input className={`form-input ${errors.businessAddress ? 'error' : ''}`} name="businessAddress" placeholder="Street, Industrial Area / Unit" value={form.businessAddress} onChange={handleChange} />
                   {errors.businessAddress && <span className="form-error">{errors.businessAddress}</span>}
                 </div>
-                <div className="form-group">
-                  <label className="form-label">City / Location</label>
-                  <input className={`form-input ${errors.location ? 'error' : ''}`} name="location" placeholder="New Delhi, Delhi" value={form.location} onChange={handleChange} />
-                  {errors.location && <span className="form-error">{errors.location}</span>}
+
+                <div className="form-grid">
+                  <div className="form-group">
+                    <label className="form-label">City / Location</label>
+                    <input className={`form-input ${errors.location ? 'error' : ''}`} name="location" placeholder="New Delhi, Delhi" value={form.location} onChange={handleChange} />
+                    {errors.location && <span className="form-error">{errors.location}</span>}
+                  </div>
+                  <div className="form-group">
+                    <label className="form-label">Pincode</label>
+                    <input className="form-input" name="pincode" placeholder="110020" value={form.pincode} onChange={handleChange} />
+                  </div>
                 </div>
+
+                {appType === 'full' && (
+                  <div style={{ background: 'var(--surface-2, #F8FAFC)', border: '1px solid var(--border)', borderRadius: 12, padding: 14, margin: '10px 0 14px' }}>
+                    <div style={{ fontSize: '0.8rem', fontWeight: 800, color: 'var(--text-primary)', marginBottom: 10, display: 'flex', alignItems: 'center', gap: 6 }}>
+                      <Award size={15} color="#7C3AED" />
+                      <span>Compliance & Fulfillment Credentials</span>
+                    </div>
+
+                    <div className="form-grid">
+                      <div className="form-group">
+                        <label className="form-label">Primary Category</label>
+                        <select className="form-input" name="category" value={form.category} onChange={handleChange}>
+                          <option value="Electronics">Electronics & Tech</option>
+                          <option value="Fashion">Fashion & Apparel</option>
+                          <option value="Grocery">Grocery & Gourmet</option>
+                          <option value="Beauty">Beauty & Personal Care</option>
+                          <option value="Home Decor">Home, Lighting & Living</option>
+                          <option value="Sports & Fitness">Sports & Fitness</option>
+                          <option value="Automotive">Automotive Accessories</option>
+                        </select>
+                      </div>
+
+                      <div className="form-group">
+                        <label className="form-label">Business Structure</label>
+                        <select className="form-input" name="businessType" value={form.businessType} onChange={handleChange}>
+                          <option value="Sole Proprietorship">Sole Proprietorship</option>
+                          <option value="Partnership">Partnership Firm</option>
+                          <option value="Private Limited">Private Limited (Pvt Ltd)</option>
+                          <option value="LLP">Limited Liability Partnership</option>
+                        </select>
+                      </div>
+                    </div>
+
+                    <div className="form-grid" style={{ marginTop: 6 }}>
+                      <div className="form-group">
+                        <label className="form-label">GSTIN (15 Digits)</label>
+                        <input className={`form-input ${errors.gstin ? 'error' : ''}`} name="gstin" placeholder="07AABCS1234F1Z5" value={form.gstin} onChange={handleChange} />
+                        {errors.gstin && <span className="form-error">{errors.gstin}</span>}
+                      </div>
+
+                      <div className="form-group">
+                        <label className="form-label">PAN Number (10 Digits)</label>
+                        <input className={`form-input ${errors.panNumber ? 'error' : ''}`} name="panNumber" placeholder="AABCS1234F" value={form.panNumber} onChange={handleChange} />
+                        {errors.panNumber && <span className="form-error">{errors.panNumber}</span>}
+                      </div>
+                    </div>
+
+                    <div className="form-grid" style={{ marginTop: 6 }}>
+                      <div className="form-group">
+                        <label className="form-label">Delivery Radius (km)</label>
+                        <input
+                          type="number"
+                          className="form-input"
+                          name="deliveryRadiusKm"
+                          placeholder="30"
+                          min="5"
+                          max="200"
+                          value={form.deliveryRadiusKm}
+                          onChange={handleChange}
+                        />
+                      </div>
+
+                      <div className="form-group">
+                        <label className="form-label">Fulfillment Reach</label>
+                        <select className="form-input" name="deliveryScope" value={form.deliveryScope} onChange={handleChange}>
+                          <option value="pan_india">Pan-India Courier Network</option>
+                          <option value="state_only">State-wide Express</option>
+                          <option value="city_radius">City & Radius Only</option>
+                        </select>
+                      </div>
+                    </div>
+                  </div>
+                )}
               </>
             )}
 
@@ -373,6 +687,13 @@ export default function VendorAuth({ initialMode }) {
           </div>
         </div>
       </div>
+
+      <GoogleAuthModal
+        isOpen={showGoogleModal}
+        onClose={() => setShowGoogleModal(false)}
+        onGoogleSuccess={handleVendorGoogleSuccess}
+        role="vendor"
+      />
     </div>
   );
 }

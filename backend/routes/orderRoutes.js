@@ -8,6 +8,7 @@ import {
   requestReturn,
   resolveReturn,
   createProductSupportTicket,
+  getOrderInvoice,
   seedOrdersCatalog
 } from '../controllers/orderController.js';
 import { requireAuth } from '../middleware/auth.js';
@@ -18,6 +19,7 @@ const router = express.Router();
 router.post('/', requireAuth, createOrder);
 router.get('/customer/:customerId', requireAuth, getCustomerOrders);
 router.get('/vendor/:vendorId', requireAuth, getVendorOrders);
+router.get('/:id/invoice', requireAuth, getOrderInvoice);
 router.get('/:id', requireAuth, getOrderById);
 
 // Fulfillment & Post-purchase lifecycle

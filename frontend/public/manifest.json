@@ -1,0 +1,56 @@
+{
+  "name": "Vendor Hub — Independent Local Merchant Marketplace",
+  "short_name": "VendorHub",
+  "description": "Discover verified physical vendors, browse authentic catalog SKUs, track real-time courier dispatch, and support local merchants across India.",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "background_color": "#0F172A",
+  "theme_color": "#4F46E5",
+  "icons": [
+    {
+      "src": "/favicon.svg",
+      "sizes": "192x192",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/favicon.svg",
+      "sizes": "512x512",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ],
+  "categories": ["shopping", "business", "productivity"],
+  "shortcuts": [
+    {
+      "name": "Customer Shop",
+      "short_name": "Shop",
+      "description": "Browse verified marketplace catalog",
+      "url": "/shop",
+      "icons": [{ "src": "/favicon.svg", "sizes": "192x192" }]
+    },
+    {
+      "name": "Explore Stores",
+      "short_name": "Stores",
+      "description": "Discover local verified physical merchant storefronts",
+      "url": "/stores",
+      "icons": [{ "src": "/favicon.svg", "sizes": "192x192" }]
+    },
+    {
+      "name": "My Orders",
+      "short_name": "Orders",
+      "description": "Track your shipments and doorstep delivery OTPs",
+      "url": "/shop/orders",
+      "icons": [{ "src": "/favicon.svg", "sizes": "192x192" }]
+    },
+    {
+      "name": "Vendor Portal",
+      "short_name": "Vendor",
+      "description": "Merchant fulfillment, inventory, and storefront management",
+      "url": "/vendor/dashboard",
+      "icons": [{ "src": "/favicon.svg", "sizes": "192x192" }]
+    }
+  ]
+}

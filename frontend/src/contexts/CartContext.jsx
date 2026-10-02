@@ -217,6 +217,38 @@ export function CartProvider({ children }) {
     });
   }, []);
 
+  const addBundleToCart = useCallback((bundle, productsList = []) => {
+    if (!bundle || !Array.isArray(bundle.items) || bundle.items.length === 0) return { success: false };
+
+    const origPrice = bundle.originalPrice || bundle.items.reduce((acc, it) => acc + (it.price || 0) * (it.quantity || 1), 0);
+    const bundlePrice = bundle.bundlePrice || origPrice;
+    const discountRatio = origPrice > 0 ? (bundlePrice / origPrice) : 1;
+
+    bundle.items.forEach((item) => {
+      const pId = item.productId?._id || item.productId || item.id;
+      const fullProd = productsList.find((p) => p.id === pId) || item;
+      const discountedItemPrice = Math.round((item.price || fullProd.price || 0) * discountRatio);
+
+      dispatch({
+        type: CART_ACTIONS.ADD_ITEM,
+        payload: {
+          product: {
+            ...fullProd,
+            id: pId,
+            price: discountedItemPrice,
+            name: `${fullProd.name || item.name} (Bundle Deal)`,
+            images: fullProd.images || [item.image || fullProd.image]
+          },
+          quantity: item.quantity || 1,
+          selectedVariant: { option: `Combo Bundle: ${bundle.title}` },
+          customization: {}
+        }
+      });
+    });
+
+    return { success: true };
+  }, []);
+
   const removeFromCart = useCallback((cartItemId) => {
     dispatch({
       type: CART_ACTIONS.REMOVE_ITEM,
@@ -270,11 +302,14 @@ export function CartProvider({ children }) {
       upiRef: orderDetails.paymentDetails?.upiRef || (paymentMethod === 'UPI_QR' ? `UPI-${Math.floor(10000000 + Math.random() * 90000000)}-IN` : null),
       cardLast4: orderDetails.paymentDetails?.cardLast4 || null,
       cardNetwork: orderDetails.paymentDetails?.cardNetwork || null,
+      razorpay_order_id: orderDetails.paymentDetails?.razorpay_order_id || null,
+      razorpay_payment_id: orderDetails.paymentDetails?.razorpay_payment_id || null,
+      razorpay_signature: orderDetails.paymentDetails?.razorpay_signature || null,
       paidAt: isCOD ? null : (orderDetails.paymentDetails?.paidAt || new Date().toISOString()),
     };
 
     const newOrder = {
-      id: 'ord' + Date.now(),
+      id: orderDetails.id || ('ord' + Date.now()),
       customerId: customerId || user?.id || 'c1',
       items: cart.map((item) => ({ ...item })),
       subtotal,
@@ -306,6 +341,8 @@ export function CartProvider({ children }) {
           location: 'Customer Checkout',
           note: isCOD
             ? `Physical order placed with Cash on Delivery. ₹${total.toLocaleString('en-IN')} due upon delivery. Tamper-evident OTP: ${codOtp}.`
+            : paymentMethod === 'RAZORPAY'
+            ? `Physical order placed & paid online via Razorpay Gateway (Payment ID: ${paymentDetails.razorpay_payment_id || 'RZP-OK'}). Stock reserved.`
             : `Physical order placed & authorized via ${paymentMethod === 'UPI_QR' ? 'UPI Dynamic QR' : 'Card'} (Ref: ${paymentDetails.upiRef || 'AUTH-OK'}). Stock reserved.`,
         },
         {
@@ -459,6 +496,7 @@ export function CartProvider({ children }) {
     cartCount,
     cartTotal,
     addToCart,
+    addBundleToCart,
     removeFromCart,
     updateCartQuantity,
     clearCart,
@@ -481,6 +519,7 @@ export function CartProvider({ children }) {
     applyCoupon,
     removeCoupon,
     addToCart,
+    addBundleToCart,
     removeFromCart,
     updateCartQuantity,
     clearCart,

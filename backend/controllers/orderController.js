@@ -1,8 +1,13 @@
 import mongoose from 'mongoose';
 import Order from '../models/Order.js';
 import Product from '../models/Product.js';
-import { seedOrders } from '../data/seedData.js';
-import { emitOrderStatusUpdate, emitNewOrderPlaced } from '../socket/socketService.js';
+import User from '../models/User.js';
+import Notification from '../models/Notification.js';
+import { seedOrders, seedVendors, seedCustomers } from '../data/seedData.js';
+import { emitOrderStatusUpdate, emitNewOrderPlaced, emitLowStockAlert, getIO } from '../socket/socketService.js';
+import { generateGstInvoice } from '../utils/invoiceGenerator.js';
+import { buildOrGetInvoiceForOrder } from './invoiceController.js';
+import { logActivity } from '../utils/activityLogger.js';
 
 // Hybrid in-memory order store for offline / development resilience
 let memOrders = [...seedOrders];
@@ -83,13 +88,37 @@ export const createOrder = async (req, res) => {
         const doc = new Order(newOrder);
         await doc.save();
 
-        // Deduct physical inventory in MongoDB
+        // Deduct physical inventory in MongoDB & check low stock
         for (const item of orderData.items) {
           const qty = item.quantity || 1;
-          await Product.findOneAndUpdate(
+          const updatedProd = await Product.findOneAndUpdate(
             { id: item.productId },
-            { $inc: { stock: -qty, quantity: -qty } }
+            { $inc: { stock: -qty, quantity: -qty } },
+            { new: true }
           );
+
+          if (updatedProd && updatedProd.stock <= (updatedProd.lowStockThreshold || 5)) {
+            emitLowStockAlert(item.vendorId, {
+              productId: updatedProd.id,
+              title: updatedProd.name,
+              sku: updatedProd.sku,
+              stock: updatedProd.stock,
+              threshold: updatedProd.lowStockThreshold || 5
+            });
+
+            try {
+              const lowStockNotif = new Notification({
+                id: `notif-stock-${Date.now()}-${updatedProd.id}`,
+                userId: item.vendorId,
+                type: 'low_stock',
+                title: `⚠️ Low Stock Alert: ${updatedProd.name}`,
+                message: `Inventory dropped to ${updatedProd.stock} units (Safety threshold: ${updatedProd.lowStockThreshold || 5}). Restock recommended.`,
+                link: '/vendor/inventory',
+                data: { productId: updatedProd.id, stock: updatedProd.stock }
+              });
+              await lowStockNotif.save();
+            } catch (e) {}
+          }
         }
       } catch (dbErr) {
         console.warn('DB order save note:', dbErr.message);
@@ -98,9 +127,60 @@ export const createOrder = async (req, res) => {
 
     memOrders.unshift(newOrder);
 
-    // Real-time broadcast to vendor
+    // Real-time broadcast & persistent notification to vendor
     const targetVendorId = newOrder.vendorId || newOrder.items?.[0]?.vendorId;
     emitNewOrderPlaced(newOrder, targetVendorId);
+
+    // Save persistent notifications to MongoDB
+    if (isDbReady()) {
+      try {
+        if (targetVendorId) {
+          const vendorNotif = new Notification({
+            id: `notif-ord-${Date.now()}-v`,
+            userId: targetVendorId,
+            type: 'order_new',
+            title: `🎉 New Order Received! #${orderId}`,
+            message: `${orderData.items.length} item(s) totaling ₹${newOrder.total?.toLocaleString('en-IN')}. Verify dispatch.`,
+            link: '/vendor/orders',
+            data: { orderId }
+          });
+          await vendorNotif.save();
+        }
+
+        const customerNotif = new Notification({
+          id: `notif-ord-${Date.now()}-c`,
+          userId: customerId,
+          type: 'order',
+          title: `📦 Order #${orderId} Placed Successfully!`,
+          message: `Your payment was verified. Items are being prepared by the merchant.`,
+          link: '/shop/orders',
+          data: { orderId }
+        });
+        await customerNotif.save();
+      } catch (e) {}
+    }
+
+    // Automatically generate Digital Tax Invoice for this order
+    buildOrGetInvoiceForOrder(newOrder.id).catch((err) => {
+      console.warn('Auto invoice generation notice:', err.message);
+    });
+
+    // Record auditable platform activity
+    logActivity({
+      action: 'order_placed',
+      actorId: customerId,
+      actorRole: 'customer',
+      actorName: req.user?.name || 'Customer',
+      targetType: 'order',
+      targetId: newOrder.id,
+      title: `Order #${newOrder.id} placed for ₹${newOrder.total?.toLocaleString('en-IN')}`,
+      details: {
+        total: newOrder.total,
+        paymentMethod: newOrder.paymentMethod,
+        itemsCount: newOrder.items?.length || 1,
+        vendorId: targetVendorId
+      }
+    }).catch(() => {});
 
     return res.status(201).json({
       success: true,
@@ -233,6 +313,73 @@ export const getOrderById = async (req, res) => {
 };
 
 /**
+ * 4B. Get Order GST Tax Invoice
+ * GET /api/orders/:id/invoice
+ */
+export const getOrderInvoice = async (req, res) => {
+  try {
+    const { id } = req.params;
+    let order = null;
+
+    if (isDbReady()) {
+      try {
+        order = await Order.findOne({ id });
+        if (order) order = order.toJSON();
+      } catch (e) {}
+    }
+
+    if (!order) {
+      order = memOrders.find((o) => o.id === id);
+    }
+
+    if (!order) {
+      return res.status(404).json({ success: false, message: 'Order not found' });
+    }
+
+    // Resolve Vendor
+    const vendorId = order.vendorId || order.items?.[0]?.vendorId;
+    let vendor = null;
+    if (isDbReady() && vendorId) {
+      try {
+        vendor = await User.findOne({ id: vendorId, type: 'vendor' });
+        if (vendor) vendor = vendor.toJSON();
+      } catch (e) {}
+    }
+    if (!vendor) {
+      vendor = seedVendors.find((v) => v.id === vendorId) || {
+        businessName: order.items?.[0]?.vendorName || 'Verified Merchant Store',
+        gstin: '07AABCT1234F1Z8',
+        location: 'New Delhi, Delhi'
+      };
+    }
+
+    // Resolve Customer
+    let customer = null;
+    if (isDbReady() && order.customerId) {
+      try {
+        customer = await User.findOne({ id: order.customerId });
+        if (customer) customer = customer.toJSON();
+      } catch (e) {}
+    }
+    if (!customer) {
+      customer = seedCustomers.find((c) => c.id === order.customerId) || {
+        fullName: order.shippingAddress?.fullName || 'Customer',
+        address: order.address || 'India'
+      };
+    }
+
+    const invoice = generateGstInvoice(order, vendor, customer);
+
+    return res.json({
+      success: true,
+      invoice
+    });
+  } catch (error) {
+    return res.status(500).json({ success: false, message: error.message });
+  }
+};
+
+/**
  * 5. Update Shipment Status
  * PATCH /api/orders/:id/status
  */
@@ -289,6 +436,23 @@ export const updateShipmentStatus = async (req, res) => {
 
     // Real-time broadcast to customer & vendor
     emitOrderStatusUpdate(id, updated, updated.customerId, updated.vendorId);
+
+    // Audit log order status change
+    logActivity({
+      action: 'order_status_changed',
+      actorId: req.user?.id || 'system',
+      actorRole: req.user?.role || 'vendor',
+      actorName: req.user?.name || 'Logistics Partner',
+      targetType: 'order',
+      targetId: id,
+      title: `Order #${id} status changed to ${nextStatus}`,
+      details: {
+        status: nextStatus,
+        location,
+        courierPartner: updated.courierPartner,
+        trackingNumber: updated.trackingNumber
+      }
+    }).catch(() => {});
 
     return res.json({
       success: true,

@@ -5,6 +5,9 @@ import Order from '../models/Order.js';
 import Dispute from '../models/Dispute.js';
 import Promotion from '../models/Promotion.js';
 import Conversation from '../models/Conversation.js';
+import Bundle from '../models/Bundle.js';
+import Notification from '../models/Notification.js';
+import VendorApplication from '../models/VendorApplication.js';
 import {
   ADMIN_CREDENTIALS,
   seedVendors,
@@ -178,6 +181,212 @@ export const autoSeedDatabaseIfEmpty = async () => {
       console.log('🌱 Populating initial customer-vendor conversations into database...');
       await Conversation.insertMany(INITIAL_SEED_CONVERSATIONS);
       console.log(`✅ Seeded ${INITIAL_SEED_CONVERSATIONS.length} customer-vendor conversations.`);
+    }
+
+    const bundleCount = await Bundle.countDocuments();
+    if (bundleCount === 0) {
+      console.log('🌱 Populating initial product bundles into database...');
+      await Bundle.insertMany([
+        {
+          id: 'bnd-101',
+          vendorId: 'v1',
+          vendorName: 'TechZone Electronics',
+          title: 'Ultimate Flagship Audio & Productivity Combo',
+          description: 'Sony WH-1000XM5 Premium Headphones bundled with Logitech MX Master 3S wireless mouse.',
+          badgeText: 'BEST VALUE COMBO',
+          items: [
+            {
+              productId: 'p3',
+              quantity: 1,
+              name: 'Sony WH-1000XM5 Headphones',
+              sku: 'VM-ELEC-P3-SON',
+              price: 29990,
+              image: 'https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=600&h=600&fit=crop',
+              category: 'Electronics'
+            },
+            {
+              productId: 'p2',
+              quantity: 1,
+              name: 'Logitech MX Master 3S Mouse',
+              sku: 'VM-ELEC-P2-LOG',
+              price: 8995,
+              image: 'https://images.unsplash.com/photo-1527864550417-7fd91fc51a46?w=600&h=600&fit=crop',
+              category: 'Electronics'
+            }
+          ],
+          discountType: 'percentage',
+          discountValue: 15,
+          originalPrice: 38985,
+          bundlePrice: 33137,
+          savingsAmount: 5848,
+          status: 'active',
+          image: 'https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=800&h=500&fit=crop',
+          startDate: '2026-01-01',
+          endDate: '2026-12-31',
+          createdAt: '2026-09-01'
+        },
+        {
+          id: 'bnd-102',
+          vendorId: 'v2',
+          vendorName: 'StyleHub Fashion',
+          title: 'Executive Pure Linen & Footwear Ensemble',
+          description: "Men's Slim Fit Linen Shirt paired with Handcrafted Leather Oxford Shoes.",
+          badgeText: 'FESTIVE COMBO',
+          items: [
+            {
+              productId: 'p11',
+              quantity: 1,
+              name: "Men's Slim Fit Linen Shirt",
+              sku: 'VM-FASH-P11-LIN',
+              price: 2499,
+              image: 'https://images.unsplash.com/photo-1596755094514-f87e34085b2c?w=600&h=600&fit=crop',
+              category: 'Fashion'
+            },
+            {
+              productId: 'p14',
+              quantity: 1,
+              name: 'Handcrafted Leather Oxford Shoes',
+              sku: 'VM-FASH-P14-OXF',
+              price: 5499,
+              image: 'https://images.unsplash.com/photo-1549298916-b41d501d3772?w=600&h=600&fit=crop',
+              category: 'Fashion'
+            }
+          ],
+          discountType: 'percentage',
+          discountValue: 20,
+          originalPrice: 7998,
+          bundlePrice: 6398,
+          savingsAmount: 1600,
+          status: 'active',
+          image: 'https://images.unsplash.com/photo-1596755094514-f87e34085b2c?w=800&h=500&fit=crop',
+          startDate: '2026-01-01',
+          endDate: '2026-12-31',
+          createdAt: '2026-09-05'
+        }
+      ]);
+      console.log('✅ Seeded initial product bundles.');
+    }
+
+    const appCount = await VendorApplication.countDocuments();
+    if (appCount === 0) {
+      console.log('🌱 Populating initial vendor onboarding applications into database...');
+      await VendorApplication.insertMany([
+        {
+          id: 'app-1001',
+          vendorId: 'v11-demo',
+          businessName: 'Vedic Aromas & Organics',
+          ownerName: 'Sunita Sharma',
+          email: 'sunita@vedicaromas.in',
+          mobile: '9811223344',
+          category: 'Beauty',
+          businessType: 'Sole Proprietorship',
+          gstin: '07AABCS9876K1Z3',
+          panNumber: 'AABCS9876K',
+          fssaiLicense: '10019022001234',
+          businessAddress: '24, Rose Garden Road, Civil Lines',
+          city: 'Jaipur',
+          state: 'Rajasthan',
+          pincode: '302006',
+          deliveryRadiusKm: 30,
+          deliveryScope: 'pan_india',
+          bankDetails: {
+            accountHolder: 'Vedic Aromas',
+            accountNumber: '918273645019',
+            ifscCode: 'HDFC0001234',
+            upiId: 'vedicaromas@okhdfc'
+          },
+          documents: [
+            {
+              type: 'GST Certificate',
+              title: 'Form GST REG-06 Certificate of Registration',
+              url: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?w=600&h=400&fit=crop'
+            },
+            {
+              type: 'PAN Card',
+              title: 'Business PAN Entity Card',
+              url: 'https://images.unsplash.com/photo-1554224155-6726b3ff858f?w=600&h=400&fit=crop'
+            }
+          ],
+          status: 'pending',
+          rejectionReason: '',
+          submittedAt: '2026-09-28T10:00:00.000Z'
+        },
+        {
+          id: 'app-1002',
+          vendorId: 'v12-demo',
+          businessName: 'Himalayan Shilajit & Pure Herbs',
+          ownerName: 'Vikram Negi',
+          email: 'vikram@himalayanherbs.in',
+          mobile: '9822334455',
+          category: 'Grocery',
+          businessType: 'Partnership',
+          gstin: '05AABCH5544R1Z9',
+          panNumber: 'AABCH5544R',
+          fssaiLicense: '10020011009876',
+          businessAddress: '78, Mall Road, Almora',
+          city: 'Dehradun',
+          state: 'Uttarakhand',
+          pincode: '248001',
+          deliveryRadiusKm: 50,
+          deliveryScope: 'pan_india',
+          bankDetails: {
+            accountHolder: 'Himalayan Shilajit Traders',
+            accountNumber: '50100234567891',
+            ifscCode: 'SBIN0004567',
+            upiId: 'himalayanherbs@oksbi'
+          },
+          documents: [
+            {
+              type: 'FSSAI License',
+              title: 'Central FSSAI Food Safety Compliance Certificate',
+              url: 'https://images.unsplash.com/photo-1554224155-6726b3ff858f?w=600&h=400&fit=crop'
+            }
+          ],
+          status: 'pending',
+          rejectionReason: '',
+          submittedAt: '2026-09-29T14:30:00.000Z'
+        }
+      ]);
+      console.log('✅ Seeded initial vendor applications.');
+    }
+
+    const notifCount = await Notification.countDocuments();
+    if (notifCount === 0) {
+      console.log('🌱 Populating initial platform notifications...');
+      await Notification.insertMany([
+        {
+          id: 'notif-welcome-c1',
+          userId: 'c1',
+          type: 'system',
+          title: 'Welcome to Vendor Hub! 🛍️',
+          message: 'Explore verified independent local merchants across India with fair pricing and express delivery.',
+          link: '/shop',
+          isRead: false,
+          createdAt: new Date().toISOString()
+        },
+        {
+          id: 'notif-deal-c1',
+          vendorId: 'v1',
+          userId: 'c1',
+          type: 'bundle',
+          title: 'Combo Offer: Pro Audio & Studio Kit',
+          message: 'TechZone Electronics released a new bundle saving ₹5,848. Check it out now!',
+          link: '/store/techzone',
+          isRead: false,
+          createdAt: new Date().toISOString()
+        },
+        {
+          id: 'notif-welcome-v1',
+          userId: 'v1',
+          type: 'system',
+          title: 'Merchant Hub Live 🚀',
+          message: 'Your storefront is active with verified courier dispatch and real-time inventory management.',
+          link: '/vendor/dashboard',
+          isRead: false,
+          createdAt: new Date().toISOString()
+        }
+      ]);
+      console.log('✅ Seeded initial notifications.');
     }
   } catch (err) {
     console.warn('⚠️ Auto-seeding notice:', err.message);
