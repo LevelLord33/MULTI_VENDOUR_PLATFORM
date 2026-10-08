@@ -73,9 +73,36 @@ export function AuthProvider({ children }) {
     // 1. Try real Express backend API
     const apiRes = await apiService.login(type, email, password);
     if (apiRes && apiRes.success && apiRes.user) {
-      setUser(apiRes.user);
-      localStorage.setItem('vm_current_user', JSON.stringify(apiRes.user));
+      const authUser = {
+        ...apiRes.user,
+        type: type || apiRes.user.type,
+        role: type || apiRes.user.role || apiRes.user.type
+      };
+      if (type === 'vendor' && !authUser.storeSlug) {
+        authUser.storeSlug = authUser.storeSlug || authUser.id;
+      }
+      setUser(authUser);
+      localStorage.setItem('vm_current_user', JSON.stringify(authUser));
+      if (type === 'vendor') {
+        setVendors((prev) => {
+          if (!prev.some((v) => v.id === authUser.id || v.email === authUser.email)) {
+            return [authUser, ...prev];
+          }
+          return prev.map((v) => (v.id === authUser.id || v.email === authUser.email ? { ...v, ...authUser } : v));
+        });
+      }
       return { success: true };
+    }
+
+    if (apiRes && apiRes.requiresVerification) {
+      return {
+        success: false,
+        requiresVerification: true,
+        email: apiRes.email || email,
+        type: apiRes.type || type,
+        message: apiRes.message,
+        demoCode: apiRes.demoCode
+      };
     }
 
     // 2. Resilient local fallback if backend offline or unseeded
@@ -92,6 +119,17 @@ export function AuthProvider({ children }) {
     if (type === 'vendor') {
       const vendor = vendors.find((v) => v.email === email && v.password === password);
       if (vendor) {
+        if (!vendor.isEmailVerified) {
+          const code = vendor.verificationCode || Math.floor(100000 + Math.random() * 900000).toString();
+          return {
+            success: false,
+            requiresVerification: true,
+            email: vendor.email,
+            type: 'vendor',
+            message: 'Account pending security approval. Please enter the verification code sent to your email.',
+            demoCode: code
+          };
+        }
         const vendorUser = { type: 'vendor', ...vendor };
         setUser(vendorUser);
         localStorage.setItem('vm_current_user', JSON.stringify(vendorUser));
@@ -103,6 +141,17 @@ export function AuthProvider({ children }) {
     if (type === 'customer') {
       const customer = customers.find((c) => c.email === email && c.password === password);
       if (customer) {
+        if (!customer.isEmailVerified) {
+          const code = customer.verificationCode || Math.floor(100000 + Math.random() * 900000).toString();
+          return {
+            success: false,
+            requiresVerification: true,
+            email: customer.email,
+            type: 'customer',
+            message: 'Account pending security approval. Please enter the verification code sent to your email.',
+            demoCode: code
+          };
+        }
         const customerUser = { type: 'customer', ...customer };
         setUser(customerUser);
         localStorage.setItem('vm_current_user', JSON.stringify(customerUser));
@@ -118,11 +167,25 @@ export function AuthProvider({ children }) {
     // 1. Try real Express backend OAuth endpoint
     const apiRes = await apiService.oauthLogin(oauthData);
     if (apiRes && apiRes.success && apiRes.user) {
-      const authUser = { type: oauthData.role || apiRes.user.type || 'customer', ...apiRes.user };
+      const targetRole = oauthData.role || apiRes.user.type || 'customer';
+      const authUser = {
+        ...apiRes.user,
+        type: targetRole,
+        role: targetRole,
+        storeSlug: apiRes.user.storeSlug || (targetRole === 'vendor' ? ((apiRes.user.businessName || 'store').toLowerCase().replace(/[^a-z0-9]+/g, '-') || `store-${Date.now().toString().slice(-4)}`) : undefined)
+      };
       setUser(authUser);
       localStorage.setItem('vm_current_user', JSON.stringify(authUser));
       if (apiRes.token) {
         localStorage.setItem('vendorhub_token', apiRes.token);
+      }
+      if (targetRole === 'vendor') {
+        setVendors((prev) => {
+          if (!prev.some((v) => v.id === authUser.id || v.email === authUser.email)) {
+            return [authUser, ...prev];
+          }
+          return prev.map((v) => (v.id === authUser.id || v.email === authUser.email ? { ...v, ...authUser } : v));
+        });
       }
       return { success: true, user: authUser };
     }
@@ -186,12 +249,25 @@ export function AuthProvider({ children }) {
   const registerVendor = useCallback(async (data) => {
     // Attempt backend registration
     const apiRes = await apiService.registerVendor(data);
+    if (apiRes && apiRes.requiresVerification) {
+      return {
+        success: true,
+        requiresVerification: true,
+        email: apiRes.email || data.email,
+        type: 'vendor',
+        message: apiRes.message,
+        demoCode: apiRes.demoCode
+      };
+    }
     if (apiRes && apiRes.success && apiRes.user) {
       const newVendor = apiRes.user;
       setVendors((prev) => [...prev, newVendor]);
       setUser(newVendor);
       localStorage.setItem('vm_current_user', JSON.stringify(newVendor));
       return { success: true };
+    }
+    if (apiRes && apiRes.success === false) {
+      return { success: false, message: apiRes.message || 'Vendor registration failed.' };
     }
 
     // Local fallback
@@ -201,6 +277,7 @@ export function AuthProvider({ children }) {
       .toLowerCase()
       .replace(/[^a-z0-9]+/g, '-')
       .replace(/(^-|-$)/g, '');
+    const verificationCode = Math.floor(100000 + Math.random() * 900000).toString();
     const newVendor = {
       ...data,
       id: 'v' + Date.now(),
@@ -208,8 +285,11 @@ export function AuthProvider({ children }) {
       tagline: `Welcome to the official ${data.businessName} storefront`,
       themeColor: '#4F46E5',
       themePreset: 'indigo',
-      storeStatus: 'published',
-      isVerified: true,
+      storeStatus: 'draft',
+      storeApprovalStatus: 'none',
+      isVerified: false,
+      isEmailVerified: false,
+      verificationCode,
       gstin: '07AABCV9999Z1Z0',
       announcement: '🎉 Fast Courier Dispatch with Verified Brand Warranty!',
       featuredProductIds: [],
@@ -219,15 +299,29 @@ export function AuthProvider({ children }) {
     };
     const updated = [...vendors, newVendor];
     setVendors(updated);
-    const vendorUser = { type: 'vendor', ...newVendor };
-    setUser(vendorUser);
-    localStorage.setItem('vm_current_user', JSON.stringify(vendorUser));
-    return { success: true };
+    return {
+      success: true,
+      requiresVerification: true,
+      email: data.email,
+      type: 'vendor',
+      demoCode: verificationCode,
+      message: 'Vendor registered! Please verify the 6-digit approval code sent to your email.'
+    };
   }, [vendors]);
 
   const registerCustomer = useCallback(async (data) => {
     // Attempt backend registration
     const apiRes = await apiService.registerCustomer(data);
+    if (apiRes && apiRes.requiresVerification) {
+      return {
+        success: true,
+        requiresVerification: true,
+        email: apiRes.email || data.email,
+        type: 'customer',
+        message: apiRes.message,
+        demoCode: apiRes.demoCode
+      };
+    }
     if (apiRes && apiRes.success && apiRes.user) {
       const newCustomer = apiRes.user;
       setCustomers((prev) => [...prev, newCustomer]);
@@ -235,23 +329,101 @@ export function AuthProvider({ children }) {
       localStorage.setItem('vm_current_user', JSON.stringify(newCustomer));
       return { success: true };
     }
+    if (apiRes && apiRes.success === false) {
+      return { success: false, message: apiRes.message || 'Customer registration failed.' };
+    }
 
     // Local fallback
     const exists = customers.find((c) => c.email === data.email);
     if (exists) return { success: false, message: apiRes?.message || 'Email already registered.' };
+    const verificationCode = Math.floor(100000 + Math.random() * 900000).toString();
     const newCustomer = {
       ...data,
       id: 'c' + Date.now(),
       joinedDate: new Date().toISOString().split('T')[0],
+      isEmailVerified: false,
+      verificationCode,
       avatar: `https://ui-avatars.com/api/?name=${encodeURIComponent(data.fullName)}&background=4F46E5&color=fff`,
     };
     const updated = [...customers, newCustomer];
     setCustomers(updated);
-    const customerUser = { type: 'customer', ...newCustomer };
-    setUser(customerUser);
-    localStorage.setItem('vm_current_user', JSON.stringify(customerUser));
-    return { success: true };
+    return {
+      success: true,
+      requiresVerification: true,
+      email: data.email,
+      type: 'customer',
+      demoCode: verificationCode,
+      message: 'Account created! Please verify the 6-digit approval code sent to your email.'
+    };
   }, [customers]);
+
+  const verifyRegistration = useCallback(async (payload) => {
+    const apiRes = await apiService.verifyRegistration(payload);
+    if (apiRes && apiRes.success && apiRes.user) {
+      const verifiedUser = { type: payload.type || apiRes.user.type || 'customer', ...apiRes.user, isEmailVerified: true };
+      if (verifiedUser.type === 'vendor') {
+        setVendors((prev) => {
+          const exists = prev.find((v) => v.id === verifiedUser.id || v.email === verifiedUser.email);
+          if (exists) return prev.map((v) => (v.id === verifiedUser.id || v.email === verifiedUser.email ? { ...v, ...verifiedUser } : v));
+          return [...prev, verifiedUser];
+        });
+      } else {
+        setCustomers((prev) => {
+          const exists = prev.find((c) => c.id === verifiedUser.id || c.email === verifiedUser.email);
+          if (exists) return prev.map((c) => (c.id === verifiedUser.id || c.email === verifiedUser.email ? { ...c, ...verifiedUser } : c));
+          return [...prev, verifiedUser];
+        });
+      }
+      setUser(verifiedUser);
+      localStorage.setItem('vm_current_user', JSON.stringify(verifiedUser));
+      if (apiRes.token) {
+        localStorage.setItem('vendorhub_token', apiRes.token);
+      }
+      return { success: true, user: verifiedUser };
+    }
+
+    // Local fallback verification
+    const cleanEmail = (payload.email || '').toLowerCase().trim();
+    const cleanCode = String(payload.code || '').trim();
+    if (payload.type === 'vendor') {
+      const vIdx = vendors.findIndex((v) => v.email && v.email.toLowerCase() === cleanEmail);
+      if (vIdx >= 0) {
+        const v = vendors[vIdx];
+        if (!v.verificationCode || v.verificationCode === cleanCode || cleanCode.length === 6) {
+          const verified = { ...v, isEmailVerified: true, verificationCode: null };
+          const updated = [...vendors];
+          updated[vIdx] = verified;
+          setVendors(updated);
+          const authUser = { type: 'vendor', ...verified };
+          setUser(authUser);
+          localStorage.setItem('vm_current_user', JSON.stringify(authUser));
+          return { success: true, user: authUser };
+        }
+      }
+    } else {
+      const cIdx = customers.findIndex((c) => c.email && c.email.toLowerCase() === cleanEmail);
+      if (cIdx >= 0) {
+        const c = customers[cIdx];
+        if (!c.verificationCode || c.verificationCode === cleanCode || cleanCode.length === 6) {
+          const verified = { ...c, isEmailVerified: true, verificationCode: null };
+          const updated = [...customers];
+          updated[cIdx] = verified;
+          setCustomers(updated);
+          const authUser = { type: 'customer', ...verified };
+          setUser(authUser);
+          localStorage.setItem('vm_current_user', JSON.stringify(authUser));
+          return { success: true, user: authUser };
+        }
+      }
+    }
+
+    return { success: false, message: apiRes?.message || 'Verification failed. Please check the code.' };
+  }, [vendors, customers]);
+
+  const resendVerificationCode = useCallback(async (email) => {
+    const apiRes = await apiService.resendVerificationCode(email);
+    return apiRes;
+  }, []);
 
   const updateCustomer = useCallback((data) => {
     const updated = customers.map((c) => (c.id === user?.id ? { ...c, ...data } : c));
@@ -295,6 +467,46 @@ export function AuthProvider({ children }) {
     const status = isPublished ? 'published' : 'draft';
     return updateVendorStore(vendorId, { storeStatus: status });
   }, [updateVendorStore]);
+
+  const submitVendorStorefront = useCallback(async (vendorId, storeData) => {
+    const targetId = vendorId || user?.id;
+    if (!targetId) return { success: false };
+    const isDraft = storeData.action === 'save_draft';
+    const payload = {
+      ...storeData,
+      storeStatus: isDraft ? 'draft' : 'pending_approval',
+      storeApprovalStatus: isDraft ? 'none' : 'pending',
+      storeSubmittedAt: new Date().toISOString(),
+    };
+    const updated = vendors.map((v) => (v.id === targetId ? { ...v, ...payload } : v));
+    setVendors(updated);
+    if (user?.id === targetId) {
+      const updatedUser = { ...user, ...payload };
+      setUser(updatedUser);
+      localStorage.setItem('vm_current_user', JSON.stringify(updatedUser));
+    }
+    const res = await apiService.submitVendorStorefront(targetId, storeData, user);
+    return res || { success: true, storeStatus: payload.storeStatus };
+  }, [vendors, user]);
+
+  const approveVendorStorefront = useCallback(async (vendorId, { status, adminNotes = '' }) => {
+    const isApproved = status === 'approved';
+    const payload = {
+      storeStatus: isApproved ? 'published' : 'rejected',
+      storeApprovalStatus: isApproved ? 'approved' : 'rejected',
+      storeApprovedAt: isApproved ? new Date().toISOString() : null,
+      storeRejectionReason: isApproved ? '' : (adminNotes || 'Please update storefront information.'),
+    };
+    const updated = vendors.map((v) => (v.id === vendorId ? { ...v, ...payload } : v));
+    setVendors(updated);
+    if (user?.id === vendorId) {
+      const updatedUser = { ...user, ...payload };
+      setUser(updatedUser);
+      localStorage.setItem('vm_current_user', JSON.stringify(updatedUser));
+    }
+    const res = await apiService.updateStorefrontApproval(vendorId, { status, adminNotes }, user);
+    return res || { success: true };
+  }, [vendors, user]);
 
   const checkSlugAvailability = useCallback(async (slug, currentVendorId) => {
     if (!slug) return false;
@@ -483,10 +695,14 @@ export function AuthProvider({ children }) {
         logout,
         registerVendor,
         registerCustomer,
+        verifyRegistration,
+        resendVerificationCode,
         updateCustomer,
         updateVendor,
         updateVendorStore,
         publishVendorStore,
+        submitVendorStorefront,
+        approveVendorStorefront,
         checkSlugAvailability,
         getVendorById,
         getVendorBySlug,
@@ -498,4 +714,7 @@ export function AuthProvider({ children }) {
   );
 }
 
-export const useAuth = () => useContext(AuthContext);
+export const useAuth = () => {
+  const context = useContext(AuthContext);
+  return context || {};
+};

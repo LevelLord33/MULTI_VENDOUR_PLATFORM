@@ -100,6 +100,12 @@ app.use((req, res, next) => {
 app.get('/', (req, res) => {
   res.redirect('http://localhost:5173');
 });
+app.get('/admin', (req, res) => {
+  res.redirect('http://localhost:5173/admin');
+});
+app.get('/vendor', (req, res) => {
+  res.redirect('http://localhost:5173/vendor');
+});
 
 // Health Check
 app.get('/api/health', (req, res) => {

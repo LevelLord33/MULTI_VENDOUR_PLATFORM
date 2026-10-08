@@ -16,7 +16,9 @@ import {
   getFollowedVendors,
   followVendor,
   unfollowVendor,
-  seedAuth
+  seedAuth,
+  verifyRegistration,
+  resendVerificationCode
 } from '../controllers/authController.js';
 import { requireAuth } from '../middleware/auth.js';
 
@@ -29,6 +31,8 @@ router.post('/oauth', oauthLogin);
 router.get('/me', requireAuth, getCurrentUser);
 router.post('/register-customer', registerCustomer);
 router.post('/register-vendor', registerVendor);
+router.post('/verify-registration', verifyRegistration);
+router.post('/resend-verification-code', resendVerificationCode);
 
 // Directory & Stores
 router.get('/vendors', getVendors);

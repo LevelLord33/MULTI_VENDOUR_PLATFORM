@@ -288,6 +288,19 @@ async function runTests() {
     );
   }
 
+  // 20. Authentication Guard: Blocks unauthenticated guest queries
+  {
+    const { req, res, getResult } = mockReqRes({ message: 'Hello can you help me?' });
+    await processChatbotMessage(req, res);
+    const result = getResult();
+    assert(
+      result.status === 401 &&
+      result.data.requiresAuth === true &&
+      result.data.intent === 'auth_required',
+      'processChatbotMessage blocks unauthenticated guest queries with 401 and requiresAuth'
+    );
+  }
+
   console.log(`\n🎉 Results: ${passed}/${total} chatbot verification tests passed!\n`);
   if (passed !== total) {
     process.exit(1);

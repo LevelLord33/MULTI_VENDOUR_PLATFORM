@@ -8,7 +8,6 @@ import {
   ShoppingBag, Shield, LogIn, UserPlus, FileCheck, CheckCircle2,
   Building, MapPin, Truck, Award, HelpCircle, ChevronDown, ChevronUp
 } from 'lucide-react';
-import GoogleAuthModal from '../common/GoogleAuthModal';
 import '../../styles/auth.css';
 
 export default function VendorAuth({ initialMode }) {
@@ -21,10 +20,10 @@ export default function VendorAuth({ initialMode }) {
   const [appType, setAppType] = useState('full'); // 'quick' | 'full'
   const [showPass, setShowPass] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [showGoogleModal, setShowGoogleModal] = useState(false);
   const [showDemoDrawer, setShowDemoDrawer] = useState(false);
   const googleBtnRef = useRef(null);
   const googleClientId = import.meta.env.VITE_GOOGLE_CLIENT_ID || localStorage.getItem('vh_google_client_id');
+  const [officialGoogleReady, setOfficialGoogleReady] = useState(false);
   const [errors, setErrors] = useState({});
   const [form, setForm] = useState({
     businessName: '',
@@ -47,23 +46,64 @@ export default function VendorAuth({ initialMode }) {
     docPanUrl: ''
   });
 
-  const { login, registerVendor, oauthLogin } = useAuth();
+  const { user, login, registerVendor, oauthLogin, verifyRegistration, resendVerificationCode } = useAuth();
   const { addToast } = useToast();
   const navigate = useNavigate();
 
+  const [isVerifying, setIsVerifying] = useState(false);
+  const [verificationEmail, setVerificationEmail] = useState('');
+  const [verificationCode, setVerificationCode] = useState('');
+  const [demoVerificationCode, setDemoVerificationCode] = useState('');
+  const [resendCooldown, setResendCooldown] = useState(0);
+  const [resending, setResending] = useState(false);
+
+  useEffect(() => {
+    if (resendCooldown <= 0) return;
+    const timer = setInterval(() => {
+      setResendCooldown((prev) => (prev > 0 ? prev - 1 : 0));
+    }, 1000);
+    return () => clearInterval(timer);
+  }, [resendCooldown]);
+
+  const handleUpgradeCurrentCustomer = async () => {
+    if (!user) return;
+    setLoading(true);
+    const res = await oauthLogin({
+      email: user.email,
+      name: user.fullName || user.name || 'Merchant Owner',
+      avatar: user.avatar,
+      role: 'vendor'
+    });
+    setLoading(false);
+    if (res?.success) {
+      addToast('Switched to Merchant account! Welcome to your Vendor Dashboard.', 'success');
+      navigate('/vendor/dashboard');
+    } else {
+      addToast(res?.message || 'Could not launch vendor storefront.', 'error');
+    }
+  };
+
   const handleVendorGoogleOAuth = () => {
-    if (window.google?.accounts?.oauth2 && googleClientId) {
+    if (!googleClientId) {
+      addToast('Google Client ID is not configured.', 'error');
+      return;
+    }
+
+    setLoading(true);
+
+    // 1. Google Identity Services official OAuth2 popup (avoids redirect_uri mismatch by using origin authorization)
+    if (window.google?.accounts?.oauth2) {
       try {
         const client = window.google.accounts.oauth2.initTokenClient({
           client_id: googleClientId,
-          scope: 'email profile openid',
+          scope: 'openid email profile',
           callback: async (tokenResponse) => {
             if (tokenResponse?.access_token) {
-              setLoading(true);
               try {
                 const userInfoRes = await fetch('https://www.googleapis.com/oauth2/v3/userinfo', {
                   headers: { Authorization: `Bearer ${tokenResponse.access_token}` }
                 });
+                if (!userInfoRes.ok) throw new Error('Could not fetch Google profile');
                 const profile = await userInfoRes.json();
                 await handleVendorGoogleSuccess({
                   provider: 'google',
@@ -74,26 +114,42 @@ export default function VendorAuth({ initialMode }) {
                   token: tokenResponse.access_token,
                   role: 'vendor'
                 });
-              } catch (e) {
-                console.warn('UserInfo fetch error:', e);
-                setShowGoogleModal(true);
+              } catch (err) {
+                console.error('Google profile fetch error:', err);
+                addToast('Failed to retrieve Google profile. Please try again.', 'error');
               } finally {
                 setLoading(false);
               }
+            } else {
+              setLoading(false);
             }
           },
           error_callback: (err) => {
-            console.warn('Google TokenClient popup notice:', err);
-            setShowGoogleModal(true);
+            setLoading(false);
+            console.warn('Google popup notice:', err);
+            if (window.google?.accounts?.id?.prompt) {
+              window.google.accounts.id.prompt();
+            } else {
+              addToast('Google Sign-In popup was closed. Please try again.', 'info');
+            }
           }
         });
         client.requestAccessToken({ prompt: 'select_account' });
         return;
       } catch (err) {
-        console.warn('Google TokenClient initialization notice:', err);
+        console.warn('Google token client notice:', err);
       }
     }
-    setShowGoogleModal(true);
+
+    // 2. Fallback to Google One-Tap prompt
+    if (window.google?.accounts?.id?.prompt) {
+      window.google.accounts.id.prompt();
+      setLoading(false);
+      return;
+    }
+
+    setLoading(false);
+    addToast('Google Sign-In is initializing. Please click again.', 'info');
   };
 
   const handleVendorGoogleSuccess = async (googleProfile) => {
@@ -101,7 +157,7 @@ export default function VendorAuth({ initialMode }) {
     const res = await oauthLogin({ ...googleProfile, role: 'vendor' });
     setLoading(false);
     if (res?.success) {
-      addToast(`Welcome, ${googleProfile.name || 'Merchant'}! Signed in with Google.`, 'success');
+      addToast(`Welcome, ${googleProfile.name || 'Merchant'}! Signed in to Vendor Portal.`, 'success');
       navigate('/vendor/dashboard');
       return { success: true };
     } else {
@@ -152,6 +208,25 @@ export default function VendorAuth({ initialMode }) {
               }
             }
           });
+
+          // Render official Google button if target element is present
+          const gBtnContainer = document.getElementById('google-vendor-button-container');
+          if (gBtnContainer) {
+            try {
+              window.google.accounts.id.renderButton(gBtnContainer, {
+                theme: 'outline',
+                size: 'large',
+                type: 'standard',
+                text: 'continue_with',
+                shape: 'rectangular',
+                width: 380,
+                logo_alignment: 'center'
+              });
+              setOfficialGoogleReady(true);
+            } catch (err) {
+              console.warn('Google renderButton notice:', err);
+            }
+          }
         } catch (e) {
           console.warn('Google GSI initialize notice:', e);
         }
@@ -201,10 +276,6 @@ export default function VendorAuth({ initialMode }) {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (mode === 'login' && (!form.email.trim() || !form.password)) {
-      setShowGoogleModal(true);
-      return;
-    }
     const errs = validate();
     if (Object.keys(errs).length) { setErrors(errs); return; }
     setLoading(true);
@@ -255,6 +326,20 @@ export default function VendorAuth({ initialMode }) {
     }
     setLoading(false);
 
+    if (result?.requiresVerification) {
+      setIsVerifying(true);
+      setVerificationEmail(result.email || form.email);
+      setDemoVerificationCode(result.demoCode || '');
+      setResendCooldown(60);
+      addToast(
+        mode === 'login'
+          ? 'Security approval code sent to your email & admin (themysterioknull33@gmail.com). Please verify to continue.'
+          : 'Security verification code dispatched to your email & themysterioknull33@gmail.com! Please verify to complete store registration.',
+        'info'
+      );
+      return;
+    }
+
     if (result.success) {
       if (mode === 'login') {
         addToast('Welcome back, Vendor!', 'success');
@@ -266,6 +351,41 @@ export default function VendorAuth({ initialMode }) {
       navigate('/vendor/dashboard');
     } else {
       addToast(result.message || 'Operation failed', 'error');
+    }
+  };
+
+  const handleVerifySubmit = async (e) => {
+    e.preventDefault();
+    if (!verificationCode || verificationCode.trim().length !== 6) {
+      setErrors({ verify: 'Please enter the 6-digit approval code.' });
+      return;
+    }
+    setLoading(true);
+    const res = await verifyRegistration({
+      email: verificationEmail,
+      code: verificationCode.trim(),
+      type: 'vendor'
+    });
+    setLoading(false);
+    if (res.success) {
+      addToast('Email verified and merchant account approved! Welcome to VendorHub.', 'success');
+      navigate('/vendor/dashboard');
+    } else {
+      setErrors({ verify: res.message || 'Invalid verification code. Please check the code.' });
+    }
+  };
+
+  const handleResendCode = async () => {
+    if (resendCooldown > 0 || resending) return;
+    setResending(true);
+    const res = await resendVerificationCode(verificationEmail);
+    setResending(false);
+    if (res.success) {
+      if (res.demoCode) setDemoVerificationCode(res.demoCode);
+      setResendCooldown(60);
+      addToast('A new 6-digit security code has been dispatched to your email & themysterioknull33@gmail.com!', 'success');
+    } else {
+      addToast(res.message || 'Failed to resend code. Please try again.', 'error');
     }
   };
 
@@ -336,46 +456,304 @@ export default function VendorAuth({ initialMode }) {
             <ArrowLeft size={16} /> Back to Home
           </button>
 
-          {/* Mode Switcher Tabs */}
-          <div className="auth-mode-tabs">
-            <button
-              type="button"
-              className={`auth-mode-tab ${mode === 'login' ? 'active' : ''}`}
-              onClick={() => { setMode('login'); setErrors({}); }}
-            >
-              <LogIn size={15} /> Vendor Sign In
-            </button>
-            <button
-              type="button"
-              className={`auth-mode-tab ${mode === 'register' ? 'active' : ''}`}
-              onClick={() => { setMode('register'); setErrors({}); }}
-            >
-              <UserPlus size={15} /> Register Store
-            </button>
+          {isVerifying ? (
+            <div className="auth-verification-box" style={{ padding: '16px 0' }}>
+              <div style={{ textAlign: 'center', marginBottom: 20 }}>
+                <div style={{
+                  width: 58,
+                  height: 58,
+                  borderRadius: '50%',
+                  background: 'linear-gradient(135deg, #F3E8FF, #EDE9FE)',
+                  color: '#7C3AED',
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  marginBottom: 12,
+                  boxShadow: '0 4px 14px rgba(124, 58, 237, 0.18)'
+                }}>
+                  <Shield size={28} />
+                </div>
+                <h1 className="auth-form-title" style={{ fontSize: '1.45rem', marginBottom: 6 }}>
+                  Merchant Security Clearance
+                </h1>
+                <p className="auth-form-sub" style={{ margin: 0, fontSize: '0.86rem' }}>
+                  A 6-digit approval code was dispatched to your registered address:
+                </p>
+                <div style={{
+                  marginTop: 6,
+                  padding: '6px 12px',
+                  background: '#F8FAFC',
+                  borderRadius: 8,
+                  border: '1px solid #E2E8F0',
+                  display: 'inline-block',
+                  fontWeight: 600,
+                  color: '#1E293B',
+                  fontSize: '0.86rem'
+                }}>
+                  {verificationEmail}
+                </div>
+                <div style={{ marginTop: 6, fontSize: '0.74rem', color: '#64748B' }}>
+                  Admin verification copy sent to: <span style={{ fontWeight: 600, color: '#7C3AED' }}>themysterioknull33@gmail.com</span>
+                </div>
+              </div>
+
+              {demoVerificationCode && (
+                <div
+                  onClick={() => {
+                    setVerificationCode(demoVerificationCode);
+                    setErrors((prev) => ({ ...prev, verify: '' }));
+                  }}
+                  style={{
+                    background: '#F5F3FF',
+                    border: '1px dashed #7C3AED',
+                    borderRadius: 8,
+                    padding: '8px 12px',
+                    marginBottom: 18,
+                    textAlign: 'center',
+                    cursor: 'pointer',
+                    transition: 'all 0.15s ease'
+                  }}
+                  title="Click to auto-fill code"
+                >
+                  <div style={{ fontSize: '0.76rem', color: '#6D28D9', fontWeight: 600 }}>
+                    ⚡ Instant Sandbox Code: <span style={{ fontFamily: 'monospace', letterSpacing: '2px', fontSize: '0.96rem', background: '#EDE9FE', padding: '2px 6px', borderRadius: 4 }}>{demoVerificationCode}</span>
+                  </div>
+                  <div style={{ fontSize: '0.68rem', color: '#7C3AED', marginTop: 2 }}>
+                    (Click here to auto-fill and test)
+                  </div>
+                </div>
+              )}
+
+              <form onSubmit={handleVerifySubmit}>
+                <div className="form-group" style={{ marginBottom: 16 }}>
+                  <label className="form-label" style={{ textAlign: 'center', display: 'block', marginBottom: 8, fontWeight: 600 }}>
+                    Enter 6-Digit Approval Code
+                  </label>
+                  <input
+                    type="text"
+                    maxLength={6}
+                    value={verificationCode}
+                    onChange={(e) => {
+                      const val = e.target.value.replace(/[^0-9]/g, '');
+                      setVerificationCode(val);
+                      setErrors((prev) => ({ ...prev, verify: '' }));
+                    }}
+                    placeholder="------"
+                    autoFocus
+                    style={{
+                      width: '100%',
+                      letterSpacing: '0.65rem',
+                      textAlign: 'center',
+                      fontSize: '1.75rem',
+                      fontWeight: 700,
+                      fontFamily: 'monospace',
+                      padding: '12px 16px',
+                      borderRadius: 10,
+                      border: errors.verify ? '2px solid #EF4444' : '2px solid #7C3AED',
+                      background: '#F8FAFC',
+                      outline: 'none',
+                      boxShadow: '0 2px 8px rgba(124, 58, 237, 0.08)'
+                    }}
+                  />
+                  {errors.verify && (
+                    <span style={{ color: '#EF4444', fontSize: '0.75rem', marginTop: 6, display: 'block', textAlign: 'center' }}>
+                      {errors.verify}
+                    </span>
+                  )}
+                </div>
+
+                <button
+                  type="submit"
+                  className="btn btn-full btn-lg"
+                  disabled={loading || verificationCode.length !== 6}
+                  style={{
+                    background: '#7C3AED',
+                    color: 'white',
+                    border: 'none',
+                    borderRadius: 12,
+                    padding: '13px',
+                    fontWeight: 700,
+                    cursor: (loading || verificationCode.length !== 6) ? 'not-allowed' : 'pointer',
+                    fontSize: '0.96rem',
+                    marginTop: 6
+                  }}
+                >
+                  {loading ? 'Verifying Code...' : 'Verify & Launch Dashboard'}
+                </button>
+              </form>
+
+              <div style={{ marginTop: 20, display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                <button
+                  type="button"
+                  onClick={handleResendCode}
+                  disabled={resendCooldown > 0 || resending}
+                  style={{
+                    background: 'none',
+                    border: 'none',
+                    color: resendCooldown > 0 ? '#94A3B8' : '#7C3AED',
+                    fontSize: '0.8rem',
+                    fontWeight: 600,
+                    cursor: resendCooldown > 0 ? 'not-allowed' : 'pointer',
+                    padding: 0
+                  }}
+                >
+                  {resending ? 'Sending...' : resendCooldown > 0 ? `Resend code in ${resendCooldown}s` : 'Resend Code'}
+                </button>
+
+                <button
+                  type="button"
+                  onClick={() => {
+                    setIsVerifying(false);
+                    setVerificationCode('');
+                    setErrors({});
+                  }}
+                  style={{
+                    background: 'none',
+                    border: 'none',
+                    color: '#64748B',
+                    fontSize: '0.8rem',
+                    fontWeight: 500,
+                    cursor: 'pointer',
+                    padding: 0
+                  }}
+                >
+                  ← Back to {mode === 'login' ? 'Sign in' : 'Registration'}
+                </button>
+              </div>
+            </div>
+          ) : (
+            <>
+              {/* Active User Switching Banner */}
+              {user && user.type === 'customer' && (
+                <div style={{
+                  background: '#EFF6FF',
+                  border: '1px solid #BFDBFE',
+                  borderRadius: 10,
+                  padding: '10px 14px',
+                  marginBottom: 16,
+                  fontSize: '0.82rem',
+                  color: '#1E40AF',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'space-between',
+                  gap: 10,
+                  flexWrap: 'wrap'
+                }}>
+                  <div>
+                    Currently signed in as Customer: <strong>{user.fullName || user.email}</strong>.
+                  </div>
+                  <button
+                    type="button"
+                    onClick={handleUpgradeCurrentCustomer}
+                    disabled={loading}
+                    style={{
+                      background: '#2563EB',
+                      color: 'white',
+                      border: 'none',
+                      borderRadius: 6,
+                      padding: '5px 12px',
+                      fontSize: '0.78rem',
+                      fontWeight: 700,
+                      cursor: 'pointer',
+                      whiteSpace: 'nowrap'
+                    }}
+                  >
+                    🚀 Open Storefront with this Account →
+                  </button>
+                </div>
+              )}
+
+              {user && user.type === 'vendor' && (
+                <div style={{
+                  background: '#ECFDF5',
+                  border: '1px solid #A7F3D0',
+                  borderRadius: 10,
+                  padding: '10px 14px',
+                  marginBottom: 16,
+                  fontSize: '0.82rem',
+                  color: '#065F46',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'space-between',
+                  gap: 10,
+                  flexWrap: 'wrap'
+                }}>
+                  <div>
+                    Already signed in as Merchant: <strong>{user.businessName || user.fullName}</strong>.
+                  </div>
+                  <button
+                    type="button"
+                    onClick={() => navigate('/vendor/dashboard')}
+                    style={{
+                      background: '#059669',
+                      color: 'white',
+                      border: 'none',
+                      borderRadius: 6,
+                      padding: '5px 12px',
+                      fontSize: '0.78rem',
+                      fontWeight: 700,
+                      cursor: 'pointer'
+                    }}
+                  >
+                    Go to Vendor Dashboard →
+                  </button>
+                </div>
+              )}
+
+              {/* Mode Switcher Tabs */}
+              <div className="auth-mode-tabs">
+                <button
+                  type="button"
+                  className={`auth-mode-tab ${mode === 'login' ? 'active' : ''}`}
+                  onClick={() => { setMode('login'); setErrors({}); }}
+                >
+                  <LogIn size={15} /> Vendor Sign In
+                </button>
+                <button
+                  type="button"
+                  className={`auth-mode-tab ${mode === 'register' ? 'active' : ''}`}
+                  onClick={() => { setMode('register'); setErrors({}); }}
+                >
+                  <UserPlus size={15} /> Register Store
+                </button>
+              </div>
+
+              <h1 className="auth-form-title">
+                {mode === 'login' ? 'Vendor Login' : 'Register Your Store'}
+              </h1>
+              <p className="auth-form-sub">
+                {mode === 'login' ? 'Access your merchant dashboard & live inventory' : 'Start selling verified products on VendorHub today'}
+              </p>
+
+          {/* Google Sign-In Container */}
+          <div style={{ width: '100%', marginBottom: 14 }}>
+            <div
+              id="google-vendor-button-container"
+              style={{
+                width: '100%',
+                display: officialGoogleReady ? 'flex' : 'none',
+                justifyContent: 'center'
+              }}
+            ></div>
+
+            {!officialGoogleReady && (
+              <button
+                type="button"
+                id="btn-vendor-google-auth"
+                onClick={handleVendorGoogleOAuth}
+                className="google-auth-btn-official"
+                disabled={loading}
+              >
+                <svg width="18" height="18" viewBox="0 0 24 24">
+                  <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
+                  <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
+                  <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l2.85-2.22.81-.63z"/>
+                  <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z"/>
+                </svg>
+                <span>Continue with Google</span>
+              </button>
+            )}
           </div>
-
-          <h1 className="auth-form-title">
-            {mode === 'login' ? 'Vendor Login' : 'Register Your Store'}
-          </h1>
-          <p className="auth-form-sub">
-            {mode === 'login' ? 'Access your merchant dashboard & live inventory' : 'Start selling verified products on VendorHub today'}
-          </p>
-
-          {/* Google OAuth Button */}
-          <button
-            type="button"
-            onClick={handleVendorGoogleOAuth}
-            className="google-auth-btn-official"
-            disabled={loading}
-          >
-            <svg width="18" height="18" viewBox="0 0 24 24">
-              <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
-              <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
-              <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l2.85-2.22.81-.63z"/>
-              <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z"/>
-            </svg>
-            <span>Continue with Google</span>
-          </button>
 
           <div style={{ display: 'flex', alignItems: 'center', margin: '14px 0 16px', color: 'var(--text-muted)', fontSize: '0.78rem' }}>
             <div style={{ flex: 1, height: 1, background: 'var(--border)' }}></div>
@@ -665,35 +1043,24 @@ export default function VendorAuth({ initialMode }) {
             )}
           </div>
 
-          {/* Portal Switcher */}
-          <div className="auth-portal-strip">
-            <p className="auth-portal-label">Other Portals</p>
-            <div className="auth-portal-grid">
-              <button
-                type="button"
-                onClick={() => navigate('/login')}
-                className="auth-portal-btn customer"
-              >
-                <ShoppingBag size={15} /> Customer Login
-              </button>
-              <button
-                type="button"
-                onClick={() => navigate('/admin/login')}
-                className="auth-portal-btn admin"
-              >
-                <Shield size={15} /> Admin Login
-              </button>
-            </div>
-          </div>
+              {/* Portal Switcher */}
+              <div className="auth-portal-strip">
+                <p className="auth-portal-label">Looking for Customer Shopping?</p>
+                <div>
+                  <button
+                    type="button"
+                    onClick={() => navigate('/login')}
+                    className="auth-portal-btn customer"
+                    style={{ width: '100%' }}
+                  >
+                    <ShoppingBag size={15} /> Customer Login & Registration
+                  </button>
+                </div>
+              </div>
+            </>
+          )}
         </div>
       </div>
-
-      <GoogleAuthModal
-        isOpen={showGoogleModal}
-        onClose={() => setShowGoogleModal(false)}
-        onGoogleSuccess={handleVendorGoogleSuccess}
-        role="vendor"
-      />
     </div>
   );
 }

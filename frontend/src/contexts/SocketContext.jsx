@@ -6,8 +6,10 @@ import { socketService } from '../services/socket';
 const SocketContext = createContext(null);
 
 export function SocketProvider({ children }) {
-  const { user } = useAuth();
-  const { addToast } = useToast();
+  const auth = useAuth();
+  const user = auth?.user || null;
+  const toastCtx = useToast();
+  const addToast = toastCtx?.addToast || ((msg) => console.log(msg));
 
   const [socket, setSocket] = useState(null);
   const [isConnected, setIsConnected] = useState(false);

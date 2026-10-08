@@ -24,6 +24,11 @@ const userSchema = new mongoose.Schema(
     avatar: { type: String, default: '' },
     joinedDate: { type: String, default: () => new Date().toISOString().split('T')[0] },
 
+    // Registration Security & Verification Code
+    isEmailVerified: { type: Boolean, default: false },
+    verificationCode: { type: String, default: null },
+    verificationCodeExpiresAt: { type: Date, default: null },
+
     // Customer Specific Fields
     address: { type: String, default: '' },
     city: { type: String, default: '' },
@@ -58,9 +63,17 @@ const userSchema = new mongoose.Schema(
     themePreset: { type: String, default: 'indigo' },
     storeStatus: {
       type: String,
-      enum: ['published', 'draft'],
-      default: 'published'
+      enum: ['published', 'approved', 'pending_approval', 'draft', 'rejected'],
+      default: 'draft'
     },
+    storeApprovalStatus: {
+      type: String,
+      enum: ['none', 'pending', 'approved', 'rejected'],
+      default: 'none'
+    },
+    storeRejectionReason: { type: String, default: '' },
+    storeSubmittedAt: { type: String, default: null },
+    storeApprovedAt: { type: String, default: null },
     isVerified: { type: Boolean, default: true },
     gstin: { type: String, default: '' },
     announcement: { type: String, default: '' },

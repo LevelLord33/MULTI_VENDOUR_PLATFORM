@@ -261,19 +261,6 @@ export default function Navbar({ searchQuery, onSearchChange }) {
                 >
                   🏪 {t('vendorPortal', 'Vendor Portal')}
                 </button>
-                <button
-                  className="portal-chip"
-                  onClick={() => navigateTo('/assistant')}
-                  title="Open HubBot AI Shopping Assistant"
-                  style={{
-                    background: 'linear-gradient(135deg, rgba(79, 70, 229, 0.15) 0%, rgba(124, 58, 237, 0.2) 100%)',
-                    color: 'var(--primary)',
-                    borderColor: 'var(--primary)',
-                    fontWeight: 700
-                  }}
-                >
-                  🤖 {t('hubAssistant', 'Hub Assistant')}
-                </button>
               </>
             )}
           </div>

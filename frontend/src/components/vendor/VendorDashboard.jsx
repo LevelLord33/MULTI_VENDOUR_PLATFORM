@@ -259,7 +259,11 @@ export default function VendorDashboard() {
 
   const storeSlug = user?.storeSlug || user?.id || 'store';
   const brandColor = user?.themeColor || '#4F46E5';
-  const isPublished = user?.storeStatus !== 'draft';
+  const isApproved = user?.storeStatus === 'published' || user?.storeStatus === 'approved' || user?.storeApprovalStatus === 'approved';
+  const isPendingApproval = user?.storeStatus === 'pending_approval' || user?.storeApprovalStatus === 'pending';
+  const isRejected = user?.storeStatus === 'rejected';
+  const isDraft = !isApproved && !isPendingApproval && !isRejected;
+  const isPublished = isApproved;
 
   const handleCopyStoreLink = () => {
     const fullUrl = `${window.location.origin}/store/${storeSlug}`;
@@ -633,6 +637,152 @@ export default function VendorDashboard() {
             </div>
           )}
 
+          {/* ── New Merchant Storefront Workspace Setup Banner ── */}
+          {isDraft && (
+            <div
+              className="card"
+              style={{
+                padding: '24px 28px',
+                marginBottom: 24,
+                borderRadius: 16,
+                background: 'linear-gradient(135deg, rgba(79, 70, 229, 0.09), rgba(124, 58, 237, 0.14))',
+                border: '1.5px solid rgba(79, 70, 229, 0.35)',
+                boxShadow: '0 10px 28px -6px rgba(79, 70, 229, 0.18)',
+                display: 'flex',
+                flexDirection: 'column',
+                gap: 16
+              }}
+            >
+              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 20, flexWrap: 'wrap' }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: 16, maxWidth: 780 }}>
+                  <div
+                    style={{
+                      width: 56,
+                      height: 56,
+                      borderRadius: 14,
+                      background: 'linear-gradient(135deg, #4F46E5, #7C3AED)',
+                      color: 'white',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      boxShadow: '0 6px 18px rgba(79, 70, 229, 0.35)',
+                      flexShrink: 0
+                    }}
+                  >
+                    <Store size={28} />
+                  </div>
+                  <div>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: 8, flexWrap: 'wrap' }}>
+                      <h3 style={{ margin: 0, fontSize: '1.25rem', fontWeight: 800, color: 'var(--text)' }}>
+                        🏪 Merchant Storefront Workspace
+                      </h3>
+                      <span style={{ fontSize: '0.72rem', background: '#FEF3C7', color: '#92400E', padding: '3px 9px', borderRadius: 999, fontWeight: 800 }}>
+                        STEP 1: CREATE STOREFRONT
+                      </span>
+                    </div>
+                    <p style={{ margin: '6px 0 0 0', fontSize: '0.88rem', color: 'var(--text-muted)', lineHeight: 1.5 }}>
+                      Design your branded online storefront! Pick a 1-click niche template (Tech, Fashion, Grocery, etc.), customize brand colors, logo, and banner, and submit for <strong>Admin Approval</strong> to publish live on the Customer Portal.
+                    </p>
+                  </div>
+                </div>
+
+                <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+                  <button
+                    type="button"
+                    className="btn btn-primary"
+                    onClick={() => navigate('/vendor/store-builder')}
+                    style={{
+                      background: 'linear-gradient(135deg, #4F46E5, #7C3AED)',
+                      border: 'none',
+                      boxShadow: '0 4px 16px rgba(79, 70, 229, 0.4)',
+                      padding: '12px 24px',
+                      fontSize: '0.92rem',
+                      fontWeight: 700,
+                      display: 'inline-flex',
+                      alignItems: 'center',
+                      gap: 8,
+                      borderRadius: 10
+                    }}
+                  >
+                    <Sparkles size={17} /> Open Storefront Studio <ArrowRight size={16} />
+                  </button>
+                </div>
+              </div>
+
+              {/* Workflow Stepper */}
+              <div style={{
+                display: 'grid',
+                gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))',
+                gap: 10,
+                paddingTop: 12,
+                borderTop: '1px solid rgba(79, 70, 229, 0.15)'
+              }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: 8, fontSize: '0.8rem', color: 'var(--text)' }}>
+                  <span style={{ width: 22, height: 22, borderRadius: '50%', background: '#4F46E5', color: 'white', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', fontWeight: 800, fontSize: '0.72rem' }}>1</span>
+                  <span><strong>Design Storefront:</strong> Logo, Banner & Niche</span>
+                </div>
+                <div style={{ display: 'flex', alignItems: 'center', gap: 8, fontSize: '0.8rem', color: 'var(--text-muted)' }}>
+                  <span style={{ width: 22, height: 22, borderRadius: '50%', background: 'rgba(79,70,229,0.15)', color: '#4F46E5', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', fontWeight: 800, fontSize: '0.72rem' }}>2</span>
+                  <span><strong>Upload:</strong> Submit for Admin Review</span>
+                </div>
+                <div style={{ display: 'flex', alignItems: 'center', gap: 8, fontSize: '0.8rem', color: 'var(--text-muted)' }}>
+                  <span style={{ width: 22, height: 22, borderRadius: '50%', background: 'rgba(79,70,229,0.15)', color: '#4F46E5', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', fontWeight: 800, fontSize: '0.72rem' }}>3</span>
+                  <span><strong>Admin Verification:</strong> Review & Approval</span>
+                </div>
+                <div style={{ display: 'flex', alignItems: 'center', gap: 8, fontSize: '0.8rem', color: 'var(--text-muted)' }}>
+                  <span style={{ width: 22, height: 22, borderRadius: '50%', background: 'rgba(79,70,229,0.15)', color: '#4F46E5', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', fontWeight: 800, fontSize: '0.72rem' }}>4</span>
+                  <span><strong>Customer Portal:</strong> Live on /stores & /store/:slug</span>
+                </div>
+              </div>
+            </div>
+          )}
+
+          {/* ── Pending Admin Approval Alert Banner ── */}
+          {isPendingApproval && (
+            <div
+              className="card"
+              style={{
+                padding: '18px 22px',
+                marginBottom: 24,
+                borderRadius: 12,
+                background: 'linear-gradient(135deg, rgba(59, 130, 246, 0.08), rgba(239, 246, 255, 0.95))',
+                border: '1.5px solid rgba(59, 130, 246, 0.35)',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'space-between',
+                gap: 16,
+                flexWrap: 'wrap'
+              }}
+            >
+              <div style={{ display: 'flex', alignItems: 'center', gap: 14 }}>
+                <div style={{ width: 44, height: 44, borderRadius: 10, background: '#DBEAFE', color: '#1E40AF', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+                  <Clock size={22} />
+                </div>
+                <div>
+                  <div style={{ fontWeight: 800, fontSize: '0.98rem', color: '#1E40AF', display: 'flex', alignItems: 'center', gap: 8 }}>
+                    <span>⏳ Storefront Uploaded — Awaiting Admin Permission</span>
+                    <span style={{ fontSize: '0.7rem', padding: '2px 8px', borderRadius: 999, background: '#BFDBFE', color: '#1E40AF', fontWeight: 800 }}>
+                      IN REVIEW QUEUE
+                    </span>
+                  </div>
+                  <div style={{ fontSize: '0.82rem', color: '#1E3A8A', marginTop: 2 }}>
+                    Your storefront configuration is being verified by platform administrators for catalog safety. Once approved, your store will immediately go live on the public Customer Portal.
+                  </div>
+                </div>
+              </div>
+              <div style={{ display: 'flex', gap: 8 }}>
+                <button
+                  type="button"
+                  className="btn btn-outline btn-sm"
+                  onClick={() => navigate('/vendor/store-builder')}
+                  style={{ borderColor: '#3B82F6', color: '#1E40AF' }}
+                >
+                  <Eye size={13} /> Review / Edit Storefront
+                </button>
+              </div>
+            </div>
+          )}
+
           {/* ── Storefront Overview Strip ── */}
           <div
             className="card"
@@ -679,12 +829,13 @@ export default function VendorDashboard() {
                       fontSize: '0.72rem',
                       fontWeight: 700,
                       textTransform: 'uppercase',
-                      background: isPublished ? '#D1FAE5' : '#FEF3C7',
-                      color: isPublished ? '#065F46' : '#92400E',
+                      background: isApproved ? '#D1FAE5' : isPendingApproval ? '#DBEAFE' : isRejected ? '#FEE2E2' : '#FEF3C7',
+                      color: isApproved ? '#065F46' : isPendingApproval ? '#1E40AF' : isRejected ? '#991B1B' : '#92400E',
+                      border: `1px solid ${isApproved ? '#A7F3D0' : isPendingApproval ? '#BFDBFE' : isRejected ? '#FECACA' : '#FDE68A'}`
                     }}
                   >
-                    {isPublished ? <CheckCircle2 size={12} /> : <AlertTriangle size={12} />}
-                    {isPublished ? 'Published & Live' : 'Draft Mode'}
+                    {isApproved ? <CheckCircle2 size={12} /> : isPendingApproval ? <Clock size={12} /> : isRejected ? <AlertTriangle size={12} /> : <AlertTriangle size={12} />}
+                    {isApproved ? 'Approved & Live' : isPendingApproval ? 'Awaiting Admin Approval' : isRejected ? 'Revision Needed' : 'Draft Mode'}
                   </span>
                   <span style={{ display: 'inline-flex', alignItems: 'center', gap: 4, background: '#FEF3C7', color: '#92400E', padding: '2px 8px', borderRadius: 6, fontSize: '0.72rem', fontWeight: 700 }}>
                     <ShieldCheck size={12} /> Verified Merchant
@@ -716,20 +867,22 @@ export default function VendorDashboard() {
               >
                 <QrCode size={14} color="var(--primary)" /> Digital Store Card & QR
               </button>
-              <button
-                type="button"
-                className="btn btn-outline btn-sm"
-                onClick={() => navigate(`/store/${storeSlug}`)}
-              >
-                <ExternalLink size={14} /> View Live Store
-              </button>
+              {isApproved && (
+                <button
+                  type="button"
+                  className="btn btn-outline btn-sm"
+                  onClick={() => navigate(`/store/${storeSlug}`)}
+                >
+                  <ExternalLink size={14} /> View Live Store
+                </button>
+              )}
               <button
                 type="button"
                 className="btn btn-primary btn-sm"
                 onClick={() => navigate('/vendor/store-builder')}
                 style={{ background: brandColor, borderColor: brandColor }}
               >
-                <Palette size={14} /> Customize Store
+                <Palette size={14} /> {isDraft ? '✨ Build Storefront' : isPendingApproval ? 'Review Storefront' : 'Customize Store'}
               </button>
             </div>
           </div>

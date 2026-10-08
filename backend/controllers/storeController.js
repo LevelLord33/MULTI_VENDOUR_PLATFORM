@@ -5,6 +5,7 @@ import Promotion from '../models/Promotion.js';
 import { seedVendors, seedProducts } from '../data/seedData.js';
 import { INITIAL_SEED_PROMOTIONS } from '../routes/seedRoutes.js';
 import { checkDeliveryCoverage, calculateDistanceKm, getCoordinatesForLocation } from '../utils/geoUtils.js';
+import { memUsers } from './authController.js';
 
 const isDbConnected = () => mongoose.connection.readyState === 1;
 
@@ -93,7 +94,7 @@ export const getStores = async (req, res) => {
     let vendors = [];
     if (isDbConnected()) {
       try {
-        const query = { type: 'vendor', storeStatus: { $ne: 'draft' } };
+        const query = { type: 'vendor', storeStatus: { $in: ['published', 'approved'] } };
         vendors = await User.find(query).lean();
       } catch (e) {
         console.warn('MongoDB getStores fallback:', e.message);
@@ -101,8 +102,62 @@ export const getStores = async (req, res) => {
     }
 
     if (!vendors || vendors.length === 0) {
-      vendors = seedVendors.filter((v) => v.storeStatus !== 'draft');
+      vendors = seedVendors.filter((v) => v.storeStatus === 'published' || v.storeStatus === 'approved' || (!v.storeStatus && v.isVerified !== false));
     }
+
+    // Merge dynamic and in-memory storefront updates
+    for (const [id, mStore] of memStorefronts.entries()) {
+      const isApprovedOrPublished = mStore.storeStatus === 'published' || mStore.storeStatus === 'approved';
+      const existingIdx = vendors.findIndex((c) => c.id === id || String(c._id) === id);
+
+      if (isApprovedOrPublished) {
+        if (existingIdx >= 0) {
+          vendors[existingIdx] = { ...vendors[existingIdx], ...mStore };
+        } else {
+          vendors.push({
+            id,
+            businessName: mStore.businessName || 'Merchant Store',
+            ownerName: mStore.ownerName || 'Merchant',
+            storeSlug: mStore.storeSlug || id,
+            category: mStore.category || 'General Retail',
+            tagline: mStore.tagline || '',
+            description: mStore.description || '',
+            location: mStore.location || 'India',
+            businessAddress: mStore.businessAddress || '',
+            themeColor: mStore.themeColor || '#4F46E5',
+            avatar: mStore.avatar || '',
+            banner: mStore.banner || '',
+            announcement: mStore.announcement || '',
+            isVerified: true,
+            storeStatus: mStore.storeStatus,
+            storeApprovalStatus: mStore.storeApprovalStatus || 'approved'
+          });
+        }
+      } else if (existingIdx >= 0) {
+        // If an existing vendor was updated to pending_approval, draft, or rejected, remove from public list
+        vendors.splice(existingIdx, 1);
+      }
+    }
+
+    // Also include any approved vendors from memUsers
+    if (Array.isArray(memUsers)) {
+      memUsers.filter((u) => u.type === 'vendor' && (u.storeStatus === 'published' || u.storeStatus === 'approved')).forEach((mv) => {
+        const existingIdx = vendors.findIndex((c) => c.id === mv.id || String(c._id) === mv.id);
+        if (existingIdx >= 0) {
+          vendors[existingIdx] = { ...vendors[existingIdx], ...mv };
+        } else {
+          vendors.push(mv);
+        }
+      });
+    }
+
+    // Filter strictly to approved or published storefronts
+    vendors = vendors.filter((v) =>
+      (v.storeStatus === 'published' || v.storeStatus === 'approved' || (!v.storeStatus && v.isVerified !== false)) &&
+      v.storeStatus !== 'pending_approval' &&
+      v.storeStatus !== 'draft' &&
+      v.storeStatus !== 'rejected'
+    );
 
     // Get all products to link sample products to stores
     let allProducts = [];
@@ -141,6 +196,8 @@ export const getStores = async (req, res) => {
         themePreset: vendor.themePreset || 'indigo',
         isVerified: vendor.isVerified !== false,
         isEmerging: isEmergingVendor,
+        storeStatus: vendor.storeStatus || 'published',
+        storeApprovalStatus: vendor.storeApprovalStatus || 'approved',
         gstin: vendor.gstin || '07AABCT1234F1Z8',
         storeRating: vendor.storeRating || 4.8,
         totalOrdersFulfilled: ordersFulfilled,
@@ -444,6 +501,311 @@ export const getStoreSeoMetadata = async (req, res) => {
     });
   } catch (error) {
     console.error('getStoreSeoMetadata Error:', error);
+    return res.status(500).json({ success: false, message: error.message });
+  }
+};
+
+// In-memory registry for storefront submissions to ensure instant updates in dev & fallback
+const memStorefronts = new Map();
+
+/**
+ * POST /api/stores/vendor/:id/storefront
+ * Vendor creates, updates, and uploads storefront for Admin approval
+ */
+export const submitVendorStorefront = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const data = req.body || {};
+    const now = new Date().toISOString();
+
+    const isDraft = data.storeStatus === 'draft';
+    const newStoreStatus = isDraft ? 'draft' : 'pending_approval';
+    const newApprovalStatus = isDraft ? 'none' : 'pending';
+
+    const storefrontPayload = {
+      businessName: data.businessName,
+      storeSlug: data.storeSlug,
+      category: data.category,
+      tagline: data.tagline,
+      description: data.description,
+      avatar: data.avatar,
+      banner: data.banner,
+      themeColor: data.themeColor || '#4F46E5',
+      themePreset: data.themePreset || 'indigo',
+      announcement: data.announcement,
+      announcementActive: data.announcementActive !== false,
+      featuredProductIds: Array.isArray(data.featuredProductIds) ? data.featuredProductIds : [],
+      businessAddress: data.businessAddress,
+      location: data.location,
+      mobile: data.mobile,
+      storeStatus: newStoreStatus,
+      storeApprovalStatus: newApprovalStatus,
+      storeSubmittedAt: isDraft ? null : now,
+      storeRejectionReason: '',
+      updatedAt: now
+    };
+
+    // 1. Update in MongoDB if connected
+    if (isDbConnected()) {
+      try {
+        await User.findOneAndUpdate(
+          { $or: [{ id }, { _id: mongoose.Types.ObjectId.isValid(id) ? id : null }] },
+          { $set: storefrontPayload },
+          { new: true }
+        );
+      } catch (e) {
+        console.warn('MongoDB submitVendorStorefront fallback:', e.message);
+      }
+    }
+
+    // 2. Update in memory map
+    const existing = memStorefronts.get(id) || {};
+    memStorefronts.set(id, { ...existing, id, vendorId: id, ...storefrontPayload });
+
+    // 3. Update in memUsers
+    if (Array.isArray(memUsers)) {
+      const uIdx = memUsers.findIndex((u) => u.id === id);
+      if (uIdx >= 0) {
+        memUsers[uIdx] = { ...memUsers[uIdx], ...storefrontPayload };
+      }
+    }
+
+    return res.json({
+      success: true,
+      message: isDraft
+        ? 'Storefront draft saved successfully.'
+        : 'Storefront uploaded and submitted for Admin approval! Once approved, your store will go live on the customer portal.',
+      storeStatus: newStoreStatus,
+      storeApprovalStatus: newApprovalStatus,
+      storefront: { id, ...storefrontPayload }
+    });
+  } catch (error) {
+    console.error('submitVendorStorefront Error:', error);
+    return res.status(500).json({ success: false, message: error.message });
+  }
+};
+
+/**
+ * GET /api/stores/vendor/:id/storefront
+ * Retrieve vendor's storefront configuration and approval status
+ */
+export const getVendorStorefront = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    let vendor = null;
+    if (isDbConnected()) {
+      try {
+        vendor = await User.findOne({
+          $or: [{ id }, { storeSlug: id }, { _id: mongoose.Types.ObjectId.isValid(id) ? id : null }]
+        }).lean();
+      } catch (e) {
+        console.warn('MongoDB getVendorStorefront fallback:', e.message);
+      }
+    }
+
+    if (!vendor) {
+      vendor = memStorefronts.get(id) || seedVendors.find((v) => v.id === id || v.storeSlug === id);
+    }
+
+    if (!vendor) {
+      return res.status(404).json({ success: false, message: 'Vendor store not found' });
+    }
+
+    return res.json({
+      success: true,
+      storefront: {
+        id: vendor.id,
+        businessName: vendor.businessName,
+        storeSlug: vendor.storeSlug || vendor.id,
+        category: vendor.category || 'General Retail',
+        tagline: vendor.tagline,
+        description: vendor.description,
+        avatar: vendor.avatar,
+        banner: vendor.banner,
+        themeColor: vendor.themeColor || '#4F46E5',
+        themePreset: vendor.themePreset || 'indigo',
+        announcement: vendor.announcement,
+        announcementActive: vendor.announcementActive !== false,
+        featuredProductIds: vendor.featuredProductIds || [],
+        storeStatus: vendor.storeStatus || 'draft',
+        storeApprovalStatus: vendor.storeApprovalStatus || 'none',
+        storeRejectionReason: vendor.storeRejectionReason || '',
+        storeSubmittedAt: vendor.storeSubmittedAt || null,
+        storeApprovedAt: vendor.storeApprovedAt || null,
+        businessAddress: vendor.businessAddress || '',
+        location: vendor.location || '',
+        mobile: vendor.mobile || ''
+      }
+    });
+  } catch (error) {
+    console.error('getVendorStorefront Error:', error);
+    return res.status(500).json({ success: false, message: error.message });
+  }
+};
+
+/**
+ * GET /api/stores/admin/storefronts
+ * Admin lists all vendor storefront submissions with optional filter
+ */
+export const getAdminStorefronts = async (req, res) => {
+  try {
+    const { status = 'all' } = req.query;
+
+    let vendors = [];
+    if (isDbConnected()) {
+      try {
+        const query = { type: 'vendor' };
+        if (status === 'pending') {
+          query.storeStatus = 'pending_approval';
+        } else if (status === 'approved') {
+          query.storeStatus = { $in: ['published', 'approved'] };
+        } else if (status === 'rejected') {
+          query.storeStatus = 'rejected';
+        }
+        vendors = await User.find(query).sort({ updatedAt: -1 }).lean();
+      } catch (e) {
+        console.warn('MongoDB getAdminStorefronts fallback:', e.message);
+      }
+    }
+
+    // Merge in-memory and seed vendors
+    const allCandidates = [...vendors];
+    for (const [id, mStore] of memStorefronts.entries()) {
+      const idx = allCandidates.findIndex((c) => c.id === id);
+      if (idx >= 0) {
+        allCandidates[idx] = { ...allCandidates[idx], ...mStore };
+      } else {
+        allCandidates.push(mStore);
+      }
+    }
+
+    // Merge memUsers vendors
+    if (Array.isArray(memUsers)) {
+      memUsers.filter((u) => u.type === 'vendor').forEach((mv) => {
+        const idx = allCandidates.findIndex((c) => c.id === mv.id);
+        if (idx >= 0) {
+          allCandidates[idx] = { ...allCandidates[idx], ...mv };
+        } else {
+          allCandidates.push(mv);
+        }
+      });
+    }
+
+    if (allCandidates.length === 0) {
+      seedVendors.forEach((v) => {
+        allCandidates.push({
+          ...v,
+          storeStatus: v.storeStatus || 'published',
+          storeApprovalStatus: 'approved'
+        });
+      });
+    }
+
+    let filtered = allCandidates;
+    if (status === 'pending') {
+      filtered = allCandidates.filter((v) => v.storeStatus === 'pending_approval');
+    } else if (status === 'approved') {
+      filtered = allCandidates.filter((v) => v.storeStatus === 'published' || v.storeStatus === 'approved');
+    } else if (status === 'rejected') {
+      filtered = allCandidates.filter((v) => v.storeStatus === 'rejected');
+    }
+
+    return res.json({
+      success: true,
+      count: filtered.length,
+      storefronts: filtered.map((v) => ({
+        id: v.id,
+        vendorId: v.id,
+        businessName: v.businessName || 'Merchant Store',
+        ownerName: v.ownerName || v.name || '',
+        email: v.email || '',
+        mobile: v.mobile || '',
+        category: v.category || 'General',
+        storeSlug: v.storeSlug || v.id,
+        avatar: v.avatar || '',
+        banner: v.banner || '',
+        tagline: v.tagline || '',
+        description: v.description || '',
+        location: v.location || '',
+        businessAddress: v.businessAddress || '',
+        themeColor: v.themeColor || '#4F46E5',
+        themePreset: v.themePreset || 'indigo',
+        announcement: v.announcement || '',
+        storeStatus: v.storeStatus || 'draft',
+        storeApprovalStatus: v.storeApprovalStatus || (v.storeStatus === 'published' ? 'approved' : 'none'),
+        storeRejectionReason: v.storeRejectionReason || '',
+        storeSubmittedAt: v.storeSubmittedAt || v.createdAt || null,
+        storeApprovedAt: v.storeApprovedAt || null
+      }))
+    });
+  } catch (error) {
+    console.error('getAdminStorefronts Error:', error);
+    return res.status(500).json({ success: false, message: error.message });
+  }
+};
+
+/**
+ * PATCH /api/stores/admin/:id/approval
+ * Admin approves or rejects a vendor storefront submission
+ */
+export const updateStorefrontApproval = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const rawStatus = (req.body.status || req.body.action || '').toLowerCase().trim();
+    const adminNotes = req.body.adminNotes || req.body.remarks || '';
+    const now = new Date().toISOString();
+
+    let status = rawStatus;
+    if (status === 'approve') status = 'approved';
+    if (status === 'reject') status = 'rejected';
+
+    if (!['approved', 'rejected'].includes(status)) {
+      return res.status(400).json({ success: false, message: 'Status must be "approved" or "rejected"' });
+    }
+
+    const isApproved = status === 'approved';
+    const updateFields = {
+      storeStatus: isApproved ? 'published' : 'rejected',
+      storeApprovalStatus: isApproved ? 'approved' : 'rejected',
+      storeApprovedAt: isApproved ? now : null,
+      storeRejectionReason: isApproved ? '' : (adminNotes || 'Please update storefront information.'),
+      updatedAt: now
+    };
+
+    if (isDbConnected()) {
+      try {
+        await User.findOneAndUpdate(
+          { $or: [{ id }, { _id: mongoose.Types.ObjectId.isValid(id) ? id : null }] },
+          { $set: updateFields },
+          { new: true }
+        );
+      } catch (e) {
+        console.warn('MongoDB updateStorefrontApproval fallback:', e.message);
+      }
+    }
+
+    const existing = memStorefronts.get(id) || {};
+    memStorefronts.set(id, { ...existing, id, ...updateFields });
+
+    if (Array.isArray(memUsers)) {
+      const uIdx = memUsers.findIndex((u) => u.id === id);
+      if (uIdx >= 0) {
+        memUsers[uIdx] = { ...memUsers[uIdx], ...updateFields, isVerified: isApproved };
+      }
+    }
+
+    return res.json({
+      success: true,
+      message: isApproved
+        ? 'Storefront has been APPROVED by Admin! Store is now live on the Customer Portal.'
+        : 'Storefront has been REJECTED with revision requested.',
+      storeStatus: updateFields.storeStatus,
+      storeApprovalStatus: updateFields.storeApprovalStatus,
+      rejectionReason: updateFields.storeRejectionReason
+    });
+  } catch (error) {
+    console.error('updateStorefrontApproval Error:', error);
     return res.status(500).json({ success: false, message: error.message });
   }
 };

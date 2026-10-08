@@ -246,14 +246,14 @@ export default function Cart() {
       }, user);
 
       const rzpOrderId = orderRes?.orderId || `order_${Date.now()}`;
-      const rzpKeyId = orderRes?.keyId || 'rzp_test_5173VendorHubKey';
+      const rzpKeyId = orderRes?.keyId || import.meta.env.VITE_RAZORPAY_KEY_ID || 'rzp_test_TZqeZKHJCbUTaF';
 
       // 3. Open official Razorpay modal if available and live keys present
       if (window.Razorpay && !orderRes?.isDemo) {
         const options = {
           key: rzpKeyId,
-          amount: Math.round(finalTotal * 100),
-          currency: 'INR',
+          amount: orderRes?.amount || Math.round(finalTotal * 100),
+          currency: orderRes?.currency || 'INR',
           name: 'VendorHub Marketplace',
           description: `Order Checkout (${cartCount} items)`,
           image: 'https://ui-avatars.com/api/?name=VH&background=4F46E5&color=fff',
@@ -267,6 +267,15 @@ export default function Cart() {
             color: '#4F46E5'
           },
           handler: async function (response) {
+            try {
+              await apiService.verifyRazorpayPayment({
+                razorpay_order_id: response.razorpay_order_id || rzpOrderId,
+                razorpay_payment_id: response.razorpay_payment_id,
+                razorpay_signature: response.razorpay_signature
+              }, user);
+            } catch (vErr) {
+              console.warn('Backend payment verification note:', vErr);
+            }
             finalizeOrder({
               method: 'RAZORPAY',
               razorpay_order_id: response.razorpay_order_id || rzpOrderId,

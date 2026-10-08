@@ -16,10 +16,13 @@ import { NotificationProvider } from './contexts/NotificationContext';
 import ProtectedRoute from './components/common/ProtectedRoute';
 import ScrollToTop from './components/common/ScrollToTop';
 import CustomerChatbot from './components/chatbot/CustomerChatbot';
+import VendorChatbot from './components/chatbot/VendorChatbot';
+import ChatbotErrorBoundary from './components/common/ChatbotErrorBoundary';
 
 // Pages
 import LandingPage from './pages/LandingPage';
 import HubAssistantPage from './pages/HubAssistantPage';
+import GoogleCallback from './pages/GoogleCallback';
 
 // Customer
 import CustomerAuth from './components/customer/CustomerAuth';
@@ -76,18 +79,31 @@ export default function App() {
                                 <Routes>
                       {/* ── Public ── */}
                       <Route path="/" element={<LandingPage />} />
+                      <Route path="/auth/google/callback" element={<GoogleCallback />} />
                       <Route path="/login" element={<CustomerAuth initialMode="login" />} />
                       <Route path="/register" element={<CustomerAuth initialMode="register" />} />
                       <Route path="/signup" element={<CustomerAuth initialMode="register" />} />
+                      <Route path="/auth/customer" element={<CustomerAuth initialMode="login" />} />
+                      <Route path="/auth/login" element={<CustomerAuth initialMode="login" />} />
                       <Route path="/vendor/login" element={<VendorAuth initialMode="login" />} />
                       <Route path="/vendor/register" element={<VendorAuth initialMode="register" />} />
                       <Route path="/vendor/signup" element={<VendorAuth initialMode="register" />} />
+                      <Route path="/vendor/auth" element={<VendorAuth initialMode="login" />} />
+                      <Route path="/auth/vendor" element={<VendorAuth initialMode="login" />} />
                       <Route path="/admin/login" element={<AdminLogin />} />
                       <Route path="/store/:slug" element={<VendorProfile />} />
                       <Route path="/stores" element={<StoreDirectory />} />
                       <Route path="/shop/stores" element={<StoreDirectory />} />
-                      <Route path="/assistant" element={<HubAssistantPage />} />
-                      <Route path="/hub-assistant" element={<HubAssistantPage />} />
+                      <Route path="/assistant" element={
+                        <ProtectedRoute allowedType={['customer', 'vendor']} redirectTo="/login">
+                          <HubAssistantPage />
+                        </ProtectedRoute>
+                      } />
+                      <Route path="/hub-assistant" element={
+                        <ProtectedRoute allowedType={['customer', 'vendor']} redirectTo="/login">
+                          <HubAssistantPage />
+                        </ProtectedRoute>
+                      } />
 
                       {/* ── Customer / Marketplace (Publicly Browseable) ── */}
                       <Route path="/shop" element={<ProductListing />} />
@@ -122,6 +138,11 @@ export default function App() {
                     } />
 
                     {/* ── Vendor ── */}
+                    <Route path="/vendor" element={
+                      <ProtectedRoute allowedType="vendor" redirectTo="/vendor/login">
+                        <Navigate to="/vendor/dashboard" replace />
+                      </ProtectedRoute>
+                    } />
                     <Route path="/vendor/dashboard" element={
                       <ProtectedRoute allowedType="vendor" redirectTo="/vendor/login">
                         <VendorDashboard />
@@ -189,6 +210,11 @@ export default function App() {
                     } />
 
                     {/* ── Admin ── */}
+                    <Route path="/admin" element={
+                      <ProtectedRoute allowedType="admin" redirectTo="/admin/login">
+                        <Navigate to="/admin/dashboard" replace />
+                      </ProtectedRoute>
+                    } />
                     <Route path="/admin/dashboard" element={
                       <ProtectedRoute allowedType="admin" redirectTo="/admin/login">
                         <AdminDashboard />
@@ -223,7 +249,11 @@ export default function App() {
                     {/* Fallback */}
                     <Route path="*" element={<Navigate to="/" replace />} />
                   </Routes>
-                  <CustomerChatbot />
+                  {/* Distinct, Non-Overlapping Dedicated Chatbots for Customers and Vendors */}
+                  <ChatbotErrorBoundary>
+                    <CustomerChatbot />
+                    <VendorChatbot />
+                  </ChatbotErrorBoundary>
                 </RecentlyAccessedProvider>
               </ChatbotProvider>
               </MessageProvider>

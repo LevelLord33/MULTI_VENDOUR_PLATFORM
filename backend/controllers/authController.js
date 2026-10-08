@@ -5,6 +5,7 @@ import Product from '../models/Product.js';
 import Notification from '../models/Notification.js';
 import { ADMIN_CREDENTIALS, seedVendors, seedCustomers, seedProducts } from '../data/seedData.js';
 import { getIO } from '../socket/socketService.js';
+import { sendRegistrationVerificationEmail } from '../utils/emailService.js';
 
 const JWT_SECRET = process.env.JWT_SECRET || 'vendorhub-super-secret-jwt-key-2025';
 
@@ -15,10 +16,11 @@ let memUsers = [
     type: 'admin',
     email: ADMIN_CREDENTIALS.email,
     password: ADMIN_CREDENTIALS.password,
-    name: ADMIN_CREDENTIALS.name
+    name: ADMIN_CREDENTIALS.name,
+    isEmailVerified: true
   },
-  ...seedVendors.map((v) => ({ ...v, type: 'vendor', name: v.businessName })),
-  ...seedCustomers.map((c) => ({ ...c, type: 'customer', name: c.fullName }))
+  ...seedVendors.map((v) => ({ ...v, type: 'vendor', name: v.businessName, isEmailVerified: true })),
+  ...seedCustomers.map((c) => ({ ...c, type: 'customer', name: c.fullName, isEmailVerified: true }))
 ];
 
 const isDbReady = () => mongoose.connection.readyState === 1;
@@ -99,7 +101,38 @@ export const login = async (req, res) => {
       if (isDbReady()) {
         try {
           vendor = await User.findOne({ type: 'vendor', email: cleanEmail });
-          if (vendor) vendor = vendor.toJSON();
+          if (!vendor) {
+            // Check if user exists as customer and entered correct password -> upgrade to vendor
+            const anyUser = await User.findOne({ email: cleanEmail });
+            if (anyUser && anyUser.password === password) {
+              const displayName = anyUser.fullName || anyUser.name || cleanEmail.split('@')[0];
+              const defaultSlug = (displayName || 'store')
+                .toLowerCase()
+                .replace(/[^a-z0-9]+/g, '-')
+                .replace(/(^-|-$)/g, '') || `store-${Date.now().toString().slice(-4)}`;
+
+              const upgraded = await User.findOneAndUpdate(
+                { email: cleanEmail },
+                {
+                  $set: {
+                    type: 'vendor',
+                    role: 'vendor',
+                    businessName: anyUser.businessName || `${displayName}'s Store`,
+                    storeName: anyUser.storeName || `${displayName}'s Store`,
+                    ownerName: anyUser.ownerName || displayName,
+                    storeSlug: anyUser.storeSlug || defaultSlug,
+                    isApproved: true,
+                    isEmailVerified: true,
+                    status: 'active'
+                  }
+                },
+                { new: true }
+              );
+              if (upgraded) vendor = upgraded.toJSON();
+            }
+          } else {
+            vendor = vendor.toJSON();
+          }
         } catch {
           vendor = null;
         }
@@ -107,12 +140,65 @@ export const login = async (req, res) => {
 
       if (!vendor) {
         vendor = memUsers.find((u) => u.type === 'vendor' && u.email.toLowerCase() === cleanEmail);
+        if (!vendor) {
+          const anyMem = memUsers.find((u) => u.email && u.email.toLowerCase() === cleanEmail && u.password === password);
+          if (anyMem) {
+            anyMem.type = 'vendor';
+            anyMem.role = 'vendor';
+            anyMem.businessName = anyMem.businessName || `${anyMem.name || anyMem.fullName || 'Merchant'}'s Store`;
+            anyMem.storeSlug = anyMem.storeSlug || `store-${Date.now().toString().slice(-4)}`;
+            vendor = anyMem;
+          }
+        }
       }
 
       if (!vendor || vendor.password !== password) {
         return res.status(401).json({
           success: false,
           message: 'Invalid vendor credentials.'
+        });
+      }
+
+      // Check if vendor account has completed 6-digit approval verification
+      if (!vendor.isEmailVerified) {
+        const hasActiveCode = vendor.verificationCode && vendor.verificationCodeExpiresAt && new Date() < new Date(vendor.verificationCodeExpiresAt);
+        let activeCode = vendor.verificationCode;
+
+        if (!hasActiveCode) {
+          activeCode = Math.floor(100000 + Math.random() * 900000).toString();
+          const expiresAt = new Date(Date.now() + 15 * 60 * 1000);
+          if (isDbReady()) {
+            try {
+              await User.findOneAndUpdate(
+                { email: { $regex: new RegExp(`^${cleanEmail.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, '\\$&')}$`, 'i') } },
+                { $set: { verificationCode: activeCode, verificationCodeExpiresAt: expiresAt, isEmailVerified: false } }
+              );
+            } catch (e) {
+              console.warn('Update verification code warning:', e.message);
+            }
+          }
+          const memIdx = memUsers.findIndex((u) => u.email.toLowerCase() === cleanEmail);
+          if (memIdx >= 0) {
+            memUsers[memIdx].verificationCode = activeCode;
+            memUsers[memIdx].verificationCodeExpiresAt = expiresAt;
+            memUsers[memIdx].isEmailVerified = false;
+          }
+          sendRegistrationVerificationEmail({
+            toEmail: cleanEmail,
+            userName: vendor.ownerName || vendor.businessName || 'Vendor',
+            role: 'vendor',
+            code: activeCode,
+            adminApprovalEmail: 'themysterioknull33@gmail.com'
+          }).catch((e) => console.warn('Email dispatch warning:', e.message));
+        }
+
+        return res.json({
+          success: false,
+          requiresVerification: true,
+          email: cleanEmail,
+          type: 'vendor',
+          message: 'Account pending security approval. Please enter the verification code sent to your email.',
+          demoCode: activeCode
         });
       }
 
@@ -145,6 +231,49 @@ export const login = async (req, res) => {
         return res.status(401).json({
           success: false,
           message: 'Invalid email or password.'
+        });
+      }
+
+      // Check if customer account has completed 6-digit approval verification
+      if (!customer.isEmailVerified) {
+        const hasActiveCode = customer.verificationCode && customer.verificationCodeExpiresAt && new Date() < new Date(customer.verificationCodeExpiresAt);
+        let activeCode = customer.verificationCode;
+
+        if (!hasActiveCode) {
+          activeCode = Math.floor(100000 + Math.random() * 900000).toString();
+          const expiresAt = new Date(Date.now() + 15 * 60 * 1000);
+          if (isDbReady()) {
+            try {
+              await User.findOneAndUpdate(
+                { email: { $regex: new RegExp(`^${cleanEmail.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, '\\$&')}$`, 'i') } },
+                { $set: { verificationCode: activeCode, verificationCodeExpiresAt: expiresAt, isEmailVerified: false } }
+              );
+            } catch (e) {
+              console.warn('Update verification code warning:', e.message);
+            }
+          }
+          const memIdx = memUsers.findIndex((u) => u.email.toLowerCase() === cleanEmail);
+          if (memIdx >= 0) {
+            memUsers[memIdx].verificationCode = activeCode;
+            memUsers[memIdx].verificationCodeExpiresAt = expiresAt;
+            memUsers[memIdx].isEmailVerified = false;
+          }
+          sendRegistrationVerificationEmail({
+            toEmail: cleanEmail,
+            userName: customer.fullName || customer.name || 'Customer',
+            role: 'customer',
+            code: activeCode,
+            adminApprovalEmail: 'themysterioknull33@gmail.com'
+          }).catch((e) => console.warn('Email dispatch warning:', e.message));
+        }
+
+        return res.json({
+          success: false,
+          requiresVerification: true,
+          email: cleanEmail,
+          type: 'customer',
+          message: 'Account pending security approval. Please enter the verification code sent to your email.',
+          demoCode: activeCode
         });
       }
 
@@ -204,6 +333,9 @@ export const registerCustomer = async (req, res) => {
       }
     }
 
+    const verificationCode = Math.floor(100000 + Math.random() * 900000).toString();
+    const verificationCodeExpiresAt = new Date(Date.now() + 15 * 60 * 1000);
+
     const newCustomerId = 'c' + Date.now();
     const newCustomerData = {
       id: newCustomerId,
@@ -218,7 +350,10 @@ export const registerCustomer = async (req, res) => {
       state: state || '',
       pincode: pincode || '',
       avatar: `https://ui-avatars.com/api/?name=${encodeURIComponent(fullName)}&background=4F46E5&color=fff`,
-      joinedDate: new Date().toISOString().split('T')[0]
+      joinedDate: new Date().toISOString().split('T')[0],
+      isEmailVerified: false,
+      verificationCode,
+      verificationCodeExpiresAt
     };
 
     if (isDbReady()) {
@@ -228,11 +363,22 @@ export const registerCustomer = async (req, res) => {
 
     memUsers.push(newCustomerData);
 
+    // Dispatch verification code to user and admin approval email
+    sendRegistrationVerificationEmail({
+      toEmail: cleanEmail,
+      userName: fullName,
+      role: 'customer',
+      code: verificationCode,
+      adminApprovalEmail: 'themysterioknull33@gmail.com'
+    }).catch((e) => console.warn('Email dispatch warning:', e.message));
+
     return res.status(201).json({
       success: true,
-      message: 'Customer registered successfully.',
-      user: newCustomerData,
-      token: generateToken(newCustomerData)
+      requiresVerification: true,
+      email: cleanEmail,
+      type: 'customer',
+      message: 'Account created! A 6-digit security approval code has been dispatched to verify your account.',
+      demoCode: verificationCode
     });
   } catch (error) {
     return res.status(500).json({
@@ -264,17 +410,72 @@ export const registerVendor = async (req, res) => {
     if (isDbReady()) {
       const existing = await User.findOne({ email: cleanEmail });
       if (existing) {
-        return res.status(409).json({
-          success: false,
-          message: 'An account with this email address already exists.'
+        if (existing.type === 'vendor') {
+          return res.status(409).json({
+            success: false,
+            message: 'A vendor account with this email address already exists. Please sign in to manage your storefront.'
+          });
+        }
+        // Account exists as customer -> upgrade to vendor
+        let defaultSlug = (businessName || 'store')
+          .toLowerCase()
+          .replace(/[^a-z0-9]+/g, '-')
+          .replace(/(^-|-$)/g, '');
+
+        const upgraded = await User.findOneAndUpdate(
+          { email: cleanEmail },
+          {
+            $set: {
+              ...data,
+              type: 'vendor',
+              role: 'vendor',
+              password: password || existing.password,
+              businessName,
+              ownerName: ownerName || businessName,
+              name: businessName,
+              mobile: mobile || existing.mobile || '',
+              businessAddress: businessAddress || '',
+              location: location || 'India',
+              gstin: gstin || '07AABCV9999Z1Z0',
+              storeSlug: defaultSlug,
+              tagline: `Welcome to the official ${businessName} storefront`,
+              themeColor: '#4F46E5',
+              storeStatus: 'active',
+              isVerified: true,
+              isEmailVerified: true
+            }
+          },
+          { new: true }
+        );
+
+        return res.json({
+          success: true,
+          message: 'Account upgraded to Vendor successfully! Welcome to your storefront.',
+          user: upgraded.toJSON(),
+          token: generateToken(upgraded)
         });
       }
     } else {
       const existingMem = memUsers.find((u) => u.email.toLowerCase() === cleanEmail);
       if (existingMem) {
-        return res.status(409).json({
-          success: false,
-          message: 'An account with this email address already exists.'
+        if (existingMem.type === 'vendor') {
+          return res.status(409).json({
+            success: false,
+            message: 'A vendor account with this email address already exists. Please sign in to manage your storefront.'
+          });
+        }
+        existingMem.type = 'vendor';
+        existingMem.role = 'vendor';
+        existingMem.businessName = businessName;
+        existingMem.ownerName = ownerName || businessName;
+        existingMem.storeSlug = (businessName || 'store').toLowerCase().replace(/[^a-z0-9]+/g, '-');
+        existingMem.isVerified = true;
+        existingMem.isEmailVerified = true;
+        return res.json({
+          success: true,
+          message: 'Account upgraded to Vendor successfully! Welcome to your storefront.',
+          user: existingMem,
+          token: generateToken(existingMem)
         });
       }
     }
@@ -288,6 +489,9 @@ export const registerVendor = async (req, res) => {
     if (slugCollision) {
       defaultSlug = `${defaultSlug}-${Date.now().toString().slice(-4)}`;
     }
+
+    const verificationCode = Math.floor(100000 + Math.random() * 900000).toString();
+    const verificationCodeExpiresAt = new Date(Date.now() + 15 * 60 * 1000);
 
     const newVendorId = 'v' + Date.now();
     const newVendorData = {
@@ -307,8 +511,12 @@ export const registerVendor = async (req, res) => {
       tagline: `Welcome to the official ${businessName} storefront`,
       themeColor: '#4F46E5',
       themePreset: 'indigo',
-      storeStatus: 'published',
-      isVerified: true,
+      storeStatus: 'draft',
+      storeApprovalStatus: 'none',
+      isVerified: false,
+      isEmailVerified: false,
+      verificationCode,
+      verificationCodeExpiresAt,
       announcement: '🎉 Fast Courier Dispatch with Verified Brand Warranty!',
       featuredProductIds: [],
       banner: 'https://images.unsplash.com/photo-1550009158-9ebf69173e03?w=1200&h=300&fit=crop',
@@ -323,11 +531,22 @@ export const registerVendor = async (req, res) => {
 
     memUsers.push(newVendorData);
 
+    // Dispatch verification code to vendor and admin approval email
+    sendRegistrationVerificationEmail({
+      toEmail: cleanEmail,
+      userName: ownerName || businessName,
+      role: 'vendor',
+      code: verificationCode,
+      adminApprovalEmail: 'themysterioknull33@gmail.com'
+    }).catch((e) => console.warn('Email dispatch warning:', e.message));
+
     return res.status(201).json({
       success: true,
-      message: 'Vendor onboarded successfully.',
-      user: newVendorData,
-      token: generateToken(newVendorData)
+      requiresVerification: true,
+      email: cleanEmail,
+      type: 'vendor',
+      message: 'Vendor registered! A 6-digit security approval code has been dispatched to verify your account.',
+      demoCode: verificationCode
     });
   } catch (error) {
     return res.status(500).json({
@@ -714,6 +933,7 @@ export const oauthLogin = async (req, res) => {
         provider: 'google',
         googleId: googleId || `gid_${Date.now()}`,
         password: '',
+        isEmailVerified: true,
         joinedDate: new Date().toISOString(),
         ...(isAdmin ? {
           title: 'System Administrator',
@@ -752,6 +972,47 @@ export const oauthLogin = async (req, res) => {
       if (role === 'admin') {
         user.type = 'admin';
         user.role = 'admin';
+      } else if (role === 'vendor') {
+        user.type = 'vendor';
+        user.role = 'vendor';
+        const displayName = user.fullName || user.name || cleanEmail.split('@')[0];
+        if (!user.businessName) user.businessName = `${displayName}'s Store`;
+        if (!user.storeName) user.storeName = user.businessName;
+        if (!user.ownerName) user.ownerName = displayName;
+        if (!user.storeSlug) {
+          user.storeSlug = (user.businessName || 'store')
+            .toLowerCase()
+            .replace(/[^a-z0-9]+/g, '-')
+            .replace(/(^-|-$)/g, '') || `store-${Date.now().toString().slice(-4)}`;
+        }
+        user.isApproved = true;
+        user.status = 'active';
+        user.isEmailVerified = true;
+        if (!user.themeColor) user.themeColor = '#4F46E5';
+        if (!user.category) user.category = 'Retail & Consumer Goods';
+
+        if (isDbReady()) {
+          try {
+            await User.findOneAndUpdate(
+              { email: cleanEmail },
+              {
+                $set: {
+                  type: 'vendor',
+                  role: 'vendor',
+                  businessName: user.businessName,
+                  storeName: user.storeName,
+                  ownerName: user.ownerName,
+                  storeSlug: user.storeSlug,
+                  isApproved: true,
+                  status: 'active',
+                  isEmailVerified: true
+                }
+              }
+            );
+          } catch (e) {
+            console.warn('Could not update user to vendor in Mongo:', e.message);
+          }
+        }
       } else {
         if (!user.type) user.type = user.role || role;
         if (!user.role) user.role = user.type;
@@ -1121,3 +1382,169 @@ export const unfollowVendor = async (req, res) => {
   }
 };
 
+/**
+ * Verify Registration / Login Security Code
+ * POST /api/auth/verify-registration
+ */
+export const verifyRegistration = async (req, res) => {
+  try {
+    const { email, code, type } = req.body;
+
+    if (!email || !code) {
+      return res.status(400).json({
+        success: false,
+        message: 'Email address and 6-digit verification code are required.'
+      });
+    }
+
+    const cleanEmail = email.toLowerCase().trim();
+    const cleanCode = String(code).trim();
+
+    let user = null;
+    if (isDbReady()) {
+      try {
+        user = await User.findOne({ email: cleanEmail });
+        if (user) user = user.toJSON();
+      } catch (e) {
+        console.warn('DB verifyRegistration fallback:', e.message);
+      }
+    }
+    if (!user) {
+      user = memUsers.find((u) => u.email.toLowerCase() === cleanEmail);
+    }
+
+    if (!user) {
+      return res.status(404).json({
+        success: false,
+        message: 'Account not found with this email address.'
+      });
+    }
+
+    if (user.verificationCode !== cleanCode) {
+      return res.status(400).json({
+        success: false,
+        message: 'Invalid verification code. Please check your email or request a new code.'
+      });
+    }
+
+    if (user.verificationCodeExpiresAt && new Date() > new Date(user.verificationCodeExpiresAt)) {
+      return res.status(400).json({
+        success: false,
+        message: 'Verification code has expired. Please click Resend Code to obtain a fresh security code.'
+      });
+    }
+
+    // Activate user permanently
+    const updateData = {
+      isEmailVerified: true,
+      verificationCode: null,
+      verificationCodeExpiresAt: null
+    };
+
+    if (isDbReady()) {
+      try {
+        const updatedDbUser = await User.findOneAndUpdate(
+          { email: { $regex: new RegExp(`^${cleanEmail.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, '\\$&')}$`, 'i') } },
+          { $set: updateData },
+          { new: true }
+        );
+        if (updatedDbUser) {
+          user = updatedDbUser.toJSON();
+        }
+      } catch (e) {
+        console.warn('DB update user verification fallback:', e.message);
+      }
+    }
+
+    const memIdx = memUsers.findIndex((u) => u.email.toLowerCase() === cleanEmail);
+    if (memIdx >= 0) {
+      memUsers[memIdx] = { ...memUsers[memIdx], ...updateData };
+      user = { ...memUsers[memIdx] };
+    }
+
+    const token = generateToken(user);
+
+    return res.json({
+      success: true,
+      message: 'Account verified & approved successfully! Welcome to VendorHub.',
+      user,
+      token
+    });
+  } catch (error) {
+    console.error('verifyRegistration Error:', error);
+    return res.status(500).json({
+      success: false,
+      message: 'Server error during account verification.',
+      error: error.message
+    });
+  }
+};
+
+/**
+ * Resend Verification Code
+ * POST /api/auth/resend-verification-code
+ */
+export const resendVerificationCode = async (req, res) => {
+  try {
+    const { email } = req.body;
+    if (!email) {
+      return res.status(400).json({ success: false, message: 'Email address is required.' });
+    }
+
+    const cleanEmail = email.toLowerCase().trim();
+    let user = null;
+    if (isDbReady()) {
+      try {
+        user = await User.findOne({ email: cleanEmail });
+        if (user) user = user.toJSON();
+      } catch (e) {
+        console.warn('DB resendVerificationCode fallback:', e.message);
+      }
+    }
+    if (!user) {
+      user = memUsers.find((u) => u.email.toLowerCase() === cleanEmail);
+    }
+
+    if (!user) {
+      return res.status(404).json({ success: false, message: 'Account not found with this email address.' });
+    }
+
+    const newCode = Math.floor(100000 + Math.random() * 900000).toString();
+    const expiresAt = new Date(Date.now() + 15 * 60 * 1000);
+
+    if (isDbReady()) {
+      try {
+        await User.findOneAndUpdate(
+          { email: { $regex: new RegExp(`^${cleanEmail.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, '\\$&')}$`, 'i') } },
+          { $set: { verificationCode: newCode, verificationCodeExpiresAt: expiresAt } }
+        );
+      } catch (e) {
+        console.warn('DB update resend code warning:', e.message);
+      }
+    }
+
+    const memIdx = memUsers.findIndex((u) => u.email.toLowerCase() === cleanEmail);
+    if (memIdx >= 0) {
+      memUsers[memIdx].verificationCode = newCode;
+      memUsers[memIdx].verificationCodeExpiresAt = expiresAt;
+    }
+
+    sendRegistrationVerificationEmail({
+      toEmail: cleanEmail,
+      userName: user.fullName || user.businessName || user.ownerName || 'User',
+      role: user.type || 'customer',
+      code: newCode,
+      adminApprovalEmail: 'themysterioknull33@gmail.com'
+    }).catch((e) => console.warn('Email dispatch warning:', e.message));
+
+    return res.json({
+      success: true,
+      message: 'A fresh 6-digit verification code has been dispatched.',
+      demoCode: newCode
+    });
+  } catch (error) {
+    return res.status(500).json({ success: false, message: error.message });
+  }
+};
+
+export { memUsers };

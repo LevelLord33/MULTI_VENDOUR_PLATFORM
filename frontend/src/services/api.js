@@ -99,6 +99,36 @@ export const apiService = {
     }
   },
 
+  async verifyRegistration(verifyPayload) {
+    try {
+      const res = await fetch(`${API_BASE_URL}/auth/verify-registration`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(verifyPayload)
+      });
+      const data = await res.json().catch(() => ({}));
+      if (res.ok && data.token) {
+        localStorage.setItem('vendorhub_token', data.token);
+      }
+      return data;
+    } catch (e) {
+      return { success: false, message: e.message || 'Network error during verification' };
+    }
+  },
+
+  async resendVerificationCode(email) {
+    try {
+      const res = await fetch(`${API_BASE_URL}/auth/resend-verification-code`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email })
+      });
+      return await res.json().catch(() => ({}));
+    } catch (e) {
+      return { success: false, message: e.message || 'Network error resending code' };
+    }
+  },
+
   async getVendors() {
     try {
       const res = await fetch(`${API_BASE_URL}/auth/vendors`);
@@ -152,6 +182,55 @@ export const apiService = {
         method: 'PUT',
         headers: getHeaders(user),
         body: JSON.stringify(storeData)
+      });
+      if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`);
+      return await res.json();
+    } catch {
+      return null;
+    }
+  },
+
+  // ── Storefront Creation & Admin Permission ───────
+  async submitVendorStorefront(id, storefrontData, user) {
+    try {
+      const res = await fetch(`${API_BASE_URL}/stores/vendor/${encodeURIComponent(id)}/storefront`, {
+        method: 'POST',
+        headers: getHeaders(user),
+        body: JSON.stringify(storefrontData)
+      });
+      if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`);
+      return await res.json();
+    } catch {
+      return null;
+    }
+  },
+
+  async getVendorStorefront(id) {
+    try {
+      const res = await fetch(`${API_BASE_URL}/stores/vendor/${encodeURIComponent(id)}/storefront`);
+      if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`);
+      return await res.json();
+    } catch {
+      return null;
+    }
+  },
+
+  async getAdminStorefronts(status = 'all') {
+    try {
+      const res = await fetch(`${API_BASE_URL}/stores/admin/storefronts?status=${encodeURIComponent(status)}`);
+      if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`);
+      return await res.json();
+    } catch {
+      return null;
+    }
+  },
+
+  async updateStorefrontApproval(id, approvalData, user) {
+    try {
+      const res = await fetch(`${API_BASE_URL}/stores/admin/${encodeURIComponent(id)}/approval`, {
+        method: 'PATCH',
+        headers: getHeaders(user),
+        body: JSON.stringify(approvalData)
       });
       if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`);
       return await res.json();
@@ -1354,6 +1433,67 @@ export const apiService = {
     }
   },
 
+  // ── Vendor Storefront Creation & Admin Permission ────
+  async submitVendorStorefront(vendorId, payload) {
+    try {
+      const res = await fetch(`${API_BASE_URL}/stores/vendor/${encodeURIComponent(vendorId)}/storefront`, {
+        method: 'POST',
+        headers: getHeaders(),
+        body: JSON.stringify(payload)
+      });
+      if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`);
+      return await res.json();
+    } catch (err) {
+      console.warn('submitVendorStorefront fallback:', err?.message);
+      return null;
+    }
+  },
+
+  async updateVendorStore(vendorId, payload) {
+    return this.submitVendorStorefront(vendorId, payload);
+  },
+
+  async getVendorStorefront(vendorId) {
+    try {
+      const res = await fetch(`${API_BASE_URL}/stores/vendor/${encodeURIComponent(vendorId)}/storefront`, {
+        headers: getHeaders()
+      });
+      if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`);
+      return await res.json();
+    } catch (err) {
+      console.warn('getVendorStorefront fallback:', err?.message);
+      return null;
+    }
+  },
+
+  async getAdminStorefronts(status = 'all') {
+    try {
+      const res = await fetch(`${API_BASE_URL}/stores/admin/storefronts?status=${encodeURIComponent(status)}`, {
+        headers: getHeaders()
+      });
+      if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`);
+      return await res.json();
+    } catch (err) {
+      console.warn('getAdminStorefronts fallback:', err?.message);
+      return null;
+    }
+  },
+
+  async updateStorefrontApproval(vendorId, { status, adminNotes }) {
+    try {
+      const res = await fetch(`${API_BASE_URL}/stores/admin/${encodeURIComponent(vendorId)}/approval`, {
+        method: 'PATCH',
+        headers: getHeaders(),
+        body: JSON.stringify({ status, adminNotes })
+      });
+      if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`);
+      return await res.json();
+    } catch (err) {
+      console.warn('updateStorefrontApproval fallback:', err?.message);
+      return null;
+    }
+  },
+
   // ── Exposure & Analytics Recording (Feature 8) ────
   async recordExposure(payload) {
     try {
@@ -1629,6 +1769,36 @@ export const apiService = {
       return await res.json();
     } catch (err) {
       console.warn('getActivityLogs fallback:', err?.message);
+      return null;
+    }
+  },
+
+  // ── HubBot Chatbot Services ─────────────────────────
+  async sendChatbotMessage(payload, user = null) {
+    try {
+      const res = await fetch(`${API_BASE_URL}/chatbot/message`, {
+        method: 'POST',
+        headers: getHeaders(user),
+        body: JSON.stringify(payload)
+      });
+      if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`);
+      return await res.json();
+    } catch (err) {
+      console.warn('sendChatbotMessage API fallback:', err?.message);
+      return null;
+    }
+  },
+
+  async getChatbotFaqs(role = null) {
+    try {
+      const query = role ? `?role=${encodeURIComponent(role)}` : '';
+      const res = await fetch(`${API_BASE_URL}/chatbot/faqs${query}`, {
+        headers: getHeaders()
+      });
+      if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`);
+      return await res.json();
+    } catch (err) {
+      console.warn('getChatbotFaqs API fallback:', err?.message);
       return null;
     }
   },

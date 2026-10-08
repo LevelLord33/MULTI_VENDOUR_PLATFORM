@@ -166,3 +166,125 @@ export const sendSubscriberBroadcastEmail = async ({
     };
   }
 };
+
+/**
+ * Send Account Registration Verification & Login Approval Code
+ * Dispatches the 6-digit code to both the user and the platform security approver (themysterioknull33@gmail.com)
+ */
+export const sendRegistrationVerificationEmail = async ({
+  toEmail,
+  userName = 'User',
+  role = 'customer',
+  code,
+  adminApprovalEmail = 'themysterioknull33@gmail.com'
+}) => {
+  try {
+    const transporter = await getMailTransporter();
+    const roleLabel = role === 'vendor' ? 'Merchant / Vendor' : 'Customer';
+    const senderEmail = process.env.EMAIL_FROM || process.env.EMAIL_USER || process.env.SMTP_USER || 'security@vendorhub.in';
+
+    const htmlContent = `
+      <!DOCTYPE html>
+      <html>
+      <head>
+        <meta charset="utf-8">
+        <style>
+          body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; background-color: #F8FAFC; margin: 0; padding: 24px; color: #1E293B; }
+          .container { max-width: 580px; margin: 0 auto; background: #FFFFFF; border-radius: 16px; overflow: hidden; border: 1px solid #E2E8F0; box-shadow: 0 10px 25px -5px rgba(0,0,0,0.06); }
+          .header { background: linear-gradient(135deg, ${role === 'vendor' ? '#059669, #10B981' : '#4F46E5, #7C3AED'}); padding: 32px 24px; color: #FFFFFF; text-align: center; }
+          .header h1 { margin: 0; font-size: 22px; font-weight: 800; letter-spacing: -0.02em; }
+          .header p { margin: 6px 0 0; font-size: 13px; opacity: 0.95; }
+          .body { padding: 32px 28px; }
+          .badge { display: inline-block; padding: 5px 12px; border-radius: 20px; background: ${role === 'vendor' ? '#ECFDF5' : '#EEF2FF'}; color: ${role === 'vendor' ? '#059669' : '#4F46E5'}; font-size: 12px; font-weight: 800; margin-bottom: 16px; }
+          .code-box { background: #F8FAFC; border: 2px dashed ${role === 'vendor' ? '#10B981' : '#4F46E5'}; border-radius: 12px; padding: 20px; text-align: center; margin: 24px 0; }
+          .code-digits { font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace; font-size: 36px; font-weight: 800; color: ${role === 'vendor' ? '#047857' : '#4338CA'}; letter-spacing: 8px; margin: 0; }
+          .details-card { background: #F1F5F9; border-radius: 10px; padding: 16px; margin: 20px 0; font-size: 13px; line-height: 1.6; color: #334155; }
+          .details-card table { width: 100%; border-collapse: collapse; }
+          .details-card td { padding: 4px 0; }
+          .details-card td.label { font-weight: 700; width: 120px; color: #64748B; }
+          .security-shield { background: #ECFDF5; border: 1px solid #A7F3D0; border-radius: 8px; padding: 12px 14px; font-size: 12px; color: #065F46; line-height: 1.45; margin-top: 24px; }
+          .footer { background: #F8FAFC; padding: 16px 24px; text-align: center; font-size: 11px; color: #94A3B8; border-top: 1px solid #E2E8F0; }
+        </style>
+      </head>
+      <body>
+        <div class="container">
+          <div class="header">
+            <h1>VendorHub Security Gateway</h1>
+            <p>Account Registration & Login Verification</p>
+          </div>
+          <div class="body">
+            <span class="badge">🔐 ${roleLabel.toUpperCase()} VERIFICATION CODE</span>
+            <h2 style="font-size: 18px; font-weight: 700; color: #0F172A; margin: 0 0 10px;">Hello ${userName},</h2>
+            <p style="font-size: 14px; line-height: 1.5; color: #475569; margin: 0 0 16px;">
+              Thank you for registering on <strong>VendorHub</strong>. To ensure high platform safety and prevent unauthorized access, please enter the 6-digit approval verification code below:
+            </p>
+            
+            <div class="code-box">
+              <div style="font-size: 11px; font-weight: 700; text-transform: uppercase; color: #64748B; margin-bottom: 6px;">Your 6-Digit Verification Code</div>
+              <p class="code-digits">${code}</p>
+              <div style="font-size: 11px; color: #94A3B8; margin-top: 6px;">Valid for 15 minutes • Do not share this code with anyone</div>
+            </div>
+
+            <div class="details-card">
+              <table>
+                <tr><td class="label">Full Name:</td><td><strong>${userName}</strong></td></tr>
+                <tr><td class="label">Registered Email:</td><td><strong>${toEmail}</strong></td></tr>
+                <tr><td class="label">Account Role:</td><td><strong>${roleLabel}</strong></td></tr>
+                <tr><td class="label">Approval Route:</td><td>Security Dispatch (${adminApprovalEmail})</td></tr>
+                <tr><td class="label">Timestamp:</td><td>${new Date().toUTCString()}</td></tr>
+              </table>
+            </div>
+
+            <div class="security-shield">
+              🛡️ <strong>Platform Safety Guarantee:</strong> Both your email and the platform security administrator (${adminApprovalEmail}) receive this verification record to ensure account authenticity.
+            </div>
+          </div>
+          <div class="footer">
+            VendorHub Secure Commerce & Multi-Vendor Network.<br>
+            If you did not request this registration, please disregard this email.
+          </div>
+        </div>
+      </body>
+      </html>
+    `;
+
+    // Target recipients: user's registered email + admin approval email (strictly deduplicated)
+    const cleanTo = (toEmail || '').trim().toLowerCase();
+    const normalizedTo = cleanTo.includes('@') ? cleanTo : `${cleanTo}@gmail.com`;
+    const cleanAdmin = (adminApprovalEmail || 'themysterioknull33@gmail.com').trim().toLowerCase();
+    const normalizedAdmin = cleanAdmin.includes('@') ? cleanAdmin : `${cleanAdmin}@gmail.com`;
+
+    const recipientsSet = new Set([normalizedTo]);
+    if (normalizedAdmin) {
+      recipientsSet.add(normalizedAdmin);
+    }
+    const recipients = Array.from(recipientsSet);
+
+    const info = await transporter.sendMail({
+      from: `"VendorHub Security" <${senderEmail}>`,
+      to: recipients.join(', '),
+      subject: `[VendorHub Security] Your Account Verification Code: ${code} (${roleLabel})`,
+      text: `Your VendorHub 6-digit verification code is: ${code}\n\nRegistered User: ${userName} (${toEmail})\nRole: ${roleLabel}\nExpires in 15 minutes.\n\nDispatched to: ${recipients.join(', ')}`,
+      html: htmlContent
+    });
+
+    console.log(`[EmailService] Verification code ${code} sent to: ${recipients.join(', ')} (Message ID: ${info.messageId})`);
+
+    const previewUrl = nodemailer.getTestMessageUrl(info);
+    return {
+      success: true,
+      messageId: info.messageId,
+      previewUrl: previewUrl || null,
+      code,
+      recipients
+    };
+  } catch (err) {
+    console.error(`[EmailService] Failed to send verification code to ${toEmail}:`, err.message);
+    return {
+      success: false,
+      error: err.message,
+      code
+    };
+  }
+};
+

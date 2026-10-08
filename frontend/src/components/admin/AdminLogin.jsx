@@ -3,7 +3,6 @@ import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../contexts/AuthContext';
 import { useToast } from '../../contexts/ToastContext';
 import { Shield, Eye, EyeOff, ArrowLeft, Lock, ShoppingBag, Store, ChevronDown, ChevronUp, KeyRound } from 'lucide-react';
-import GoogleAuthModal from '../common/GoogleAuthModal';
 import '../../styles/auth.css';
 
 export default function AdminLogin() {
@@ -11,7 +10,6 @@ export default function AdminLogin() {
   const [showPass, setShowPass] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
-  const [showGoogleModal, setShowGoogleModal] = useState(false);
   const [showDemoDrawer, setShowDemoDrawer] = useState(false);
 
   const googleClientId = import.meta.env.VITE_GOOGLE_CLIENT_ID || localStorage.getItem('vh_google_client_id');
@@ -21,18 +19,26 @@ export default function AdminLogin() {
   const navigate = useNavigate();
 
   const handleAdminGoogleOAuth = () => {
-    if (window.google?.accounts?.oauth2 && googleClientId) {
+    if (!googleClientId) {
+      addToast('Google Client ID is not configured.', 'error');
+      return;
+    }
+
+    setLoading(true);
+
+    // 1. GIS Token Client popup (avoids redirect_uri mismatch if origin is authorized)
+    if (window.google?.accounts?.oauth2) {
       try {
         const client = window.google.accounts.oauth2.initTokenClient({
           client_id: googleClientId,
-          scope: 'email profile openid',
+          scope: 'openid email profile',
           callback: async (tokenResponse) => {
             if (tokenResponse?.access_token) {
-              setLoading(true);
               try {
                 const userInfoRes = await fetch('https://www.googleapis.com/oauth2/v3/userinfo', {
                   headers: { Authorization: `Bearer ${tokenResponse.access_token}` }
                 });
+                if (!userInfoRes.ok) throw new Error('Could not fetch Google profile');
                 const profile = await userInfoRes.json();
                 await handleAdminGoogleSuccess({
                   provider: 'google',
@@ -43,26 +49,42 @@ export default function AdminLogin() {
                   token: tokenResponse.access_token,
                   role: 'admin'
                 });
-              } catch (e) {
-                console.warn('UserInfo fetch error:', e);
-                setShowGoogleModal(true);
+              } catch (err) {
+                console.error('Google profile fetch error:', err);
+                addToast('Failed to retrieve Google profile. Please try again.', 'error');
               } finally {
                 setLoading(false);
               }
+            } else {
+              setLoading(false);
             }
           },
           error_callback: (err) => {
-            console.warn('Google TokenClient popup notice:', err);
-            setShowGoogleModal(true);
+            setLoading(false);
+            console.warn('Google popup notice:', err);
+            if (window.google?.accounts?.id?.prompt) {
+              window.google.accounts.id.prompt();
+            } else {
+              addToast('Google Sign-In popup was closed. Please try again.', 'info');
+            }
           }
         });
         client.requestAccessToken({ prompt: 'select_account' });
         return;
       } catch (err) {
-        console.warn('Google TokenClient initialization notice:', err);
+        console.warn('Google token client notice:', err);
       }
     }
-    setShowGoogleModal(true);
+
+    // 2. Google One-Tap prompt fallback
+    if (window.google?.accounts?.id?.prompt) {
+      window.google.accounts.id.prompt();
+      setLoading(false);
+      return;
+    }
+
+    setLoading(false);
+    addToast('Google Sign-In is initializing. Please click again.', 'info');
   };
 
   const handleAdminGoogleSuccess = async (googleProfile) => {
@@ -83,7 +105,7 @@ export default function AdminLogin() {
     e.preventDefault();
     setError('');
     if (!form.email.trim() || !form.password) {
-      setShowGoogleModal(true);
+      setError('Please enter your administrator email and password.');
       return;
     }
     setLoading(true);
@@ -311,13 +333,6 @@ export default function AdminLogin() {
           </div>
         </div>
       </div>
-
-      <GoogleAuthModal
-        isOpen={showGoogleModal}
-        onClose={() => setShowGoogleModal(false)}
-        onGoogleSuccess={handleAdminGoogleSuccess}
-        role="admin"
-      />
     </div>
   );
 }

@@ -367,9 +367,11 @@
 /* ── Landing Page Portal Cards ─────────────────── */
 .landing-portal-cards {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(2, 1fr);
+  max-width: 820px;
+  width: 100%;
+  margin: 48px auto 0;
   gap: 28px;
-  margin-top: 48px;
   align-items: stretch;
 }
 

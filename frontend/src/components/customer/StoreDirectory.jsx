@@ -27,7 +27,7 @@ const BUSINESS_TYPES = [
 
 export default function StoreDirectory() {
   const { t } = useLanguage();
-  const { customerLocation, setCustomerLocation } = useAuth();
+  const { customerLocation, setCustomerLocation, vendors } = useAuth();
   const navigate = useNavigate();
 
   const [stores, setStores] = useState([]);
@@ -86,8 +86,11 @@ export default function StoreDirectory() {
         }
         setStores(storeList);
       } else {
-        // Fallback to seedVendors
-        let fallback = seedVendors.map((v) => {
+        // Fallback to active vendors (only approved or published stores on customer portal)
+        const vendorPool = (vendors && vendors.length > 0) ? vendors : seedVendors;
+        let fallback = vendorPool
+          .filter(v => (v.storeStatus === 'published' || v.storeStatus === 'approved' || v.storeApprovalStatus === 'approved') && !['draft', 'pending_approval', 'rejected'].includes(v.storeStatus) && v.storeApprovalStatus !== 'pending' && v.storeApprovalStatus !== 'rejected')
+          .map((v) => {
           const vProds = seedProducts.filter(p => p.vendorId === v.id);
           return {
             id: v.id,

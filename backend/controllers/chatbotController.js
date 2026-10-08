@@ -43,7 +43,7 @@ export const FAQ_KNOWLEDGE_BASE = [
     targetRole: 'customer',
     question: 'What payment methods are supported?',
     answer:
-      'We support: 1) Dynamic UPI QR Code (with 10-minute validity timer & instant VPA copy), 2) Cash on Delivery (COD) with 4-Digit Doorstep Delivery OTP, and 3) 256-bit SSL encrypted Credit/Debit Cards and NetBanking.'
+      'We support: 1) Dynamic UPI QR Code (with 10-minute validity timer & instant VPA copy), 2) Cash on Delivery (COD) with 4-Digit Doorstep Delivery OTP, and 3) 256-bit SSL encrypted Credit/Debit Cards and NetBanking via Razorpay.'
   },
   {
     category: 'Order Cancellation & Changes',
@@ -79,6 +79,48 @@ export const FAQ_KNOWLEDGE_BASE = [
     question: 'How do I contact customer support or human agents?',
     answer:
       'Our dedicated customer care team is available daily from 9:00 AM to 9:00 PM IST via toll-free helpline at 1800-836-3687 or by email at support@vendour.com. All ticket escalations are addressed within 24 hours.'
+  },
+  {
+    category: 'Account Registration & Login Support',
+    targetRole: 'customer',
+    question: 'How do I create an account or reset my password?',
+    answer:
+      'Click "Sign In" at the top-right of any page. You can register in one click using your Google Account or sign up with your email. To recover a forgotten password, click "Forgot Password" on the login screen to receive a secure password reset link.'
+  },
+  {
+    category: 'Store Directory & Local Shopping',
+    targetRole: 'customer',
+    question: 'How do I find local merchant stores in my city?',
+    answer:
+      'Visit the "Explore Stores" directory (/stores) to discover verified physical retailers across India (Chennai, Bengaluru, Mumbai, Delhi, Hyderabad). You can filter stores by city, rating, and product category, and browse each merchant\'s complete live catalog.'
+  },
+  {
+    category: 'Wishlist & Product Comparison Matrix',
+    targetRole: 'customer',
+    question: 'How do the Wishlist and Product Comparison features work?',
+    answer:
+      'Click the Heart icon on any product to save it to your Wishlist (/shop/wishlist). To compare specs side-by-side (price, warranty, rating, seller SLA), click "Compare" on up to 4 items and open the Comparison Matrix (/shop/compare).'
+  },
+  {
+    category: 'Voice Assistant (TTS/STS) Interactive Mode',
+    targetRole: 'customer',
+    question: 'How do I use the Voice Assistant and Speech-to-Speech mode?',
+    answer:
+      'Click the floating HubBot launcher or visit /assistant, then tap "🎙️ Voice Mode" in the top bar. HubBot will listen to your voice query via microphone, transcribe it live, and speak the answer aloud using natural Text-to-Speech! You can also click the Mic icon in the input bar or tap "Read Aloud" on any response.'
+  },
+  {
+    category: 'Shopping Cart & Checkout Navigation',
+    targetRole: 'customer',
+    question: 'Where can I check my cart and how do I proceed to checkout?',
+    answer:
+      'You can check your shopping cart anytime by clicking the Cart icon (🛒) in the top-right navigation bar or navigating directly to /shop/cart. From your cart, you can modify item quantities, enter discount coupon codes (like TECH20 or STYLE15), calculate courier charges, and click "Proceed to Checkout" (/shop/checkout) to complete your order via Dynamic UPI QR, Cash on Delivery with Delivery OTP, or Cards.'
+  },
+  {
+    category: 'My Orders & Purchase History Navigation',
+    targetRole: 'customer',
+    question: 'Where can I view my orders and check live courier tracking?',
+    answer:
+      'You can view all your placed, in-transit, and delivered shipments by clicking "My Orders" in the top navigation bar or visiting /shop/orders. Each order card features live courier waybills (Delhivery or BlueDart) and your 4-digit Cash on Delivery (COD) doorstep verification OTP.'
   },
 
   // ── Vendor Merchant Operations FAQs ──
@@ -151,8 +193,94 @@ export const FAQ_KNOWLEDGE_BASE = [
     question: 'How do inventory alerts work to prevent out-of-stock penalties?',
     answer:
       'The "Smart Inventory" system monitors SKU velocity and triggers alerts when stock falls below 5 units. If an item hits 0 units, the system auto-pauses the listing so you never receive unfulfillable orders.'
+  },
+  {
+    category: 'Vendor Onboarding & Legal Requirements',
+    targetRole: 'vendor',
+    question: 'What are the requirements and documents to register as a seller?',
+    answer:
+      'To sell on Vendor Hub, click "Sell on VendorHub" or visit /vendor/register. You need: 1) Active GSTIN number, 2) Business Bank Account details for T+3 NEFT settlement, 3) Pan card / Identity proof, and 4) Pickup warehouse address for courier pickups. Store approval takes under 24 hours.'
+  },
+  {
+    category: 'Merchant Verification Badge & Trust Score',
+    targetRole: 'vendor',
+    question: 'How do merchants earn the Verified Merchant badge and high search ranking?',
+    answer:
+      'Vendors who maintain a 4.5+ star rating, dispatch 95%+ of orders within 24 hours, and have fewer than 1% return disputes automatically earn the green "Verified Merchant" badge. Verified stores receive prime exposure on the homepage and priority search placement.'
+  },
+  {
+    category: 'Anti-Monopoly & Fair Exposure Architecture',
+    targetRole: 'both',
+    question: 'How does Vendor Hub protect independent sellers and prevent retail monopolies?',
+    answer:
+      'Unlike major corporate marketplaces that favor private labels, Vendor Hub operates an Anti-Monopoly Fair Exposure algorithm. Search results and featured spots rotate evenly among verified local retailers based on product authenticity, pricing fairness, and dispatch SLA, ensuring every small and medium seller gets real organic sales.'
   }
 ];
+
+/**
+ * Weighted Semantic Keyword Matcher for High-Precision FAQ Discovery
+ */
+export function scoreFaqMatch(cleanMsg, role = 'customer') {
+  const stopWords = new Set([
+    'a', 'an', 'and', 'are', 'as', 'at', 'be', 'by', 'for', 'from',
+    'has', 'he', 'in', 'is', 'it', 'its', 'of', 'on', 'that', 'the',
+    'to', 'was', 'were', 'will', 'with', 'what', 'how', 'when', 'where',
+    'who', 'why', 'can', 'does', 'do', 'i', 'my', 'me', 'you', 'your',
+    'tell', 'about', 'need', 'want', 'please', 'help', 'give', 'know'
+  ]);
+
+  const queryWords = cleanMsg
+    .toLowerCase()
+    .replace(/[^a-z0-9\s]/g, ' ')
+    .split(/\s+/)
+    .filter((w) => w.length >= 3 && !stopWords.has(w));
+
+  if (queryWords.length === 0) return null;
+
+  let bestFaq = null;
+  let highestScore = 0;
+
+  for (const faq of FAQ_KNOWLEDGE_BASE) {
+    if (faq.targetRole && faq.targetRole !== 'both' && faq.targetRole !== role) {
+      continue;
+    }
+
+    const qText = faq.question.toLowerCase();
+    const catText = faq.category.toLowerCase();
+    const aText = faq.answer.toLowerCase();
+
+    let score = 0;
+
+    // Check full phrase match
+    if (qText.includes(cleanMsg) || cleanMsg.includes(qText.slice(0, 25))) {
+      score += 20;
+    }
+
+    // Check category match
+    if (catText.includes(cleanMsg) || cleanMsg.includes(catText)) {
+      score += 15;
+    }
+
+    // Check individual word matches
+    for (const w of queryWords) {
+      if (qText.includes(w)) score += 4;
+      if (catText.includes(w)) score += 3;
+      if (aText.includes(w)) score += 1;
+    }
+
+    if (score > highestScore) {
+      highestScore = score;
+      bestFaq = faq;
+    }
+  }
+
+  // Threshold: at least 4 points to prevent noisy false positives
+  if (highestScore >= 4) {
+    return { faq: bestFaq, score: highestScore };
+  }
+
+  return null;
+}
 
 /**
  * Intelligent Multi-Intent Natural Language Chatbot Processor
@@ -171,7 +299,21 @@ export const processChatbotMessage = async (req, res) => {
     const now = new Date().toISOString();
 
     // Determine effective user role
-    const effectiveRole = (userRole || context.userRole || '').toLowerCase();
+    const effectiveRole = (userRole || context.userRole || (userId ? 'customer' : '')).toLowerCase();
+
+    // Enforce that chatbot is only enabled for identified customer and vendor roles
+    const isAuthenticated = !!(effectiveRole === 'customer' || effectiveRole === 'vendor' || effectiveRole === 'admin' || userId);
+    if (!isAuthenticated) {
+      return res.status(401).json({
+        success: false,
+        requiresAuth: true,
+        reply:
+          '🔒 **Sign In Required to Access HubBot**:\n\n' +
+          'HubBot AI Assistant is exclusively enabled for signed-in customers and verified merchants on Vendor Hub. Please sign in to your customer or merchant account to chat!',
+        intent: 'auth_required',
+        timestamp: now
+      });
+    }
 
     // Detect if the message is explicitly vendor-focused
     const isVendorOperationalIntent =
@@ -738,7 +880,95 @@ async function handleVendorIntent(req, res, { cleanMsg, rawMsg, userId, context,
     });
   }
 
-  // 14. CROSS-ROLE SWITCH: VENDOR ASKING ABOUT BUYER SHOPPING
+  // 14. VENDOR ONBOARDING, STORE REGISTRATION & GST REQUIREMENTS
+  const isVendorOnboarding =
+    cleanMsg.includes('register as vendor') ||
+    cleanMsg.includes('become a seller') ||
+    cleanMsg.includes('start selling') ||
+    cleanMsg.includes('how to sell') ||
+    cleanMsg.includes('sell on vendorhub') ||
+    cleanMsg.includes('documents to sell') ||
+    cleanMsg.includes('gst required') ||
+    cleanMsg.includes('sell without gst') ||
+    cleanMsg.includes('seller verification');
+
+  if (isVendorOnboarding) {
+    return res.json({
+      success: true,
+      role: 'vendor',
+      reply:
+        `📝 **Merchant Onboarding & Legal Requirements**:\n\n` +
+        `Joining Vendor Hub as an independent retail merchant takes under 24 hours:\n\n` +
+        `• **Required Documents**: 1) Active GSTIN number, 2) Business Bank Account details for NEFT payouts, 3) PAN card / identity proof, and 4) Physical warehouse pickup address.\n` +
+        `• **Zero Upfront Cost**: Get started with our **Starter Plan (₹0/mo)** and list your first 10 physical inventory products.\n` +
+        `• **Verification SLA**: Platform compliance verifies your GST and store credentials within 24 business hours.\n` +
+        `• **Courier Network**: Once verified, automated pickup integration with Delhivery & BlueDart is enabled immediately.`,
+      intent: 'vendor_onboarding',
+      actionCards: [
+        {
+          type: 'navigation_card',
+          title: 'Merchant Onboarding Portal',
+          description: 'Register your store and submit verification documents.',
+          buttonText: '🚀 Start Seller Registration',
+          link: '/vendor/register',
+          badge: 'Onboarding'
+        }
+      ],
+      quickReplies: ['Vendor Subscriptions', '➕ Add New Product', 'Payout Settlement'],
+      timestamp: now
+    });
+  }
+
+  // 15. CUSTOMER RATINGS, REVIEWS & REPUTATION
+  const isVendorRatingQuery =
+    cleanMsg.includes('rating') ||
+    cleanMsg.includes('review') ||
+    cleanMsg.includes('reputation') ||
+    cleanMsg.includes('trust score') ||
+    cleanMsg.includes('buyer feedback');
+
+  if (isVendorRatingQuery) {
+    return res.json({
+      success: true,
+      role: 'vendor',
+      reply:
+        `⭐ **Customer Reviews & Seller Quality SLA**:\n\n` +
+        `• **Verified Purchase Reviews**: Only buyers who verify delivery via their 4-digit Delivery OTP can leave a public star rating.\n` +
+        `• **Maintaining 4.5+ Stars**: Merchants maintaining a 4.5+ star rating earn the green "Verified Merchant" badge and 2x higher exposure in the anti-monopoly catalog.\n` +
+        `• **Merchant Replies**: You can review buyer comments and reply publicly under your store dashboard to build shopper trust.\n` +
+        `• **Dispute Protection**: Unfair reviews stemming from verified courier transit delays are automatically shielded by platform moderation.`,
+      intent: 'vendor_ratings',
+      quickReplies: ['Store Builder', 'Fulfill Orders & AWB', 'Disputes & Claims'],
+      timestamp: now
+    });
+  }
+
+  // 16. VOICE ASSISTANT (TTS/STS) GUIDE FOR MERCHANTS
+  const isVoiceAssistantQuery =
+    cleanMsg.includes('voice mode') ||
+    cleanMsg.includes('voice assistant') ||
+    cleanMsg.includes('speech') ||
+    cleanMsg.includes('can you speak') ||
+    cleanMsg.includes('read aloud') ||
+    cleanMsg.includes('mic');
+
+  if (isVoiceAssistantQuery) {
+    return res.json({
+      success: true,
+      role: 'vendor',
+      reply:
+        `🎙️ **HubBot Speech-to-Speech (STS) Voice Co-Pilot**:\n\n` +
+        `You can manage your seller queries hands-free using natural voice:\n\n` +
+        `• **Continuous Voice Mode**: Click the **"🎙️ Voice Mode"** button in the header. Speak naturally, and HubBot will listen, process your operational query, and speak the reply aloud!\n` +
+        `• **Push-to-Talk**: Click the **🎤 Mic** button in the input bar at any time to dictate queries by voice.\n` +
+        `• **Text-to-Speech (TTS)**: Click the **🔊 Read Aloud** button on any message to listen to instructions, or use the volume button at the top to toggle voice sound.`,
+      intent: 'vendor_voice_guide',
+      quickReplies: ['➕ Add New Product', 'Fulfill Orders & AWB', 'Vendor Subscriptions'],
+      timestamp: now
+    });
+  }
+
+  // 17. CROSS-ROLE SWITCH: VENDOR ASKING ABOUT BUYER SHOPPING
   const isShoppingQuery =
     cleanMsg.includes('buy product') ||
     cleanMsg.includes('recommend product') ||
@@ -755,6 +985,19 @@ async function handleVendorIntent(req, res, { cleanMsg, rawMsg, userId, context,
         `You are currently in **Vendor Operations Co-Pilot Mode**. If you wish to browse the marketplace catalog, search deals, or track personal consumer orders, you can switch to **Customer Concierge Mode** anytime using the toggle at the top of this assistant!`,
       intent: 'vendor_switch_customer',
       quickReplies: ['Switch to Customer Mode', '➕ Add New Product', 'Fulfill Orders & AWB'],
+      timestamp: now
+    });
+  }
+
+  // 18. WEIGHTED SEMANTIC FAQ MATCHER FOR VENDORS
+  const vendorSemanticMatch = scoreFaqMatch(cleanMsg, 'vendor');
+  if (vendorSemanticMatch) {
+    return res.json({
+      success: true,
+      role: 'vendor',
+      reply: `💡 **${vendorSemanticMatch.faq.category}**:\n\n${vendorSemanticMatch.faq.answer}`,
+      intent: 'vendor_faq_semantic_match',
+      quickReplies: ['➕ Add New Product', '🚚 Fulfill Orders & AWB', '💎 Vendor Plans & Fees', '💰 Payout Settlement'],
       timestamp: now
     });
   }
@@ -916,6 +1159,72 @@ async function handleCustomerIntent(req, res, { cleanMsg, rawMsg, userId, contex
         }
       ],
       quickReplies: ['Switch to Vendor Mode', 'Browse Customer Shop', 'Active Coupons & Offers'],
+      timestamp: now
+    });
+  }
+
+  // ── SHOPPING CART, CHECKOUT & BASKET NAVIGATION INTENT ──
+  const isCartQuery =
+    cleanMsg.includes('cart') ||
+    cleanMsg.includes('checkout') ||
+    cleanMsg.includes('basket') ||
+    cleanMsg.includes('shopping bag') ||
+    cleanMsg.includes('where is my cart') ||
+    cleanMsg.includes('check my cart') ||
+    cleanMsg.includes('check cart') ||
+    cleanMsg.includes('view cart') ||
+    cleanMsg.includes('view my cart') ||
+    cleanMsg.includes('open cart') ||
+    cleanMsg.includes('my cart') ||
+    cleanMsg.includes('items in cart') ||
+    cleanMsg.includes('cart items') ||
+    cleanMsg.includes('cart count') ||
+    cleanMsg.includes('cart total') ||
+    cleanMsg.includes('proceed to checkout') ||
+    cleanMsg.includes('how to checkout') ||
+    cleanMsg.includes('where to checkout') ||
+    cleanMsg.includes('where can i checkout') ||
+    cleanMsg.includes('pay for cart') ||
+    cleanMsg.includes('empty cart') ||
+    cleanMsg.includes('clear cart') ||
+    ((cleanMsg.includes('where') || cleanMsg.includes('check') || cleanMsg.includes('view') || cleanMsg.includes('find') || cleanMsg.includes('give me') || cleanMsg.includes('how')) && (cleanMsg.includes('cart') || cleanMsg.includes('checkout') || cleanMsg.includes('basket')));
+
+  if (isCartQuery) {
+    return res.json({
+      success: true,
+      role: 'customer',
+      reply:
+        `🛒 **Here is where you can check and manage your Shopping Cart & Checkout**:\n\n` +
+        `• **Direct Link to Cart**: You can check your cart anytime by clicking the **Cart icon (🛒)** in the top navigation bar, or by visiting [/shop/cart](/shop/cart) directly.\n` +
+        `• **Review & Update Items**: In your cart, you can adjust item quantities, remove products, view seller delivery charges, and see your order total breakdown.\n` +
+        `• **Apply Coupon Codes**: Enter discount codes like \`TECH20\` (20% off) or \`STYLE15\` in the promo code box before checkout.\n` +
+        `• **Proceed to Checkout**: Click the "Proceed to Checkout" button or visit [/shop/checkout](/shop/checkout) to select your delivery address and choose your payment method (Dynamic UPI QR, COD with Delivery OTP, or Cards).`,
+      intent: 'customer_cart',
+      actionCards: [
+        {
+          type: 'navigation_card',
+          title: 'Your Shopping Cart',
+          description: 'View saved items, update quantities, calculate shipping & apply discount coupons.',
+          buttonText: '🛒 Open My Cart',
+          link: '/shop/cart',
+          badge: 'Shopping Cart'
+        },
+        {
+          type: 'navigation_card',
+          title: 'Proceed to Checkout',
+          description: 'Fast checkout with Dynamic UPI QR, Doorstep COD OTP, or Cards.',
+          buttonText: '💳 Go to Checkout',
+          link: '/shop/checkout',
+          badge: 'Instant Checkout'
+        }
+      ],
+      quickReplies: [
+        '🛒 Open My Cart',
+        '💳 Proceed to Checkout',
+        '🏷️ Active Coupons & Offers',
+        '📦 Track My Order',
+        '🔑 How does Delivery OTP work?'
+      ],
       timestamp: now
     });
   }
@@ -1352,12 +1661,49 @@ async function handleCustomerIntent(req, res, { cleanMsg, rawMsg, userId, contex
     });
   }
 
-  // 11. VENDOR STOREFRONTS, SELLER PROFILES & DIRECT CHAT
+  // 11. STORE DIRECTORY & LOCAL SHOPPING
+  const isStoreDirectoryQuery =
+    cleanMsg.includes('stores') ||
+    cleanMsg.includes('local shop') ||
+    cleanMsg.includes('shops near') ||
+    cleanMsg.includes('store directory') ||
+    cleanMsg.includes('chennai') ||
+    cleanMsg.includes('bangalore') ||
+    cleanMsg.includes('delhi') ||
+    cleanMsg.includes('mumbai') ||
+    cleanMsg.includes('hyderabad');
+
+  if (isStoreDirectoryQuery) {
+    return res.json({
+      success: true,
+      role: 'customer',
+      reply:
+        `🏬 **Discover Local Stores Across India**:\n\n` +
+        `Vendor Hub connects you directly with verified brick-and-mortar retailers in major hubs:\n\n` +
+        `• **Explore Stores Directory**: Browse top physical stores in Bengaluru, Chennai, Mumbai, Delhi, and Hyderabad.\n` +
+        `• **Verified Merchant Catalog**: View store ratings, direct dispatch SLAs, and full physical catalogs.\n` +
+        `• **Direct Merchant Inquiries**: Chat directly with store owners before ordering to verify stock or request custom orders.`,
+      intent: 'customer_stores',
+      actionCards: [
+        {
+          type: 'navigation_card',
+          title: 'Store Directory',
+          description: 'Explore independent local retailers and verified storefronts.',
+          buttonText: '🏬 Browse Store Directory',
+          link: '/stores',
+          badge: 'Verified Stores'
+        }
+      ],
+      quickReplies: ['Active Coupons & Offers', 'Recommend Top Deals', 'Track My Order'],
+      timestamp: now
+    });
+  }
+
+  // 12. VENDOR STOREFRONTS, SELLER PROFILES & DIRECT CHAT
   const isVendorHelpQuery =
     cleanMsg.includes('vendor') ||
     cleanMsg.includes('seller') ||
     cleanMsg.includes('merchant') ||
-    cleanMsg.includes('store') ||
     cleanMsg.includes('contact seller') ||
     cleanMsg.includes('contact merchant') ||
     cleanMsg.includes('message merchant') ||
@@ -1545,21 +1891,159 @@ async function handleCustomerIntent(req, res, { cleanMsg, rawMsg, userId, contex
     }
   }
 
-  // 14. SMART FAQ MATCH
-  const matchedFaq = FAQ_KNOWLEDGE_BASE.find(
-    (f) =>
-      (!f.targetRole || f.targetRole === 'customer') &&
-      (f.question.toLowerCase().includes(cleanMsg) ||
-        cleanMsg.includes(f.question.toLowerCase().slice(0, 20)) ||
-        f.category.toLowerCase().includes(cleanMsg))
-  );
+  // 14. CUSTOMER ACCOUNT, LOGIN & PASSWORD RECOVERY
+  const isAccountQuery =
+    cleanMsg.includes('register') ||
+    cleanMsg.includes('sign up') ||
+    cleanMsg.includes('create account') ||
+    cleanMsg.includes('login') ||
+    cleanMsg.includes('sign in') ||
+    cleanMsg.includes('password') ||
+    cleanMsg.includes('forgot password') ||
+    cleanMsg.includes('my profile') ||
+    cleanMsg.includes('change address') ||
+    cleanMsg.includes('delivery address');
 
-  if (matchedFaq) {
+  if (isAccountQuery) {
     return res.json({
       success: true,
       role: 'customer',
-      reply: `💡 **${matchedFaq.category}**:\n\n${matchedFaq.answer}`,
-      intent: 'faq_match',
+      reply:
+        `👤 **Customer Account & Security Guide**:\n\n` +
+        `• **1-Click Registration**: Sign up instantly using Google Sign-In or your personal email.\n` +
+        `• **Password Recovery**: If you forgot your password, click "Forgot Password" on the Sign-In page to receive an instant recovery link.\n` +
+        `• **Manage Shipping Addresses**: Update your default delivery address, phone number, and state under "Profile" (/shop/profile).\n` +
+        `• **Saved Orders & Wishlist**: Logging in securely syncs your active carts, tracking waybills, and saved wishlist items across all devices.`,
+      intent: 'customer_account',
+      actionCards: [
+        {
+          type: 'navigation_card',
+          title: 'Customer Authentication',
+          description: 'Sign in to access your saved orders, delivery OTPs, and profile.',
+          buttonText: '🔑 Sign In / Register',
+          link: '/login',
+          badge: 'Security'
+        }
+      ],
+      quickReplies: ['Track My Order', 'Active Coupons & Offers', 'Contact Customer Care'],
+      timestamp: now
+    });
+  }
+
+
+  // 16. WISHLIST & MULTI-PRODUCT COMPARISON MATRIX
+  const isWishlistOrCompareQuery =
+    cleanMsg.includes('wishlist') ||
+    cleanMsg.includes('compare') ||
+    cleanMsg.includes('comparison') ||
+    cleanMsg.includes('save for later') ||
+    cleanMsg.includes('specs comparison');
+
+  if (isWishlistOrCompareQuery) {
+    return res.json({
+      success: true,
+      role: 'customer',
+      reply:
+        `⚖️ **Smart Wishlist & Product Comparison Tools**:\n\n` +
+        `• **Save to Wishlist**: Tap the ❤️ Heart button on any product listing to save it to your Wishlist (/shop/wishlist) for later price drop alerts.\n` +
+        `• **Side-by-Side Compare**: Add up to 4 products to the Comparison Matrix (/shop/compare) to evaluate prices, technical specs, ratings, warranty coverage, and seller dispatch times side-by-side!`,
+      intent: 'customer_compare',
+      actionCards: [
+        {
+          type: 'navigation_card',
+          title: 'Product Comparison Matrix',
+          description: 'Compare technical specs and pricing across multiple products.',
+          buttonText: '⚖️ Open Comparison',
+          link: '/shop/compare',
+          badge: 'Comparison'
+        }
+      ],
+      quickReplies: ['Recommend Electronics', 'Active Coupons & Offers', 'Track My Order'],
+      timestamp: now
+    });
+  }
+
+  // 18. ANTI-MONOPOLY & FAIR EXPOSURE PLATFORM PHILOSOPHY
+  const isAntiMonopolyQuery =
+    cleanMsg.includes('anti monopoly') ||
+    cleanMsg.includes('fair exposure') ||
+    cleanMsg.includes('why vendorhub') ||
+    cleanMsg.includes('difference from amazon') ||
+    cleanMsg.includes('how does vendorhub work');
+
+  if (isAntiMonopolyQuery) {
+    return res.json({
+      success: true,
+      role: 'customer',
+      reply:
+        `⚖️ **Why Vendor Hub? Anti-Monopoly Fair Exposure**:\n\n` +
+        `Major marketplaces favor corporate private labels and predatory algorithm ranking. Vendor Hub operates differently:\n\n` +
+        `• **Local Merchant Empowerment**: Every verified store receives fair, unbiased organic catalog visibility.\n` +
+        `• **Authentic Physical Stock**: You buy directly from genuine retailers with verified warehouses and transparent pricing.\n` +
+        `• **Anti-Fraud Delivery OTP**: The 4-digit doorstep code guarantees safe, tamper-free physical handover.\n` +
+        `• **Lower Commissions = Better Prices**: Sellers pay lower platform commissions (5%-12%), allowing them to pass genuine savings directly to shoppers!`,
+      intent: 'customer_anti_monopoly',
+      quickReplies: ['Active Coupons & Offers', 'Explore Stores', 'Recommend Top Deals'],
+      timestamp: now
+    });
+  }
+
+  // 19. VOICE ASSISTANT (TTS/STS) GUIDE FOR CUSTOMERS
+  const isVoiceAssistantQuery =
+    cleanMsg.includes('voice mode') ||
+    cleanMsg.includes('voice assistant') ||
+    cleanMsg.includes('speech') ||
+    cleanMsg.includes('can you speak') ||
+    cleanMsg.includes('read aloud') ||
+    cleanMsg.includes('mic');
+
+  if (isVoiceAssistantQuery) {
+    return res.json({
+      success: true,
+      role: 'customer',
+      reply:
+        `🎙️ **How to Use HubBot Voice Assistant (STS/TTS)**:\n\n` +
+        `You can use HubBot completely hands-free:\n\n` +
+        `• **Continuous Voice Mode**: Tap the **"🎙️ Voice Mode"** button in the header. Speak your query, and HubBot will listen, analyze, and speak the reply aloud!\n` +
+        `• **Push-to-Talk (Mic)**: Click the **🎤 Mic** button in the input bar at any time to dictate your question.\n` +
+        `• **Text-to-Speech (TTS)**: Click the **🔊 Read Aloud** button on any message to hear it spoken aloud, or tap the volume button at the top to toggle sound.`,
+      intent: 'customer_voice_guide',
+      quickReplies: ['Recommend Top Electronics', 'Track My Order', 'Active Coupons & Offers'],
+      timestamp: now
+    });
+  }
+
+  // 20. COURTESIES, GRATITUDE & FAREWELLS
+  const isCourtesies =
+    cleanMsg.includes('thank') ||
+    cleanMsg.includes('thanks') ||
+    cleanMsg.includes('awesome') ||
+    cleanMsg.includes('great job') ||
+    cleanMsg.includes('bye') ||
+    cleanMsg.includes('goodbye') ||
+    cleanMsg.includes('see you');
+
+  if (isCourtesies) {
+    return res.json({
+      success: true,
+      role: 'customer',
+      reply:
+        `😊 **You are very welcome!** It is my pleasure to assist your shopping experience on Vendor Hub.\n\n` +
+        `Feel free to ask anytime if you need help tracking a parcel, checking active discount coupons, or exploring verified merchant stores. Happy shopping! 🛍️`,
+      intent: 'customer_courtesy',
+      quickReplies: ['Track My Order', 'Active Coupons & Offers', 'Explore Stores'],
+      timestamp: now
+    });
+  }
+
+  // 21. WEIGHTED SEMANTIC FAQ MATCHER FOR CUSTOMERS
+  const semanticMatch = scoreFaqMatch(cleanMsg, 'customer');
+  if (semanticMatch) {
+    return res.json({
+      success: true,
+      role: 'customer',
+      reply: `💡 **${semanticMatch.faq.category}**:\n\n${semanticMatch.faq.answer}`,
+      intent: 'faq_semantic_match',
       quickReplies: [
         'Track My Order',
         'Active Coupons & Offers',

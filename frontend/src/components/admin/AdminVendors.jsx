@@ -1,9 +1,9 @@
-import { useState, useMemo, useEffect } from 'react';
+import { useState, useMemo, useEffect, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../contexts/AuthContext';
 import { useProducts } from '../../contexts/ProductContext';
 import { useToast } from '../../contexts/ToastContext';
-import { api } from '../../services/api';
+import { api, apiService } from '../../services/api';
 import { AdminSidebar } from './AdminDashboard';
 import { seedVendors } from '../../data/seedData';
 import {
@@ -11,7 +11,7 @@ import {
   ArrowRight, ExternalLink, Sparkles, Filter, CheckCircle2,
   Building2, Flame, Award, Eye, ShieldAlert, Check, X,
   FileCheck, Clock, AlertCircle, FileText, Phone, Mail,
-  CreditCard, Send, CheckCircle, XCircle
+  CreditCard, Send, CheckCircle, XCircle, RefreshCw
 } from 'lucide-react';
 import '../../styles/vendor.css';
 
@@ -119,6 +119,101 @@ export default function AdminVendors() {
   const [rejectionReasonText, setRejectionReasonText] = useState('');
   const [loadingApps, setLoadingApps] = useState(false);
 
+  // Storefront Approvals & Permission State
+  const [storefronts, setStorefronts] = useState([]);
+  const [storefrontFilter, setStorefrontFilter] = useState('all'); // 'all' | 'pending' | 'approved' | 'rejected'
+  const [loadingStorefronts, setLoadingStorefronts] = useState(false);
+  const [selectedStorefrontForModal, setSelectedStorefrontForModal] = useState(null);
+  const [rejectingStorefront, setRejectingStorefront] = useState(null);
+  const [storefrontRejectionReason, setStorefrontRejectionReason] = useState('');
+
+  // Fetch storefront submissions from backend API
+  const loadStorefronts = useCallback(async () => {
+    try {
+      setLoadingStorefronts(true);
+      const res = await apiService.getAdminStorefronts(storefrontFilter);
+      if (res?.success && Array.isArray(res.storefronts)) {
+        setStorefronts(res.storefronts);
+      } else {
+        // Fallback using seed vendors
+        setStorefronts(
+          vendorsList.map((v) => ({
+            id: v.id,
+            vendorId: v.id,
+            businessName: v.businessName,
+            ownerName: v.ownerName || 'Verified Merchant',
+            email: v.email || 'merchant@vendorhub.in',
+            mobile: v.mobile || '9876543210',
+            category: v.category || 'Retail',
+            storeSlug: v.storeSlug || v.id,
+            avatar: v.avatar,
+            banner: v.banner || 'https://images.unsplash.com/photo-1550009158-9ebf69173e03?w=1200&h=300&fit=crop',
+            tagline: v.tagline || 'Official verified physical retail outlet',
+            description: v.description || 'Welcome to our verified flagship retail outlet.',
+            location: v.location || 'India',
+            themeColor: v.themeColor || '#4F46E5',
+            storeStatus: v.storeStatus || 'published',
+            storeApprovalStatus: v.storeApprovalStatus || (v.storeStatus === 'published' ? 'approved' : 'none'),
+            storeRejectionReason: v.storeRejectionReason || '',
+            storeSubmittedAt: v.storeSubmittedAt || null
+          }))
+        );
+      }
+    } catch (err) {
+      console.warn('Backend storefronts fetch fallback:', err);
+    } finally {
+      setLoadingStorefronts(false);
+    }
+  }, [storefrontFilter, vendorsList]);
+
+  useEffect(() => {
+    loadStorefronts();
+  }, [loadStorefronts]);
+
+  // Storefront Approval Handlers
+  const handleApproveStorefront = async (sf) => {
+    try {
+      await apiService.updateStorefrontApproval(sf.id, {
+        status: 'approved',
+        adminNotes: 'Storefront verified and approved for Customer Portal discovery.'
+      });
+      setStorefronts((prev) =>
+        prev.map((s) => (s.id === sf.id ? { ...s, storeStatus: 'published', storeApprovalStatus: 'approved' } : s))
+      );
+      setVendorsList((prev) =>
+        prev.map((v) => (v.id === sf.id ? { ...v, storeStatus: 'published', storeApprovalStatus: 'approved' } : v))
+      );
+      addToast(`🎉 Storefront for "${sf.businessName}" APPROVED! Now live on Customer Portal.`, 'success');
+      if (selectedStorefrontForModal?.id === sf.id) {
+        setSelectedStorefrontForModal(null);
+      }
+    } catch {
+      addToast('Failed to approve storefront.', 'danger');
+    }
+  };
+
+  const handleConfirmRejectStorefront = async () => {
+    if (!rejectingStorefront) return;
+    try {
+      const reason = storefrontRejectionReason.trim() || 'Please revise your store branding and information.';
+      await apiService.updateStorefrontApproval(rejectingStorefront.id, {
+        status: 'rejected',
+        adminNotes: reason
+      });
+      setStorefronts((prev) =>
+        prev.map((s) => (s.id === rejectingStorefront.id ? { ...s, storeStatus: 'rejected', storeApprovalStatus: 'rejected', storeRejectionReason: reason } : s))
+      );
+      setVendorsList((prev) =>
+        prev.map((v) => (v.id === rejectingStorefront.id ? { ...v, storeStatus: 'rejected', storeApprovalStatus: 'rejected', storeRejectionReason: reason } : v))
+      );
+      addToast(`Revision requested from "${rejectingStorefront.businessName}".`, 'info');
+      setRejectingStorefront(null);
+      setStorefrontRejectionReason('');
+    } catch {
+      addToast('Failed to reject storefront.', 'danger');
+    }
+  };
+
   // Fetch applications from backend
   useEffect(() => {
     const fetchApps = async () => {
@@ -158,6 +253,10 @@ export default function AdminVendors() {
   const underReviewAppsCount = useMemo(() => {
     return applications.filter((a) => a.status === 'under_review').length;
   }, [applications]);
+
+  const pendingStorefrontsCount = useMemo(() => {
+    return storefronts.filter((s) => s.storeStatus === 'pending_approval' || s.storeApprovalStatus === 'pending').length;
+  }, [storefronts]);
 
   // Handle Application Status Actions
   const handleApproveApp = async (app) => {
@@ -410,6 +509,39 @@ export default function AdminVendors() {
                 fontWeight: 900
               }}>
                 {pendingAppsCount} Pending
+              </span>
+            )}
+          </button>
+
+          <button
+            type="button"
+            onClick={() => setMainTab('storefronts')}
+            style={{
+              padding: '10px 18px',
+              borderRadius: 10,
+              border: mainTab === 'storefronts' ? '1.5px solid #2563EB' : '1px solid var(--border)',
+              background: mainTab === 'storefronts' ? 'rgba(37, 99, 235, 0.12)' : 'var(--surface)',
+              color: mainTab === 'storefronts' ? '#2563EB' : 'var(--text-secondary)',
+              fontWeight: 800,
+              fontSize: '0.9rem',
+              cursor: 'pointer',
+              display: 'flex',
+              alignItems: 'center',
+              gap: 8
+            }}
+          >
+            <Sparkles size={16} />
+            <span>🏪 Storefront Approvals</span>
+            {pendingStorefrontsCount > 0 && (
+              <span style={{
+                background: '#2563EB',
+                color: 'white',
+                borderRadius: 999,
+                padding: '2px 8px',
+                fontSize: '0.72rem',
+                fontWeight: 900
+              }}>
+                {pendingStorefrontsCount} Pending
               </span>
             )}
           </button>
@@ -1016,6 +1148,285 @@ export default function AdminVendors() {
           </>
         )}
 
+        {/* ── Storefront Approvals & Permission Tab ── */}
+        {mainTab === 'storefronts' && (
+          <>
+            {/* Storefronts Stats Row */}
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))', gap: 16, marginBottom: 24 }}>
+              <div className="card" style={{ padding: 18, borderRadius: 12, border: '1px solid var(--border)' }}>
+                <div style={{ fontSize: '0.75rem', fontWeight: 700, color: 'var(--text-muted)', textTransform: 'uppercase' }}>
+                  Total Storefronts
+                </div>
+                <div style={{ fontSize: '1.8rem', fontWeight: 900, color: 'var(--text-primary)', marginTop: 4 }}>
+                  {storefronts.length}
+                </div>
+                <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)', marginTop: 2 }}>
+                  Registered vendor storefronts
+                </div>
+              </div>
+
+              <div className="card" style={{ padding: 18, borderRadius: 12, border: '1.5px solid #60A5FA', background: 'rgba(239, 246, 255, 0.4)' }}>
+                <div style={{ fontSize: '0.75rem', fontWeight: 800, color: '#1E40AF', textTransform: 'uppercase' }}>
+                  Pending Approval
+                </div>
+                <div style={{ fontSize: '1.8rem', fontWeight: 900, color: '#1E40AF', marginTop: 4 }}>
+                  {pendingStorefrontsCount}
+                </div>
+                <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)', marginTop: 2 }}>
+                  Awaiting Customer Portal activation
+                </div>
+              </div>
+
+              <div className="card" style={{ padding: 18, borderRadius: 12, border: '1px solid var(--border)' }}>
+                <div style={{ fontSize: '0.75rem', fontWeight: 700, color: '#059669', textTransform: 'uppercase' }}>
+                  Live on Portal
+                </div>
+                <div style={{ fontSize: '1.8rem', fontWeight: 900, color: '#059669', marginTop: 4 }}>
+                  {storefronts.filter((s) => s.storeStatus === 'published' || s.storeStatus === 'approved').length}
+                </div>
+                <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)', marginTop: 2 }}>
+                  Publicly visible on /stores
+                </div>
+              </div>
+
+              <div className="card" style={{ padding: 18, borderRadius: 12, border: '1px solid var(--border)' }}>
+                <div style={{ fontSize: '0.75rem', fontWeight: 700, color: '#DC2626', textTransform: 'uppercase' }}>
+                  Revisions Requested
+                </div>
+                <div style={{ fontSize: '1.8rem', fontWeight: 900, color: '#DC2626', marginTop: 4 }}>
+                  {storefronts.filter((s) => s.storeStatus === 'rejected').length}
+                </div>
+                <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)', marginTop: 2 }}>
+                  Sent back with admin notes
+                </div>
+              </div>
+            </div>
+
+            {/* Filter Chips Bar */}
+            <div className="card" style={{ padding: '14px 20px', marginBottom: 20, borderRadius: 12, border: '1px solid var(--border)', display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 14, flexWrap: 'wrap' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: 8, flexWrap: 'wrap' }}>
+                <span style={{ fontSize: '0.8rem', fontWeight: 700, color: 'var(--text-muted)', marginRight: 4 }}>Filter Status:</span>
+                {[
+                  { key: 'all', label: 'All Storefronts', count: storefronts.length },
+                  { key: 'pending', label: '⏳ Pending Review', count: pendingStorefrontsCount },
+                  { key: 'approved', label: '🟢 Live & Approved', count: storefronts.filter((s) => s.storeStatus === 'published' || s.storeStatus === 'approved').length },
+                  { key: 'rejected', label: '❌ Needs Revision', count: storefronts.filter((s) => s.storeStatus === 'rejected').length }
+                ].map((f) => (
+                  <button
+                    key={f.key}
+                    type="button"
+                    onClick={() => setStorefrontFilter(f.key)}
+                    style={{
+                      padding: '5px 12px',
+                      borderRadius: 20,
+                      border: storefrontFilter === f.key ? '1.5px solid #2563EB' : '1px solid var(--border)',
+                      background: storefrontFilter === f.key ? 'rgba(37, 99, 235, 0.12)' : 'var(--surface-2)',
+                      color: storefrontFilter === f.key ? '#2563EB' : 'var(--text-secondary)',
+                      fontSize: '0.78rem',
+                      fontWeight: 700,
+                      cursor: 'pointer'
+                    }}
+                  >
+                    {f.label} ({f.count})
+                  </button>
+                ))}
+              </div>
+
+              <button
+                type="button"
+                className="btn btn-outline btn-sm"
+                onClick={loadStorefronts}
+                disabled={loadingStorefronts}
+                style={{ fontSize: '0.78rem' }}
+              >
+                <RefreshCw size={12} className={loadingStorefronts ? 'spin' : ''} /> Refresh Queue
+              </button>
+            </div>
+
+            {/* Storefronts Table */}
+            <div className="card" style={{ borderRadius: 14, overflow: 'hidden', border: '1px solid var(--border)', marginBottom: 30 }}>
+              <div style={{ overflowX: 'auto' }}>
+                <table style={{ width: '100%', borderCollapse: 'collapse', textAlign: 'left', fontSize: '0.86rem' }}>
+                  <thead>
+                    <tr style={{ background: 'var(--surface-2)', borderBottom: '1.5px solid var(--border)', color: 'var(--text-muted)', fontSize: '0.74rem', textTransform: 'uppercase', letterSpacing: '0.04em' }}>
+                      <th style={{ padding: '12px 16px' }}>Store & Branding</th>
+                      <th style={{ padding: '12px 16px' }}>Merchant Owner</th>
+                      <th style={{ padding: '12px 16px' }}>Customer Portal URL</th>
+                      <th style={{ padding: '12px 16px' }}>Visual Theme</th>
+                      <th style={{ padding: '12px 16px' }}>Approval Status</th>
+                      <th style={{ padding: '12px 16px', textAlign: 'right' }}>Admin Permission Action</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {storefronts
+                      .filter((s) => {
+                        if (storefrontFilter === 'pending') return s.storeStatus === 'pending_approval' || s.storeApprovalStatus === 'pending';
+                        if (storefrontFilter === 'approved') return s.storeStatus === 'published' || s.storeStatus === 'approved';
+                        if (storefrontFilter === 'rejected') return s.storeStatus === 'rejected';
+                        return true;
+                      })
+                      .map((sf) => {
+                        const isPending = sf.storeStatus === 'pending_approval' || sf.storeApprovalStatus === 'pending';
+                        const isApprv = sf.storeStatus === 'published' || sf.storeStatus === 'approved';
+                        const isRej = sf.storeStatus === 'rejected';
+
+                        return (
+                          <tr key={sf.id} style={{ borderBottom: '1px solid var(--border)', background: isPending ? 'rgba(59, 130, 246, 0.03)' : undefined }}>
+                            {/* Store & Branding */}
+                            <td style={{ padding: '14px 16px' }}>
+                              <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+                                <img
+                                  src={sf.avatar}
+                                  alt={sf.businessName}
+                                  style={{ width: 44, height: 44, borderRadius: 10, objectFit: 'cover', border: `2px solid ${sf.themeColor || '#4F46E5'}`, background: 'var(--surface)' }}
+                                  onError={(e) => {
+                                    e.target.src = `https://ui-avatars.com/api/?name=${encodeURIComponent(sf.businessName || 'S')}&background=4F46E5&color=fff`;
+                                  }}
+                                />
+                                <div>
+                                  <div style={{ fontWeight: 800, color: 'var(--text-primary)', fontSize: '0.92rem' }}>
+                                    {sf.businessName}
+                                  </div>
+                                  <div style={{ fontSize: '0.74rem', color: 'var(--text-muted)', marginTop: 2 }}>
+                                    {sf.tagline || 'Verified merchant'}
+                                  </div>
+                                </div>
+                              </div>
+                            </td>
+
+                            {/* Merchant Owner */}
+                            <td style={{ padding: '14px 16px' }}>
+                              <div style={{ fontWeight: 700, fontSize: '0.85rem' }}>{sf.ownerName || 'Merchant'}</div>
+                              <div style={{ fontSize: '0.74rem', color: 'var(--text-muted)' }}>{sf.email}</div>
+                              {sf.location && <div style={{ fontSize: '0.72rem', color: 'var(--text-muted)', marginTop: 2 }}>📍 {sf.location}</div>}
+                            </td>
+
+                            {/* Customer Portal URL */}
+                            <td style={{ padding: '14px 16px' }}>
+                              <code style={{ background: 'var(--surface-2)', padding: '3px 8px', borderRadius: 4, color: sf.themeColor || '#4F46E5', fontSize: '0.8rem', fontWeight: 700 }}>
+                                /store/{sf.storeSlug}
+                              </code>
+                              {isApprv ? (
+                                <div style={{ marginTop: 4 }}>
+                                  <a
+                                    href={`/store/${sf.storeSlug}`}
+                                    target="_blank"
+                                    rel="noreferrer"
+                                    style={{ fontSize: '0.74rem', color: '#059669', textDecoration: 'none', display: 'inline-flex', alignItems: 'center', gap: 3, fontWeight: 700 }}
+                                  >
+                                    <ExternalLink size={11} /> Live on Customer Portal
+                                  </a>
+                                </div>
+                              ) : (
+                                <div style={{ fontSize: '0.72rem', color: 'var(--text-muted)', marginTop: 4 }}>
+                                  Hidden from portal until approved
+                                </div>
+                              )}
+                            </td>
+
+                            {/* Visual Theme */}
+                            <td style={{ padding: '14px 16px' }}>
+                              <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+                                <span style={{ width: 14, height: 14, borderRadius: '50%', background: sf.themeColor || '#4F46E5', display: 'inline-block' }} />
+                                <span style={{ fontSize: '0.8rem', fontWeight: 600 }}>{sf.themePreset || 'indigo'}</span>
+                              </div>
+                              {sf.banner && (
+                                <div style={{ marginTop: 4, fontSize: '0.7rem', color: 'var(--text-muted)' }}>
+                                  Hero banner configured
+                                </div>
+                              )}
+                            </td>
+
+                            {/* Approval Status */}
+                            <td style={{ padding: '14px 16px' }}>
+                              <span
+                                style={{
+                                  display: 'inline-flex',
+                                  alignItems: 'center',
+                                  gap: 5,
+                                  padding: '4px 10px',
+                                  borderRadius: 9999,
+                                  fontSize: '0.72rem',
+                                  fontWeight: 800,
+                                  background: isApprv ? '#D1FAE5' : isPending ? '#DBEAFE' : isRej ? '#FEE2E2' : '#FEF3C7',
+                                  color: isApprv ? '#065F46' : isPending ? '#1E40AF' : isRej ? '#991B1B' : '#92400E',
+                                  border: `1px solid ${isApprv ? '#6EE7B7' : isPending ? '#93C5FD' : isRej ? '#FCA5A5' : '#FCD34D'}`
+                                }}
+                              >
+                                {isApprv ? <CheckCircle2 size={12} /> : isPending ? <Clock size={12} /> : isRej ? <XCircle size={12} /> : <AlertCircle size={12} />}
+                                {isApprv ? 'APPROVED & LIVE' : isPending ? 'PENDING APPROVAL' : isRej ? 'REJECTED' : 'DRAFT'}
+                              </span>
+                            </td>
+
+                            {/* Action Buttons */}
+                            <td style={{ padding: '14px 16px', textAlign: 'right' }}>
+                              <div style={{ display: 'flex', gap: 6, justifyContent: 'flex-end', flexWrap: 'wrap' }}>
+                                <button
+                                  type="button"
+                                  className="btn btn-outline btn-sm"
+                                  onClick={() => setSelectedStorefrontForModal(sf)}
+                                  style={{ padding: '4px 10px', fontSize: '0.76rem' }}
+                                >
+                                  <Eye size={12} /> Preview
+                                </button>
+
+                                {!isApprv && (
+                                  <button
+                                    type="button"
+                                    className="btn btn-sm"
+                                    onClick={() => handleApproveStorefront(sf)}
+                                    style={{
+                                      background: '#059669',
+                                      color: 'white',
+                                      border: 'none',
+                                      borderRadius: 6,
+                                      padding: '4px 10px',
+                                      fontSize: '0.76rem',
+                                      fontWeight: 700,
+                                      cursor: 'pointer',
+                                      display: 'inline-flex',
+                                      alignItems: 'center',
+                                      gap: 4
+                                    }}
+                                  >
+                                    <Check size={12} /> Approve Storefront
+                                  </button>
+                                )}
+
+                                {!isRej && (
+                                  <button
+                                    type="button"
+                                    className="btn btn-sm"
+                                    onClick={() => {
+                                      setRejectingStorefront(sf);
+                                      setStorefrontRejectionReason('');
+                                    }}
+                                    style={{
+                                      background: 'rgba(239, 68, 68, 0.1)',
+                                      color: '#DC2626',
+                                      border: '1px solid rgba(239, 68, 68, 0.3)',
+                                      borderRadius: 6,
+                                      padding: '4px 10px',
+                                      fontSize: '0.76rem',
+                                      fontWeight: 700,
+                                      cursor: 'pointer'
+                                    }}
+                                  >
+                                    Reject / Revise
+                                  </button>
+                                )}
+                              </div>
+                            </td>
+                          </tr>
+                        );
+                      })}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </>
+        )}
+
         {/* ── Modal: Application Details Inspection ── */}
         {selectedAppForModal && (
           <div
@@ -1318,89 +1729,182 @@ export default function AdminVendors() {
           </div>
         )}
 
-        {/* Modal to inspect vendor's 15 products */}
-        {selectedVendorForModal && (
+        {/* ── Modal: Storefront Preview Dialog ── */}
+        {selectedStorefrontForModal && (
           <div
             className="preview-modal-backdrop"
-            onClick={() => setSelectedVendorForModal(null)}
-            style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.6)', backdropFilter: 'blur(4px)', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 9999, padding: 20 }}
+            onClick={() => setSelectedStorefrontForModal(null)}
+            style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.65)', backdropFilter: 'blur(4px)', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 9999, padding: 20 }}
           >
             <div
               className="card"
-              style={{ maxWidth: 840, width: '100%', maxHeight: '85vh', display: 'flex', flexDirection: 'column', borderRadius: 16, overflow: 'hidden' }}
+              style={{ maxWidth: 740, width: '100%', maxHeight: '90vh', display: 'flex', flexDirection: 'column', borderRadius: 16, overflow: 'hidden' }}
               onClick={(e) => e.stopPropagation()}
             >
               {/* Modal Header */}
-              <div style={{ padding: '18px 24px', borderBottom: '1px solid var(--border)', display: 'flex', justifyContent: 'space-between', alignItems: 'center', background: 'var(--surface-2)' }}>
+              <div style={{ padding: '16px 22px', borderBottom: '1px solid var(--border)', display: 'flex', justifyContent: 'space-between', alignItems: 'center', background: 'var(--surface-2)' }}>
                 <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
                   <img
-                    src={selectedVendorForModal.avatar}
-                    alt={selectedVendorForModal.businessName}
-                    style={{ width: 44, height: 44, borderRadius: 10, objectFit: 'cover' }}
+                    src={selectedStorefrontForModal.avatar}
+                    alt={selectedStorefrontForModal.businessName}
+                    style={{ width: 44, height: 44, borderRadius: 10, objectFit: 'cover', border: `2px solid ${selectedStorefrontForModal.themeColor || '#4F46E5'}` }}
                   />
                   <div>
                     <h3 style={{ margin: 0, fontSize: '1.2rem', fontWeight: 800 }}>
-                      {selectedVendorForModal.businessName} — Physical Catalog
+                      {selectedStorefrontForModal.businessName} — Storefront Inspection
                     </h3>
                     <div style={{ fontSize: '0.78rem', color: 'var(--text-muted)' }}>
-                      {selectedVendorForModal.location} • Category: {selectedVendorForModal.category}
+                      URL Slug: <code>/store/{selectedStorefrontForModal.storeSlug}</code> • Status: <strong>{selectedStorefrontForModal.storeStatus.toUpperCase()}</strong>
                     </div>
                   </div>
                 </div>
-                <button
-                  type="button"
-                  className="btn btn-ghost btn-sm"
-                  onClick={() => setSelectedVendorForModal(null)}
-                >
+                <button type="button" className="btn btn-ghost btn-sm" onClick={() => setSelectedStorefrontForModal(null)}>
                   <X size={18} />
                 </button>
               </div>
 
-              {/* Product list inside modal */}
+              {/* Modal Body */}
               <div style={{ padding: '20px 24px', overflowY: 'auto', flex: 1 }}>
-                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(220px, 1fr))', gap: 14 }}>
-                  {allProducts.filter((p) => p.vendorId === selectedVendorForModal.id).map((prod) => (
-                    <div
-                      key={prod.id}
-                      style={{ border: '1px solid var(--border)', borderRadius: 10, padding: 10, background: 'var(--surface)', display: 'flex', flexDirection: 'column', gap: 6 }}
-                    >
-                      <img
-                        src={prod.image || prod.images?.[0]}
-                        alt={prod.name}
-                        style={{ width: '100%', height: 110, objectFit: 'cover', borderRadius: 6 }}
-                      />
-                      <div style={{ fontWeight: 700, fontSize: '0.82rem', lineHeight: 1.3 }}>
-                        {prod.name}
-                      </div>
-                      <div style={{ fontSize: '0.72rem', color: 'var(--text-muted)' }}>
-                        SKU: <code>{prod.sku}</code>
-                      </div>
-                      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', marginTop: 'auto', paddingTop: 6 }}>
-                        <span style={{ fontWeight: 800, color: 'var(--text-primary)', fontSize: '0.88rem' }}>
-                          ₹{prod.price?.toLocaleString('en-IN')}
-                        </span>
-                        <span style={{ fontSize: '0.72rem', color: 'var(--success)', fontWeight: 700 }}>
-                          {prod.stock || prod.quantity || 10} in stock
-                        </span>
-                      </div>
-                    </div>
-                  ))}
+                {/* Hero Banner Preview */}
+                <div
+                  style={{
+                    position: 'relative',
+                    height: 140,
+                    borderRadius: 12,
+                    background: `linear-gradient(rgba(15, 23, 42, 0.6), rgba(15, 23, 42, 0.8)), url(${selectedStorefrontForModal.banner || 'https://images.unsplash.com/photo-1550009158-9ebf69173e03?w=1200&h=300&fit=crop'}) center/cover no-repeat`,
+                    padding: 20,
+                    color: 'white',
+                    display: 'flex',
+                    flexDirection: 'column',
+                    justifyContent: 'flex-end',
+                    marginBottom: 20
+                  }}
+                >
+                  <div style={{ fontSize: '1.25rem', fontWeight: 800 }}>{selectedStorefrontForModal.businessName}</div>
+                  <div style={{ fontSize: '0.82rem', opacity: 0.9 }}>{selectedStorefrontForModal.tagline || 'Official verified storefront'}</div>
                 </div>
+
+                {/* Announcement Strip */}
+                {selectedStorefrontForModal.announcement && (
+                  <div style={{ background: selectedStorefrontForModal.themeColor || '#4F46E5', color: 'white', padding: '8px 14px', borderRadius: 8, fontSize: '0.8rem', fontWeight: 600, marginBottom: 16 }}>
+                    📢 Announcement: {selectedStorefrontForModal.announcement}
+                  </div>
+                )}
+
+                {/* Details Grid */}
+                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: 14, marginBottom: 16 }}>
+                  <div style={{ background: 'var(--surface-2)', padding: 12, borderRadius: 10 }}>
+                    <div style={{ fontSize: '0.72rem', color: 'var(--text-muted)', textTransform: 'uppercase', fontWeight: 800 }}>Owner & Contact</div>
+                    <div style={{ fontWeight: 800, marginTop: 4 }}>{selectedStorefrontForModal.ownerName}</div>
+                    <div style={{ fontSize: '0.8rem', color: 'var(--text-secondary)' }}>{selectedStorefrontForModal.email}</div>
+                    <div style={{ fontSize: '0.8rem', color: 'var(--text-secondary)' }}>{selectedStorefrontForModal.mobile}</div>
+                  </div>
+
+                  <div style={{ background: 'var(--surface-2)', padding: 12, borderRadius: 10 }}>
+                    <div style={{ fontSize: '0.72rem', color: 'var(--text-muted)', textTransform: 'uppercase', fontWeight: 800 }}>Branding & Style</div>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginTop: 6 }}>
+                      <span style={{ width: 18, height: 18, borderRadius: '50%', background: selectedStorefrontForModal.themeColor || '#4F46E5', display: 'inline-block' }} />
+                      <span style={{ fontWeight: 700, fontSize: '0.88rem' }}>{selectedStorefrontForModal.themePreset || 'indigo'}</span>
+                    </div>
+                    <div style={{ fontSize: '0.76rem', color: 'var(--text-muted)', marginTop: 4 }}>
+                      Location: {selectedStorefrontForModal.location || 'India'}
+                    </div>
+                  </div>
+                </div>
+
+                {selectedStorefrontForModal.description && (
+                  <div style={{ border: '1px solid var(--border)', borderRadius: 10, padding: 14 }}>
+                    <div style={{ fontSize: '0.76rem', fontWeight: 800, color: 'var(--text-muted)', textTransform: 'uppercase', marginBottom: 4 }}>
+                      Brand Story & Description
+                    </div>
+                    <div style={{ fontSize: '0.84rem', color: 'var(--text-secondary)', lineHeight: 1.5 }}>
+                      {selectedStorefrontForModal.description}
+                    </div>
+                  </div>
+                )}
               </div>
 
               {/* Modal Footer */}
-              <div style={{ padding: '14px 24px', borderTop: '1px solid var(--border)', background: 'var(--surface-2)', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                <span style={{ fontSize: '0.82rem', color: 'var(--text-muted)' }}>
-                  Total 15 verified physical items linked to merchant
-                </span>
+              <div style={{ padding: '14px 22px', borderTop: '1px solid var(--border)', background: 'var(--surface-2)', display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: 10 }}>
+                <a
+                  href={`/store/${selectedStorefrontForModal.storeSlug}`}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="btn btn-outline btn-sm"
+                  style={{ display: 'inline-flex', alignItems: 'center', gap: 4 }}
+                >
+                  <ExternalLink size={13} /> View Live Storefront
+                </a>
+
+                <div style={{ display: 'flex', gap: 8 }}>
+                  <button
+                    type="button"
+                    className="btn btn-outline btn-sm"
+                    onClick={() => {
+                      setRejectingStorefront(selectedStorefrontForModal);
+                      setStorefrontRejectionReason('');
+                    }}
+                    style={{ color: '#DC2626', borderColor: '#DC2626' }}
+                  >
+                    Request Revision
+                  </button>
+
+                  <button
+                    type="button"
+                    className="btn btn-primary btn-sm"
+                    onClick={() => handleApproveStorefront(selectedStorefrontForModal)}
+                    style={{ background: '#059669', borderColor: '#059669' }}
+                  >
+                    <Check size={14} /> Approve Storefront
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* ── Modal: Storefront Revision Request Dialog ── */}
+        {rejectingStorefront && (
+          <div
+            className="preview-modal-backdrop"
+            onClick={() => setRejectingStorefront(null)}
+            style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.65)', backdropFilter: 'blur(4px)', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 10000, padding: 20 }}
+          >
+            <div
+              className="card"
+              style={{ maxWidth: 480, width: '100%', borderRadius: 16, overflow: 'hidden' }}
+              onClick={(e) => e.stopPropagation()}
+            >
+              <div style={{ padding: '16px 20px', borderBottom: '1px solid var(--border)', background: 'rgba(239, 68, 68, 0.08)' }}>
+                <h3 style={{ margin: 0, fontSize: '1.1rem', fontWeight: 800, color: '#DC2626', display: 'flex', alignItems: 'center', gap: 8 }}>
+                  <AlertCircle size={18} />
+                  <span>Request Storefront Revision</span>
+                </h3>
+              </div>
+              <div style={{ padding: '20px' }}>
+                <p style={{ fontSize: '0.85rem', color: 'var(--text-secondary)', marginTop: 0, marginBottom: 12 }}>
+                  Specify what adjustments the merchant (<strong>{rejectingStorefront.businessName}</strong>) should make before their storefront is published live to customers.
+                </p>
+                <textarea
+                  className="form-control"
+                  rows={3}
+                  placeholder="e.g. Please provide a clear banner image, add a physical pickup address, and verify contact number."
+                  value={storefrontRejectionReason}
+                  onChange={(e) => setStorefrontRejectionReason(e.target.value)}
+                  style={{ width: '100%', fontSize: '0.84rem' }}
+                />
+              </div>
+              <div style={{ padding: '12px 20px', borderTop: '1px solid var(--border)', background: 'var(--surface-2)', display: 'flex', justifyContent: 'flex-end', gap: 8 }}>
+                <button type="button" className="btn btn-outline btn-sm" onClick={() => setRejectingStorefront(null)}>
+                  Cancel
+                </button>
                 <button
                   type="button"
                   className="btn btn-primary btn-sm"
-                  onClick={() => {
-                    navigate(`/store/${selectedVendorForModal.storeSlug || selectedVendorForModal.id}`);
-                  }}
+                  onClick={handleConfirmRejectStorefront}
+                  style={{ background: '#DC2626', borderColor: '#DC2626' }}
                 >
-                  Open Storefront →
+                  Send Revision Request
                 </button>
               </div>
             </div>

@@ -19,14 +19,6 @@ export default function LandingPage() {
     }
   };
 
-  const handleAdminClick = () => {
-    if (user?.type === 'admin') {
-      navigate('/admin/dashboard');
-    } else {
-      navigate('/admin/login');
-    }
-  };
-
   return (
     <div className="landing-hero" style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
       {/* Top Header Navigation Strip */}
@@ -69,7 +61,7 @@ export default function LandingPage() {
           </button>
 
           {user ? (
-            <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 8, flexWrap: 'wrap' }}>
               <button
                 type="button"
                 className="btn btn-primary"
@@ -82,6 +74,16 @@ export default function LandingPage() {
               >
                 Dashboard ({user.fullName?.split(' ')[0] || user.businessName || user.type}) →
               </button>
+              {user.type === 'customer' && (
+                <button
+                  type="button"
+                  className="btn"
+                  onClick={() => navigate('/vendor/login')}
+                  style={{ background: '#F59E0B', borderColor: '#D97706', color: '#1E293B', padding: '7px 14px', borderRadius: 10, fontSize: '0.84rem', fontWeight: 700, cursor: 'pointer' }}
+                >
+                  🏪 Vendor Portal
+                </button>
+              )}
               <button
                 type="button"
                 onClick={logout}
@@ -92,14 +94,24 @@ export default function LandingPage() {
               </button>
             </div>
           ) : (
-            <button
-              type="button"
-              className="btn btn-primary"
-              onClick={() => navigate('/login')}
-              style={{ padding: '7px 18px', fontSize: '0.84rem' }}
-            >
-              Sign In
-            </button>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 8, flexWrap: 'wrap' }}>
+              <button
+                type="button"
+                className="btn"
+                onClick={() => navigate('/login')}
+                style={{ background: 'rgba(255,255,255,0.18)', color: 'white', border: '1px solid rgba(255,255,255,0.25)', padding: '7px 14px', borderRadius: 10, fontSize: '0.84rem', fontWeight: 600, cursor: 'pointer' }}
+              >
+                🛍️ Customer Sign In
+              </button>
+              <button
+                type="button"
+                className="btn btn-primary"
+                onClick={() => navigate('/vendor/login')}
+                style={{ padding: '7px 16px', fontSize: '0.84rem', background: '#F59E0B', borderColor: '#D97706', color: '#1E293B', fontWeight: 700 }}
+              >
+                🏪 Vendor Sign In / Portal
+              </button>
+            </div>
           )}
         </nav>
       </header>
@@ -108,7 +120,7 @@ export default function LandingPage() {
         {/* Logged in Welcome Toast Banner */}
         {user && (
           <div style={{
-            maxWidth: 600,
+            maxWidth: 680,
             margin: '0 auto 24px',
             background: 'rgba(255, 255, 255, 0.15)',
             border: '1px solid rgba(255, 255, 255, 0.25)',
@@ -119,24 +131,37 @@ export default function LandingPage() {
             justifyContent: 'space-between',
             gap: 12,
             backdropFilter: 'blur(8px)',
-            color: 'white'
+            color: 'white',
+            flexWrap: 'wrap'
           }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: 10, fontSize: '0.88rem' }}>
               <UserCheck size={18} color="#10B981" />
               <span>Signed in as <strong>{user.fullName || user.businessName || user.email}</strong> ({user.type})</span>
             </div>
-            <button
-              type="button"
-              className="btn btn-sm btn-primary"
-              onClick={() => {
-                if (user.type === 'customer') navigate('/shop');
-                else if (user.type === 'vendor') navigate('/vendor/dashboard');
-                else if (user.type === 'admin') navigate('/admin/dashboard');
-              }}
-              style={{ padding: '4px 12px', fontSize: '0.78rem' }}
-            >
-              Go to Portal →
-            </button>
+            <div style={{ display: 'flex', gap: 8 }}>
+              <button
+                type="button"
+                className="btn btn-sm btn-primary"
+                onClick={() => {
+                  if (user.type === 'customer') navigate('/shop');
+                  else if (user.type === 'vendor') navigate('/vendor/dashboard');
+                  else if (user.type === 'admin') navigate('/admin/dashboard');
+                }}
+                style={{ padding: '4px 12px', fontSize: '0.78rem' }}
+              >
+                Go to Portal →
+              </button>
+              {user.type === 'customer' && (
+                <button
+                  type="button"
+                  className="btn btn-sm"
+                  onClick={() => navigate('/vendor/login')}
+                  style={{ background: '#F59E0B', color: '#1E293B', fontWeight: 700, padding: '4px 12px', fontSize: '0.78rem', borderRadius: 8, border: 'none' }}
+                >
+                  🏪 Switch to Vendor Portal →
+                </button>
+              )}
+            </div>
           </div>
         )}
 
@@ -202,43 +227,45 @@ export default function LandingPage() {
               <p>Reach thousands of local customers by listing your products and stores</p>
             </div>
             <div className="portal-card-actions">
-              <button
-                type="button"
-                className="portal-card-btn portal-card-btn-vendor"
-                onClick={(e) => { e.stopPropagation(); handleVendorClick(); }}
-              >
-                {user?.type === 'vendor' ? 'Go to Dashboard →' : 'Start Selling →'}
-              </button>
-              <div className="portal-card-link portal-card-link-vendor">
-                <span onClick={(e) => { e.stopPropagation(); navigate('/vendor/login'); }}>
-                  Vendor Portal & Onboarding
-                </span>
-              </div>
-            </div>
-          </div>
-
-          {/* Admin */}
-          <div className="portal-card portal-admin" onClick={handleAdminClick}>
-            <div className="portal-card-top">
-              <div className="portal-card-icon">
-                <Shield size={32} color="#DC2626" />
-              </div>
-              <h3>Admin Portal</h3>
-              <p>Review and approve vendor products, monitor inventory and disputes</p>
-            </div>
-            <div className="portal-card-actions">
-              <button
-                type="button"
-                className="portal-card-btn portal-card-btn-admin"
-                onClick={(e) => { e.stopPropagation(); handleAdminClick(); }}
-              >
-                {user?.type === 'admin' ? 'Go to Dashboard →' : 'Admin Login →'}
-              </button>
-              <div className="portal-card-link portal-card-link-admin">
-                <span onClick={(e) => { e.stopPropagation(); navigate('/admin/login'); }}>
-                  Platform Moderation Console
-                </span>
-              </div>
+              {user?.type === 'vendor' ? (
+                <>
+                  <button
+                    type="button"
+                    className="portal-card-btn portal-card-btn-vendor"
+                    onClick={(e) => { e.stopPropagation(); navigate('/vendor/dashboard'); }}
+                  >
+                    Go to Vendor Dashboard →
+                  </button>
+                  <div className="portal-card-link portal-card-link-vendor" style={{ display: 'flex', justifyContent: 'center', gap: '12px' }}>
+                    <span onClick={(e) => { e.stopPropagation(); navigate('/vendor/store-builder'); }}>
+                      Maintain Storefront
+                    </span>
+                    <span style={{ opacity: 0.4 }}>•</span>
+                    <span onClick={(e) => { e.stopPropagation(); navigate('/vendor/inventory'); }}>
+                      Manage Inventory
+                    </span>
+                  </div>
+                </>
+              ) : (
+                <>
+                  <button
+                    type="button"
+                    className="portal-card-btn portal-card-btn-vendor"
+                    onClick={(e) => { e.stopPropagation(); navigate('/vendor/register'); }}
+                  >
+                    Register Store / Start Selling →
+                  </button>
+                  <div className="portal-card-link portal-card-link-vendor" style={{ display: 'flex', justifyContent: 'center', gap: '12px' }}>
+                    <span onClick={(e) => { e.stopPropagation(); navigate('/vendor/login'); }} style={{ fontWeight: 700 }}>
+                      Vendor Sign In
+                    </span>
+                    <span style={{ opacity: 0.4 }}>•</span>
+                    <span onClick={(e) => { e.stopPropagation(); navigate('/vendor/register'); }}>
+                      Register Storefront
+                    </span>
+                  </div>
+                </>
+              )}
             </div>
           </div>
         </div>

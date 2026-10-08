@@ -8,7 +8,7 @@ import {
   Copy, Check, Package, Tag, Truck, ShieldCheck, Store,
   HelpCircle, UserCheck, Layers, ChevronRight, Zap, RefreshCw,
   ShoppingBag, Megaphone, Box, AlertTriangle, FileText, DollarSign,
-  PhoneCall, Key
+  PhoneCall, Key, Mic, MicOff, Volume2, VolumeX, Square, Radio, Headphones
 } from 'lucide-react';
 import '../styles/marketplace.css';
 
@@ -19,7 +19,22 @@ export default function HubAssistantPage({ defaultRole = null }) {
     activeRole,
     switchRole,
     clearHistory,
-    sendMessage
+    sendMessage,
+    // Voice Assistant APIs
+    voiceMode,
+    toggleVoiceMode,
+    ttsEnabled,
+    toggleTts,
+    isSpeaking,
+    speakingMessageId,
+    speakMessage,
+    stopSpeaking,
+    isListening,
+    interimTranscript,
+    voiceStatusText,
+    startListening,
+    stopListening,
+    cancelListening
   } = useChatbot();
   const { user } = useAuth();
   const navigate = useNavigate();
@@ -30,14 +45,15 @@ export default function HubAssistantPage({ defaultRole = null }) {
   const messagesEndRef = useRef(null);
   const inputRef = useRef(null);
 
-  // Sync role if defaultRole prop or URL param is provided
+  // Strict context determination: Vendors only see Vendor Co-Pilot, customers only see Customer Concierge
+  const isVendorContext = defaultRole === 'vendor' || user?.type === 'vendor' || user?.role === 'vendor' || window.location.pathname.startsWith('/vendor');
+  const targetRole = isVendorContext ? 'vendor' : 'customer';
+
   useEffect(() => {
-    const roleParam = searchParams.get('role');
-    const target = defaultRole || roleParam;
-    if (target && (target === 'vendor' || target === 'customer') && target !== activeRole) {
-      switchRole(target);
+    if (activeRole !== targetRole) {
+      switchRole(targetRole);
     }
-  }, [defaultRole, searchParams, activeRole, switchRole]);
+  }, [targetRole, activeRole, switchRole]);
 
   // Auto-scroll
   useEffect(() => {
@@ -48,10 +64,14 @@ export default function HubAssistantPage({ defaultRole = null }) {
 
   const handleSend = (e) => {
     if (e) e.preventDefault();
-    if (!inputVal.trim() || isTyping) return;
-    const text = inputVal.trim();
+    const text = (inputVal || interimTranscript || '').trim();
+    if (!text || isTyping) return;
+    const wasVoice = Boolean(isListening || interimTranscript);
+    if (isListening) {
+      stopListening();
+    }
     setInputVal('');
-    sendMessage(text);
+    sendMessage(text, activeRole, { isVoice: wasVoice });
   };
 
   const handleKeyDown = (e) => {
@@ -91,7 +111,7 @@ export default function HubAssistantPage({ defaultRole = null }) {
     { icon: <Store size={16} />, title: 'Storefront Customization', prompt: 'How do I customize my store banner, logo, and operating hours?' }
   ];
 
-  const currentLaunchers = activeRole === 'vendor' ? vendorLaunchers : customerLaunchers;
+  const currentLaunchers = targetRole === 'vendor' ? vendorLaunchers : customerLaunchers;
 
   // Markdown-like text renderer
   const renderFormattedText = (rawText) => {
@@ -140,6 +160,52 @@ export default function HubAssistantPage({ defaultRole = null }) {
       );
     });
   };
+
+  const isCustomerOrVendorSignedIn = !!user && (
+    user.type === 'customer' ||
+    user.type === 'vendor' ||
+    user.role === 'customer' ||
+    user.role === 'vendor'
+  );
+
+  if (!isCustomerOrVendorSignedIn) {
+    return (
+      <div style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column', background: 'var(--background)' }}>
+        <Navbar />
+        <main style={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '32px 20px' }}>
+          <div style={{ maxWidth: 520, width: '100%', textAlign: 'center', background: 'var(--surface)', borderRadius: 20, padding: '40px 32px', border: '1px solid var(--border)', boxShadow: '0 12px 36px rgba(0,0,0,0.06)' }}>
+            <div style={{ width: 72, height: 72, margin: '0 auto 20px', borderRadius: '50%', background: 'linear-gradient(135deg, rgba(79, 70, 229, 0.12) 0%, rgba(124, 58, 237, 0.2) 100%)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 34 }}>
+              🤖
+            </div>
+            <h1 style={{ fontSize: '1.45rem', fontWeight: 800, margin: '0 0 10px', color: 'var(--text-primary)' }}>
+              Sign In Required to Access HubBot
+            </h1>
+            <p style={{ fontSize: '0.94rem', color: 'var(--text-secondary)', lineHeight: 1.6, margin: '0 0 28px' }}>
+              HubBot Voice & AI Concierge is exclusively enabled for our signed-in customers and verified merchants. Please sign in to your customer or merchant account to chat!
+            </p>
+            <div style={{ display: 'flex', gap: 12, justifyContent: 'center', flexWrap: 'wrap' }}>
+              <button
+                type="button"
+                onClick={() => navigate('/login')}
+                className="btn btn-primary"
+                style={{ display: 'inline-flex', alignItems: 'center', gap: 8, padding: '12px 24px', borderRadius: 10, fontWeight: 700 }}
+              >
+                🔑 Customer Sign In
+              </button>
+              <button
+                type="button"
+                onClick={() => navigate('/vendor/login')}
+                className="btn btn-outline"
+                style={{ display: 'inline-flex', alignItems: 'center', gap: 8, padding: '12px 24px', borderRadius: 10, fontWeight: 700 }}
+              >
+                🏪 Vendor Sign In
+              </button>
+            </div>
+          </div>
+        </main>
+      </div>
+    );
+  }
 
   return (
     <div style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column', background: 'var(--background)' }}>
@@ -204,63 +270,73 @@ export default function HubAssistantPage({ defaultRole = null }) {
             </div>
           </div>
 
-          {/* Role Segmented Controller */}
+          {/* Context-Locked Role Badge (No overlap between Customer and Vendor) */}
           <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
             <div
               style={{
                 display: 'inline-flex',
-                background: 'var(--surface-2)',
-                padding: 4,
+                alignItems: 'center',
+                gap: 7,
+                background: targetRole === 'vendor' ? 'rgba(16, 185, 129, 0.12)' : 'rgba(79, 70, 229, 0.1)',
+                border: targetRole === 'vendor' ? '1px solid #10B981' : '1px solid var(--primary)',
+                padding: '7px 16px',
                 borderRadius: 12,
-                border: '1px solid var(--border)'
+                fontSize: '0.82rem',
+                fontWeight: 700,
+                color: targetRole === 'vendor' ? '#047857' : 'var(--primary)'
               }}
             >
-              <button
-                type="button"
-                onClick={() => switchRole('customer')}
-                style={{
-                  padding: '7px 16px',
-                  borderRadius: 8,
-                  border: 'none',
-                  fontSize: '0.82rem',
-                  fontWeight: 700,
-                  cursor: 'pointer',
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: 6,
-                  transition: 'all 0.15s ease',
-                  background: activeRole === 'customer' ? 'var(--primary)' : 'transparent',
-                  color: activeRole === 'customer' ? 'white' : 'var(--text-muted)',
-                  boxShadow: activeRole === 'customer' ? '0 2px 8px rgba(79, 70, 229, 0.3)' : 'none'
-                }}
-              >
-                <span>🛍️</span>
-                <span>Customer Mode</span>
-              </button>
-
-              <button
-                type="button"
-                onClick={() => switchRole('vendor')}
-                style={{
-                  padding: '7px 16px',
-                  borderRadius: 8,
-                  border: 'none',
-                  fontSize: '0.82rem',
-                  fontWeight: 700,
-                  cursor: 'pointer',
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: 6,
-                  transition: 'all 0.15s ease',
-                  background: activeRole === 'vendor' ? '#10B981' : 'transparent',
-                  color: activeRole === 'vendor' ? 'white' : 'var(--text-muted)',
-                  boxShadow: activeRole === 'vendor' ? '0 2px 8px rgba(16, 185, 129, 0.3)' : 'none'
-                }}
-              >
-                <span>🏪</span>
-                <span>Vendor Mode</span>
-              </button>
+              {targetRole === 'vendor' ? <Store size={15} color="#10B981" /> : <ShoppingBag size={15} color="var(--primary)" />}
+              <span>{targetRole === 'vendor' ? 'Vendor Co-Pilot Session' : 'Customer Concierge Session'}</span>
             </div>
+
+            {/* Voice Mode Toggle Button */}
+            <button
+              type="button"
+              onClick={toggleVoiceMode}
+              title={voiceMode ? "Speech-to-Speech Voice Assistant Active (Click to Exit)" : "Turn on Speech-to-Speech (STS) Voice Assistant"}
+              style={{
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: 6,
+                padding: '8px 14px',
+                borderRadius: 10,
+                border: voiceMode ? '1.5px solid #818CF8' : '1px solid var(--border)',
+                background: voiceMode ? 'linear-gradient(135deg, #4F46E5 0%, #7C3AED 100%)' : 'var(--surface-2)',
+                color: voiceMode ? 'white' : 'var(--text-primary)',
+                fontSize: '0.8rem',
+                fontWeight: 700,
+                cursor: 'pointer',
+                transition: 'all 0.2s ease',
+                boxShadow: voiceMode ? '0 2px 10px rgba(99, 102, 241, 0.4)' : 'none'
+              }}
+            >
+              {voiceMode ? <Radio size={14} className="voice-orb-active" /> : <Mic size={14} />}
+              <span>{voiceMode ? '🎙️ Voice Active' : '🎙️ Voice Mode'}</span>
+            </button>
+
+            {/* TTS Mute/Unmute */}
+            <button
+              type="button"
+              onClick={toggleTts}
+              title={ttsEnabled ? "Read Aloud (TTS) Enabled - Click to Mute" : "Read Aloud (TTS) Muted - Click to Unmute"}
+              style={{
+                padding: '8px 12px',
+                borderRadius: 10,
+                background: ttsEnabled ? 'rgba(79, 70, 229, 0.1)' : 'var(--surface-2)',
+                border: ttsEnabled ? '1px solid var(--primary)' : '1px solid var(--border)',
+                color: ttsEnabled ? 'var(--primary)' : 'var(--text-muted)',
+                fontSize: '0.8rem',
+                fontWeight: 600,
+                cursor: 'pointer',
+                display: 'flex',
+                alignItems: 'center',
+                gap: 6
+              }}
+            >
+              {ttsEnabled ? <Volume2 size={15} /> : <VolumeX size={15} />}
+              <span>{ttsEnabled ? 'Voice On' : 'Voice Off'}</span>
+            </button>
 
             <button
               type="button"
@@ -450,6 +526,100 @@ export default function HubAssistantPage({ defaultRole = null }) {
                 background: 'var(--surface)'
               }}
             >
+              {/* ── SPEECH-TO-SPEECH (STS) VOICE ASSISTANT STAGE ── */}
+              {voiceMode && (
+                <div
+                  style={{
+                    background: 'linear-gradient(135deg, rgba(79, 70, 229, 0.08) 0%, rgba(139, 92, 246, 0.12) 100%)',
+                    border: '1.5px solid rgba(99, 102, 241, 0.3)',
+                    borderRadius: 16,
+                    padding: '20px 24px',
+                    marginBottom: 12,
+                    display: 'flex',
+                    flexDirection: 'column',
+                    alignItems: 'center',
+                    textAlign: 'center',
+                    gap: 12,
+                    boxShadow: '0 4px 20px rgba(99, 102, 241, 0.08)'
+                  }}
+                >
+                  <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', width: '100%' }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: 8, fontSize: '0.8rem', fontWeight: 800, color: 'var(--primary)' }}>
+                      <Radio size={16} className={isSpeaking || isListening ? "voice-orb-active" : ""} />
+                      <span>SPEECH-TO-SPEECH (STS) CONVERSATIONAL VOICE ASSISTANT</span>
+                    </div>
+                    <button 
+                      type="button" 
+                      onClick={toggleVoiceMode}
+                      style={{ background: 'none', border: 'none', color: 'var(--text-muted)', fontSize: '0.78rem', cursor: 'pointer', fontWeight: 700 }}
+                    >
+                      Exit Voice Mode
+                    </button>
+                  </div>
+
+                  {/* Pulsing Interactive Voice Orb */}
+                  <div 
+                    onClick={() => {
+                      if (isSpeaking) {
+                        stopSpeaking();
+                      } else if (isListening) {
+                        stopListening();
+                      } else {
+                        startListening((t) => {
+                          if (t && t.trim()) {
+                            sendMessage(t, activeRole, { isVoice: true });
+                          }
+                        });
+                      }
+                    }}
+                    className={isListening ? "voice-mic-active" : isSpeaking ? "voice-orb-active" : ""}
+                    style={{
+                      width: 72,
+                      height: 72,
+                      borderRadius: '50%',
+                      background: isListening 
+                        ? 'linear-gradient(135deg, #EF4444 0%, #DC2626 100%)'
+                        : isSpeaking 
+                        ? 'linear-gradient(135deg, #6366F1 0%, #8B5CF6 100%)'
+                        : 'linear-gradient(135deg, #4F46E5 0%, #7C3AED 100%)',
+                      color: 'white',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      cursor: 'pointer',
+                      boxShadow: isListening 
+                        ? '0 4px 25px rgba(239, 68, 68, 0.5)'
+                        : '0 4px 25px rgba(79, 70, 229, 0.45)',
+                      transition: 'all 0.2s ease'
+                    }}
+                    title={isSpeaking ? "Tap to interrupt speech" : isListening ? "Listening... Tap to stop" : "Tap to speak now"}
+                  >
+                    {isListening ? (
+                      <Mic size={32} />
+                    ) : isSpeaking ? (
+                      <div style={{ display: 'flex', alignItems: 'center', gap: 4, height: 28 }}>
+                        <div className="voice-wave-bar" />
+                        <div className="voice-wave-bar" />
+                        <div className="voice-wave-bar" />
+                        <div className="voice-wave-bar" />
+                        <div className="voice-wave-bar" />
+                      </div>
+                    ) : (
+                      <Headphones size={30} />
+                    )}
+                  </div>
+
+                  <div style={{ fontSize: '0.9rem', fontWeight: 700, color: 'var(--text-primary)' }}>
+                    {isListening ? '🎙️ Listening... Speak your query aloud' : isSpeaking ? '🔊 HubBot is speaking...' : isTyping ? '⚡ Thinking...' : 'Ready — Speak now or tap orb to start'}
+                  </div>
+                  {interimTranscript && (
+                    <div style={{ fontSize: '0.84rem', color: 'var(--primary)', fontStyle: 'italic', maxWidth: '85%' }}>
+                      "{interimTranscript}..."
+                    </div>
+                  )}
+                </div>
+              )}
+
               {messages.map((msg) => {
                 const isBot = msg.sender === 'bot';
 
@@ -505,6 +675,47 @@ export default function HubAssistantPage({ defaultRole = null }) {
                     >
                       {renderFormattedText(msg.text)}
                     </div>
+
+                    {/* TTS Read Aloud / Stop Button for Bot Messages */}
+                    {isBot && (
+                      <button
+                        type="button"
+                        onClick={() => speakMessage(msg.id, msg.text)}
+                        title={speakingMessageId === msg.id ? "Stop voice playback" : "Listen aloud (Text-to-Speech)"}
+                        style={{
+                          background: speakingMessageId === msg.id ? 'rgba(79, 70, 229, 0.14)' : 'none',
+                          border: speakingMessageId === msg.id ? '1px solid var(--primary)' : 'none',
+                          color: speakingMessageId === msg.id ? 'var(--primary)' : 'var(--text-muted)',
+                          borderRadius: 8,
+                          padding: '3px 8px',
+                          cursor: 'pointer',
+                          display: 'inline-flex',
+                          alignItems: 'center',
+                          gap: 5,
+                          fontSize: '0.72rem',
+                          fontWeight: 700,
+                          marginTop: 6,
+                          transition: 'all 0.15s ease'
+                        }}
+                      >
+                        {speakingMessageId === msg.id ? (
+                          <>
+                            <Square size={11} fill="currentColor" />
+                            <span>Stop Playing</span>
+                            <div style={{ display: 'inline-flex', alignItems: 'center', gap: 2, height: 12, marginLeft: 3 }}>
+                              <div className="voice-wave-bar" style={{ width: 2, animationDuration: '0.7s' }} />
+                              <div className="voice-wave-bar" style={{ width: 2, animationDuration: '0.5s' }} />
+                              <div className="voice-wave-bar" style={{ width: 2, animationDuration: '0.9s' }} />
+                            </div>
+                          </>
+                        ) : (
+                          <>
+                            <Volume2 size={13} />
+                            <span>Read Aloud</span>
+                          </>
+                        )}
+                      </button>
+                    )}
 
                     {/* ── ACTION CARDS ── */}
                     {isBot && msg.actionCards?.length > 0 && (
@@ -822,37 +1033,80 @@ export default function HubAssistantPage({ defaultRole = null }) {
                 borderTop: '1px solid var(--border)',
                 display: 'flex',
                 alignItems: 'center',
-                gap: 12
+                gap: 10
               }}
             >
               <input
                 ref={inputRef}
                 type="text"
-                value={inputVal}
+                value={isListening && interimTranscript ? interimTranscript : inputVal}
                 onChange={(e) => setInputVal(e.target.value)}
                 onKeyDown={handleKeyDown}
                 placeholder={
-                  activeRole === 'vendor'
-                    ? 'Ask about product listings, courier waybills, commissions, payouts, GST invoices...'
-                    : 'Ask about live order tracking, delivery OTP, active coupons, 7-day returns, products...'
+                  isListening
+                    ? (interimTranscript || '🎙️ Listening... Speak your question now')
+                    : isSpeaking
+                    ? '🔊 HubBot is speaking...'
+                    : activeRole === 'vendor'
+                    ? 'Ask or speak about product listings, courier waybills, commissions, payouts, GST invoices...'
+                    : 'Ask or speak about live order tracking, delivery OTP, active coupons, 7-day returns, products...'
                 }
                 disabled={isTyping}
                 style={{
                   flex: 1,
                   padding: '12px 16px',
                   borderRadius: 12,
-                  border: '1px solid var(--border)',
-                  background: 'var(--surface)',
-                  color: 'var(--text-primary)',
+                  border: isListening ? '1.5px solid #EF4444' : '1px solid var(--border)',
+                  background: isListening ? 'rgba(239, 68, 68, 0.05)' : 'var(--surface)',
+                  color: isListening ? '#DC2626' : 'var(--text-primary)',
                   fontSize: '0.88rem',
-                  outline: 'none'
+                  outline: 'none',
+                  transition: 'all 0.15s ease'
                 }}
               />
+
+              {/* Mic / Voice Input STT Button */}
+              <button
+                type="button"
+                onClick={() => {
+                  if (isListening) {
+                    stopListening();
+                  } else {
+                    startListening((speechText) => {
+                      if (speechText && speechText.trim()) {
+                        setInputVal(speechText.trim());
+                        sendMessage(speechText.trim(), activeRole, { isVoice: true });
+                      }
+                    });
+                  }
+                }}
+                title={isListening ? "Listening... click to stop" : "Speak to HubBot (Voice Input / STT)"}
+                className={isListening ? "voice-mic-active" : ""}
+                style={{
+                  padding: '12px 16px',
+                  borderRadius: 12,
+                  border: isListening ? '1px solid #EF4444' : '1px solid var(--border)',
+                  background: isListening ? '#EF4444' : 'var(--surface)',
+                  color: isListening ? 'white' : 'var(--text-secondary)',
+                  cursor: 'pointer',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  gap: 6,
+                  fontWeight: 700,
+                  fontSize: '0.84rem',
+                  transition: 'all 0.15s ease',
+                  boxShadow: isListening ? '0 2px 10px rgba(239, 68, 68, 0.4)' : 'none'
+                }}
+              >
+                {isListening ? <MicOff size={16} /> : <Mic size={16} />}
+                <span>{isListening ? 'Stop' : 'Voice'}</span>
+              </button>
 
               <button
                 type="button"
                 onClick={handleSend}
-                disabled={!inputVal.trim() || isTyping}
+                disabled={(!inputVal.trim() && !interimTranscript.trim()) || isTyping}
                 style={{
                   padding: '12px 20px',
                   borderRadius: 12,
@@ -861,8 +1115,8 @@ export default function HubAssistantPage({ defaultRole = null }) {
                   color: 'white',
                   fontWeight: 700,
                   fontSize: '0.86rem',
-                  cursor: !inputVal.trim() || isTyping ? 'not-allowed' : 'pointer',
-                  opacity: !inputVal.trim() || isTyping ? 0.6 : 1,
+                  cursor: (!inputVal.trim() && !interimTranscript.trim()) || isTyping ? 'not-allowed' : 'pointer',
+                  opacity: (!inputVal.trim() && !interimTranscript.trim()) || isTyping ? 0.6 : 1,
                   display: 'flex',
                   alignItems: 'center',
                   gap: 8,
