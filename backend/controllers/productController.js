@@ -2,7 +2,7 @@ import mongoose from 'mongoose';
 import Product from '../models/Product.js';
 import User from '../models/User.js';
 import { seedProducts, seedVendors } from '../data/seedData.js';
-import { rankProductsFairly } from '../utils/fairRanking.js';
+import { rankProductsFairly, isProductSearchMatch } from '../utils/fairRanking.js';
 
 // Hybrid in-memory catalog for offline / development resilience
 let memProducts = [...seedProducts];
@@ -39,17 +39,6 @@ export const getProducts = async (req, res) => {
           query.$or = [{ stock: { $gt: 0 } }, { quantity: { $gt: 0 } }];
         }
 
-        if (search) {
-          const searchRegex = new RegExp(search, 'i');
-          query.$or = [
-            { name: searchRegex },
-            { brand: searchRegex },
-            { sku: searchRegex },
-            { description: searchRegex },
-            { category: searchRegex }
-          ];
-        }
-
         let sortOptions = { createdAt: -1 };
         if (sort === 'price_asc') sortOptions = { price: 1 };
         else if (sort === 'price_desc') sortOptions = { price: -1 };
@@ -57,6 +46,10 @@ export const getProducts = async (req, res) => {
 
         products = await Product.find(query).sort(sortOptions);
         products = products.map((p) => (p.toJSON ? p.toJSON() : p));
+
+        if (search && search.trim()) {
+          products = products.filter((p) => isProductSearchMatch(p, search));
+        }
 
         // Apply Fair Exposure & Smart Discovery ranking unless explicit standard sorting requested
         if (!sort || sort === 'smart_discovery' || sort === 'default' || search) {
@@ -96,16 +89,8 @@ export const getProducts = async (req, res) => {
         filtered = filtered.filter((p) => (p.stock || p.quantity || 0) > 0);
       }
 
-      if (search) {
-        const s = search.toLowerCase();
-        filtered = filtered.filter(
-          (p) =>
-            p.name?.toLowerCase().includes(s) ||
-            p.brand?.toLowerCase().includes(s) ||
-            p.sku?.toLowerCase().includes(s) ||
-            p.description?.toLowerCase().includes(s) ||
-            p.category?.toLowerCase().includes(s)
-        );
+      if (search && search.trim()) {
+        filtered = filtered.filter((p) => isProductSearchMatch(p, search));
       }
 
       if (sort === 'price_asc') filtered.sort((a, b) => a.price - b.price);

@@ -8,6 +8,7 @@ import { useLanguage } from '../../contexts/LanguageContext';
 import { useAuth } from '../../contexts/AuthContext';
 import { checkDeliveryCoverage } from '../../utils/geoUtils';
 import { seedVendors, seedProducts } from '../../data/seedData';
+import { isProductSearchMatch } from '../../utils/fairRanking';
 import {
   Store, Search, Star, ShieldCheck, MapPin, Package,
   ArrowRight, Share2, Sparkles, Filter, CheckCircle2,
@@ -92,6 +93,7 @@ export default function StoreDirectory() {
           .filter(v => (v.storeStatus === 'published' || v.storeStatus === 'approved' || v.storeApprovalStatus === 'approved') && !['draft', 'pending_approval', 'rejected'].includes(v.storeStatus) && v.storeApprovalStatus !== 'pending' && v.storeApprovalStatus !== 'rejected')
           .map((v) => {
           const vProds = seedProducts.filter(p => p.vendorId === v.id);
+          const matchingProds = searchQuery ? vProds.filter(p => isProductSearchMatch(p, searchQuery)) : vProds;
           return {
             id: v.id,
             businessName: v.businessName,
@@ -115,8 +117,9 @@ export default function StoreDirectory() {
             warrantyPolicy: v.warrantyPolicy,
             category: v.category || 'General Retail',
             totalProducts: vProds.length || 15,
+            matchingProductsCount: matchingProds.length,
             isFeatured: Boolean(v.isFeatured),
-            sampleProducts: vProds.slice(0, 4)
+            sampleProducts: (searchQuery ? matchingProds : vProds).slice(0, 4)
           };
         });
 
@@ -126,7 +129,8 @@ export default function StoreDirectory() {
             ((s.businessName || '').toLowerCase().includes(q)) ||
             ((s.location || '').toLowerCase().includes(q)) ||
             ((s.category || '').toLowerCase().includes(q)) ||
-            ((s.tagline || '').toLowerCase().includes(q))
+            ((s.tagline || '').toLowerCase().includes(q)) ||
+            (s.matchingProductsCount > 0)
           );
         }
         if (selectedCategory !== 'All') {

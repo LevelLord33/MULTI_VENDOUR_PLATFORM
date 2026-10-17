@@ -10,6 +10,142 @@
  * 5. Diversity interleaving (prevents single-vendor domination / monopoly)
  */
 
+export const ACCESSORY_GROUPS = {
+  bag: ['bag', 'bags', 'backpack', 'backpacks', 'briefcase', 'briefcases', 'sleeve', 'sleeves', 'case', 'cases', 'pouch', 'pouches', 'cover', 'covers', 'folio'],
+  stand: ['stand', 'stands', 'dock', 'docks', 'docking', 'mount', 'mounts', 'riser', 'risers', 'holder', 'holders', 'tray', 'trays', 'desk organizer'],
+  charger: ['charger', 'chargers', 'charging', 'adapter', 'adapters', 'cable', 'cables', 'powerbank', 'power bank', 'wire', 'cord', 'pd car charger', 'car charger'],
+  eyewear: ['glasses', 'eyewear', 'spectacles'],
+  cleaner: ['cleaner', 'cleaners', 'duster', 'dusters', 'cloth', 'wipe', 'wipes']
+};
+
+export const DEVICE_SYNONYM_GROUPS = {
+  laptop: ['laptop', 'laptops', 'notebook', 'notebooks', 'macbook', 'macbooks', 'chromebook', 'chromebooks', 'thinkpad', 'gaming laptop'],
+  phone: ['smartphone', 'smartphones', 'iphone', 'iphones', 'mobile', 'mobiles', 'cellphone', 'android'],
+  tv: ['television', 'televisions', 'smart tv', 'qled', 'oled', 'led tv', 'tv', 'tvs'],
+  earbuds: ['earphones', 'headphones', 'airpods', 'tws', 'earbuds', 'headset'],
+  watch: ['smartwatch', 'smartwatches', 'watch', 'watches', 'timepiece'],
+  shoes: ['sneakers', 'shoes', 'footwear', 'boots', 'loafers']
+};
+
+export const SEARCH_SYNONYMS = {
+  'laptop': DEVICE_SYNONYM_GROUPS.laptop,
+  'laptops': DEVICE_SYNONYM_GROUPS.laptop,
+  'macbook': DEVICE_SYNONYM_GROUPS.laptop,
+  'notebook': DEVICE_SYNONYM_GROUPS.laptop,
+  'phone': DEVICE_SYNONYM_GROUPS.phone,
+  'phones': DEVICE_SYNONYM_GROUPS.phone,
+  'mobile': DEVICE_SYNONYM_GROUPS.phone,
+  'mobiles': DEVICE_SYNONYM_GROUPS.phone,
+  'tv': DEVICE_SYNONYM_GROUPS.tv,
+  'television': DEVICE_SYNONYM_GROUPS.tv,
+  'earbuds': DEVICE_SYNONYM_GROUPS.earbuds,
+  'earphone': DEVICE_SYNONYM_GROUPS.earbuds,
+  'earphones': DEVICE_SYNONYM_GROUPS.earbuds,
+  'headphone': DEVICE_SYNONYM_GROUPS.earbuds,
+  'headphones': DEVICE_SYNONYM_GROUPS.earbuds,
+  'watch': DEVICE_SYNONYM_GROUPS.watch,
+  'watches': DEVICE_SYNONYM_GROUPS.watch,
+  'shoe': DEVICE_SYNONYM_GROUPS.shoes,
+  'shoes': DEVICE_SYNONYM_GROUPS.shoes,
+};
+
+const getProductAccessoryGroups = (name = '', category = '', tags = []) => {
+  const combined = `${name} ${category} ${tags.join(' ')}`.toLowerCase();
+  const words = combined.split(/[^a-z0-9]+/);
+  const matched = new Set();
+  for (const [group, keywords] of Object.entries(ACCESSORY_GROUPS)) {
+    if (keywords.some(kw => {
+      if (kw.includes(' ')) return combined.includes(kw);
+      return words.includes(kw);
+    })) {
+      matched.add(group);
+    }
+  }
+  return matched;
+};
+
+export const isProductSearchMatch = (product, query = '') => {
+  if (!product) return false;
+  if (!query || !query.trim()) return true;
+
+  const q = query.toLowerCase().trim();
+  const tokens = q.split(/\s+/).filter(Boolean);
+
+  const title = (product.name || product.title || '').toLowerCase();
+  const brand = (product.brand || '').toLowerCase();
+  const category = (product.category || '').toLowerCase();
+  const subCategory = (product.subCategory || '').toLowerCase();
+  const sku = (product.sku || '').toLowerCase();
+  const tags = Array.isArray(product.tags) ? product.tags.map(t => String(t).toLowerCase()) : [];
+
+  // Check query intent: is user searching for a primary device class?
+  let targetDeviceGroup = null;
+  for (const [deviceKey, synonyms] of Object.entries(DEVICE_SYNONYM_GROUPS)) {
+    if (tokens.some(t => synonyms.includes(t))) {
+      targetDeviceGroup = deviceKey;
+      break;
+    }
+  }
+
+  // Check query intent: is user asking for an accessory group?
+  const queryAccessoryGroups = new Set();
+  for (const [group, keywords] of Object.entries(ACCESSORY_GROUPS)) {
+    if (keywords.some(kw => tokens.includes(kw))) {
+      queryAccessoryGroups.add(group);
+    }
+  }
+
+  const prodAccessoryGroups = getProductAccessoryGroups(title, category, tags);
+  const isProdAccessory = prodAccessoryGroups.size > 0;
+
+  // Case 1: User searched for a bare device (e.g., 'laptop' or 'macbook') without accessory qualifiers
+  if (targetDeviceGroup && queryAccessoryGroups.size === 0) {
+    if (isProdAccessory) return false;
+    const validDeviceSynonyms = DEVICE_SYNONYM_GROUPS[targetDeviceGroup];
+    return validDeviceSynonyms.some(syn => title.includes(syn) || brand.includes(syn) || category.includes(syn));
+  }
+
+  // Case 2: User searched for device + accessory (e.g., 'laptop bag' or 'laptop stand')
+  if (targetDeviceGroup && queryAccessoryGroups.size > 0) {
+    if (!isProdAccessory) return false;
+    const matchesTargetAccessory = [...queryAccessoryGroups].some(grp => prodAccessoryGroups.has(grp));
+    if (!matchesTargetAccessory) return false;
+    return tokens.every(token =>
+      title.includes(token) ||
+      brand.includes(token) ||
+      category.includes(token) ||
+      tags.some(t => t.includes(token))
+    );
+  }
+
+  // Case 3: Standard multi-token search for brands, product names, categories, or tags
+  const expandedSynonyms = new Set();
+  tokens.forEach(tok => {
+    if (SEARCH_SYNONYMS[tok]) {
+      SEARCH_SYNONYMS[tok].forEach(syn => expandedSynonyms.add(syn));
+    }
+  });
+
+  if (title.includes(q) || brand.includes(q) || category.includes(q) || sku.includes(q) || tags.some(t => t.includes(q))) {
+    return true;
+  }
+
+  for (const syn of expandedSynonyms) {
+    if (title.includes(syn) || brand.includes(syn) || category.includes(syn) || tags.some(t => t.includes(syn))) {
+      return true;
+    }
+  }
+
+  return tokens.every(token =>
+    title.includes(token) ||
+    brand.includes(token) ||
+    category.includes(token) ||
+    subCategory.includes(token) ||
+    sku.includes(token) ||
+    tags.some(t => t.includes(token))
+  );
+};
+
 export const calculateProductRelevance = (product, query = '') => {
   if (!query || !query.trim()) return 100; // Baseline when browsing without query
 
@@ -21,33 +157,40 @@ export const calculateProductRelevance = (product, query = '') => {
   const brand = (product.brand || '').toLowerCase();
   const category = (product.category || '').toLowerCase();
   const subCategory = (product.subCategory || '').toLowerCase();
-  const description = (product.description || '').toLowerCase();
   const vendorName = (product.vendorName || '').toLowerCase();
   const tags = Array.isArray(product.tags) ? product.tags.map(t => String(t).toLowerCase()) : [];
 
-  // Exact phrase match in title
-  if (title.includes(q)) {
-    score += 60;
-  }
+  // Direct title match gets highest weighting
+  if (title.includes(q)) score += 100;
+  if (brand.includes(q)) score += 50;
+  if (category.includes(q) || subCategory.includes(q)) score += 40;
+  if (vendorName.includes(q)) score += 30;
 
-  // Exact brand or category match
-  if (brand.includes(q) || category.includes(q)) {
-    score += 35;
-  }
-
-  // Match vendor name
-  if (vendorName.includes(q)) {
-    score += 30;
-  }
-
-  // Token matching
-  tokens.forEach((token) => {
-    if (title.includes(token)) score += 25;
-    if (brand.includes(token)) score += 20;
-    if (tags.some(t => t.includes(token))) score += 18;
-    if (category.includes(token) || subCategory.includes(token)) score += 15;
-    if (description.includes(token)) score += 5;
+  // Synonyms boost
+  const expandedSynonyms = new Set();
+  tokens.forEach(tok => {
+    if (SEARCH_SYNONYMS[tok]) {
+      SEARCH_SYNONYMS[tok].forEach(syn => expandedSynonyms.add(syn));
+    }
   });
+
+  expandedSynonyms.forEach(syn => {
+    if (title.includes(syn)) score += 80;
+    if (brand.includes(syn)) score += 40;
+    if (category.includes(syn)) score += 30;
+  });
+
+  tokens.forEach((token) => {
+    if (title.includes(token)) score += 35;
+    if (brand.includes(token)) score += 25;
+    if (tags.some(t => t.includes(token))) score += 20;
+    if (category.includes(token) || subCategory.includes(token)) score += 15;
+  });
+
+  // Electronics category prioritization for computing devices
+  if ((q.includes('laptop') || q.includes('macbook') || q.includes('computer')) && category.includes('electronic')) {
+    score += 50;
+  }
 
   return score;
 };

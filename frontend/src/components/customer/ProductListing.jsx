@@ -930,7 +930,7 @@ export default function ProductListing() {
                           <div className="vendor-shelf-header">
                             <div className="vendor-shelf-title">
                               <Sparkles size={14} color="var(--primary)" />
-                              <span>Featured Products From This Store ({vendor.sampleProducts?.length || 0})</span>
+                              <span>{filterState.search ? `Matching Products (${vendor.sampleProducts?.length || 0})` : `Featured Products From This Store (${vendor.sampleProducts?.length || 0})`}</span>
                             </div>
                             <Link
                               to={`/store/${vendor.storeSlug || vendor.id}`}

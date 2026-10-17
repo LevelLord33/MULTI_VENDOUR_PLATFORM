@@ -10,30 +10,64 @@
  * 5. Diversity interleaving (prevents single-vendor domination / monopoly)
  */
 
+export const ACCESSORY_GROUPS = {
+  bag: ['bag', 'bags', 'backpack', 'backpacks', 'briefcase', 'briefcases', 'sleeve', 'sleeves', 'case', 'cases', 'pouch', 'pouches', 'cover', 'covers', 'folio'],
+  stand: ['stand', 'stands', 'dock', 'docks', 'docking', 'mount', 'mounts', 'riser', 'risers', 'holder', 'holders', 'tray', 'trays', 'desk organizer'],
+  charger: ['charger', 'chargers', 'charging', 'adapter', 'adapters', 'cable', 'cables', 'powerbank', 'power bank', 'wire', 'cord', 'pd car charger', 'car charger'],
+  eyewear: ['glasses', 'eyewear', 'spectacles'],
+  cleaner: ['cleaner', 'cleaners', 'duster', 'dusters', 'cloth', 'wipe', 'wipes']
+};
+
+export const DEVICE_SYNONYM_GROUPS = {
+  laptop: ['laptop', 'laptops', 'notebook', 'notebooks', 'macbook', 'macbooks', 'chromebook', 'chromebooks', 'thinkpad', 'gaming laptop'],
+  phone: ['smartphone', 'smartphones', 'iphone', 'iphones', 'mobile', 'mobiles', 'cellphone', 'android'],
+  tv: ['television', 'televisions', 'smart tv', 'qled', 'oled', 'led tv', 'tv', 'tvs'],
+  earbuds: ['earphones', 'headphones', 'airpods', 'tws', 'earbuds', 'headset'],
+  watch: ['smartwatch', 'smartwatches', 'watch', 'watches', 'timepiece'],
+  shoes: ['sneakers', 'shoes', 'footwear', 'boots', 'loafers']
+};
+
 export const SEARCH_SYNONYMS = {
-  'laptop': ['macbook', 'notebook', 'chromebook', 'thinkpad', 'laptop', 'gaming laptop'],
-  'laptops': ['macbook', 'notebook', 'chromebook', 'thinkpad', 'laptop', 'gaming laptop'],
-  'phone': ['smartphone', 'iphone', 'mobile', 'android', 'cellphone'],
-  'phones': ['smartphone', 'iphone', 'mobile', 'android', 'cellphone'],
-  'mobile': ['smartphone', 'iphone', 'mobile', 'android', 'cellphone'],
-  'mobiles': ['smartphone', 'iphone', 'mobile', 'android', 'cellphone'],
-  'tv': ['television', 'smart tv', 'qled', 'oled', 'led tv'],
-  'television': ['tv', 'smart tv', 'qled', 'oled', 'led tv'],
-  'earbuds': ['earphones', 'headphones', 'airpods', 'tws', 'earbuds'],
-  'earphone': ['earphones', 'headphones', 'airpods', 'tws', 'earbuds'],
-  'earphones': ['earphones', 'headphones', 'airpods', 'tws', 'earbuds'],
-  'headphone': ['headphones', 'earphones', 'headset', 'airpods', 'tws'],
-  'headphones': ['headphones', 'earphones', 'headset', 'airpods', 'tws'],
-  'watch': ['smartwatch', 'watch', 'timepiece'],
-  'watches': ['smartwatch', 'watch', 'timepiece'],
-  'shoe': ['sneakers', 'shoes', 'footwear', 'boots', 'loafers'],
-  'shoes': ['sneakers', 'shoes', 'footwear', 'boots', 'loafers'],
+  'laptop': DEVICE_SYNONYM_GROUPS.laptop,
+  'laptops': DEVICE_SYNONYM_GROUPS.laptop,
+  'macbook': DEVICE_SYNONYM_GROUPS.laptop,
+  'notebook': DEVICE_SYNONYM_GROUPS.laptop,
+  'phone': DEVICE_SYNONYM_GROUPS.phone,
+  'phones': DEVICE_SYNONYM_GROUPS.phone,
+  'mobile': DEVICE_SYNONYM_GROUPS.phone,
+  'mobiles': DEVICE_SYNONYM_GROUPS.phone,
+  'tv': DEVICE_SYNONYM_GROUPS.tv,
+  'television': DEVICE_SYNONYM_GROUPS.tv,
+  'earbuds': DEVICE_SYNONYM_GROUPS.earbuds,
+  'earphone': DEVICE_SYNONYM_GROUPS.earbuds,
+  'earphones': DEVICE_SYNONYM_GROUPS.earbuds,
+  'headphone': DEVICE_SYNONYM_GROUPS.earbuds,
+  'headphones': DEVICE_SYNONYM_GROUPS.earbuds,
+  'watch': DEVICE_SYNONYM_GROUPS.watch,
+  'watches': DEVICE_SYNONYM_GROUPS.watch,
+  'shoe': DEVICE_SYNONYM_GROUPS.shoes,
+  'shoes': DEVICE_SYNONYM_GROUPS.shoes,
+};
+
+const getProductAccessoryGroups = (name = '', category = '', tags = []) => {
+  const combined = `${name} ${category} ${tags.join(' ')}`.toLowerCase();
+  const words = combined.split(/[^a-z0-9]+/);
+  const matched = new Set();
+  for (const [group, keywords] of Object.entries(ACCESSORY_GROUPS)) {
+    if (keywords.some(kw => {
+      if (kw.includes(' ')) return combined.includes(kw);
+      return words.includes(kw);
+    })) {
+      matched.add(group);
+    }
+  }
+  return matched;
 };
 
 /**
  * Checks whether a product genuinely matches a user search query.
- * Avoids incidental false-positives from long product descriptions
- * (e.g., eyeglasses describing light from laptops, or car chargers describing charging laptops).
+ * Distinguishes core devices (e.g. laptops, phones) from accessories (e.g. bags, stands, car chargers, glasses).
+ * Never matches on incidental description text (such as a car charger saying "charges laptops").
  */
 export const isProductSearchMatch = (product, query = '') => {
   if (!product) return false;
@@ -48,22 +82,57 @@ export const isProductSearchMatch = (product, query = '') => {
   const subCategory = (product.subCategory || '').toLowerCase();
   const sku = (product.sku || '').toLowerCase();
   const tags = Array.isArray(product.tags) ? product.tags.map(t => String(t).toLowerCase()) : [];
-  const specs = product.specifications ? Object.values(product.specifications).map(v => String(v).toLowerCase()).join(' ') : '';
 
-  // 1. Direct query match in primary product fields
-  if (
-    title.includes(q) ||
-    brand.includes(q) ||
-    category.includes(q) ||
-    subCategory.includes(q) ||
-    sku.includes(q) ||
-    tags.some(t => t.includes(q)) ||
-    specs.includes(q)
-  ) {
-    return true;
+  // Check query intent: is user searching for a primary device class?
+  let targetDeviceGroup = null;
+  for (const [deviceKey, synonyms] of Object.entries(DEVICE_SYNONYM_GROUPS)) {
+    if (tokens.some(t => synonyms.includes(t))) {
+      targetDeviceGroup = deviceKey;
+      break;
+    }
   }
 
-  // 2. High-intent synonym matching
+  // Check query intent: is user asking for an accessory group?
+  const queryAccessoryGroups = new Set();
+  for (const [group, keywords] of Object.entries(ACCESSORY_GROUPS)) {
+    if (keywords.some(kw => tokens.includes(kw))) {
+      queryAccessoryGroups.add(group);
+    }
+  }
+
+  const prodAccessoryGroups = getProductAccessoryGroups(title, category, tags);
+  const isProdAccessory = prodAccessoryGroups.size > 0;
+
+  // Case 1: User searched for a bare device (e.g., 'laptop' or 'macbook') without accessory qualifiers
+  if (targetDeviceGroup && queryAccessoryGroups.size === 0) {
+    // If the product is an accessory (car charger, sleeve, briefcase, stand, glasses), EXCLUDE it!
+    if (isProdAccessory) {
+      return false;
+    }
+    // Must match the device synonyms in title, brand, or category
+    const validDeviceSynonyms = DEVICE_SYNONYM_GROUPS[targetDeviceGroup];
+    return validDeviceSynonyms.some(syn => title.includes(syn) || brand.includes(syn) || category.includes(syn));
+  }
+
+  // Case 2: User searched for device + accessory (e.g., 'laptop bag' or 'laptop stand')
+  if (targetDeviceGroup && queryAccessoryGroups.size > 0) {
+    if (!isProdAccessory) {
+      return false; // Exclude actual laptop computers
+    }
+    // Must match the requested accessory type
+    const matchesTargetAccessory = [...queryAccessoryGroups].some(grp => prodAccessoryGroups.has(grp));
+    if (!matchesTargetAccessory) return false;
+    // And must have relation to device or query tokens
+    return tokens.every(token =>
+      title.includes(token) ||
+      brand.includes(token) ||
+      category.includes(token) ||
+      tags.some(t => t.includes(token))
+    );
+  }
+
+  // Case 3: Standard multi-token search for brands, product names, categories, or tags
+  // Direct match or synonym match across core identity attributes
   const expandedSynonyms = new Set();
   tokens.forEach(tok => {
     if (SEARCH_SYNONYMS[tok]) {
@@ -71,25 +140,24 @@ export const isProductSearchMatch = (product, query = '') => {
     }
   });
 
+  if (title.includes(q) || brand.includes(q) || category.includes(q) || sku.includes(q) || tags.some(t => t.includes(q))) {
+    return true;
+  }
+
   for (const syn of expandedSynonyms) {
     if (title.includes(syn) || brand.includes(syn) || category.includes(syn) || tags.some(t => t.includes(syn))) {
       return true;
     }
   }
 
-  // 3. Multi-token match across core identity attributes
-  const allTokensInPrimary = tokens.every(token =>
+  return tokens.every(token =>
     title.includes(token) ||
     brand.includes(token) ||
     category.includes(token) ||
     subCategory.includes(token) ||
     sku.includes(token) ||
-    tags.some(t => t.includes(token)) ||
-    specs.includes(token)
+    tags.some(t => t.includes(token))
   );
-  if (allTokensInPrimary) return true;
-
-  return false;
 };
 
 export const calculateProductRelevance = (product, query = '') => {
