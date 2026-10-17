@@ -16,7 +16,7 @@ import {
   Share2, MessageSquare, MapPin, ExternalLink, Clock
 } from 'lucide-react';
 import { CATEGORIES, seedVendors } from '../../data/seedData';
-import { rankProductsFairly } from '../../utils/fairRanking';
+import { rankProductsFairly, isProductSearchMatch } from '../../utils/fairRanking';
 import { useRecentlyAccessed } from '../../contexts/RecentlyAccessedContext';
 import { api } from '../../services/api';
 import '../../styles/marketplace.css';
@@ -120,22 +120,14 @@ export default function ProductListing() {
       const vProds = approved.filter((p) => p && p.vendorId === vendor.id);
       let matchingProds = vProds;
       if (filterState.search) {
-        const q = filterState.search.toLowerCase().trim();
-        matchingProds = vProds.filter(
-          (p) =>
-            ((p.name || p.title || '').toLowerCase().includes(q)) ||
-            ((p.category || '').toLowerCase().includes(q)) ||
-            ((p.brand || '').toLowerCase().includes(q)) ||
-            ((p.sku || '').toLowerCase().includes(q)) ||
-            ((p.description || '').toLowerCase().includes(q))
-        );
+        matchingProds = vProds.filter((p) => isProductSearchMatch(p, filterState.search));
       }
       return {
         ...vendor,
         category: vendor.category || (vProds[0]?.category) || 'General Retail',
         totalProductsInStock: vProds.length,
         matchingProductsCount: matchingProds.length,
-        sampleProducts: (matchingProds.length > 0 ? matchingProds : vProds).slice(0, 5)
+        sampleProducts: (filterState.search ? matchingProds : (matchingProds.length > 0 ? matchingProds : vProds)).slice(0, 5)
       };
     });
   }, [allVendors, approved, filterState.search]);
@@ -154,16 +146,9 @@ export default function ProductListing() {
       );
     }
 
-    // Search query filter
+    // Search query filter: ONLY include vendors that actually stock matching products
     if (filterState.search) {
-      const q = filterState.search.toLowerCase().trim();
-      list = list.filter((v) =>
-        ((v.businessName || v.name || '').toLowerCase().includes(q)) ||
-        ((v.tagline || '').toLowerCase().includes(q)) ||
-        ((v.location || '').toLowerCase().includes(q)) ||
-        ((v.category || '').toLowerCase().includes(q)) ||
-        ((v.matchingProductsCount || 0) > 0)
-      );
+      list = list.filter((v) => (v.matchingProductsCount || 0) > 0);
     }
 
     // In-stock physical inventory filter
@@ -184,13 +169,20 @@ export default function ProductListing() {
     return list;
   }, [enrichedVendors, filterState]);
 
-  // Store counts per category
+  // Store counts per category (dynamically reflects matching search results if searching)
   const categoryStoreCounts = useMemo(() => {
-    const counts = { All: allVendors.length };
+    const activeVendors = filterState.search
+      ? allVendors.filter((v) => {
+          const vProds = approved.filter((p) => p && p.vendorId === v.id);
+          return vProds.some((p) => isProductSearchMatch(p, filterState.search));
+        })
+      : allVendors;
+
+    const counts = { All: activeVendors.length };
     CATEGORIES.forEach((cat) => {
       if (cat !== 'All') {
         const catClean = (cat || '').toLowerCase();
-        counts[cat] = allVendors.filter((v) => {
+        counts[cat] = activeVendors.filter((v) => {
           const vProds = approved.filter((p) => p && p.vendorId === v.id);
           const vCat = (v.category || vProds[0]?.category || '').toLowerCase();
           return vCat.includes(catClean) || catClean.includes(vCat) || vProds.some((p) => (p.category || '').toLowerCase() === catClean);
@@ -198,40 +190,35 @@ export default function ProductListing() {
       }
     });
     return counts;
-  }, [allVendors, approved]);
+  }, [allVendors, approved, filterState.search]);
 
   // ── 6. useMemo for derived product collections ──
   const categoryCounts = useMemo(() => {
-    const counts = { All: approved.length };
+    const pool = filterState.search
+      ? approved.filter((p) => isProductSearchMatch(p, filterState.search))
+      : approved;
+
+    const counts = { All: pool.length };
     CATEGORIES.forEach((cat) => {
       if (cat !== 'All') {
-        counts[cat] = approved.filter((p) => p.category === cat).length;
+        counts[cat] = pool.filter((p) => p && p.category === cat).length;
       }
     });
     return counts;
-  }, [approved]);
+  }, [approved, filterState.search]);
 
   // Filtered physical products
   const filtered = useMemo(() => {
     let list = [...approved];
 
+    // Search query filter: uses precision matcher (synonyms + no incidental description noise)
+    if (filterState.search) {
+      list = list.filter((p) => isProductSearchMatch(p, filterState.search));
+    }
+
     // Category filter
     if (filterState.category !== 'All') {
       list = list.filter((p) => p && p.category === filterState.category);
-    }
-
-    // Search query filter
-    if (filterState.search) {
-      const q = filterState.search.toLowerCase().trim();
-      list = list.filter((p) =>
-        p && (
-          ((p.name || p.title || '').toLowerCase().includes(q)) ||
-          ((p.category || '').toLowerCase().includes(q)) ||
-          ((p.brand || '').toLowerCase().includes(q)) ||
-          ((p.sku || '').toLowerCase().includes(q)) ||
-          ((p.description || '').toLowerCase().includes(q))
-        )
-      );
     }
 
     // In-stock physical inventory filter
@@ -315,6 +302,9 @@ export default function ProductListing() {
     }
     debounceTimerRef.current = setTimeout(() => {
       dispatchFilter({ type: FILTER_ACTIONS.SET_SEARCH, payload: value });
+      if (value && value.trim()) {
+        setBrowseMode('products');
+      }
     }, 150);
   }, []);
 
@@ -328,6 +318,19 @@ export default function ProductListing() {
   const handleResetFilters = useCallback(() => {
     dispatchFilter({ type: FILTER_ACTIONS.RESET });
   }, []);
+
+  // Sync external search params changes (e.g. from Navbar global search)
+  useEffect(() => {
+    const qParam = searchParams.get('search') || searchParams.get('q');
+    const catParam = searchParams.get('category');
+    if (qParam !== null && qParam !== filterState.search) {
+      dispatchFilter({ type: FILTER_ACTIONS.SET_SEARCH, payload: qParam });
+      if (qParam.trim()) setBrowseMode('products');
+    }
+    if (catParam && catParam !== filterState.category) {
+      dispatchFilter({ type: FILTER_ACTIONS.SET_CATEGORY, payload: catParam });
+    }
+  }, [searchParams]);
 
   // ── 8. useEffect for side effects ──
   useEffect(() => {

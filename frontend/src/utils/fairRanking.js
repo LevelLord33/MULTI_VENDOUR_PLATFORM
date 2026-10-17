@@ -10,6 +10,88 @@
  * 5. Diversity interleaving (prevents single-vendor domination / monopoly)
  */
 
+export const SEARCH_SYNONYMS = {
+  'laptop': ['macbook', 'notebook', 'chromebook', 'thinkpad', 'laptop', 'gaming laptop'],
+  'laptops': ['macbook', 'notebook', 'chromebook', 'thinkpad', 'laptop', 'gaming laptop'],
+  'phone': ['smartphone', 'iphone', 'mobile', 'android', 'cellphone'],
+  'phones': ['smartphone', 'iphone', 'mobile', 'android', 'cellphone'],
+  'mobile': ['smartphone', 'iphone', 'mobile', 'android', 'cellphone'],
+  'mobiles': ['smartphone', 'iphone', 'mobile', 'android', 'cellphone'],
+  'tv': ['television', 'smart tv', 'qled', 'oled', 'led tv'],
+  'television': ['tv', 'smart tv', 'qled', 'oled', 'led tv'],
+  'earbuds': ['earphones', 'headphones', 'airpods', 'tws', 'earbuds'],
+  'earphone': ['earphones', 'headphones', 'airpods', 'tws', 'earbuds'],
+  'earphones': ['earphones', 'headphones', 'airpods', 'tws', 'earbuds'],
+  'headphone': ['headphones', 'earphones', 'headset', 'airpods', 'tws'],
+  'headphones': ['headphones', 'earphones', 'headset', 'airpods', 'tws'],
+  'watch': ['smartwatch', 'watch', 'timepiece'],
+  'watches': ['smartwatch', 'watch', 'timepiece'],
+  'shoe': ['sneakers', 'shoes', 'footwear', 'boots', 'loafers'],
+  'shoes': ['sneakers', 'shoes', 'footwear', 'boots', 'loafers'],
+};
+
+/**
+ * Checks whether a product genuinely matches a user search query.
+ * Avoids incidental false-positives from long product descriptions
+ * (e.g., eyeglasses describing light from laptops, or car chargers describing charging laptops).
+ */
+export const isProductSearchMatch = (product, query = '') => {
+  if (!product) return false;
+  if (!query || !query.trim()) return true;
+
+  const q = query.toLowerCase().trim();
+  const tokens = q.split(/\s+/).filter(Boolean);
+
+  const title = (product.name || product.title || '').toLowerCase();
+  const brand = (product.brand || '').toLowerCase();
+  const category = (product.category || '').toLowerCase();
+  const subCategory = (product.subCategory || '').toLowerCase();
+  const sku = (product.sku || '').toLowerCase();
+  const tags = Array.isArray(product.tags) ? product.tags.map(t => String(t).toLowerCase()) : [];
+  const specs = product.specifications ? Object.values(product.specifications).map(v => String(v).toLowerCase()).join(' ') : '';
+
+  // 1. Direct query match in primary product fields
+  if (
+    title.includes(q) ||
+    brand.includes(q) ||
+    category.includes(q) ||
+    subCategory.includes(q) ||
+    sku.includes(q) ||
+    tags.some(t => t.includes(q)) ||
+    specs.includes(q)
+  ) {
+    return true;
+  }
+
+  // 2. High-intent synonym matching
+  const expandedSynonyms = new Set();
+  tokens.forEach(tok => {
+    if (SEARCH_SYNONYMS[tok]) {
+      SEARCH_SYNONYMS[tok].forEach(syn => expandedSynonyms.add(syn));
+    }
+  });
+
+  for (const syn of expandedSynonyms) {
+    if (title.includes(syn) || brand.includes(syn) || category.includes(syn) || tags.some(t => t.includes(syn))) {
+      return true;
+    }
+  }
+
+  // 3. Multi-token match across core identity attributes
+  const allTokensInPrimary = tokens.every(token =>
+    title.includes(token) ||
+    brand.includes(token) ||
+    category.includes(token) ||
+    subCategory.includes(token) ||
+    sku.includes(token) ||
+    tags.some(t => t.includes(token)) ||
+    specs.includes(token)
+  );
+  if (allTokensInPrimary) return true;
+
+  return false;
+};
+
 export const calculateProductRelevance = (product, query = '') => {
   if (!query || !query.trim()) return 100;
 
@@ -21,21 +103,40 @@ export const calculateProductRelevance = (product, query = '') => {
   const brand = (product.brand || '').toLowerCase();
   const category = (product.category || '').toLowerCase();
   const subCategory = (product.subCategory || '').toLowerCase();
-  const description = (product.description || '').toLowerCase();
   const vendorName = (product.vendorName || '').toLowerCase();
   const tags = Array.isArray(product.tags) ? product.tags.map(t => String(t).toLowerCase()) : [];
 
-  if (title.includes(q)) score += 60;
-  if (brand.includes(q) || category.includes(q)) score += 35;
+  // Direct title match gets highest weighting
+  if (title.includes(q)) score += 100;
+  if (brand.includes(q)) score += 50;
+  if (category.includes(q) || subCategory.includes(q)) score += 40;
   if (vendorName.includes(q)) score += 30;
 
-  tokens.forEach((token) => {
-    if (title.includes(token)) score += 25;
-    if (brand.includes(token)) score += 20;
-    if (tags.some(t => t.includes(token))) score += 18;
-    if (category.includes(token) || subCategory.includes(token)) score += 15;
-    if (description.includes(token)) score += 5;
+  // Synonyms boost
+  const expandedSynonyms = new Set();
+  tokens.forEach(tok => {
+    if (SEARCH_SYNONYMS[tok]) {
+      SEARCH_SYNONYMS[tok].forEach(syn => expandedSynonyms.add(syn));
+    }
   });
+
+  expandedSynonyms.forEach(syn => {
+    if (title.includes(syn)) score += 80;
+    if (brand.includes(syn)) score += 40;
+    if (category.includes(syn)) score += 30;
+  });
+
+  tokens.forEach((token) => {
+    if (title.includes(token)) score += 35;
+    if (brand.includes(token)) score += 25;
+    if (tags.some(t => t.includes(token))) score += 20;
+    if (category.includes(token) || subCategory.includes(token)) score += 15;
+  });
+
+  // Electronics category prioritization for computing devices
+  if ((q.includes('laptop') || q.includes('macbook') || q.includes('computer')) && category.includes('electronic')) {
+    score += 50;
+  }
 
   return score;
 };
