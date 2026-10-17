@@ -271,7 +271,7 @@ export default function ProductDetail() {
 
   const handleBuyNow = useCallback(() => {
     handleAddToCart();
-    navigate('/shop/cart');
+    navigate('/shop/cart?buyNow=true', { state: { autoOpenRazorpay: true } });
   }, [handleAddToCart, navigate]);
 
   const handleThumbnailClick = useCallback((index) => {
@@ -372,7 +372,7 @@ export default function ProductDetail() {
             <div style={{ position: 'relative' }}>
               <img
                 ref={mainImgRef}
-                src={product.images[activeImg] || product.images[0]}
+                src={product.images?.[activeImg] || product.images?.[0] || product.image || 'https://images.unsplash.com/photo-1560393464-5c69a73c5770?w=600&h=600&fit=crop'}
                 alt={product.name}
                 className="product-main-img"
                 style={{ transition: 'opacity 0.15s ease' }}
@@ -396,7 +396,7 @@ export default function ProductDetail() {
               </div>
             </div>
 
-            {product.images.length > 1 && (
+            {Array.isArray(product.images) && product.images.length > 1 && (
               <div className="product-thumb-list">
                 {product.images.map((img, i) => (
                   <img
@@ -1487,7 +1487,7 @@ export default function ProductDetail() {
                 >
                   <div className="product-card-img-wrap">
                     <img
-                      src={rel.images[0]}
+                      src={rel.images?.[0] || rel.image || 'https://images.unsplash.com/photo-1560393464-5c69a73c5770?w=400&h=400&fit=crop'}
                       alt={rel.name}
                       className="product-card-img"
                       onError={(e) => { e.target.src = 'https://images.unsplash.com/photo-1560393464-5c69a73c5770?w=400&h=400&fit=crop'; }}
@@ -1500,10 +1500,10 @@ export default function ProductDetail() {
                   </div>
                   <div className="product-card-body">
                     <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)', textTransform: 'uppercase', fontWeight: 600 }}>
-                      SKU: {rel.sku || 'VM-PHYSICAL'}
+                       SKU: {rel.sku || 'VM-PHYSICAL'}
                     </div>
                     <div className="product-card-name" style={{ fontSize: '0.9rem', marginTop: 2 }}>{rel.name}</div>
-                    <div className="product-card-price" style={{ marginTop: 4 }}>₹{rel.price.toLocaleString('en-IN')}</div>
+                    <div className="product-card-price" style={{ marginTop: 4 }}>₹{(Number(rel.price) || 0).toLocaleString('en-IN')}</div>
                   </div>
                 </div>
               ))}
@@ -1539,7 +1539,7 @@ export default function ProductDetail() {
                 >
                   <div className="product-card-img-wrap">
                     <img
-                      src={alt.images[0]}
+                      src={alt.images?.[0] || alt.image || 'https://images.unsplash.com/photo-1560393464-5c69a73c5770?w=400&h=400&fit=crop'}
                       alt={alt.name}
                       className="product-card-img"
                       onError={(e) => { e.target.src = 'https://images.unsplash.com/photo-1560393464-5c69a73c5770?w=400&h=400&fit=crop'; }}
@@ -1555,7 +1555,7 @@ export default function ProductDetail() {
                       {alt.vendorName || 'Verified Merchant'}
                     </div>
                     <div className="product-card-name" style={{ fontSize: '0.9rem', marginTop: 2 }}>{alt.name}</div>
-                    <div className="product-card-price" style={{ marginTop: 4 }}>₹{alt.price.toLocaleString('en-IN')}</div>
+                    <div className="product-card-price" style={{ marginTop: 4 }}>₹{(Number(alt.price) || 0).toLocaleString('en-IN')}</div>
                   </div>
                 </div>
               ))}
@@ -1581,7 +1581,7 @@ export default function ProductDetail() {
                 >
                   <div className="product-card-img-wrap">
                     <img
-                      src={rel.images[0]}
+                      src={rel.images?.[0] || rel.image || 'https://images.unsplash.com/photo-1560393464-5c69a73c5770?w=400&h=400&fit=crop'}
                       alt={rel.name}
                       className="product-card-img"
                       onError={(e) => { e.target.src = 'https://images.unsplash.com/photo-1560393464-5c69a73c5770?w=400&h=400&fit=crop'; }}
@@ -1597,7 +1597,7 @@ export default function ProductDetail() {
                       SKU: {rel.sku || 'VM-PHYSICAL'}
                     </div>
                     <div className="product-card-name" style={{ fontSize: '0.9rem', marginTop: 2 }}>{rel.name}</div>
-                    <div className="product-card-price" style={{ marginTop: 4 }}>₹{rel.price.toLocaleString('en-IN')}</div>
+                    <div className="product-card-price" style={{ marginTop: 4 }}>₹{(Number(rel.price) || 0).toLocaleString('en-IN')}</div>
                   </div>
                 </div>
               ))}

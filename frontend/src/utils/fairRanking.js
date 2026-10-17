@@ -60,8 +60,9 @@ export const calculateStockFactor = (product) => {
 };
 
 export const calculateFairExposureBoost = (product, vendorMeta = {}, query = '') => {
-  const stock = Number(product.stock !== undefined ? product.stock : product.quantity) || 0;
-  const rating = Number(product.rating) || 4.0;
+  const meta = vendorMeta || {};
+  const stock = Number(product?.stock !== undefined ? product.stock : product?.quantity) || 0;
+  const rating = Number(product?.rating) || 4.0;
 
   if (stock <= 0 || rating < 3.8) return 0;
 
@@ -72,8 +73,8 @@ export const calculateFairExposureBoost = (product, vendorMeta = {}, query = '')
 
   let boost = 0;
 
-  const ordersFulfilled = Number(vendorMeta.totalOrdersFulfilled) || 0;
-  const impressions = Number(vendorMeta.impressions || vendorMeta.visits || 0);
+  const ordersFulfilled = Number(meta.totalOrdersFulfilled) || 0;
+  const impressions = Number(meta.impressions || meta.visits || 0);
 
   if (ordersFulfilled < 150) {
     boost += 28;
@@ -85,11 +86,11 @@ export const calculateFairExposureBoost = (product, vendorMeta = {}, query = '')
     boost += 8;
   }
 
-  if (vendorMeta.isVerified !== false) {
+  if (meta.isVerified !== false) {
     boost += 5;
   }
 
-  if (product.isFairExposureBoosted || product.badges?.includes('Fair Exposure Boost')) {
+  if (product?.isFairExposureBoosted || product?.badges?.includes('Fair Exposure Boost')) {
     boost += 10;
   }
 
@@ -97,21 +98,21 @@ export const calculateFairExposureBoost = (product, vendorMeta = {}, query = '')
 };
 
 export const rankProductsFairly = (products = [], options = {}) => {
-  const { query = '', vendorMap = {}, sortBy = 'smart_discovery' } = options;
+  const { query = '', vendorMap = {}, sortBy = 'smart_discovery' } = options || {};
 
   if (!products || products.length === 0) return [];
 
   if (sortBy === 'price_asc') {
-    return [...products].sort((a, b) => a.price - b.price);
+    return [...products].sort((a, b) => (Number(a?.price) || 0) - (Number(b?.price) || 0));
   }
   if (sortBy === 'price_desc') {
-    return [...products].sort((a, b) => b.price - a.price);
+    return [...products].sort((a, b) => (Number(b?.price) || 0) - (Number(a?.price) || 0));
   }
   if (sortBy === 'rating_desc') {
-    return [...products].sort((a, b) => (b.rating || 0) - (a.rating || 0));
+    return [...products].sort((a, b) => (Number(b?.rating) || 0) - (Number(a?.rating) || 0));
   }
   if (sortBy === 'newest') {
-    return [...products].sort((a, b) => new Date(b.createdAt || 0) - new Date(a.createdAt || 0));
+    return [...products].sort((a, b) => new Date(b?.createdAt || 0) - new Date(a?.createdAt || 0));
   }
 
   const scored = products.map((product) => {

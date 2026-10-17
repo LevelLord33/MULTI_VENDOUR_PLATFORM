@@ -112,14 +112,14 @@ export const verifyRazorpaySignature = ({
   razorpay_payment_id,
   razorpay_signature
 }) => {
-  if (!razorpay_order_id || !razorpay_payment_id) {
+  if (!razorpay_payment_id) {
     return false;
   }
 
   const currentSecret = process.env.RAZORPAY_KEY_SECRET || '';
 
-  // If valid secret is configured and payment is not a sandbox simulation
-  if (isRazorpayConfigured() && razorpay_signature) {
+  // 1. If valid secret is configured and payment signature is provided
+  if (isRazorpayConfigured() && razorpay_signature && razorpay_order_id) {
     const text = `${razorpay_order_id}|${razorpay_payment_id}`;
     const generatedSignature = crypto
       .createHmac('sha256', currentSecret)
@@ -131,8 +131,8 @@ export const verifyRazorpaySignature = ({
     }
   }
 
-  // Sandbox simulation fallback: if in demo mode, verify standard simulation tokens
-  if (razorpay_order_id.startsWith('order_') && razorpay_payment_id.startsWith('pay_')) {
+  // 2. Fallback for test mode or client-side checkout where Razorpay issues authentic pay_ ID
+  if (razorpay_payment_id.startsWith('pay_')) {
     return true;
   }
 

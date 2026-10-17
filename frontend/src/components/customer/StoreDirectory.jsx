@@ -121,17 +121,22 @@ export default function StoreDirectory() {
         });
 
         if (searchQuery) {
-          const q = searchQuery.toLowerCase();
-          fallback = fallback.filter(s => s.businessName.toLowerCase().includes(q) || s.location.toLowerCase().includes(q) || s.category.toLowerCase().includes(q));
+          const q = searchQuery.toLowerCase().trim();
+          fallback = fallback.filter(s =>
+            ((s.businessName || '').toLowerCase().includes(q)) ||
+            ((s.location || '').toLowerCase().includes(q)) ||
+            ((s.category || '').toLowerCase().includes(q)) ||
+            ((s.tagline || '').toLowerCase().includes(q))
+          );
         }
         if (selectedCategory !== 'All') {
-          fallback = fallback.filter(s => s.category.toLowerCase().includes(selectedCategory.toLowerCase()));
+          fallback = fallback.filter(s => (s.category || '').toLowerCase().includes(selectedCategory.toLowerCase()));
         }
         if (cityParam) {
-          fallback = fallback.filter(s => s.location.toLowerCase().includes(cityParam.toLowerCase()));
+          fallback = fallback.filter(s => (s.location || '').toLowerCase().includes(cityParam.toLowerCase()));
         }
         if (bTypeParam) {
-          fallback = fallback.filter(s => s.businessType.toLowerCase().includes(bTypeParam.toLowerCase()));
+          fallback = fallback.filter(s => (s.businessType || '').toLowerCase().includes(bTypeParam.toLowerCase()));
         }
         if (verifiedOnly) {
           fallback = fallback.filter(s => s.isVerified);

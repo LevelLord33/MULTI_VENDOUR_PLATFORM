@@ -31,6 +31,7 @@ export default function Navbar({ searchQuery, onSearchChange }) {
   const [dropOpen, setDropOpen] = useState(false);
   const [langDropOpen, setLangDropOpen] = useState(false);
   const [showApiModal, setShowApiModal] = useState(false);
+  const [localSearch, setLocalSearch] = useState('');
 
   // 3. useRef hook
   const dropRef = useRef(null);
@@ -279,12 +280,36 @@ export default function Navbar({ searchQuery, onSearchChange }) {
         {/* Search — customer & guest shoppers */}
         {(!user || user?.type === 'customer') && (
           <div className="navbar-search">
-            <Search size={16} className="navbar-search-icon" />
+            <Search
+              size={16}
+              className="navbar-search-icon"
+              style={{ cursor: 'pointer' }}
+              onClick={() => {
+                const q = (typeof onSearchChange === 'function' ? searchQuery : localSearch) || '';
+                if (q.trim()) {
+                  navigate(`/shop?search=${encodeURIComponent(q.trim())}&mode=products`);
+                }
+              }}
+            />
             <input
               type="text"
               placeholder={t('searchPlaceholder', 'Search verified stores, products, brands...')}
-              value={searchQuery || ''}
-              onChange={(e) => onSearchChange && onSearchChange(e.target.value)}
+              value={typeof onSearchChange === 'function' ? (searchQuery || '') : localSearch}
+              onChange={(e) => {
+                if (typeof onSearchChange === 'function') {
+                  onSearchChange(e.target.value);
+                } else {
+                  setLocalSearch(e.target.value);
+                }
+              }}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter') {
+                  const q = (typeof onSearchChange === 'function' ? searchQuery : localSearch) || '';
+                  if (q.trim()) {
+                    navigate(`/shop?search=${encodeURIComponent(q.trim())}&mode=products`);
+                  }
+                }
+              }}
             />
           </div>
         )}

@@ -186,7 +186,7 @@ export default function VendorProducts() {
                         <td>
                           <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
                             <img
-                              src={product.images[0]}
+                              src={product.images?.[0] || product.image || 'https://images.unsplash.com/photo-1560393464-5c69a73c5770?w=100&h=100&fit=crop'}
                               alt={product.name}
                               className="product-table-img"
                               onError={(e) => { e.target.src = 'https://images.unsplash.com/photo-1560393464-5c69a73c5770?w=100&h=100&fit=crop'; }}

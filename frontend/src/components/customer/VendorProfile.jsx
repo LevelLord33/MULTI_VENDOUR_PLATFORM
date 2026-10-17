@@ -913,7 +913,7 @@ export default function VendorProfile() {
                   >
                     <div className="product-card-img-wrap">
                       <img
-                        src={product.images[0]}
+                        src={product.images?.[0] || product.image || 'https://images.unsplash.com/photo-1560393464-5c69a73c5770?w=400&h=400&fit=crop'}
                         alt={product.name}
                         className="product-card-img"
                         onError={(e) => {
@@ -1179,7 +1179,7 @@ export default function VendorProfile() {
                     >
                       <div className="product-card-img-wrap">
                         <img
-                          src={product.images[0]}
+                          src={product.images?.[0] || product.image || 'https://images.unsplash.com/photo-1560393464-5c69a73c5770?w=400&h=400&fit=crop'}
                           alt={product.name}
                           className="product-card-img"
                           onError={(e) => {

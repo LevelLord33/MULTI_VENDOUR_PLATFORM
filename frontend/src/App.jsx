@@ -18,6 +18,7 @@ import ScrollToTop from './components/common/ScrollToTop';
 import CustomerChatbot from './components/chatbot/CustomerChatbot';
 import VendorChatbot from './components/chatbot/VendorChatbot';
 import ChatbotErrorBoundary from './components/common/ChatbotErrorBoundary';
+import PageErrorBoundary from './components/common/PageErrorBoundary';
 
 // Pages
 import LandingPage from './pages/LandingPage';
@@ -76,7 +77,8 @@ export default function App() {
                           <MessageProvider>
                             <ChatbotProvider>
                               <RecentlyAccessedProvider>
-                                <Routes>
+                                <PageErrorBoundary>
+                                  <Routes>
                       {/* ── Public ── */}
                       <Route path="/" element={<LandingPage />} />
                       <Route path="/auth/google/callback" element={<GoogleCallback />} />
@@ -249,7 +251,8 @@ export default function App() {
                     {/* Fallback */}
                     <Route path="*" element={<Navigate to="/" replace />} />
                   </Routes>
-                  {/* Distinct, Non-Overlapping Dedicated Chatbots for Customers and Vendors */}
+                </PageErrorBoundary>
+                {/* Distinct, Non-Overlapping Dedicated Chatbots for Customers and Vendors */}
                   <ChatbotErrorBoundary>
                     <CustomerChatbot />
                     <VendorChatbot />

@@ -78,10 +78,18 @@ export default function ProductListing() {
   const [searchParams, setSearchParams] = useSearchParams();
 
   // ── 3. useReducer for filter state ──
-  const [filterState, dispatchFilter] = useReducer(filterReducer, initialFilterState);
+  const [filterState, dispatchFilter] = useReducer(filterReducer, initialFilterState, (init) => {
+    const qParam = searchParams.get('search') || searchParams.get('q') || '';
+    const catParam = searchParams.get('category') || 'All';
+    return {
+      ...init,
+      search: qParam,
+      category: catParam
+    };
+  });
 
   // ── 4. useState for UI preferences, vendor-first mode & modals ──
-  const initialMode = searchParams.get('mode') === 'products' ? 'products' : 'vendors';
+  const initialMode = (searchParams.get('mode') === 'products' || searchParams.get('search') || searchParams.get('q')) ? 'products' : 'vendors';
   const [browseMode, setBrowseMode] = useState(initialMode); // 'vendors' (DEFAULT!) | 'products'
   const [viewMode, setViewMode] = useState('grid');
   const { compareList, isInCompare, toggleCompare, clearCompare, removeFromCompare } = useComparison();
@@ -109,16 +117,17 @@ export default function ProductListing() {
   // Compute enriched vendors with active products & search matches
   const enrichedVendors = useMemo(() => {
     return allVendors.map((vendor) => {
-      const vProds = approved.filter((p) => p.vendorId === vendor.id);
+      const vProds = approved.filter((p) => p && p.vendorId === vendor.id);
       let matchingProds = vProds;
       if (filterState.search) {
         const q = filterState.search.toLowerCase().trim();
         matchingProds = vProds.filter(
           (p) =>
-            p.name.toLowerCase().includes(q) ||
-            p.category.toLowerCase().includes(q) ||
-            (p.brand && p.brand.toLowerCase().includes(q)) ||
-            p.description.toLowerCase().includes(q)
+            ((p.name || p.title || '').toLowerCase().includes(q)) ||
+            ((p.category || '').toLowerCase().includes(q)) ||
+            ((p.brand || '').toLowerCase().includes(q)) ||
+            ((p.sku || '').toLowerCase().includes(q)) ||
+            ((p.description || '').toLowerCase().includes(q))
         );
       }
       return {
@@ -137,11 +146,11 @@ export default function ProductListing() {
 
     // Category filter
     if (filterState.category !== 'All') {
-      const targetCat = filterState.category.toLowerCase();
+      const targetCat = (filterState.category || '').toLowerCase();
       list = list.filter((v) =>
-        (v.category && v.category.toLowerCase().includes(targetCat)) ||
-        targetCat.includes(v.category?.toLowerCase() || '') ||
-        v.sampleProducts.some((p) => p.category?.toLowerCase() === targetCat)
+        ((v.category || '').toLowerCase().includes(targetCat)) ||
+        targetCat.includes((v.category || '').toLowerCase()) ||
+        v.sampleProducts?.some((p) => (p.category || '').toLowerCase() === targetCat)
       );
     }
 
@@ -149,25 +158,26 @@ export default function ProductListing() {
     if (filterState.search) {
       const q = filterState.search.toLowerCase().trim();
       list = list.filter((v) =>
-        v.businessName.toLowerCase().includes(q) ||
-        v.tagline.toLowerCase().includes(q) ||
-        v.location.toLowerCase().includes(q) ||
-        v.category.toLowerCase().includes(q) ||
-        v.matchingProductsCount > 0
+        ((v.businessName || v.name || '').toLowerCase().includes(q)) ||
+        ((v.tagline || '').toLowerCase().includes(q)) ||
+        ((v.location || '').toLowerCase().includes(q)) ||
+        ((v.category || '').toLowerCase().includes(q)) ||
+        ((v.matchingProductsCount || 0) > 0)
       );
     }
 
     // In-stock physical inventory filter
     if (filterState.inStockOnly) {
       list = list.filter((v) =>
-        v.sampleProducts.some((p) => (p.stock || p.quantity || 0) > 0)
+        v.sampleProducts?.some((p) => (p.stock || p.quantity || 0) > 0)
       );
     }
 
     // Fast courier dispatch filter
     if (filterState.fastDeliveryOnly) {
       list = list.filter((v) =>
-        v.onTimeDispatchRate?.includes('9') || v.announcement?.toLowerCase().includes('same-day')
+        String(v.onTimeDispatchRate || '').includes('9') ||
+        (v.announcement && v.announcement.toLowerCase().includes('same-day'))
       );
     }
 
@@ -179,11 +189,11 @@ export default function ProductListing() {
     const counts = { All: allVendors.length };
     CATEGORIES.forEach((cat) => {
       if (cat !== 'All') {
-        const catClean = cat.toLowerCase();
+        const catClean = (cat || '').toLowerCase();
         counts[cat] = allVendors.filter((v) => {
-          const vProds = approved.filter((p) => p.vendorId === v.id);
+          const vProds = approved.filter((p) => p && p.vendorId === v.id);
           const vCat = (v.category || vProds[0]?.category || '').toLowerCase();
-          return vCat.includes(catClean) || catClean.includes(vCat) || vProds.some((p) => p.category?.toLowerCase() === catClean);
+          return vCat.includes(catClean) || catClean.includes(vCat) || vProds.some((p) => (p.category || '').toLowerCase() === catClean);
         }).length;
       }
     });
@@ -207,39 +217,48 @@ export default function ProductListing() {
 
     // Category filter
     if (filterState.category !== 'All') {
-      list = list.filter((p) => p.category === filterState.category);
+      list = list.filter((p) => p && p.category === filterState.category);
     }
 
     // Search query filter
     if (filterState.search) {
       const q = filterState.search.toLowerCase().trim();
       list = list.filter((p) =>
-        p.name.toLowerCase().includes(q) ||
-        p.category.toLowerCase().includes(q) ||
-        (p.brand && p.brand.toLowerCase().includes(q)) ||
-        (p.sku && p.sku.toLowerCase().includes(q)) ||
-        p.description.toLowerCase().includes(q)
+        p && (
+          ((p.name || p.title || '').toLowerCase().includes(q)) ||
+          ((p.category || '').toLowerCase().includes(q)) ||
+          ((p.brand || '').toLowerCase().includes(q)) ||
+          ((p.sku || '').toLowerCase().includes(q)) ||
+          ((p.description || '').toLowerCase().includes(q))
+        )
       );
     }
 
     // In-stock physical inventory filter
     if (filterState.inStockOnly) {
-      list = list.filter((p) => (p.stock || p.quantity || 0) > 0);
+      list = list.filter((p) => (p?.stock || p?.quantity || 0) > 0);
     }
 
     // Fast courier dispatch filter
     if (filterState.fastDeliveryOnly) {
-      list = list.filter((p) => p.shipping?.dispatchTime?.includes('24 hours'));
+      list = list.filter((p) => p?.shipping?.dispatchTime?.includes('24 hours'));
     }
 
     // Condition filter
     if (filterState.condition !== 'All') {
-      list = list.filter((p) => p.condition === filterState.condition);
+      list = list.filter((p) => p?.condition === filterState.condition);
     }
 
     // Sorting & Smart Discovery Fair Exposure Ranking
     const vendorMap = {};
-    seedVendors.forEach((v) => { vendorMap[v.id] = v; });
+    seedVendors.forEach((v) => { if (v && v.id) vendorMap[v.id] = v; });
+    if (Array.isArray(allVendors)) {
+      allVendors.forEach((v) => {
+        if (v && v.id) {
+          vendorMap[v.id] = { ...(vendorMap[v.id] || {}), ...v };
+        }
+      });
+    }
 
     let sortParam = filterState.sortBy;
     if (sortParam === 'price-asc') sortParam = 'price_asc';
@@ -247,7 +266,7 @@ export default function ProductListing() {
     else if (sortParam === 'newest') sortParam = 'newest';
 
     if (filterState.sortBy === 'stock-desc') {
-      list.sort((a, b) => (b.stock || b.quantity || 0) - (a.stock || a.quantity || 0));
+      list.sort((a, b) => (Number(b?.stock || b?.quantity) || 0) - (Number(a?.stock || a?.quantity) || 0));
       return list;
     }
 
@@ -256,7 +275,7 @@ export default function ProductListing() {
       vendorMap,
       sortBy: sortParam
     });
-  }, [approved, filterState]);
+  }, [approved, filterState, allVendors]);
 
   // ── 7. useCallback hooks for event handlers ──
   const handleAddToCart = useCallback((e, product) => {
@@ -806,18 +825,18 @@ export default function ProductListing() {
                           <div className="vendor-showcase-identity">
                             <img
                               src={vendor.avatar || 'https://images.unsplash.com/photo-1560250097-0b93528c311a?w=120&h=120&fit=crop'}
-                              alt={vendor.businessName}
+                              alt={vendor.businessName || vendor.name || 'Merchant'}
                               className="vendor-showcase-avatar"
                               onError={(e) => {
                                 e.target.onerror = null;
-                                e.target.src = `https://ui-avatars.com/api/?name=${encodeURIComponent(vendor.businessName)}&background=4F46E5&color=fff`;
+                                e.target.src = `https://ui-avatars.com/api/?name=${encodeURIComponent(vendor.businessName || vendor.name || 'Merchant')}&background=4F46E5&color=fff`;
                               }}
                             />
                             <div className="vendor-showcase-info">
                               <div style={{ display: 'flex', alignItems: 'center', gap: 8, flexWrap: 'wrap' }}>
                                 <h3 style={{ margin: 0 }}>
                                   <Link to={`/store/${vendor.storeSlug || vendor.id}`} style={{ color: 'inherit', textDecoration: 'none' }}>
-                                    {vendor.businessName}
+                                    {vendor.businessName || vendor.name || 'Verified Merchant'}
                                   </Link>
                                 </h3>
                                 <span
@@ -922,8 +941,10 @@ export default function ProductListing() {
                             {vendor.sampleProducts?.map((product) => {
                               const stock = product.stock !== undefined ? product.stock : (product.quantity || 0);
                               const isOutOfStock = stock <= 0;
-                              const discountPct = product.originalPrice && product.originalPrice > product.price
-                                ? Math.round(((product.originalPrice - product.price) / product.originalPrice) * 100)
+                              const numPrice = Number(product.price) || 0;
+                              const numOrigPrice = Number(product.originalPrice) || 0;
+                              const discountPct = numOrigPrice > numPrice
+                                ? Math.round(((numOrigPrice - numPrice) / numOrigPrice) * 100)
                                 : 0;
 
                               return (
@@ -934,24 +955,24 @@ export default function ProductListing() {
                                 >
                                   <img
                                     src={product.image || product.images?.[0] || 'https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=300&h=300&fit=crop'}
-                                    alt={product.name}
+                                    alt={product.name || 'Product'}
                                     className="vendor-shelf-item-img"
                                     onError={(e) => {
                                       e.target.onerror = null;
                                       e.target.src = 'https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=300&h=300&fit=crop';
                                     }}
                                   />
-                                  <div className="vendor-shelf-item-title" title={product.name}>
-                                    {product.name}
+                                  <div className="vendor-shelf-item-title" title={product.name || ''}>
+                                    {product.name || product.title || 'Product'}
                                   </div>
 
                                   <div className="vendor-shelf-item-price-row">
                                     <span className="vendor-shelf-item-price">
-                                      ₹{product.price.toLocaleString('en-IN')}
+                                      ₹{numPrice.toLocaleString('en-IN')}
                                     </span>
-                                    {product.originalPrice && product.originalPrice > product.price && (
+                                    {numOrigPrice > numPrice && (
                                       <span className="vendor-shelf-item-original">
-                                        ₹{product.originalPrice.toLocaleString('en-IN')}
+                                        ₹{numOrigPrice.toLocaleString('en-IN')}
                                       </span>
                                     )}
                                     {discountPct > 0 && (
@@ -1057,7 +1078,7 @@ export default function ProductListing() {
                     >
                       <div className="product-card-img-wrap">
                         <img
-                          src={product.images[0]}
+                          src={product.images?.[0] || product.image || 'https://images.unsplash.com/photo-1560393464-5c69a73c5770?w=400&h=400&fit=crop'}
                           alt={product.name}
                           className="product-card-img"
                           onError={(e) => { e.target.src = 'https://images.unsplash.com/photo-1560393464-5c69a73c5770?w=400&h=400&fit=crop'; }}
@@ -1152,11 +1173,11 @@ export default function ProductListing() {
                         <div style={{ display: 'flex', alignItems: 'baseline', gap: 8, marginTop: 2 }}>
                           <div className="product-card-price">
                             <span className="currency">₹</span>
-                            {product.price.toLocaleString('en-IN')}
+                            {(Number(product.price) || 0).toLocaleString('en-IN')}
                           </div>
-                          {product.mrp && product.mrp > product.price && (
+                          {product.mrp && Number(product.mrp) > Number(product.price) && (
                             <span style={{ fontSize: '0.78rem', color: 'var(--text-muted)', textDecoration: 'line-through' }}>
-                              ₹{product.mrp.toLocaleString('en-IN')}
+                              ₹{(Number(product.mrp) || 0).toLocaleString('en-IN')}
                             </span>
                           )}
                         </div>
@@ -1303,10 +1324,10 @@ export default function ProductListing() {
               <div style={{ fontWeight: 700, color: 'var(--text-muted)' }}>Item</div>
               {compareList.map((p) => (
                 <div key={p.id} style={{ textAlign: 'center' }}>
-                  <img src={p.images[0]} alt={p.name} style={{ width: '100%', height: 130, objectFit: 'contain', borderRadius: 8, background: 'var(--surface-2)', marginBottom: 8 }} />
+                  <img src={p.images?.[0] || p.image || 'https://images.unsplash.com/photo-1560393464-5c69a73c5770?w=200&h=200&fit=crop'} alt={p.name} style={{ width: '100%', height: 130, objectFit: 'contain', borderRadius: 8, background: 'var(--surface-2)', marginBottom: 8 }} />
                   <div style={{ fontWeight: 700, fontSize: '0.9rem', marginBottom: 4 }}>{p.name}</div>
                   <div style={{ fontSize: '1.05rem', fontWeight: 800, color: 'var(--primary-dark)', marginBottom: 8 }}>
-                    ₹{p.price.toLocaleString('en-IN')}
+                    ₹{(Number(p.price) || 0).toLocaleString('en-IN')}
                   </div>
                   <button
                     className="btn btn-primary btn-sm btn-full"

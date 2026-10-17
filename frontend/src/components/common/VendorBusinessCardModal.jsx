@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useToast } from '../../contexts/ToastContext';
 import { useProducts } from '../../contexts/ProductContext';
@@ -13,6 +13,17 @@ export default function VendorBusinessCardModal({ vendor, onClose, isOpen = true
   const { addToast } = useToast();
   const { getApprovedProducts } = useProducts();
   const navigate = useNavigate();
+
+  useEffect(() => {
+    if (!isOpen) return;
+    const handleKeyDown = (e) => {
+      if (e.key === 'Escape') {
+        onClose?.();
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [isOpen, onClose]);
 
   if (!isOpen || !vendor) return null;
 
@@ -82,17 +93,6 @@ export default function VendorBusinessCardModal({ vendor, onClose, isOpen = true
     document.body.removeChild(link);
     addToast('Contact card (.vcf) downloaded! 📇', 'success');
   };
-
-  useEffect(() => {
-    if (!isOpen) return;
-    const handleKeyDown = (e) => {
-      if (e.key === 'Escape') {
-        onClose?.();
-      }
-    };
-    window.addEventListener('keydown', handleKeyDown);
-    return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [isOpen, onClose]);
 
   const avatarUrl = vendor.avatar ||
     `https://ui-avatars.com/api/?name=${encodeURIComponent(vendor.businessName || 'Store')}&background=4F46E5&color=fff&size=180`;
